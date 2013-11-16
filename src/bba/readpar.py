@@ -3,6 +3,8 @@ from math import pi
 from collections import namedtuple
 from collections import Counter
 import numpy as np
+
+from bba import RotMatBLUH
 #AtSettings = namedtuple('AtSettings', 'scale, focusl, iter, atiter, lm')
 
 #TODO include standard deviations
@@ -65,13 +67,14 @@ class Photo:
         self.cam = cam
         cam.AddPhoto(self)
 
-        self.res_c = None
-        self.res_rot = None
+        self.res_eo = None
 
         self.eo = None
         self.c = None
 
     def HelmertTransformEO(self, ht_mat, ht_scale):
+
+        P = np.array([[1,0,0],[0,0,1],[0,1,0]])
         self.eo[:,:3] = self.eo[:,:3].dot(ht_mat[:,:3].T)
         self.eo[:,3] = ht_mat[:,3] + ht_scale * ht_mat[:,:3].dot(self.eo[:,3])
 
@@ -116,12 +119,14 @@ class Photo:
     def GetPoints(self):
         return self.ph_pts
 
-    def SetResultExtOr(self, coords = None, rot = None):
-        self.res_c = coords
-        self.res_rot = rot
+    def SetResultExtOr(self, eo):
+        self.res_eo =  eo
 
     def GetResultExtOr(self):
-        return self.res_c, self.res_rot
+        return self.res_eo
+
+    def GetCamera(self):
+        return self.cam
 
     def GetNeighboroughPhotos(self):
 
@@ -183,7 +188,7 @@ def _PhGId(gph_id):
 class InputData:
     def __init__(self, parser):
         self.parser = parser
-        
+
         self.parser.Parse()
         self.cams, self.phs, self.pts = self.parser.GetData()
 
@@ -235,6 +240,7 @@ class InputData:
 class BingoParser:
     def __init__(self, path):   
         self.path = path
+        self.r =  (313400.00, 5154800, 400)
 
     def Parse(self):
 
@@ -271,11 +277,23 @@ class BingoParser:
                 eo = map(float, l[2:-1])
                 eo[3:] = map(lambda d : d / 200 * pi, eo[3:])
 
-                phs[ph_id].SetResultExtOr(coords=eo[:3], rot=eo[3:])
+                r =  RotMatBLUH(*eo[3:])
+                t = np.array([eo[:3]])
+                t[0,0] = t[0,0] - self.r[0]
+                t[0,1] = t[0,1] - self.r[1]
+                t[0,2] = t[0,2] - self.r[2]
+
+                eo = np.hstack((r, t.T))
+
+                phs[ph_id].SetResultExtOr(eo=eo)
 
             elif "CORD" in l[0]:
                 pt_id = int(l[1])
                 c = map(float, l[2:5])
+                c[0] = c[0] - self.r[0]
+                c[1] = c[1] - self.r[1]
+                c[2] = c[2] - self.r[2]
+
                 pts[pt_id].SetResultCoords(c)
 
         return phs
@@ -319,9 +337,9 @@ class BingoParser:
 
             if 'CONT' in l[0] or 'CHCK' in l[0]:
                 gcp_id = int(l[1])
-                e = float(l[2])
-                n = float(l[3])
-                h = float(l[4])
+                e = float(l[2]) - self.r[0]
+                n = float(l[3]) - self.r[1]
+                h = float(l[4]) - self.r[2]
 
                 c = np.array([e, n, h])
 

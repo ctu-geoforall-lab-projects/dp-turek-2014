@@ -76,18 +76,23 @@ def ComputeDiffs(pts, phs):
     gcp_pts = []
     ro_pts = []
 
-    errs = []
+    pt_errs = []
     no_coords = []
     for pt in pts.itervalues():
         if pt.GetCoords() is not None:
-            errs.append([pt.GetId(), 
+            pt_errs.append([pt.GetId(), 
                          abs(np.linalg.norm(pt.GetCoords() - pt.GetResultCoords()))])
         else:
             no_coords.append(pt.GetId())
 
-    errs = np.array(errs)
-    print errs
-    print np.average(errs[:,1])
+    pt_errs = np.array(pt_errs)
+    print pt_errs
+    print np.average(pt_errs[:,1])
+
+    skip_pts = []
+    for err in pt_errs:
+        if err[1] > 0.3:
+            skip_pts.append(int(err[0]))
 
 
     ph_errs = []
@@ -99,10 +104,7 @@ def ComputeDiffs(pts, phs):
             angles = GetBLUHAngles(eo[:,:3])
             #TODO
 
-            rb = RotMatBLUH(*np.array(res_eo[1]))
-
-
-            res_coords = res_eo[0]
+            res_coords = res_eo[:,3]
             res_angles = np.array(res_eo[1]) / pi * 180
             #print "angles %d" % ph.GetId()
             #print angles
@@ -114,8 +116,19 @@ def ComputeDiffs(pts, phs):
             no_coords.append(ph.GetId())
 
     ph_errs = np.array(ph_errs)
+
+    skip_phs = []
+    for err in ph_errs:
+        if err[1] > 0.5:
+            skip_phs.append(int(err[0]))
+
+    print skip_phs
+    print skip_pts
     print ph_errs
     print np.average(ph_errs[:,1])
+
+    #return skip_phs, skip_pts
+    return ph_errs, pt_errs
     #print np.average(ph_errs[:,2:], axis=1)
 
 def PlotRelOrs(pts, phs, ro=None):
@@ -131,11 +144,12 @@ def PlotRelOrs(pts, phs, ro=None):
     lines = []
     for ph in phs.itervalues():
         if ph.GetResultExtOr() is not None and ph.GetEO() is not None:
-            res_pts.append(ph.GetResultExtOr()[0])
+            res_eo = ph.GetResultExtOr()
+            res_pts.append(res_eo[:, 3])
             plot_pts.append(ph.GetEO()[:,3])
             lines.append(GetCameraLines(ph.GetEO()))
 
-            r = RotMatBLUH(*ph.GetResultExtOr()[1])
+            r = res_eo[:, :3]
             eo_res = np.hstack((r, np.array([ph.GetEO()[:,3]]).T))
             lines.append(GetCameraLines(eo_res, inv=True))
             
@@ -184,10 +198,6 @@ def main():
     path = "/home/ostepok/Dev/GRASS/diplomka/Bingo_project/withEO_3GCP"
     in_dt = InputData(BingoParser(path))
 
-    RunBundleBlockAdjutment(in_dt)
-
-
-
     phs = in_dt.GetPhotos()
     pts = in_dt.GetPoints()
     
@@ -199,8 +209,33 @@ def main():
 
     HelmertTransform(pts, phs)
     Test(ros, in_dt, cam_m, distor, rel_or_phs)
-    ComputeDiffs(pts, phs)
     PlotRelOrs(pts, phs)
+
+    skip_phs, skip_pts = ComputeDiffs(pts, phs)
+    
+    ph_errs, pt_errs = ComputeDiffs(pts, phs)
+
+    skip_pts = []
+    skip_phs = []
+    for i in range(3):
+        RunBundleBlockAdjutment(in_dt, skip_phs, skip_pts)
+        it_ph_errs, it_pt_errs = ComputeDiffs(pts, phs)
+        print it_ph_errs[:,1]
+        it_ph_errs = np.expand_dims(it_ph_errs[:,1], axis=0)
+        it_pt_errs = np.expand_dims(it_pt_errs[:,1], axis=0)
+
+        print it_ph_errs.shape
+        print ph_errs.shape
+
+        ph_errs = np.hstack((ph_errs, it_ph_errs.T)) 
+        pt_errs = np.hstack((pt_errs, it_pt_errs.T)) 
+
+    print ph_errs
+    print pt_errs
+
+    np.savetxt('/home/ostepok/Desktop/ph_res.csv', ph_errs, fmt='%.4f', delimiter=',')
+    np.savetxt('/home/ostepok/Desktop/pt_res.csv', pt_errs, fmt='%.4f', delimiter=',')
+
 
     return 
 
