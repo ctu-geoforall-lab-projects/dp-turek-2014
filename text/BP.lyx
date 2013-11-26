@@ -1,0 +1,668 @@
+#LyX file created by tex2lyx 2.0.3
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+\usepackage{a4wide}\usepackage{xcolor}\usepackage[czech,english]{babel}
+% \usepackage[pdftex, final, colorlinks=true]{hyperref}
+\usepackage{alltt}\usepackage{paralist}\usepackage{mdwlist}%\usepackage[hyphens]{url}
+%\PassOptionsToPackage{hyphens}{url}
+
+\usepackage[hyphenbreaks]{breakurl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% pro podmineny preklad
+% false je defaultně
+
+
+% \newif\ifbc % Pouze do bakalářské práce
+%  \bctrue
+
+%%%%%%%%%% fancy %%%%%%%%%%%
+\usepackage{fancyhdr}
+
+\fancyhead[L]{ČVUT v Praze}
+
+\setlength{\headheight}{16pt}
+
+% \usepackage{stdpage}
+
+
+%%%%%%%%%%%% rozmery %%%%%%%%%%%%%%%%%%
+
+
+
+\renewcommand{\baselinestretch}{1.3}
+\parskip=0.8ex plus 0.4ex minus 0.1 ex
+
+\newcommand{\klicslova}[2]{\noindent\textbf{#1: }#2}
+\newcommand{\modul}[1]{\emph{#1}}
+\author{Štěpán Turek}
+% \pagecolor{darkGrey}
+\newcommand{\necislovana}[1]{%
+\phantomsection
+\addcontentsline{toc}{section}{#1}
+\section*{#1}
+\markboth{\uppercase{#1}}{}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end_preamble
+\use_default_options false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding T1
+\font_roman lmodern
+\font_sans default
+\font_typewriter lmodern
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize 12
+\spacing single
+\use_hyperref 1
+\pdf_bookmarks 1
+\pdf_bookmarksnumbered 0
+\pdf_bookmarksopen 0
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks 1
+\pdf_pdfborder 0
+\pdf_colorlinks 0
+\pdf_backref section
+\pdf_pdfusetitle 1
+\pdf_quoted_options "final,pdftex"
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 0
+\use_mathdots 0
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+pagestyle
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\end_inset
+
+empty
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset include
+LatexCommand input
+preview false
+filename "titulbp.lyx"
+
+\end_inset
+
+ 
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+preview false
+filename "listsezadanim.lyx"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% resi si zalomeni sam
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+klicslova{
+\end_layout
+
+\end_inset
+
+Klíčová slova
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}{
+\end_layout
+
+\end_inset
+
+GIS, GRASS
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\lang english
+ 
+\end_layout
+
+\begin_layout Abstract
+
+
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+klicslova{
+\end_layout
+
+\end_inset
+
+Keywords
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}{
+\end_layout
+
+\end_inset
+
+GIS, GRASS
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\lang english
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+preview false
+filename "prohlaseniapodekovani.lyx"
+
+\end_inset
+
+ 
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+pagestyle
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\end_inset
+
+fancy
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+necislovana{
+\end_layout
+
+\end_inset
+
+Introdduction
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+In recent decades tremndous development of information technology has fundamentally changed many disciplines.
+\end_layout
+
+\begin_layout Standard
+
+Photogrammetry has sucessfuly taken advantages of this development, and nowadays it is using complently different methods and equipment, which allows new typys of data in huge scale, getting results, which were ten yers ago just in theoretical.
+\end_layout
+
+\begin_layout Standard
+
+The core of photogrammetry is moving towards software from the hardware. In past it was necessary tto have special photogrammetric equipment to perform photogrammetric measurement nowaday with current state of the art algorihms, it is possible to work with standard cameras and achive highly accurate results (TODO cheap cameras ...). Thanks to this shift photogrammetry is not longer being domain of few proffesionals however it is becoming used be wide audience.
+\end_layout
+
+\begin_layout Standard
+
+We are just at the beggining of the golden age of photogrammetry, which with spread of UAV and development of augoment reality is going to find a way to our cell phones and other devices we use on daily bases.
+\end_layout
+
+\begin_layout Standard
+
+Heavy usage of information technologies also caused that border between disciplines is blurring. Photogrammetry was affected ba computer vision, which evolved independetly until 2000's. After that it is possible to see growing trend combine knowledge from both fields.
+\end_layout
+
+\begin_layout Standard
+
+With growing importance of software there comes a question of licenses. There are two main branches proprietary software and free software. Most of proprietary software are not available in form of source code. The license of proprietary sofware allows use it under certain terms and usually user has to buy it.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+
+GRASS GIS
+\end_layout
+
+\begin_layout Section
+
+UAV
+\end_layout
+
+\begin_layout Standard
+
+Unmanned aerial vehicle is aircraft without human pilot. UAV can be controlled by remote control. Somo of the UAV are capable of autonomous flight, which is used when connection with remote control is lost or
+\end_layout
+
+\begin_layout Section
+
+Short intrudoction into photogrammetry and computer vision
+\end_layout
+
+\begin_layout Standard
+
+Both photogrammetry and computer vision deals with set of images, which covers some scene and using varius technics from these fields we are able to determine configuration of the scene. Using this information, it is possible to gain various information about the scene.
+\end_layout
+
+\begin_layout Standard
+
+Using photogrammetry approach, it is possible to create orthophoto map, which is transformation of images from perspective projection of camera into orthigraphich projection or it is possible to create digital terrain model.
+\end_layout
+
+\begin_layout Standard
+
+Computer vision field uses it for determination of robots position. Very popular is also structure from motion method, which is able to reconstruct 3D structure from set of images. In essence this method is equivalent to the creation of digital terrian model.
+\end_layout
+
+\begin_layout Standard
+
+Whole configuration of the scene it is possible to describe by exterior and interior orientaiton: Exterior and interior orientation together describes relation between object point and it's corresponding image point.
+\end_layout
+
+\begin_layout Subsection
+
+Interior orientation
+\end_layout
+
+\begin_layout Standard
+
+Interior orienation describes relation between measure coordinates system, which defines loation of measured 2D points in the image and correspondent 3D point in photo coordintate system.
+\end_layout
+
+\begin_layout Standard
+
+Photo coordinate system is right-handed cartesian system with origin in projective point, z axis heading to the image plane. In aerial photogrammetry x axis according to ISPRS is heading in direction of flight.
+\end_layout
+
+\begin_layout Standard
+
+Photogrammetr equations are based on pinhole camera model, which describes projection of 3D point onto image plane. However every camera deviate from this model, therefore it is necessary to apply corrections for images taken by the camera, which are distorted as a consequence of the model deviation effect. After applyication of the corrections it is possible use pinhole camera model.
+\end_layout
+
+\begin_layout Standard
+
+Interior orientations parameters describing pinhole camera model are: 
+\end_layout
+
+\begin_layout Itemize
+
+Focal length - it is distance of projective center from principal point 
+\end_layout
+
+\begin_layout Itemize
+
+Principal point coordinates - In ideal case location of principal point would exactly in the middle of the image. However in most cases there is some shift of principal point from ideal case. 
+\end_layout
+
+\begin_layout Standard
+
+Interior orientations parameters describing distortion are: 
+\end_layout
+
+\begin_layout Itemize
+
+Radial distortion - it is caused by diferences in lateral magnification of lens. Radial distance is measured from principal point. 
+\end_layout
+
+\begin_layout Itemize
+
+Tangential distortion - it is produced by inaccurate centration of lenses and it is peprendicular to radial distortion. 
+\end_layout
+
+\begin_layout Subsection
+
+Exterior orientation
+\end_layout
+
+\begin_layout Standard
+
+After transformation of 2D image points into photo coordinate system it is usually necessary to transform it into photo object coordinate space.
+\end_layout
+
+\begin_layout Standard
+
+Object space coordinate system must be cartesian. Ig we have points in non-cartesion system, it should be always transformed into cartesian system before using in bellow mentioned equations.
+\end_layout
+
+\begin_layout Standard
+
+Exterior orienation is defined by position of camera center in object space and orientation of photo coordinate syste. Photgrammetry uses representation of orientation by euler angles and rotation matrix.
+\end_layout
+
+\begin_layout Standard
+
+The euler angles are group of three angles, which describes susequent rotaitons around axes of 3D coordinate system. Order of euler angles is important, because in case of breaching it, the result of rotation is different. In this work there is used BLUH notation when at first rotation around y axis is perform, than system is rotated around y axis and the last rotation is around z axis.
+\end_layout
+
+\begin_layout Standard
+
+TODO rotation matrices equation:
+\end_layout
+
+\begin_layout Subsection
+
+Collinearity equations
+\end_layout
+
+\begin_layout Standard
+
+Combining of exterior orientation and interior orientaiton it is possbile to define direct relation between 3D point in object space and 2D point in image space.
+\end_layout
+
+\begin_layout Standard
+
+TODO derivaiton of collinerarity equatins
+\end_layout
+
+\begin_layout Standard
+
+This two equatins are called collinerarity equations and they describe direct relation between image point and corresponding photo point.
+\end_layout
+
+\begin_layout Section
+
+Bundle block adjusmnet 
+\end_layout
+
+\begin_layout Standard
+
+Bundle block adjustment is method, which uses the least square technique to refine parameters of scene parameters. Bundle block adjustment minimizes square differnece of coordinates of measured image point and corresponding reprojected object point using collinerarity equations.
+\end_layout
+
+\begin_layout Standard
+
+The main advantage of bundle block adjustment method is that the method is taking into acount whole scene and therefore using maximum information for adustment.
+\end_layout
+
+\begin_layout Standard
+
+Unfurtunatelly collinearity equations are non linear, therefore during least square process it is necessary to linearize the equations. Because collinearity equation are linearized, the least squares method is working on aproximation of the collinearity equaitons. Because of this aproximation it is necessary to have initial values of adjusted parameters, which has sufficient accuracy.
+\end_layout
+
+\begin_layout Standard
+
+The accuracy of parameters determines how many interations (speed of convergence) are needed to achive optimal solution (global minimum). In case of having parameters with insufficient values the bundle adjustment iterates towards local minimum therfore result is not optimal solution.
+\end_layout
+
+\begin_layout Standard
+
+Bundle adjustment method is very flexible in terms of choosing of parameters to be adjust. It is possible to adjust only exterior orientation if interior irientation is known or the adjust them all. However always it is necessary to have more measurements than adjusted parameters.
+\end_layout
+
+\begin_layout Standard
+
+For example three photos of a scene were taken. 3 tie points an 2 ground control points were indetified in all three photos. Other two tie points one ground control point were identified on two photos and one grond control point and one tie point was identified on only one photo.
+\end_layout
+
+\begin_layout Standard
+
+Let say that initial values of tie points are known, but needed to be adjusted. Coordinates of ground control points are known, therefore they do not have to be adjusted.
+\end_layout
+
+\begin_layout Standard
+
+For every tie point identified on image it is needed to adjust three parameters (object coordinates). However using two collinearity equation only two measurment are fetched done, therefore in order to be tie point used in adjustment it has to be ideitified at least in two images.
+\end_layout
+
+\begin_layout Standard
+
+Because ground control point does not take any new adjusted parameters, it is possible to use gcp which are identified only in one image.
+\end_layout
+
+\begin_layout Standard
+
+In the example we have 3*3 adjusted parameters and 3 * 3 * 2 measurements for every tie point, 1 * 3 * 3 measurements for every gcp indetified in all three photos.
+\end_layout
+
+\begin_layout Standard
+
+We have 2 * 3 adjusted parameters and 2 * 2 * 2 for every tie point, 1 * 2 * 3 measurements for every gcp visible in two photos.
+\end_layout
+
+\begin_layout Standard
+
+Tie point identified only in one photo can not be used because number of measuremtns is lesser (2) than number of adjusted parameters (3). The ground control point gives two measurements.
+\end_layout
+
+\begin_layout Standard
+
+Overall score is 15 adjusted parameters and 43 measurments paramets.
+\end_layout
+
+\begin_layout Standard
+
+Thanks to 28 redundnt measurements it is possible to add into adjusted parameters exterior orientation of images (+ 3 * 6) and it is possible to add some of the interior parameters into adustment.
+\end_layout
+
+\begin_layout Section
+
+Relative orientation
+\end_layout
+
+\begin_layout Standard
+
+Relative orientation is method to obtain position and orientation of two camera poses. Reative oritentation problem has 5 degrees of freedom. Having one camera in begining
+\end_layout
+
+\end_body
+\end_document

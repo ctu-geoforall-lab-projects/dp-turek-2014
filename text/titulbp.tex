@@ -1,0 +1,55 @@
+\begin{center}
+%napisy
+\newcommand{\napisCVUT}{České vysoké učení technické v Praze}
+\newcommand{\napisFS}{Fakulta stavební}
+\newcommand{\napisObor}{Obor geoinformatika}
+\newcommand{\napisKatedra}{Katedra geomatiky}
+\newcommand{\napisVedouci}{Ing. Martin Landa PhD.}
+\newcommand{\napisAutor}{Štěpán Turek}
+\newcommand{\napisDatum}{Praha 2013}
+\newcommand{\napisNazevI}{Implementace metody svazkového vyrovnání bloku}
+\newcommand{\napisNazevII}{pro určení prvků vnější orientace do programu GRASS GIS}
+\newcommand{\napisNazevAjI}{Implementation of bundle block adjustment method}
+\newcommand{\napisNazevAjII}{for determination of exterior orientation into GRASS GIS}
+\newcommand{\napisBakalarka}{Diplomova práce}
+\newcommand{\napisPraha}{Praha 2013}
+
+
+%
+% prikazy
+%\newcommand{\velka}[1]{\uppercase{#1}}
+\newcommand{\velka}[1]{\textsc{#1}}
+%
+% 
+\newif\ifpatitul
+\patitultrue
+
+\ifpatitul
+{\Large\velka{\napisCVUT}}\\
+\velka{\Large\napisFS}\\
+\vfill
+{\LARGE\velka{\napisBakalarka}}
+\vfill
+{\large\napisPraha\hfill\napisAutor}
+\newpage
+\fi%patitul
+
+
+{\Large\velka{\napisCVUT}}\\
+{\Large\velka{\napisFS}}\\
+{\Large\velka{\napisObor}}
+\vfill
+\includegraphics[width=3cm]{logo_cvut_cb} %~
+\vfill
+{\Large\velka{\napisBakalarka}}\\
+{\Large\velka{\napisNazevI\\
+\napisNazevII}}\\
+{\large\velka{\napisNazevAjI\\
+\napisNazevAjII}}
+\vfill
+{\large%
+Vedoucí práce: \napisVedouci\\
+\napisKatedra\\
+\bigskip
+\napisDatum\hfill\napisAutor}
+\end{center}
