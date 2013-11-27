@@ -1,6 +1,5 @@
 import os
 from math import pi
-from collections import namedtuple
 from collections import Counter
 import numpy as np
 
@@ -17,7 +16,7 @@ class Point:
         self.coords = None
 
         self.res_c = None
-
+        self.control_gcp = False
     def GetPhotoPoints(self):
         return self.ph_pts
 
@@ -25,11 +24,15 @@ class Point:
         self.ph_pts[ph] = coords
         ph.AddPoint(self)
 
-    def SetGcp(self, coords):
+    def SetGcp(self, coords, control):
         self.gcp = coords
+        self.control_gcp = control
 
-    def GetGcpCoords(self):
-        return self.gcp
+    def GetGcp(self):
+        return self.gcp, self.control_gcp
+
+    def IsControlGcp():
+        return self.control_gcp
 
     def AddRelOrCoords(self, rel_or_id, coords):
         self.ro_c[rel_or_id] = coords
@@ -72,9 +75,8 @@ class Photo:
         self.eo = None
         self.c = None
 
+        self.lr_hand = np.array([[1,0,0],[0,1,0],[0,0,-1]])
     def HelmertTransformEO(self, ht_mat, ht_scale):
-
-        P = np.array([[1,0,0],[0,0,1],[0,1,0]])
         self.eo[:,:3] = self.eo[:,:3].dot(ht_mat[:,:3].T)
         self.eo[:,3] = ht_mat[:,3] + ht_scale * ht_mat[:,:3].dot(self.eo[:,3])
 
@@ -154,11 +156,26 @@ class Camera:
         self.cam_m = cam_m
         self.distor = distor
 
+    def SetIO(self, io):
+
+        if 'f' in io: 
+            self.cam_m[0, 0] = io['f']
+            self.cam_m[1, 1] = io['f']
+
+        if 'xi_c' in io: 
+            self.cam_m[0, 2] = io['xi_c']
+
+        if 'yi_c' in io: 
+            self.cam_m[1, 2] = io['yi_c']
+
     def GetParams(self):
         return self.cam_m, self.distor
 
     def AddPhoto(self, ph):
         self.phs[ph] = ph
+
+    def GetPhotos(self):
+        return self.phs
 
     def GetId(self):
         return self.cam_id
@@ -190,7 +207,7 @@ class InputData:
         self.parser = parser
 
         self.parser.Parse()
-        self.cams, self.phs, self.pts = self.parser.GetData()
+        self.cams, self.phs, self.pts, self.gcps = self.parser.GetData()
 
         self.phs[577].GetNeighboroughPhotos()
         
@@ -237,6 +254,10 @@ class InputData:
     def GetPoints(self):
         return self.pts
 
+    def GetGcps(self):
+        return self.gcps
+
+
 class BingoParser:
     def __init__(self, path):   
         self.path = path
@@ -244,14 +265,15 @@ class BingoParser:
 
     def Parse(self):
 
-        self.cams, self.pts = self._readCameraFile()
+        self.cams, self.gcps = self._readCameraFile()
         self.phs = self._readPhotosFile()
+        self.pts = self.gcps.copy()
         self._readPhotoPointsFile(self.pts, self.phs)
 
         self.res_eo = self._readResult(self.phs, self.pts)
 
     def GetData(self):
-        return self.cams, self.phs, self.pts
+        return self.cams, self.phs, self.pts, self.gcps
 
     def GetResult(self):
         return self.res_eo
@@ -302,7 +324,7 @@ class BingoParser:
         f = open(self.path + '/geoin.dat')
 
         cams = {}
-        pts = {}
+        gcps = {}
 
         while 1:
             line = f.readline()
@@ -336,6 +358,10 @@ class BingoParser:
                 self.cam = cams[l[1]] = Camera(l[0], cam_m, distor)
 
             if 'CONT' in l[0] or 'CHCK' in l[0]:
+                control = False
+                if 'CHCK' in l[0]:
+                    control = True
+
                 gcp_id = int(l[1])
                 e = float(l[2]) - self.r[0]
                 n = float(l[3]) - self.r[1]
@@ -343,10 +369,11 @@ class BingoParser:
 
                 c = np.array([e, n, h])
 
-                pts[gcp_id] = Point(gcp_id)
-                pts[gcp_id].SetGcp(c)
-        
-        return cams, pts
+                gcps[gcp_id] = Point(gcp_id)
+                gcps[gcp_id].SetGcp(c, control)
+                
+
+        return cams, gcps
 
     def _readPhotosFile(self):
         f = open(self.path + '/gps.dat')
@@ -466,8 +493,6 @@ class GRASSFilesParser:
         photos = Photos(att_setts, m)
         return photos
 
-    Gcp = namedtuple('Gcp', 'id, e, n, elev')
-    Gcps = namedtuple('Gcps', 'melev, m')
 
     #Read GCP File
     def Read_GCP_file(self):

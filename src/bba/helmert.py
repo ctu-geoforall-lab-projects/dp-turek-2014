@@ -19,8 +19,8 @@ def HelmertTransform(pts, phs):
     ro_pts = []
 
     for pt in pts.itervalues():
-        gcp_c = pt.GetGcpCoords()
-        if gcp_c is not None and pt.GetCoords() is not None:
+        gcp_c, control = pt.GetGcp()
+        if gcp_c is not None and not control and pt.GetCoords() is not None:
             gcp_pts.append(gcp_c)
             ro_pts.append(pt.GetCoords())
     
@@ -160,8 +160,6 @@ def ComputeHelmertTransf(pts1, pts2):
 
     P, s = RotMatCToRotMat(r1)
     #P1, s1 = RotMatCToRotMat(r2)
-    print "RotMatCToRotMat"
-    print P
     r2 = CToRotMatRotMat(P[:,:3], s, P[:,3])
 
     return P, s, r2

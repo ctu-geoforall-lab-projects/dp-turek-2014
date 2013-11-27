@@ -9,6 +9,7 @@ import scipy.misc as misc
 import scipy.sparse as sparse
 from  scipy.sparse.linalg import splu
 
+from collections import namedtuple
 from sympy.matrices import *
 
 def RotMatBLUH(ph, om, ka):
@@ -47,39 +48,6 @@ def _rotMatBLUH(ph, om, ka, rotm):
     rotm[1][2] =  sk * sp + ck * so * cp
     rotm[2][2] = co * cp
 
-def GetSymbolicRotMatBLUH():
-
-    ph = Symbol('ph')
-    om = Symbol('om')
-    ka = Symbol('ka')
-
-    rotm = [[0,0,0], [0,0,0], [0,0,0]] 
-
-    rm = _rotMatBLUH(ph, om, ka, rotm)
-
-    return rotm
-
-def CreateSymbolicColEquations():
-
-    f = Symbol('f')
-    xi_c = Symbol('xi_c')
-    yi_c = Symbol('yi_c')
-    
-    xo_c = Symbol('xo_c')
-    yo_c = Symbol('yo_c')
-    zo_c = Symbol('zo_c')
-    
-    xo_pt = Symbol('xo_pt')
-    yo_pt = Symbol('yo_pt')
-    zo_pt = Symbol('zo_pt')
-
-    r = GetSymbolicRotMatBLUH()
-
-    xc = xp_col_eq(xi_c, f, xo_c, yo_c, zo_c, xo_pt, yo_pt, zo_pt, r)
-    yc = yp_col_eq(yi_c, f, xo_c, yo_c, zo_c, xo_pt, yo_pt, zo_pt, r)
-
-    return xc, yc
-
 def xp_col_eq(xi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r, **kwargs):
     return xi_c - f * (r[0][0]*(xo_pt-xo_c) + r[0][1]*(yo_pt-yo_c) + r[0][2]*(zo_pt-zo_c)) / \
                       (r[2][0]*(xo_pt-xo_c) + r[2][1]*(yo_pt-yo_c) + r[2][2]*(zo_pt-zo_c)) 
@@ -105,7 +73,7 @@ def GetParamsVals(ph, pt):
     o_c = ph_eo[:,3]
     eo_r = ph_eo[:,:3]
 
-    #eo_r[1, :] = eo_r[1, :] * -1
+    # reflection caused by different handness of Opencv and BLUH systems 
     a = np.array([[1,0,0],[0,1,0],[0,0,-1]])
     angles = GetBLUHAngles(a.dot(eo_r))
     for i, ang in enumerate(['ph', 'om', 'ka']):
@@ -114,8 +82,8 @@ def GetParamsVals(ph, pt):
     for i, ax in enumerate(['xo_c', 'yo_c', 'zo_c']):
         params[ax] = o_c[i]
 
-    o_pt = pt.GetGcpCoords()
-    if o_pt is not None:
+    o_pt, control = pt.GetGcp()
+    if o_pt is not None and not control:
         params["gcp"] = True 
     else:
         params["gcp"] = False
@@ -139,124 +107,289 @@ def GetParamsVals(ph, pt):
     return params
     #.evalf(<args>).
 
+BbaIndexes = namedtuple('BbaIndexes', 'Lrows_idxs,' 
+                                      'pts_idxs,  idxs_pts, '
+                                      'phs_idxs, idxs_phs, '
+                                      'cams_idxs, idxs_cams, '
+                                      'cams_n, photos_n, tie_pts_n, '
+                                      'image_points_n')
 
 def GetL(in_dt, skip_phs, skip_pts):
 
-    phs = in_dt.GetPhotos()
-    
-    params = {}
-    
+    cams = in_dt.GetCameras()
+        
     L = []
     L_XO = []
 
-    photos_n = 0
-    image_points_n = 0
-    rows_order = []
-    pts_idxs = {}
-    idxs_pts = []
 
-    tie_pts_n = 0
+    phs = in_dt.GetPhotos()
 
+    #TODO for testing
     use_photos = phs.keys()
     #use_photos = [598, 597]
+
+    cams_idxs = {}
+    idxs_cams = []
+
+    phs_idxs = {}
     idxs_phs = []
+    
+    pts_idxs = {}
+    idxs_pts = []
+    
+    Lrows_idxs = []
 
-    for ph in phs.itervalues():
-        if ph in skip_phs:
-            continue
+    photos_n = 0
+    image_points_n = 0
+    tie_pts_n = 0
+    cams_n = 0
 
+    for cam in cams.itervalues():
+        phs = cam.GetPhotos()
 
-        ph_pts = ph.GetPoints()
-
-        photo_points_n = 0
-        if ph.GetId() not in use_photos: 
-            continue
-
-        #print "PHOTO"
-        #print ph.GetId()
-        for pt in ph_pts.itervalues():
-            if pt in skip_pts:
+        for ph in phs.itervalues():
+            if ph in skip_phs:
                 continue
 
-            v = GetParamsVals(ph, pt)
-            #if not i use_photos: 
-            pt_phs = pt.GetPhotoPoints().keys()
-            if len((set(pt_phs) & set(use_photos))) < 2:
-                continue   
+            ph_pts = ph.GetPoints()
 
-            if v is not None:
-                if not params.has_key(ph):
-                    params[ph] = {}
-                    photos_n += 1
-                    idxs_phs.append(ph) 
+            photo_points_n = 0
+            if ph.GetId() not in use_photos: 
+                continue
 
-                if not pts_idxs.has_key(pt) and not v['gcp']:
-                    pts_idxs[pt] = tie_pts_n
-                    idxs_pts.append(pt) 
-                    tie_pts_n +=  1
+            #print "PHOTO"
+            #print ph.GetId()
 
-                params[ph][pt] = v
-                rows_order.append((ph, pt, v))
+            for pt in ph_pts.itervalues():
+                if pt in skip_pts:
+                    continue
 
-                r = RotMatBLUH(v['ph'], v['om'], v['ka'])
+                #if not i use_photos: 
+                pt_phs = pt.GetPhotoPoints().keys()
+                if len((set(pt_phs) & set(use_photos))) < 2:
+                    continue   
 
-                L_XO.append(xp_col_eq(r=r, **v))
-                L_XO.append(yp_col_eq(r=r, **v))
+                v = GetParamsVals(ph, pt)
+                if v is not None:
+                    if cam not in idxs_cams:
+                        idxs_cams.append(cam) 
+                        cams_idxs[cam] = cams_n
+                        cams_n += 1
 
-                L.append(v['xi_pt'])
-                L.append(v['yi_pt'])
+                    if ph not in idxs_phs:
+                        idxs_phs.append(ph) 
+                        phs_idxs[ph] = photos_n
+                        photos_n += 1
 
-                photo_points_n += 1
-            else:
-                pass
-                #print "skip %d" % pt.GetId()
+                    if pt not in pts_idxs and not v['gcp']:
+                        pts_idxs[pt] = tie_pts_n
+                        idxs_pts.append(pt) 
+                        tie_pts_n +=  1
+
+                    Lrows_idxs.append((cam, ph, pt, v))
+
+                    r = RotMatBLUH(v['ph'], v['om'], v['ka'])
+
+                    L_XO.append(xp_col_eq(r=r, **v))
+                    L_XO.append(yp_col_eq(r=r, **v))
+
+                    L.append(v['xi_pt'])
+                    L.append(v['yi_pt'])
+
+                    photo_points_n += 1
+                else:
+                    pass
+                    #print "skip %d" % pt.GetId()
 
         image_points_n += photo_points_n
+        bba_idxs = BbaIndexes(Lrows_idxs, 
+                              pts_idxs, idxs_pts, phs_idxs, idxs_phs, cams_idxs, idxs_cams, 
+                              cams_n, photos_n, tie_pts_n, image_points_n)
+    return L, L_XO, bba_idxs
 
-    return L, L_XO, rows_order, pts_idxs, idxs_pts, idxs_phs, tie_pts_n, image_points_n, photos_n
+def AdjustData(Xa, bba_idxs, unk, apo):
+    bi = bba_idxs
 
-def RunBundleBlockAdjutment(in_dt,  skip_phs, skip_pts):
+    cam_step = len(unk.cam)
+    ph_step = len(unk.ph)
+    pt_step = len(unk.pt)
 
-    unknowns = ['ph', 'om', 'ka', 'xo_c', 'yo_c', 'zo_c', 'xo_pt', 'yo_pt', 'zo_pt', 'yi_c', 'xi_c', 'f']
-    """
-    xc, yc = CreateSymbolicColEquations()
+    for cam_idx in range(bi.cams_n):
+        cam = bi.idxs_cams[cam_idx]
+        cam_x_col = apo.cam_0col + cam_idx * cam_step
 
-    derivs = {}
-    for un in unknowns:
-        derivs[un] = (diff(xc, un, 1), diff(yc, un, 1))
-        print un
-        print diff(xc, un, 1)
-        print diff(yc, un, 1)
+        cam_io = {}
+        for i, un in enumerate(unk.cam):
+            cam_io[un] = Xa[cam_x_col + i]
 
-    return
-    """
+        cam.SetIO(cam_io)
 
-    L, L_XO, rows_order, pts_idxs, idxs_pts, idxs_phs, tie_pts_n, image_points_n, photos_n = GetL(in_dt, skip_phs, skip_pts)
+    for pt_idx in range(bi.tie_pts_n):
 
+        pt = bi.idxs_pts[pt_idx]
+        pt_x_col = apo.pt_0col + pt_idx * pt_step
+
+        pt_coords = np.zeros((3))
+
+        for i in range(pt_step):
+            pt_coords[i] = Xa[pt_x_col + i]
+        pt.SetCoords(pt_coords)
+
+    for ph_idx in range(bi.photos_n):
+        ph = bi.idxs_phs[ph_idx]
+        ph_x_col = apo.ph_0col + ph_idx * ph_step
+
+        ph_eo = np.zeros((ph_step))
+        for i in range(ph_step):
+            ph_eo[i] = Xa[ph_x_col + i]
+
+        # reflection back TODO error prone, merge it
+        a = np.array([[1,0,0],[0,1,0],[0,0,-1]])
+        eo_r = a.T.dot(RotMatBLUH(*ph_eo[:3]))
+        eo = np.hstack((eo_r, np.array([ph_eo[3:6]]).T))
+        ph.SetEO(eo)
+
+
+Unknowns = namedtuple('Unknowns', 'cam, ph, pt')
+
+def CreateIterationProtocol(i_num, cov, Xa, dx, e, bi, apo, prot_fd, unk, gcps):
+
+    prot_fd.write(_('\n\n\n\n*********************************************************************'))
+    prot_fd.write(_('\n\nIteration: %d\n\n' % (i_num + 1)))
+
+    prot_fd.write(_('Ground control point differences:\n'))
+
+    sigmas = np.sqrt(np.diagonal(cov))
+    prot_fd.write("%10s, %10s\n" % ("gcp id", "diff"))
+    for gcp in gcps.itervalues():
+        if gcp.GetCoords() is None or not gcp.GetGcp()[1]:
+            continue
+
+        dist = np.linalg.norm(gcp.GetGcp()[0] - gcp.GetCoords())
+        prot_fd.write("%10d, %10.4f" % (gcp.GetId(), dist))
+        prot_fd.write("\n")
+
+    prot_fd.write("\n\n")
+
+    cam_step = len(unk.cam)
+    ph_step = len(unk.ph)
+    pt_step = len(unk.pt)
+
+    def _printParamsLine(x, unk_l, x_col):
+
+        for i, un in enumerate(unk_l):
+            val = x[x_col + i]
+            if un in ['ph', 'om', 'ka']:
+                val = val * 180 / pi
+
+            prot_fd.write("%15.4f" % (val))
+
+    def _printParamCaptions(unk_l):
+            for i, un in enumerate(unk_l):
+                prot_fd.write("%15s" % (un))
+            prot_fd.write("\n\n")
+
+    def _printFeature(Xa, dx, sigmas, unk_l, x_col):
+        _printParamsLine(Xa, unk_l, x_col)
+        prot_fd.write("\n")
+        _printParamsLine(dx, unk_l, x_col)
+        prot_fd.write("\n")
+        _printParamsLine(sigmas, unk_l, x_col)
+        prot_fd.write("\n\n")
+
+    prot_fd.write(_('Interior orientaitons adjustment results\n'))
+
+    for cam_idx in range(bi.cams_n):
+        if cam_idx == 0:
+            _printParamCaptions(unk.cam)
+
+        cam = bi.idxs_phs[cam_idx]
+        prot_fd.write(_("Camera %d\n" % cam.GetId()))
+        cam_x_col = apo.cam_0col + cam_idx * cam_step
+
+        _printFeature(Xa, dx, sigmas, unk.cam, cam_x_col)
+
+    prot_fd.write(_('Exterior orientaitons adjustment results\n'))
+
+    for ph_idx in range(bi.photos_n):
+        if ph_idx == 0:
+            _printParamCaptions(unk.ph)
+
+        ph = bi.idxs_phs[ph_idx]
+        prot_fd.write(_("Photo %d\n" % ph.GetId()))
+        ph_x_col = apo.ph_0col + ph_idx * ph_step
+
+        _printFeature(Xa, dx, sigmas, unk.ph, ph_x_col)
+
+    prot_fd.write(_('Object points orientaitons adjustment results\n'))
+
+    for pt_idx in range(bi.tie_pts_n):
+        if pt_idx == 0:
+            _printParamCaptions(unk.pt)
+
+        pt = bi.idxs_pts[pt_idx]
+        prot_fd.write(_("Point %d\n" % pt.GetId()))
+        pt_x_col = apo.pt_0col + pt_idx * pt_step
+
+        _printFeature(Xa, dx, sigmas, unk.pt, pt_x_col)
+
+def RunBundleBlockAdjutment(in_dt,  skip_phs, skip_pts, protocol_path):
+
+    prot_fd = open(protocol_path, 'w')
+
+    cam_unk = []
+    
+    ph_unk = ['ph', 'om', 'ka', 'xo_c', 'yo_c', 'zo_c']
+    pt_unk = ['xo_pt', 'yo_pt', 'zo_pt']
+    unk =  Unknowns(cam_unk, ph_unk, pt_unk)
+
+    for i in range(15):
+    
+        if i == 8:
+            cam_unk = ['f', 'xi_c', 'yi_c']
+            unk =  Unknowns(cam_unk, ph_unk, pt_unk)
+        """
+        if i == 8:
+            ph_unk = []
+            pt_unk = []
+            cam_unk = ['f', 'xi_c', 'yi_c']
+            unk =  Unknowns(cam_unk, ph_unk, pt_unk)
+        """
+        cov, Xa, dx, e, bi, apo = RunBBAIteration(in_dt, skip_phs, skip_pts, unk)
+        CreateIterationProtocol(i, cov, Xa, dx, e, bi, apo, prot_fd, unk, in_dt.GetGcps())
+
+    prot_fd.close()
+
+AdjustedParametersOrder = namedtuple('AdjustedParameters', 'cam_0col, ph_0col, pt_0col, cols_n')
+def GetAdjParamsOrder(unk, bi):
+    cam_zero_col = 0
+    ph_zero_col = bi.cams_n * len(unk.cam)
+    pt_zero_col = bi.photos_n * len(unk.ph) + ph_zero_col
+
+    col_n = ph_zero_col + pt_zero_col + bi.tie_pts_n * len(unk.pt)
+
+    return cam_zero_col, ph_zero_col, pt_zero_col, col_n
+
+def RunBBAIteration(in_dt,  skip_phs, skip_pts, unk):
+
+    L, L_XO, bi = GetL(in_dt, skip_phs, skip_pts)
     
     L_XO = np.array(L_XO)
     L = np.array(L)
 
+    cam_step = len(unk.cam)
+    ph_step = len(unk.ph)
+    pt_step = len(unk.pt)
 
-    ph_unknowns = ['ph', 'om', 'ka', 'xo_c', 'yo_c', 'zo_c']
-    pt_unknowns = ['xo_pt', 'yo_pt', 'zo_pt']
+    apo = AdjustedParametersOrder(*GetAdjParamsOrder(unk, bi))
 
-    ph_step = len(ph_unknowns)
-    pt_step = len(pt_unknowns)
+    A = np.zeros((len(L), apo.cols_n))
+    X0 = np.zeros((apo.cols_n))
 
-    params_n = photos_n * ph_step + tie_pts_n * pt_step
-    A = np.zeros((len(L), params_n))
-
-    i_ph = 0
-    i_phpt = 0
-
-    pt_zero_idx = photos_n * ph_step
-
+    prev_cam = None
     prev_ph = None
-
-    X0 = np.zeros((params_n))
-    for i, d in enumerate(rows_order):
-        ph, pt, v = d
+    for i, d in enumerate(bi.Lrows_idxs):
+        cam, ph, pt, v = d
         if prev_ph is None:
             i_ph_idx = 0
             prev_ph = ph
@@ -264,27 +397,38 @@ def RunBundleBlockAdjutment(in_dt,  skip_phs, skip_pts):
             prev_ph = ph
             i_ph_idx += 1
 
+        if prev_cam is None:
+            i_cam_idx = 0
+            prev_cam = cam
+        elif prev_ph != ph:
+            prev_cam = cam
+            i_cam_idx += 1
+
         row_x = i * 2
         row_y = i * 2 + 1
 
-        for i_un, un in enumerate(ph_unknowns):
-            c = i_ph_idx * ph_step + i_un
+
+        cam_idx = apo.cam_0col + bi.cams_idxs[cam] * cam_step
+        for i_un, un in enumerate(unk.cam):
+            c = cam_idx + i_un
+            A[row_x, c] = x_derivs[un](**v)
+            A[row_y, c] = y_derivs[un](**v)
+            X0[c] = v[un]
+
+        ph_idx = apo.ph_0col + bi.phs_idxs[ph] * ph_step
+        for i_un, un in enumerate(unk.ph):
+            c = ph_idx + i_un
             A[row_x, c] = x_derivs[un](**v)
             A[row_y, c] = y_derivs[un](**v)
             X0[c] = v[un]
 
         if not v['gcp']:
-            pt_idx = pt_zero_idx + pts_idxs[pt] * pt_step
-            for i_un, un in enumerate(pt_unknowns):
+            pt_idx = apo.pt_0col + bi.pts_idxs[pt] * pt_step
+            for i_un, un in enumerate(unk.pt):
                 c = pt_idx + i_un
                 A[row_x, c] = x_derivs[un](**v)
                 A[row_y, c] = y_derivs[un](**v)
                 X0[c] = v[un]
-
-        i_phpt = 0
-        i_ph = 0
-
-
 
     #print np.linalg.cholesky(N)
     
@@ -304,48 +448,16 @@ def RunBundleBlockAdjutment(in_dt,  skip_phs, skip_pts):
 
     N = A.T.dot(P).dot(A)
     n = A.T.dot(P).dot(l)
-    Ni = np.linalg.inv(N)
-    
+    #Ni = np.linalg.inv(N)
+    Ni = np.linalg.pinv(N)
     dx = Ni.dot(n)
 
     Xa = X0 + dx
     e = A.dot(dx) - l
 
-    for pt_idx in range(tie_pts_n):
-        pt = idxs_pts[pt_idx]
-        pt_x_idx = pt_zero_idx + pt_idx * pt_step
+    AdjustData(Xa, bi, unk, apo)
 
-        pt_coords = np.zeros((3))
-        pt_coords_dx = np.zeros((3))
-
-        for i in range(pt_step):
-            pt_coords[i] = Xa[pt_x_idx + i]
-            pt_coords_dx[i] = dx[pt_x_idx + i]
-
-        pt.SetCoords(pt_coords)
-
-    for ph_idx in range(photos_n):
-        ph = idxs_phs[ph_idx]
-        ph_x_idx = ph_idx * ph_step
-
-        ph_eo = np.zeros((ph_step))
-        ph_eo_dx = np.zeros((ph_step))
-        for i in range(ph_step):
-            ph_eo[i] = Xa[ph_x_idx + i]
-            ph_eo_dx[i] = dx[ph_x_idx + i]
-
-        a = np.array([[1,0,0],[0,1,0],[0,0,-1]])
-
-        eo_r = a.T.dot(RotMatBLUH(*ph_eo[:3]))
-
-        eo = np.hstack((eo_r, np.array([ph_eo[3:]]).T))
-
-        old_eo = ph.GetEO()
-
-        ph.SetEO(eo)
-
-
-    L1, L_XO1, rows_order, pts_idxs, idxs_pts, idxs_phs, tie_pts_n, image_points_n, photos_n = GetL(in_dt,  skip_phs, skip_pts)
+    L1, L_XO1, bi = GetL(in_dt,  skip_phs, skip_pts)
     e1 = L_XO1 - L
 
     print "e"
@@ -357,35 +469,12 @@ def RunBundleBlockAdjutment(in_dt,  skip_phs, skip_pts):
     xx = np.where(A != 0.0)
     A[xx] = 200
     misc.imsave('/home/ostepok/Desktop/A.png', A)
-    """
-    print independent_columns(A, tol = 1e-05)
     np.savetxt('/home/ostepok/Desktop/A.csv', A, fmt='%.18e', delimiter=',')
-
-
     np.savetxt('/home/ostepok/Desktop/res.csv', A, fmt='%.3e', delimiter=',')
-    return
-
-
-def independent_columns(A, tol = 1e-05):
     """
-    Return an array composed of independent columns of A.
+    r = A.shape[0] - A.shape[1]
+    sigma0_2 = e.T.dot(P).dot(e) / r
+    cov =  sigma0_2 * Ni
 
-    Note the answer may not be unique; this function returns one of many
-    possible answers.
-
-    http://stackoverflow.com/q/13312498/190597 (user1812712)
-    http://math.stackexchange.com/a/199132/1140 (Gerry Myerson)
-    http://mail.scipy.org/pipermail/numpy-discussion/2008-November/038705.html
-        (Anne Archibald)
-    http://stackoverflow.com/questions/13312498/how-to-find-degenerate-rows-columns-in-a-covariance-matrix
-    >>> A = np.array([(2,4,1,3),(-1,-2,1,0),(0,0,2,2),(3,6,2,5)])
-    >>> independent_columns(A)
-    np.array([[1, 4],
-              [2, 5],
-              [3, 6]])
-    """
-    Q, R = np.linalg.qr(A)
-    independent = np.where(np.abs(R.diagonal()) < tol)[0]
-    return independent
-
+    return cov, Xa, dx, e, bi, apo
 

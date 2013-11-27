@@ -31,6 +31,7 @@ from bba import RunBundleBlockAdjutment, RotMatBLUH, GetBLUHAngles
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
+
 def _readRelPhotoCombnationsFromBingoRelax(relax_file):
     fd = open(relax_file, "r")
 
@@ -78,22 +79,19 @@ def ComputeDiffs(pts, phs):
 
     pt_errs = []
     no_coords = []
-    for pt in pts.itervalues():
+    pt_errs = np.ma.zeros((len(pts), 2))
+    pt_errs.mask = np.ma.zeros((len(pts), 2))
+    for i_pt, pt in enumerate(pts.itervalues()):
         if pt.GetCoords() is not None:
-            pt_errs.append([pt.GetId(), 
-                         abs(np.linalg.norm(pt.GetCoords() - pt.GetResultCoords()))])
+            pt_errs[i_pt, 1] = abs(np.linalg.norm(pt.GetCoords() - pt.GetResultCoords()))
         else:
-            no_coords.append(pt.GetId())
-
-    pt_errs = np.array(pt_errs)
-    print pt_errs
-    print np.average(pt_errs[:,1])
+            pt_errs.mask[i_pt, 1] = True
+        pt_errs[i_pt, 0] = pt.GetId() 
 
     skip_pts = []
     for err in pt_errs:
         if err[1] > 0.3:
             skip_pts.append(int(err[0]))
-
 
     ph_errs = []
     for ph in phs.itervalues():
@@ -121,11 +119,6 @@ def ComputeDiffs(pts, phs):
     for err in ph_errs:
         if err[1] > 0.5:
             skip_phs.append(int(err[0]))
-
-    print skip_phs
-    print skip_pts
-    print ph_errs
-    print np.average(ph_errs[:,1])
 
     #return skip_phs, skip_pts
     return ph_errs, pt_errs
@@ -209,29 +202,45 @@ def main():
 
     HelmertTransform(pts, phs)
     Test(ros, in_dt, cam_m, distor, rel_or_phs)
-    PlotRelOrs(pts, phs)
+    #PlotRelOrs(pts, phs)
 
-    skip_phs, skip_pts = ComputeDiffs(pts, phs)
-    
     ph_errs, pt_errs = ComputeDiffs(pts, phs)
 
     skip_pts = []
     skip_phs = []
-    for i in range(3):
-        RunBundleBlockAdjutment(in_dt, skip_phs, skip_pts)
+
+    RunBundleBlockAdjutment(in_dt, skip_phs, skip_pts, '/home/ostepok/Desktop/protocol.txt')
+    PlotRelOrs(pts, phs)
+    return
+    if True:
         it_ph_errs, it_pt_errs = ComputeDiffs(pts, phs)
-        print it_ph_errs[:,1]
+
+
         it_ph_errs = np.expand_dims(it_ph_errs[:,1], axis=0)
         it_pt_errs = np.expand_dims(it_pt_errs[:,1], axis=0)
 
-        print it_ph_errs.shape
-        print ph_errs.shape
+        print "average photo error:"
+        print np.average(it_ph_errs)
+        print "average point error:"
+        print  np.average(it_pt_errs)
 
-        ph_errs = np.hstack((ph_errs, it_ph_errs.T)) 
-        pt_errs = np.hstack((pt_errs, it_pt_errs.T)) 
+        print it_pt_errs.shape
+        print pt_errs.shape
+        ph_errs = np.ma.hstack((ph_errs, it_ph_errs.T)) 
+        pt_errs = np.ma.hstack((pt_errs, it_pt_errs.T)) 
 
-    print ph_errs
-    print pt_errs
+
+    print "covariances"
+    for i in np.diagonal(cov):
+        print sqrt(i)
+    #print ph_errs
+    #print pt_errs
+
+    print "gcps"
+    for gcp in in_dt.GetGcps().itervalues():
+        if gcp.GetCoords() is None:
+            continue
+        print np.linalg.norm(gcp.GetGcp()[0] - gcp.GetCoords())
 
     np.savetxt('/home/ostepok/Desktop/ph_res.csv', ph_errs, fmt='%.4f', delimiter=',')
     np.savetxt('/home/ostepok/Desktop/pt_res.csv', pt_errs, fmt='%.4f', delimiter=',')
