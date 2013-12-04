@@ -266,7 +266,9 @@ def CreateIterationProtocol(i_num, cov, Xa, dx, e, bi, apo, prot_fd, unk, gcps):
             continue
 
         dist = np.linalg.norm(gcp.GetGcp()[0] - gcp.GetCoords())
-        prot_fd.write("%10d, %10.4f" % (gcp.GetId(), dist))
+        bingo_dist = np.linalg.norm(gcp.GetGcp()[0] - gcp.GetResultCoords())
+
+        prot_fd.write("%10d, %10.4f, %10.4f" % (gcp.GetId(), dist, bingo_dist))
         prot_fd.write("\n")
 
     prot_fd.write("\n\n")

@@ -157,6 +157,11 @@ Heavy usage of information technologies also caused that border between discipli
 Photogrammetry was affected by computer vision, which evolved independetly until 2000's. After that it is possible 
 to see growing trend combine knowledge from both fields.
 
+TODO describe difference between ph and cv
+Both computer vision and photogrammetry has developed different methods to solve this problem.
+The different approaches, how the fields adress the problem, can be generalized to identify 
+
+
 With growing importance of software there comes a question of licenses. There are two 
 main branches proprietary software and free software. Most of proprietary software are not available in 
 form of source code. The license of proprietary sofware allows use it under certain terms and usually user 
@@ -370,6 +375,9 @@ local minumum, stationary point or
 
 This is caused by run-off of non-linear function, which has more points with zero derivative,
 and therfore result depends where the non-linear least square iteration starts. 
+
+\subsection{Free network least squares}
+\label{sec:free_net_least}
 
 \section{Short intruduction into photogrammetry}
 
@@ -746,6 +754,7 @@ it is possible to derive another important matrix used computer vision, which is
 
 Lets suppose that firs camera matrices are defined in this way:
 \begin{equation}
+\label{eq:rel_or_cam1}
 \ematr{P}  = \ematr{K} \ematr{[}I|0\ematr{]}
 \end{equation}
 It means that first camera matrix lies in the origin of object space and its orientation is same
@@ -773,6 +782,7 @@ And projection center coordinates are:
 
 The second camera matrix is defined in this way:
 \begin{equation}
+\label{eq:rel_or_cam2}
 \ematr{P}'  = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]}
 \end{equation}
 
@@ -828,8 +838,11 @@ cameras of both images are known it is possible to determine fundamental matrix.
 
 The fundametal and essential matrices are core of two view geometry in computer vision.
 
-\subsubsection{Retrieving of exterior orientation from essential matrix}
+\subsubsection{Triangultion of points}
+\label{sec:triang}
 
+\subsubsection{Retrieving of exterior orientation from essential matrix}
+\label{sec:ess_eo}
 Exterior orientation can be retrivred from essential matrix. However there exists ambiguity of signs which gives 
 four possible solutions differing with sings.
 
@@ -846,10 +859,11 @@ The four possible exterior orientation are:
 The rotation [\ematr{R}] and vector \evect{-t} can be retrived from SVD decomposition of essential matrix.
 
 \subsubsection{Chain of essential matrices}
+\label{sec:ess_chain}
 
 
-\subsubsection{Triangultion of points}
-
+\subsubsection{Helmert transformation}
+\label{sec:helmert}
 
 \section{Bundle block adjusmnet}
 
@@ -905,28 +919,71 @@ add some of the interior parameters into adustment.
 Process of determination of two cameras exterior orientaiton in arbitrary space is called relative orientation.
 
 
+\section{Orthorectification}
+
+Orthorectification is image transformation form perseptive prjection into orthogonal projetion.
+Unlike non-orthorectified photo the orthophotos can be merged together into map. Recently 
+orthophoto has been widely used by map services like Google Maps or Mapy.cz. Fundamental 
+difference of the orthorectified photo and classical photo is that scale in whole orthophoto is same
+and therefore it is possible to measure true distances. 
+
+
+\label{sec:single_ortho}
+There are two main methods for producing of orthophoto. The first method is able to produce orthophoto 
+from single photo of it's exterior and interior orientations are known and other information which describes
+relief must be known. This infromation is usually provided in form of digital terrain model (DTM), which 
+can be provided in raster form, which descibes relief whith same density defined by resolution of the raster, 
+or vecor surface, which is comprised by continues surface made of trinaglular irregular network (TIN).  
+At the beginning of the orthorectificaiton empty raster is allocated, which represents orthophoto, 
+which covers photo scene and area of the DTM. After that coordinates are reprojected using collinearity
+equations into photo coordiantes. Becouse the DTM surface can be continues, it is needed to define 
+same step in which the reprojection is dona. The coordinates can be choosen e. g. from ever pixel center
+of the orthophoto pixel. Results of reprojection are not pixels cordinates which is integer number but 
+floating points numbers. Therfore value of pixel in orthophoto can be computed by different interpolation methods,
+which can take various number of neighbourhood pixels and functions.
+
+The other method is being used either in computer vision and photorammetry. In computer vision 
+it is called structure from motion. As the method name suggests, it is primarly used for retrieving
+strucure of the scene, which is equivalent of DTM in photogrammetry. In follows main advantage 
+of the mathod that DTM does not be needed unlike the first method DTM is not needed. Moreover 
+the DTM can be another result besides the orthophoto if this method. The method is based 
+on forward resection, where collinearity equations are employed. The other approach requires to have at least
+two photos of known exterior and interior orientation. In contrast to the first method the exterior orientaiton
+can be defined in arbitrary coordinate system, because there is not needed to define relationship to 
+known DTM, therfore it is possble to generate orthophoto and DTM without need to have GCP. However 
+if the results should be transformed into world coordiante system it least three GCP needs to be known
+to perform Helmert transformation. 
+
+The principle of the method is based of forward ray intersection. In order to find object coordiantes
+of point, the point has to be identified at least on two photos, than two rays connecting projection 
+center and image points are formed. The approximate object coordiantes can be find by trianglulation 
+method \ref{sec:triang} and than refined by BBA, which is also in principle based on the rays 
+resection.
+ 
+
 \chapter{Analytical part}
 
 In this part there are describe reasons, which led into development of process chain which was implemented in 
 this thesis. All methods of the processing chain which are mentioned in this chapter, where described in 
 previous theoretical chapter.
 
-
 \section{General solution of UAV bundle block adjustment}
 
 
 Few years ago in late 1990s it seemed that prolem of approximate values for BBA had been solved. 
 In this times BBA was mainly employed in aerial photogrammetry. Mapping mission using aerial 
-photogrammetry are done by experts and costs of this kind of project is very high, because
-it requaires rent of airplane. The development of GPS and IMU uints, which allows to determine 
-postion repectively and orientation with propelly set up and calibrated camera and GPS/IMU 
-units allowed to get very precise approximate values of exterior orientation, which had been
-much more difficult problem.  
-  
-As it was already mentioned nowadays there is strong demand for usage of these tools by non-experts 
-Therefore the solution must be simple enough to be used by these kind of users. 
+photogrammetry are done by experts and budget of such a mapping missions is very high. 
+The development of GPS and IMU uints, which allows to determine 
+postion respectively and orientation with propelly set up and calibrated camera and GPS/IMU 
+units allowed to get very precise approximate values of exterior orientation, therefore 
+it was possible to use it directly in BBA.
 
-This is the main requiremnt on solution, which was set up at the beginning of the thesis.
+  
+As it was already mentioned the development of technology gives oportunity to many poeple
+to perform photogrammetric measurements, because nearly everybody has camera in his pocket.
+On the other hand the solution must be very simple from the user point of view becouse 
+most of users has limited or no knowldge of photogrammetry. It follows the main requirement 
+on solution, which was set up at the beginning of the thesis.
 
 To make this requiremement of simplicity more specific the user should be able to used it having 
 just camera and UAV. No other hardware device should be needed. All other steps should be done 
@@ -935,16 +992,27 @@ using open source software which can everybody download.
 Also the solution should be flexible enough to process aditional data, which may known, 
 as GCPs approximate postion of cameras etc.With this aditional data it is possible 
 to increase accuracy of results and decrease number of  BBA iterations needed for finding 
-global minimum.
+global minimum. Therfore it could be used by more advanced users.
 
 As consequance of these contraints, the minumum input into processing chain can be just photos
 of the scene and other parameters, which can be derived from information on specific kind of photos.
 
-The another requiremnt is two make the process as much automatic as possbile, because if it would require 
-lot of time of user to go through the processing chain nobody would use it.
+The another important requiremnt is two make the process as much automatic as possbile, because 
+if it would require a lot of time of user to go through the processing chain nobody would use it.
 
-To fulfil these requiremnts the final major parts of the solution can be devided into this prcessing chain:
+To fulfil these requiremnts the solution can be described by this prcessing chain:
 
+\begin{itemize}
+\item Camera calibration - getting interior orientaion of camera.
+\item Relative orienations of photo pairs - getting interior orientaion of camera.
+\item Triangulation of tie points - getting interior orientaion of camera.
+
+\end{itemize}
+
+
+
+
+\subsection{Camera calibration}
 \begin{itemize}
 \item Camera calibration - during camera calibration processs, the interior orientation parameters 
 			   are determined.
@@ -961,13 +1029,6 @@ that GPS and IMU unit does not have to be mounted on UAV and calibrated with cam
 and interior orientation from camera calibration are used.
 
 \end{itemize}
-
-\section{Camera calibration}
-
-
-
-
-\section{Aproximate exterior orienation}
 
 If only information which is available about the scene is interior orientaiton parameters and the photos, 
 only way how to obtain aproximate exterior orientation of cameras and recover the scene structure is 
@@ -991,22 +1052,346 @@ has been developed, which does not have patent restriction.
 Another problem of tie points matching is determination of photos order, to identify photos with some overlap. 
 If photos are taken in strip, it is easy to deal only with neighbour photos to identify the tie points.
 
-If there is no apriori information about image order, it is as in all cases possible to use brute force and 
-try to find match image with all other images.
+If there is no apriori information about image order, the easiest way is to use brute force and 
+try to find tie points in all images in set. With higher number images this problem become 
+hard to compute in resonable time. To avoid this it is possbile to build up visibility map \cite{barazzetti2010extraction}, 
+which is graph with photos as nodes. The graph edges connects photos and represents existing scene overlap 
+in photos. For creation of visibility map it is possble to use information from GPS and IMU units.
 
-
+Another speed up can be done decreasing resolution of images 
+for first search of tie points. This first search should only identify connected images.
+In second step tie points etraction is done on full resolution but only in imges which 
+are connected .
 
 This part was covered in this thesis just with this short overview, becouse this topic is so big 
-that it would be possible to write thesis focused only on feature extraction or building of visibility map.
+that it would be possible to write masters thesis focused only on feature extraction or building 
+of visibility map.
+
+
+\subsection{Retrieving approximate values for bundle block adjusmtent}
+
+
+The next step is to utilize all known information (interior orientaitn and extracted 
+tie points image coordinates)  to get missing approximate parameters for BBA. 
+
+Because collinearity equations \ref{eq:col_eqs} are the cost functions in BBA ,
+extracted image coordinates represents measurement (result of collinearity eqation),
+the parameters of interior orienation are known from the imput and only information 
+which is misisng are aproximate parameters of exterior orientation and object coordinates of 
+tie points. 
+
+\subsubsection{Aproximate values of exterior orienation}
+
+There exist many methods how to obtain approximate values for exterior orientaiton of cameras, they 
+differs in information which they require for input, computation time and accuracy. 
+To fullfil the set up requirements the chosen method should be able to retrieve exterior orientation 
+using image coordinates of tie points and interior orientation of camera.
+Also it should be used some method for determination of 3D coordinates of the tie poitns.
+
+There exists lot of methos which are able to retrie EO using aditional 
+information about scene and the EO of camera.
+
+In aerial photogrammetry is is possible to suppose that photos are nearly verical and therfore 
+rotation matrix can be simplified resulting in 
+
+Furtunately there exists family of closed form computer vision algorithms,
+which are able to determine relative orientation (essential matrix) from image coordinates 
+of the tie points. The algorithms are based on epipolar geometry using essential matrix 
+constraints to find the solution. 
+
+The closed form algorithms are called accoridg to required number of identified tie points in two pictures.
+There exist eight, seven, six and five point algorithms. The five point algorithm seems to perform best in most
+of cases \cite{stewenius2006recent} and it is not sensitive on planar points configuration.
+
+Only case when the five point algorithm \cite{nister2004efficient} underperforms 
+\cite{bruckner2008experimental} the others is forward motion of camera.
+However this should occure in very rery cases  if UAV is used for mapping.
+
+Main disadvantage of the five point algorithm is that it can produce up to ten solution.
+Therfore it is needed to select best solution from these. The number of solutions can
+can be reduced by testing assumption that the tie points should lie in fron of the image 
+planes of both cameras. After sorting out obviously non sense solution in previous step
+ the optimal solution can be chosen the one which has minimum sum of tie point distances
+ from epipolar lines, which were computed by corresponding tie points in the other photo
+ using essential matrix of the solution and calibration matrix of the photos cameras.  
+
+Because matching algortihms are not perfect  certain number of the tie points are matched 
+incorrectly threfore it is needed to be the relative orientation method robust enough to
+deal with these outliers.
+
+The RANSAC \cite{RANSAC} method is comonly used with this family of epipolar algorithms to 
+make it robust for effect of outliers.
+
+Principle of RANSAC is to find such  a solution in group of measurements with outliers, 
+which well aproximates the inliers. 
+
+In case of the epipolar family algorithms RANSAC works that in every iteration 
+in selecets random tie points, which used epipolar algorithm requires and 
+runs this agorithm. After obtaining an essential matrix from the algorithm the epipolar 
+distances for tie points are computed. There is specified some treshold of the distance which is used 
+for decision whether the measurment is inlier or outlier. The other treshold, which has to be specified 
+is percentage of inliers of all tested points. If percentage of inliers is highest than in prevous iteration,
+the essentail matrix is set as the best fitting and iteration continues. The iteration terminates after user defined 
+number of iterations with returning the best fitting essential matrix.
+
+\subsection{Aproximate values  of tie points object coordinates}
+
+After essential matrix is obtained it is possible to compute object coordinates of tie points with trinanglutation
+method.
+
+The triangultation can be done by several methods. If the measuremtns would be precise, the 3D point 
+would lie in intersection of two rays wich are lines conecting projection centers and image points 
+in the photos. Unfortunatelly the rays are never determined so precisly, thus it is needed to deal 
+somehow with the errors. 
+
+To solve this problem it is possible to use linear least squae methods. The solution is based 
+on direct linear method, which is linearized form of collinearity equation \eqref{eq:col_eqs}.
+\begin{equation}
+\label{eq:col_eqs}
+\begin{split}
+&\escal{x}^{im} = \frac{\escal{a}_{1}(\evect{X}^{obj}) + 
+                                  \escal{a}_{2}(\evect{Y}^{obj}) + 
+                                  \escal{a}_{3}(\evect{Z}^{obj}) +
+                                  \escal{a}_{4}
+                                  }{
+				  \escal{a}_{9}(\evect{X}^{obj}) + 
+                                  \escal{a}_{10}(\evect{Y}^{obj}) + 
+                                  \escal{a}_{11}(\evect{Z}^{obj}) +
+                                   1  
+                                  } \\
+&\escal{y}^{im} = \frac{\escal{a}_{5}(\evect{X}^{obj}) + 
+                                  \escal{a}_{6}(\evect{Y}^{obj}) + 
+                                  \escal{a}_{7}(\evect{Z}^{obj}) +                                 
+                                  \escal{a}_{8}
+                                  }{
+				  \escal{a}_{9}(\evect{X}^{obj}) + 
+                                  \escal{a}_{10}(\evect{Y}^{obj}) + 
+                                  \escal{a}_{11}(\evect{Z}^{obj}) +    
+                                  1
+                                  }
+\end{split}
+\end{equation}
+
+This method is easy to implement and there is no need to know approximate vaules.
+
+
+Main drawback of this method is that DLT model is not based on true projective geometry, thus 
+if elements of \evect{a} would be takend as unknowns in adjustment, the computed corrections 
+would not respect the projective transformation constraints.  In trinanglutation of image points 
+it is supposed that vector \evect{a} is known. However the vector \evect{a} is never determined 
+totally preciselly and therfore found solution does not have to be optimal.
+TODO
+
+The more complicated method from computer vision is called the optimal solution. 
+It is based on enforcing epipolar constraint, whith cost function 
+minimizing distance of projected points from the other images to epipolar lines.
+
+The cost function is not linear however it's derivative leads into 6 degree polynomial thus 
+having 6 roots.
+
+This method is seen by computer vision community is most accurate \cite[p. 315]{Hartley2004}.  
+
+
+\subsection{Common coordinate system}
+
+Currently all approximate values which are needed in \eqref{eq:col_eqs} are available for BBA. 
+The problem is tha it is not possible to adjust scene in one bundle, because tie point 
+object coordinates and essential matrices all related to the two photos, which they were 
+retrieved from. The two views defines it's own object coordinate system which is identical
+to the first camera coordinate system \eqref{eq:rel_or_cam1} and
+exterior orientaion in the system of the second camera \eqref{eq:rel_or_cam2}.
+
+
+Therefore it is needed to transform all features in the two view coordinates systems into 
+an common coordinate system. First of all the common system has to be defined.
+In order to make the transformation process simple it is defined by one of the two view
+systems.
+
+The next step is to connect successively the two view systems into the common one.  
+An block of the two views systems, which can be merged, is composed of the systems 
+where exists path from the pair which defines common system.
+
+The path exists if there is chain of neighbourign two veiw systems, which 
+shares one photo. 
+
+Another problem is that the two view systems are defined up to scale therefore 
+it is needed to determine scale of merged system related to the common one. 
+The scale can be computed by comparison of distances which are common in both systems.
+One approach is to use tie points object coordinates in both systems 
+and compute distances from projection center which belongs to the shared photo \ref{seq:ess_chain}. 
+
+
+\subsection{Transformation into world coodinate system}
+
+Usually the user wants to be measurement transformed into an world coordinate system, which allows 
+to compare measuremtns with other data, which are available in this system or they are 
+linkend with the world system which is usually connected to all other commonly used  world systems. 
+This transformation is called Helmert  transformation and it can be basically devided into 
+three main steps which are rotation, scaling and translation \ref{seq:helmert}.
+
+In order to be transformation of the common system into the world system be possible, it is needed 
+to have at least 3 tie points, with known approximete coordinates in the common space, which also have 
+known coordinates in the world system. These points are called ground control points (GCP). The other advantage is that it is possible to use GCPs for improving accuracy of the results and 
+ quality assesment of obtained results.
+ 
+This step is optional, it is possible to perform bundle block adjustment in the common system. In this 
+case it is needed to perform BBA of free network \label{sec:free_net_least}. 
+ 
+ 
+\subsection{Bundle block adjusmnet}
+
+So far all aproximate values of parameters in collinear equations are obtained therfore it 
+is is possible to perform the bundle block adjustemnt, which finds the optimal solution.
+
+In essence there exists two main types of the adjustment, which can be used. The scene 
+can be adjusted as free network if there are known less that 3 GCPs or it is possible 
+to use information about gcp and use non-linear least square method.
+
+\section{GRASS GIS Orthorectification Workflow}
+
+GRASS GIS supports is among few open source GIS software which supports orhorectification ed
+\cite{rocchini2012robust}. Orthorectificaion is done by 
+by i.ortho.photo \cite{i.ortho.photo}, which was developed 1990s.
+I.ortho.photo is specialized on processing analog aerial imagery, therfore 
+it supports to transformation of scanned photo using fiducial marks. 
+The interior orientation parametrs are supposed to be known without taking distortion 
+coefitients into account. 
+
+The next step of is retrieving of exterior orientation parametrs. The retrieving 
+of exterior orienation is based of least square iteration. Unlike BBA
+the photos are adjusted separately, therfore the object points coordinates has to be known
+and there has to be at least three ground control points becouse six exterior parameters are 
+searched. The three gcps are just theoretical minimum, however for getting resonable 
+results it is needed to provide at least 12 parameters. Exterior orientaion 
+can be attached into input to be used as approximate values for iteration,
+otherwise it is supposed that images are verical, therefore two of three rotaion
+angles can be set to 0 and the last angle is computed as difference of centroid slope
+in photo system and object system taking into account only x, y coordinates.
+Projection center object coordinates are given equall to centroid coordinates.
+
+In the last step the orthorectified image is computed. GRASS GIS uses single image orthotectification
+method \label{sec:single_ortho}, which requires known DTM in order to deal with height differences. 
+
+
+The main disatvage of GRASS GIS orthorectification method are:
+\begin{itemize}
+\item Orhorectifies photos separately, thus it ignores significant part of information unlike BBA,
+ which can improve accuracy and robustness of orthophoto. 
+\item Because of single photo orthorectification method it is neccessary to have DTM of scene to 
+generate orthophoto. Priecise high resolutin DTM is not usually available for free so this 
+requiremnt should be avoided.
+\item If exterior orinentation of the camera is not known, implemented method for exterior
+orientaiton retrieving needs GCP, which may not be always available. Moreover  if the images 
+are not vertical, it is needed to know at least approximate exterior orietnation valuas for 
+convergence towards global minimum.
+\end{itemize}
+
+These disadvantages are big obstacle which make difficult to use current implementation of GRASS GIS 
+to process UAV acquired photos, which often lack GCP and DTM information.
+On the other hand the current GRASS GIS orthorectificaiton method can be succesfully used  
+if all required information is provided.
+
+\chapter{Implementation}
+
+\section{Used technologies}
+
+\subsection{OpenCV}
+
+OpenCV is open source computer vision and machine learning library released under BSD licence. 
+The library contatins thouasans of algorithms, which are mainly focused real time image processing.
+
+
+The OpenCV library contains also algorithms which can determine eterior orientaiton and object coordinates 
+of the tie points which ca. 
+Another relevant group of algorithms deals with camera calibration. Using the agorithms
+
+\subsection{Python}
+
+Python is open source programming language which has been developed since 1991. 
+The python code has is easly readable and therefore it is often picked as first programming
+language to learn. Python is empoyed in wide range software from simple scripts to complex systems.
+It is higher level programming language comapared to languages e. g. C++, therefore 
+the development process is usually significantly faster. On the other hand 
+to Python is significantly (hundred times) slower compared to C+. Even so big 
+slow down does not have to be reason for avoiding Python in development. 
+In many application the Python is used as top level glue, which took care about 
+tha main workflow. The parts of aplication, which do heavy computation  they can 
+be written in other mote efficient algorithms and then being called 
+from Python. This is very powerful combination, which allows to speed up development 
+process preserving speed of application.
+
+Thanks to the its popularity the Python world is very rich. There are developed
+thousands of open source libraries, which make life of programmer much of easier. Even 
+if library is not implemented in Python it is possible to generate Pythonic 
+interface using some of available open source tool (e. g. SWIG), which automaticaly
+generates the interface. And even if the library does not have Python interface it 
+is possble to use the tools as e. g. ctypes or Cython to use libraries directly.
+
+
+\subsubsection{NumPy}
+
+NumPy is open source Python library, which supports multidimensional arrays and many operations, which can be
+performed using this arrays including linear algebra operations. Killer feature of NumPy is its speed,
+which allows to write very effective code with just few lines. Many operations which NumPy do can be 
+also rewritten be Python code using  for loops. However if numpy function is called,
+computation is perform by very quick C code, which can makes big difference if arrays contain 
+lot of elements. Sometimes it is difficult to figure out the way how 
+to write problem using Numpy avoiding fot loops  for beginner. However as a user gets experienced 
+it become easy to do it. 
+
+NumPy is so widely used Python library that it has become one of fundamental libraries, thus many
+other libraries has already integrated NumPy support ore they require NumPy installation.
+
+\subsubsection{SimPy}
+
+Simpy is another python library which is focused on process-based discrete-event simulation.
+Among many other features it supports symbolic expression. This symbolic expression can be useful
+e. g. for computation of derivation of an function. The result of dervation is symbolic expression which can 
+be than used for retrieving numeric values. 
+
+\subsection{GRASS Programming  enviroment}
+
+The recommended languages for development of GRASS GIS modules are C and Python.
 
 
 
-\chapter{Practical part}
+
+\section{Implementaiton into GRASS GIS orthorectificaiton workflow}
+
+The implementaiton should fulfill these goals:
+
+\begin{itemize}
+\item Backward compatibility, which preserves already implemented functionality, which
+can be still useful in specific cases. 
+\item Take advantage of modularity of i.ortho.photo module.
+If the workflow is comprised of modules with clearly defined interface, it is possible to implement
+several different algorithms for every step of orthorectificaion. The main advantage is this 
+aproach is that workflow can be adapted to the specific situation, which allows to use 
+most suitable algorithms to achive maximum accuracy.
+\item For the less advanced users, which does not have suffucuient knowledge to create individual 
+worflow there should be another module, which is easy to use, and wraps the more specific mudules.
+Eventually graphical user inteface which helps with assesment of developed data and running orthoectification
+should be developed. 
+\end{itemize}
+
+If all this goals would be fullfiled GRASS GIS would become unique flexible state of the art orthorectificaion 
+software, which could be used by wide spectrum of users from amateurs to experts.
+Due to time limitation this thesis deals only with lowest level modules, however it is very important to have 
+the ultimate goal in mind to desing solution from basis properly in order to save a time in future spend 
+on refactoring.
+
+\subsection{Calibration module}
+
+\subsection{Relative orientaion module}
+
+\subsection{Bundle block adjustment module}
+
+
+\chapter{Discussion of reults}
 
 \chapter{Future development}
 
 \chapter{Conclusion}
-
 
 \section{References}
 \nobibliography{BP}
@@ -1018,4 +1403,25 @@ that it would be possible to write thesis focused only on feature extraction or 
 \bibentry{wiki:SURF}
 
 \bibentry{leutenegger2011brisk}
+
+\bibentry{barazzetti2010extraction}
+
+\bibentry{wiki:Eight-point_algorithm}
+
+\bibentry{stewenius2006recent}
+
+\bibentry{bruckner2008experimental}
+
+\bibentry{nister2004efficient}
+TODO
+\bibentry{pietzsch2001robot}
+TODO
+\bibentry{pietzsch2004application}
+
+\bibentry{rocchini2012robust}
+
+\bibentry{i.ortho.photo}
+
+\bibentry{neteler2008open}
+
 \end{document}}

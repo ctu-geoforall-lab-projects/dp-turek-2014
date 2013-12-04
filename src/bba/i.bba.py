@@ -196,10 +196,10 @@ def main():
     
     cam_m, distor = in_dt.GetCameras().values()[0].GetParams()
     rel_or_phs = _readRelPhotoCombnationsFromBingoRelax("/home/ostepok/Dev/GRASS/diplomka/Bingo_project/withEO_3GCP/relax.lis")
-    
+    return
     ros = RelativeOrientation(in_dt, cam_m, distor, rel_or_phs)
     np.set_printoptions(suppress=True)
-
+    
     HelmertTransform(pts, phs)
     Test(ros, in_dt, cam_m, distor, rel_or_phs)
     #PlotRelOrs(pts, phs)
