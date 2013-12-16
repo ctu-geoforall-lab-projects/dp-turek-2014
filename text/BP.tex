@@ -35,7 +35,7 @@
 %%%%%%%%%% fancy %%%%%%%%%%%
 \usepackage{fancyhdr}
 
-\fancyhead[L]{ČVUT v Praze}
+\fancyhead[L]{CTU in Prague}
 
 \setlength{\headheight}{16pt}
 
@@ -98,6 +98,11 @@ right=25mm
 }
 
 
+\newcommand{\src}[1]{
+{\it #1}
+}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \pagestyle{empty}
@@ -140,22 +145,31 @@ In recent decades tremndous development of information technology has fundamenta
 
 Photogrammetry has sucessfuly taken advantages of this development, and nowadays 
 it is using complently different methods and equipment, which allows to obtain and process data 
-in huge scales and achieve accuracy
+in huge scales with user friendly methods achieving very good accuracy.
 
-The core of photogrammetry is moving  from  hardware towards software. In past it was necessary to have special 
-photogrammetric equipment to perform photogrammetric measurement.  Thanks to current state of the art algorihms 
-nowadays it is possible to use higher level digital cameras two perform photogrammetric measurements achieving
-high accuracy. 
-Thanks to this shift photogrammetry is not longer being domain of few proffesionals however it is 
+Heavy usage of information technologies likewise caused that borders between disciplines is blurring. 
+Photogrammetry was affected by computer vision, which evolved independetly until 2000's. After that it is possible 
+to see growing trend of combining knowledge from both fields. 
+
+Both photogrammetry and computer vision are delaing with infomrmation stored in photo. Products of photogrammetry 
+are etc. digital elevation models (DEM), which represents earth surface, orthophoto, which is mosaic of merged 
+photos thransformed from central projection into orthogonal projection. The orthophoto has same properties.
+Nowadays the orthophotos are commonly provided by web ma portals as e. g. mapy.cz or google.maps.com.
+The field of computer vision has it's roots in robotics, which is focused on developing robots cabable of 
+autonomous behaviour. In order to be the robot autonomous it must know structure of enviroment and its position in it.
+This information can be obtained employing methods of computer vision.
+
+
+The core of photogrammetry is quickly moving  from  hardware towards software. In past it was necessary to have special 
+photogrammetric equipment to perform photogrammetric measurement. Nowadays, thanks to current state of the art software, 
+ it is possible to use higher level digital cameras to perform photogrammetric measurements achieving
+high accuracy. Even with low level cameras, it is possbile to perform photogrammetric measurements. 
+Thanks to this shift photogrammetry has not longer been domain of few proffesionals however it is 
 becoming used be wide audience. 
 
-We are just at the beggining of the golden age of photogrammetry, 
+We are just at the beggining of the golden age of photogrammetry and computer vision, 
 which with spread of UAV and development of augument
 reality is going to find a way to our cell phones and other devices we use on daily bases. 
-
-Heavy usage of information technologies also caused that border between disciplines is blurring. 
-Photogrammetry was affected by computer vision, which evolved independetly until 2000's. After that it is possible 
-to see growing trend combine knowledge from both fields.
 
 TODO describe difference between ph and cv
 Both computer vision and photogrammetry has developed different methods to solve this problem.
@@ -165,7 +179,8 @@ The different approaches, how the fields adress the problem, can be generalized 
 With growing importance of software there comes a question of licenses. There are two 
 main branches proprietary software and free software. Most of proprietary software are not available in 
 form of source code. The license of proprietary sofware allows use it under certain terms and usually user 
-has to buy it.
+has to buy it. Proprietary software works like blackbox, because user has no chance investigate the source 
+code and realize what his happening. 
 
 
 \newpage
@@ -177,56 +192,96 @@ has to buy it.
 
 \section{UAV}
 
-Unmanned aerial vehicle is aircraft without human pilot. UAV can be controlled by remote control.
-Somo of the UAV are capable of autonomous flight, which is used when connection with remote control is 
-lost or 
-
-TODO notation
+Unmanned aerial vehicle (also knwn as drone) is aircraft without human pilot. Recently UAVs are known in public by
+their heavy military employment in USA and other contries. These military drones are equiped with state of the art 
+techonology and their construction is similarly complex as small aircraft.
+The number of military UAVs is fastly raising and nowadays USA traines more UAV operators than fighter plane pilots. 
+There is also exponentionaly growing sector of civil drones, which is very broad category of various various sizes 
+from the big military like size to small devices in size of few decimeters. There are several types of drones e. g. airplanes,
+helicopters, multicopters, paraglides, airships, baloons and others. 
+Very promising category of drones are multirotor drones (e. g. hexacopters or octocopters), because they have simple construction and 
+even ordinary users are able to learn control them very quickly. Together with quickly decreasing prizes of octocopters it can be expected 
+that this kind of drone will become commonly used for many civil purposes. 
 
 \section{Least squares}
 \label{sec:least}
 
 
-The main aim of the least square method is to find optimal solution from rerdurant measuremnts.
+In linear alebra commonly solved eqaution is:
 
+\begin{equation}
+\label{eq:linear_eq}
+\ematr{A}\evect{X} = \evect{L} 
+\end{equation} 
 
-The least square method has two main requirements:
-\begin{itemize}
-\item Formulation of cost functions. Variables of cost function are parametrs, which get adjusted 
-      during least squre method. Paramers are the measured one quantities.
-      The core idea of least squares is finding such a values of parameters to minimize sum 
-      of square diferences of optimal function results using adjusted parameters and measured one.
-      
-      Mathematially it can be written as getting global minumum of cost f 
-      
-\item Having more measuremnts than number of parametrs in cost function.
-
-\end{itemize}
-
-
-Principle of the method  will be derived using calculus.
-As input to the least square there are these argmunets:
+which can be interpereted as:
 \begin{itemize}
 \item \evect{L} - vector of measurements
-\item \evect{X} - vector of parameters, which values are computed to during least square, intial values in
-		  case of linear cost function can be random
-\item   - linear cost functions, which describes measurements depending on parameters in \evect{X},
-          which are arguments of the function
-% 				  \efunc{f_{i}(\evect{X})}TODO
-\item \ematr{A} - it is matrix of the const function  coefitients,  where row represents one measurent 
-		  and column represents one parameter of cost function
+\item \evect{X} - vector of parameters, which are searched to solve the system
+\item \ematr{A} - it is matrix of the cost function  coefitients,  where row represents one measurent 
+		  and column represents one parameter of cost function. Linear cost function $\efunc{f_{i}(\evect{X})}$
+		  represents relationship between measurements \evect{L} and searched parameters \evect{X}. 
 \end{itemize}
-		  
-Differneces of measured value and values computed from parameters using cost function is:
+
+
+
+If matrix \ematr{A} is 
+non singular matrix and vector \evect{b} is non zero vector, then there exists exactly one solution 
+for vector of parameters  \evect{X} to satisfy the equation. 
+
+Basically every measurement is burden with some error. The errors can be devided into these main categories:  
+\begin{itemize}
+\item gross error - error caused by human factor or fault of instrument. If many measurements are repeated
+usually it is possble to identify these measurements because they are big outliers from the other measuremnts, which are not affected with this 
+kind of error.
+\item systematic error - this error has always same effect (value) on measurement.  Usually effect of this error can be 
+eliminated by choosing right measuremnt method, calibration of instrument or mathematic elimination.
+\item random error - this error is unavoidable becouse it is not possible to know perfectly all factors which has impact 
+on the measuremnts. The random errors follows normal distribution which is represented with probability density function of this shape:
+
+TODO picture
+
+
+The normal distribution is characterized by two parameters, which are standard deviation and  mean. 
+If measurements are burden only with random error the mean represents accurate value and standard deviation represents 
+dispersion level of measuremnts. 
+Theoretically  if measuremnts of some parameter would be repeated infinite times and the measuremtns would be influenced only by random errors,
+the accurate value would be computed as  mean of the measuremtns. In case that for measuremt are performed by instruments with different accuracy
+ accuraty value would be weighted mean with weight of measurement $\escal{p}_{i}$ defined as:
 \begin{equation}
-\evect{v} = \evect{L} - \ematr{A}\evect{X}
-\label{eq:least_v}
+\escal{p}_{i} = \frac{\escal{const}}{\escal{\sigma}_{i}^{2}}
 \end{equation} 
-As it was already mentioned the least square method minimizes sum of square differences:
+where \escal{const} is arbitrary chosen number which is used for calculation of all weights and $\escal{\sigma_{i}}$ is standard deviation of the measuremnt.
+It follows that it is possible to get closer to the accurate value by repating of measuremnts, which 
+leads into solving overdetermined systems. 
+
+\end{itemize}
+
+The overdetermined systems are solved in many fileds which deals with measurements (e. g. 
+surveying, photgrammetry etc.).
+As consequence of overdetermination, the matrix \ematr{A} becomes rectangular with more linearly independent rows than  number of columns 
+and therefore the solution does not exist for this linear equations system \eqref{eq:linear_eq}.
+Only if the measurements would be perfect it would be possible to find such a parameters vector \evect{X}, to 
+solve the system of linear equations \eqref{eq:linear_eq}. 
+
+Due to measurements imperfection it is not possible to find such a parameters of vector \evect{X} to make difference \evect{v} between measured values and 
+result of cost function using the parameters equal to zero. 
+
+\begin{equation}
+\label{eq:least_v}
+\evect{v} = \evect{L} - \ematr{A}\evect{X}
+\end{equation} 
+
+
+Hence the least square method finds such a parameters vector \evect{X}, which minimizes 
+sum of square differences \evect{v}: 
 
 \begin{equation}
 \evect{v}_{T} \evect{v} = min
 \end{equation} 
+
+
+This can be rewritten as:
 
 \begin{equation}
 \begin{split}
@@ -236,78 +291,61 @@ As it was already mentioned the least square method minimizes sum of square diff
 \end{split}
 \end{equation} 
 
-The minimum of the function can be get using partial derivative of parameters in cost function.
-In this case derivative are simple becouse it is supposed that our cost functions are linear,
-therfore there is derivated second degree polynomial.
+The minimum of the function can be obtained using partial derivative of parameters in cost function.
+In this case derivatives are simple because it is supposed that our cost functions are linear, thus 
+its square forms forms  second degree polynomial e. g. parabola in \eucl{2}, paraboloid in \eucl{3} and all these functions 
+regardless dimension has only one point, where the partial derivatives are equal to zero. It is 
+their global minimum, which the least squares search for!
+
+The partial derivative of minimized function can be written as:
  
 \begin{equation}
 \frac{\partial diff}{\partial \evect{X}} = -2\ematr{A}_{T} \evect{L} + -2\ematr{A}_{T}\ematr{A} \evect{X} 
 \label{eq:least_part}
 \end{equation} 
 
-Giving this equatin equal to zero, the minimum is found:
+Giving this equation equal to zero, the global minimum is found:
 \begin{equation}
 -2\ematr{A}_{T} \evect{L} + -2\ematr{A}_{T}\ematr{A} \evect{X} = 0 
 \end{equation} 
 
-Last step is expression of parameters vector from the previus eqaution:
-
+The least square is searching for values of parameters vector \evect{X}, which can be expressed from previous equation:
 \begin{equation}
 \evect{X} = (\ematr{A}_{T} \ematr{A})_{-1} \ematr{A}_{T} \ematr{L}
 \end{equation}
 
 This equation is the hearth of the least square method.
 
-This equations suppose that all mesurents has same weigh however it is possble to extend the model to support weights. 
-For example when in least square adjustment there can be combined the meausuremtns with different accuracies,
-it is possible to characterize these accuracies creating weghts matrix.
+The equation suppose that all measurements have same weigh (accuracy). The least squares method can be extended to support weights.
+Weight matrix \ematr{P} contains measurements weights on the diagonal with off-diagonal being zero elements.
+Row of weight in the matrix determines a measurement in design matrix \ematr{A} where the weight belongs.
 
-
-Weight matrix \ematr{P}  is matix with weights of the measuremtns on the diagonal with off-diagonal zero elements.
-Row of weight determines to wich measurement in desing matrix \ematr{A} it belogns.
-
-The equatin which is least squares minimizes changes adding weight matrix into this form:
+The equation, which is minimized by least squares is extended by weigh matrix:
 \begin{equation}
 \evect{v}_{T}  \ematr{P} \evect{v} = min
 \end{equation}
 
-therefore:
+thus the least square equation is altered into this form:
 \begin{equation}
 \evect{X} = (\ematr{A}_{T} \ematr{P} \ematr{A})_{-1} \ematr{A}_{T} \ematr{P} \ematr{L}
 \label{eq:least_sq}
 \end{equation}
 
-
 \subsection{Non-linear least squares}
 \label{sec:non_least}
-So far it was supposed to be cost function linear. However many problems, which  are refined using least square problem 
-are not linear.
+So far it was supposed that cost function is linear and thus global minimum can be found simply by means of linear algebra  \eqref{eq:least_sq}.
+Unfortunately in many cases the relationship between parameters and 
+measured values is not linear, hence it is needed to adapt linear least squares equations for this case.
 
-Very important consequence for least square method of non-linear cost functions is that result of partial derivatives 
-\eqref{eq:least_part} does not have exactly one solution, which gives one global minumum, which can be 
-elegantly solved by means of linear algebra \eqref{eq:least_sq}. 
+Unlike linear least squares, which square of cost function is represented by function  (parabola, paraboloid...) with just one point where all
+partial derivatives are being zero, the non-linear cost function can have many such a points (local minimas, stationary points, maximas). 
 
-It is clearly visible from equation \label{eq:least_be_part}, which is partially derived. This equation 
-in case of two parameter linear \eucl{2} function represents a parabole. 
-A parabole has only one mininum which is global. Beside this minimum there are no other points 
-(local minimas, stationary points) on this function,
-
-Same applies \eucl{n} e g. In \eucl{3} 
-the function is represented by paraboloid which has also only one local minimum.
-where derivative is zero. Therefore it has only one exact solution. 
-
-In case of adjusting non-linear fucntions, the function \label{eq:least_be_part} is not parabole, however 
-it is functuo
-
-This problem of non-linearity can be solved by linearization process.
-The main idea of linearization is to aproximate the cost function with first degree taylor polynom,
-which is linear and therfore it is possible to use linear least square equation \eqref{eq:least_sq} 
+This problem of non-linearity can be solved by linearization of non-linear equations.
+The main idea of linearization is to approximate the cost function with first degree Taylor polynomial,
+which is linear and therefore it is possible to use linear least square equation \eqref{eq:least_sq} 
 to solve non-linear problem. 
 
-The accuracy of parameters also determines how many interations (speed of convergence) are needed to achive optimal solution (global minimum).
-
-
-Apprximation of cost function with first degre taylor polynom can be written as:
+Approximation of cost function with a first degree Taylor polynomial can be written as:
 \begin{equation}
 \efunc{T^{f_{i}, X_{0}}_{1}} = f_{i}(X_{0}) + \frac{\partial \efunc{f_{i}}}{\partial {X_{0}}} f_{i}'(X_{0}) (X -  X_{0}) 
 ... \frac{\partial \efunc{f_{i}}}{\partial {X_{0}}} f_{i}'(X_{n}) (X -  X_{0}) 
@@ -315,23 +353,20 @@ Apprximation of cost function with first degre taylor polynom can be written as:
 
 where:
 \begin{itemize}
-\item $X_{0}$ is point where the taylor polynom touches aproximated function. The first degree taylor polynom in \eucl{2} 
-      is line which is tangent of funtion at point $X_{0}$. 
-\item X is point for getting the function value
+\item $\evect{X}_{0}$ is point where the Taylor polynomial touches function, which it approximates. E. g. first degree Taylor polynomial 
+      is line, which is tangent of function at point $X_{0}$ in \eucl{2}, in \eucl{3} it is tangent plane and n-dimensional 
+      space it is tangent hyperplane.
+\item \evect{X} is point where a Taylor polynomial returns approximate value of function $\efunc{f}_{i}$
 \end{itemize}
 
 
-Tht taylor polynom can be rewritten as:
+Least squares Taylor polynomial can be written as:
 
 \begin{equation}
 \efunc{T^{f_{i}, X_{0}}_{1}} = f_{i}(X_{0}) - a_{0} x_{0} ... a_{n} x_{k} 
 \end{equation} 
 
-\begin{equation}
-\efunc{T^{f_{i}, X_{0}}_{1}} = f_{i}(X_{0}) - a_{0} x_{0} ... a_{n} x_{k}
-\end{equation} 
-
-Which can be written as:
+in matrix form:
 \begin{equation}
 \efunc{T^{f_{i}, X_{0}}_{1}} = \evect{v} = \evect{L_{X_{0}}} - \ematr{A}\evect{dx}
 \end{equation} 
@@ -350,163 +385,252 @@ and giving:
 \evect{v} = \evect{l} - \ematr{A}\evect{dx}
 \end{equation} 
 
+The accuracy of parameters also determines how many interations (speed of convergence) are needed to achieve optimal solution (global minimum).
 
 
 and therfore it is possible to use linear least sqaures \eqref{eq:least_sq} for adjustment 
 with non-linear cost functions.
 
-However the equation is slightly different, instead of vecotr \evect{X} there as used 
-\evect{dx} and vector  \evect{L} is analogous to vector \evect{l}. In this two minor 
-substitutions there is hidden major limitation of the non-linear least squares method, 
+However the equation is slightly different. Instead of parameters vector \evect{X} there is used 
+parameters vector of differences \evect{dx} and vector \evect{L} is analogous to vector \evect{l}. In this two minor 
+substitutions there are hidden major limitations of the non-linear least squares method, 
 where prize for approximation is paid. 
 
-As it was already mentioned the taylor polynom requires some point $\evect{X_{0}}$.
-Usually this approximation is good in close surroundings of point $\evect{X_{0}}$.
+As it was already mentioned the Taylor polynomial requires some point $\evect{X_{0}}$.
+This approximation is good in close surroundings of point $\evect{X_{0}}$.
 
-Unlike linear least square method in order to be approximation good it is needed to 
-have some initial values of the paramers. If the initial values are not accurate 
-enough, it is possible to iteratively run linear least squares to get values 
-of paramers, which are in global mininum of the cost function. 
+Therefore, unlike linear least square method, non-linear least squares requires initial 
+value of parameters \evect{X}. If the initial values are not accurate 
+enough, it is possible to iteratively run linear least squares subsequently adjusting parameters vector 
+to get values, which are in global minimum of the cost function. 
 
-Unfortunatelly the non-linear least square method has another one pitfall, which 
-does not guarentee that it will iterate toward solution,
-which satisfies minimum squares difference condition. It can iterate towards
-local minumum, stationary point or 
-
+Unfortunately the non-linear least square method has another one more serious pitfall, which 
+does not guarantee that it will iterate towards global minimum, where the right solution,
+which satisfies minimum squares difference condition,  is situated. If the initial values are 
+inaccurate the least squares can iterate toward other local minimas.  
 This is caused by run-off of non-linear function, which has more points with zero derivative,
-and therfore result depends where the non-linear least square iteration starts. 
+and therefore result depends where the non-linear least square iteration starts.
+
 
 \subsection{Free network least squares}
 \label{sec:free_net_least}
 
-\section{Short intruduction into photogrammetry}
+In geodesy usually during least squares adjustment there are some parameters are given as knowns, 
+therefore these parameters are not adjusted and network is fixed to this points. 
 
-Both photogrammetry and computer vision deals with set of images, which covers some scene 
-and using varius technics from these fields we are able to determine configuration of the scene. 
-Using this information, it is possible to gain various information about the scene. 
+There must be fixed minimum number of points, which defines coordinate system, otherwise 
+matrix \ematr{A} becomes singular. 
 
-Using photogrammetry approach, it is possible to create orthophoto map, which is transformation of images from 
-perspective projection of camera  into orthigraphich projection or it is possible to create digital terrain model.
+
+In order to be \ematr{A} invertible it is required to fix at least one point in adjustemnt of 1D leveling network.
+
+2D network must have fixed at least two points, because it is needed  
+to know two coordinates (shift), rotation angle and its scale for definition of 2D coordinate system. 
+
+3D network requires at least at least 
+two points and another point with one coordinate to define coordinate system and thus make matrix \ematr{A}
+invertible. The parameters are three coordinates of shift vector, three rotation angles and scale factor. 
 
 Computer vision field uses it for determination of robots position. Very popular is also structure from motion method,
 which is able to reconstruct 3D structure from set of images. In essence structure frm motion method is equivalent to the creation 
 of digital terrian model.
+One of possible methods how to solve this problem is computation of pseudo inverse matrix instead of matrix inversion or 
+extend the design matrix with additional constraints.
 
-The scene can be recoverd if exterior and interior orientation of photos is known.
+\section{Short introduction to photogrammetry}
+
+Both photogrammetry and computer vision process set of images, which covers some scene.
+The products of processing can be othophoto, DEM, structure from motion etc. 
+
+Essential information which must be obtained or known to obtain all the product is 
+interior orientation and exterior orientation of camera.
 Exterior and interior orientation together describes relation between object point and
-it's corresponding image point.
+it's corresponding image point.  
 
 \subsection{Interior orientation}
 
-Interior orienation describes relation between measure coordinates system, which defines loation of measured 2D points in the image 
-and correspondent 3D point in photo coordintate system.
+Interior orientation describes relation between measured 2D photo coordinates 
+and corresponding 3D in camera coordinate system.
 
-Photo coordinate system is right-handed cartesian system with origin in projective point, z axis heading to the image plane. In aerial photogrammetry
-x axis according to ISPRS is heading in direction of flight. 
+Camera coordinate system has origin in projective point, z axis heading out of the scene  and x, y axes being parallel to photo. 
 
-Photogrammetr equations are based on pinhole camera model, which describes projection of 3D point onto image plane. 
-However every camera deviate from this model, therefore it is necessary to apply corrections for images taken by the camera,
-which are distorted  as a consequence of the model deviation effect.
-After applyication of the corrections it is possible use pinhole camera model.
+Photogrammetry equations are based on pinhole camera model, which describes projection of 3D point onto image plane:
 
 Interior orientations parameters describing pinhole camera model are:
 \begin{itemize}
-  \item Focal length - it is distance of projective center from principal point
+  \item Focal length \escal{f} - it is distance of projective center from principal point
   \item Principal point coordinates - In ideal case location of principal point would exactly in the middle 
-	of the image.  
-	However in most cases there is some shift of principal point from ideal case.
+	of the photo.  
+	However in most cases there is some shift of principal point from the photo center.
 \end{itemize}
 
+Camera optical system is imperfect, therefore it deviate from the ideal pinhole model  
+ causing distortion of photo.
 
-Interior orientations parameters describing distortion are:
+The effect of distortion can be reduced by applying distortion corrections on measured image coordinates. Commonly 
+used model for distortion correction is Browns model \cite{brown1966distortion}.
+The model defines two types of distortion:
 \begin{itemize}
-  \item Radial distortion - it is caused by diferences in lateral magnification of lens. Radial distance is measured from principal point.
-  \item Tangential distortion - it is produced by inaccurate centration of lenses and it is peprendicular to radial distortion.
+  \item Radial distortion - it depends on distance from principal point. Cause of the distortion is spherical shape of the 
+  lens in camera optical system.
+  \item Tangential distortion - it is perpendicular to direction of radial distortion. It is caused by 
+       imperfect alignment of lenses in camera optical system.
 \end{itemize}
+
+Mathematically brown model is written:
+
+\begin{equation}
+\label{eq:undistort}
+\begin{split}
+\escal{x}^{u} =& (x^{ph} - x^{pp})(1 + K_{1}r^2 + K_2r^4 + ...) + \\
+&(P_1(r^2 + 2(x^{ph} - x^{pp})^2) + 2P_2(x^{ph} - x^{pp})(y^{m} - y^{pp}))(1 + P_3r^2 + P_4r^4 ...) \\
+\escal{y}^{u} =& (y^{ph} - y^{pp})(1 + K_1r^2 + K_2r^4 + ...) + \\
+&(P_2(r^2 + 2(y^{ph} - y^{pp})^2) + 2P_1(x^{ph} - x^{pp})(y^{m} - y^{pp}))(1 + P_3r^2 + P_4r^4 ...) \\
+r =& \sqrt{(x_{ph} - x^{pp})^2 + (y^{ph} - y^{pp})^2}
+\end{split}
+\end{equation}
+where:
+\begin{itemize}
+  \item $\escal{x}^{u}$ and $\escal{y}^{u}$  are undistorted coordinates likewise corrected of the principal point shift.
+  \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are measured photo coordinates.
+  \item $\escal{K}_{i}$ are radial distortion coefficients.
+  \item $\escal{P}_{i}$ are tangential distortion coefficients.
+\end{itemize}
+
+
+The relation of photo coordinate system and undistorted coordinates is defined as, which is based on the pinhole camera model:
+
+\begin{equation}
+\begin{split}
+&\escal{x}^{u} = \frac{\escal{X}^{cam}}{\escal{Z}^{cam}} \\
+&\escal{y}^{u} = \frac{\escal{Y}^{cam}}{\escal{Z}^{cam}}
+\end{split}
+\end{equation}
+which is clearly visible on this picture:
+
 
 
 \subsection{Exterior orientation}
 
-After transformation of 2D image points into photo coordinate system it is usually necessary to transform it into photo object coordinate space.
-
-
-Object space coordinate system must be cartesian. Ig we have points in non-cartesion system, it should be always transformed into cartesian 
+After transformation of 2D photo points into camera coordinate system it is usually necessary to transform it into object coordinate space.
+Object space coordinate system must be cartesian. If points are defined in non-cartesian system, it must be transformed into cartesian 
 system before using in bellow mentioned equations.
 
+Exterior orientation is defined by position of camera center in object space and orientation of camera coordinate system in the object space .
+Photogrammetry uses representation of orientation by euler angles and rotation matrix.
 
-Exterior orienation is defined by position of camera center in object space and orientation of photo coordinate syste.
-Photgrammetry uses representation of orientation by euler angles and rotation matrix.
-
-The euler angles are group of three angles, which describes susequent rotaitons
+The euler angles are group of three angles, which describes subsequent rotations
  around axes of 3D coordinate system. 
- Order of euler angles is important, because in case of breaching it, the result of rotation is different. 
- In this work there is used BLUH notation when at first rotation around y axis is 
- perform, than system is rotated around y axis and the last rotation is around z axis.
+ Order of euler angles is important, because in case of breaching it, resulting orientation is different. 
+ In this work there is used notation where at first rotation around y axis is 
+ perform, then system is rotated around x axis and the last rotation is perform around z axis.
  
  TODO rotation matrices equation:
  
+ 
+ \begin{equation}
+ \begin{split}
+\ematr{R} &= \ematr{R}_{z}(\escal{\kappa}) \ematr{R}_{x}(\escal{\omega}) \ematr{R}_{y}(\escal{\phi}) \\
+	  &= \begin{pmatrix}
+	      cos(\escal{\kappa}) & sin(\escal{\kappa}) & 0 \\
+	      -sin(\escal{\kappa}) & cos(\escal{\kappa}) & 0 \\
+	      0 & 0 & 1
+	      \end{pmatrix}
+	      \begin{pmatrix}
+	      1 & 0 & 0 \\
+	      0 & cos(\escal{\omega}) & sin(\escal{\omega}) \\
+	      0 & -sin(\escal{\omega}) & cos(\escal{\omega} 
+	      \end{pmatrix}
+	      \begin{pmatrix}
+	      cos(\escal{\phi}) & 0 & -sin(\escal{\phi}) \\
+	      0 & 1 & 0 \\
+	      sin(\phi) & 0 & cos(\phi)      
+	      \end{pmatrix} \\
+	  &=  
+	      \small
+	      \begin{pmatrix}
+	      cos(\escal{\kappa}) cos(\escal{\phi}) + sin(\escal{\kappa}) sin(\escal{\omega}) sin(\escal{\phi}) & 
+	      sin(\escal{\kappa}) cos(\escal{\omega})  & 
+	      -cos(\escal{\kappa}) sin(\escal{\phi}) + sin(\escal{\kappa}) sin(\escal{\omega}) cos(\escal{\phi}) 
+	      \\
+	      -sin(\escal{\kappa}) cos(\escal{\phi}) + sin(\escal{\kappa}) sin(\escal{\omega}) sin(\escal{\phi}) & 
+	      cos(\escal{\kappa}) cos(\escal{\omega})  & 
+	      sin(\escal{\kappa}) sin(\escal{\phi}) + cos(\escal{\kappa}) sin(\escal{\omega}) cos(\escal{\phi}) 
+	      \\	      
+	      cos(\escal{\omega}) sin(\escal{\phi}) & 
+	      -sin(\escal{\omega})  & 
+	      cos(\escal{\omega}) cos(\escal{\phi}) 
+	      \\		      
+	      \end{pmatrix} 
+\end{split}
+\end{equation}
+
 \subsection{Basic formula of photogrammetry}
 
 Combining of exterior orientation and interior orientaiton it is possbile to define 
 direct relation between corresponding 3D point in object space and 2D point
-in image space.
+in photo:
 
 \begin{equation}
 \label{eq:col_eqs}
 \begin{split}
-&\escal{x}^{im} = -\escal{f}\frac{\ematr{R}_{11}(\evect{X}^{obj} - \evect{X}^{obj}_{pp}) + 
-                                  \ematr{R}_{12}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pp}) + 
-                                  \ematr{R}_{13}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pp})                                  
+&\escal{x}^{u} = -\escal{f}\frac{\ematr{R}_{11}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
+                                  \ematr{R}_{12}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pc}) + 
+                                  \ematr{R}_{13}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pc})                                  
                                   }{
-				  \ematr{R}_{31}(\evect{X}^{obj} - \evect{X}^{obj}_{pp}) + 
-                                  \ematr{R}_{32}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pp}) + 
-                                  \ematr{R}_{33}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pp})     
+				  \ematr{R}_{31}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
+                                  \ematr{R}_{32}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pc}) + 
+                                  \ematr{R}_{33}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pc})     
                                   } \\
-&\escal{y}^{im} = -\escal{f}\frac{\ematr{R}_{21}(\evect{X}^{obj} - \evect{X}^{obj}_{pp}) + 
-                                  \ematr{R}_{22}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pp}) + 
-                                  \ematr{R}_{23}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pp})                                  
+&\escal{y}^{u} = -\escal{f}\frac{\ematr{R}_{21}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
+                                  \ematr{R}_{22}(\evect{Y}^{obj} - ) + 
+                                  \ematr{R}_{23}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pc})                                  
                                   }{
-				  \ematr{R}_{31}(\evect{X}^{obj} - \evect{X}^{obj}_{pp}) + 
-                                  \ematr{R}_{32}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pp}) + 
-                                  \ematr{R}_{33}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pp})     
+				  \ematr{R}_{31}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
+                                  \ematr{R}_{32}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pc}) + 
+                                  \ematr{R}_{33}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pc})     
                                   }
 \end{split}
 \end{equation}
 
-This two equatins are called collinerarity equations and they describe direct relation between image point and corresponding photo point.
-
-\section{Leverage arm offset}
-
+These two equations are called collinearity equations, where:
+\begin{itemize}
+  \item $\escal{x}^{u}$ and $\escal{y}^{u}$ are undistorted coordinates \eqref{eq:undistort}
+  \item $\evect{X}^{obj}$, $\evect{Y}^{obj}$, $\evect{Z}^{obj}$ are the point coordinates in object space
+  \item $\ematr{R}$ is rotation matrix describing camera system orientation
+  \item $\evect{X}^{obj}_{pc}$, $\evect{Y}^{obj}_{pc}$, $\evect{Z}^{obj}_{pc}$ are coordinates of prjection center
+  \item \escal{f} is focal length
+\end{itemize}
 
 \section{Short introduction into computer vision}
-\subsection{Homogenous coordinates}
 
+\subsection{Homogeneous coordinates}
 
-In computer vision there are mostly used homogenous coordinates, which allows to express some relations
+In computer vision there are mostly used homogeneous coordinates, which allows to express some relations
 mathematically in more elegant way than using cartesian coordinates. 
 
-3D point in homogenous coordinates is defined as:
+3D point in homogeneous coordinates is defined as:
 
 \begin{equation}
 \ehvect{x} = (\escal{x}, \escal{y}, \escal{z}, \escal{w})
 \end{equation}
 
-\escal{w} componnet is called scale.
+\escal{w} component is called scale.
 
-The tansformation of homogenous point into cartesian coordinates is done with division 
+The transformation of homogeneous point into cartesian coordinates is done with division 
 coordinates by scale:
 \begin{equation}
 \evect{x} = (\escal{x} / \escal{w}, \escal{y} / \escal{w}, \escal{z} / \escal{w})
 \end{equation}
 
-Using homogenous coordiantes it is possible to write all cartesian points plus points in infinity.
-Infinite point in homogenous coordinates is written as: 
+Using homogeneous coordiantes it is possible to write all cartesian points plus points in infinity.
+Infinite point in homogeneous coordinates is written as: 
 
 \begin{equation}
 \ehvect{x} = (\escal{x}, \escal{y}, \escal{z}, \escal{0})
 \end{equation}
 
-Which is inpossible to express using cartesion coordiantes with finite numbers:
+Which is impossible to express using cartesion coordiantes with finite numbers:
 
 \begin{equation}
 \evect{x} = (\escal{x} / \escal{0}, \escal{y} / \escal{0}, \escal{z} / \escal{0})
@@ -514,9 +638,8 @@ Which is inpossible to express using cartesion coordiantes with finite numbers:
 
 TODO graphic interpretation of hom coords 
 
-Thanks to homogenous coordinates for lines in \eucl{3} and point in \eucl{2} it is possible to use simple vector linear algebra operations 
-do get useful information.
-
+Thanks to homogeneous coordinates for planes in \eucl{3} and lines in \eucl{2} it is possible to use simple vector linear algebra operations 
+to get useful information.
 
 Plane in \eucl{3} can be written as:
 
@@ -524,25 +647,25 @@ Plane in \eucl{3} can be written as:
 \escal{a}\escal{x} + \escal{b}\escal{y} + \escal{c}\escal{z} + \escal{d} = 0
 \end{equation}
 
-Using homogenous coordinates it is possible to express it is as vector:
+Using homogeneous coordinates it is possible to express it is as vector:
 
 \begin{equation}
 \ehvect{\pi} =  (\escal{a}, \escal{b}, \escal{c}, \escal{d})
 \end{equation}
 
 
-Line in \eucl{2} can be defined by equation:
+Line in \eucl{2} is defined by equation:
 \begin{equation}
 \escal{a}\escal{x} + \escal{b}\escal{y} + \escal{c} = 0
 \end{equation}
 
-Using homogenous coordinates it is possible to express it is as vector:
+Using homogeneous coordinates it is possible to express it is as vector:
 
 \begin{equation}
 \ehvect{l} =  (\escal{a}, \escal{b}, \escal{c})
 \end{equation}
 
-Using homogenous coordinates it is easy to find out whether point lies on line in \eucl{2}:
+It is easy to find out whether point lies on line in \eucl{2}:
 
 \begin{equation}
 \ehvect{x}^{T} \ehvect{l} = 0
@@ -558,7 +681,7 @@ In homogenous it can be expressed with given points $\ehvect{p}$ and $\ehvect{q}
  \ehvect{l} = \escal{\mu}\ehvect{q} + \escal{\lambda}\ehvect{p}
 \end{equation}
 
-If the point is given as direciton of the line $\ehvect{d} = (x, y, z, 0)$ (it is infinite point), the equation get simplified:
+If the point is given as direction of the line $\ehvect{d} = (x, y, z, 0)$ (it is infinite point), the equation get simplified:
 \begin{equation}
 \ehvect{l} = \ehvect{d} + \escal{\lambda}\ehvect{p} \label{eq:hline}
 \end{equation}
@@ -577,12 +700,12 @@ Computation of intersection of lines ($\ehvect{l}, \ehvect{l}'$) can be done als
 \end{equation}
 
 
-Note that with homogenous coordiantes it is possible to express itersection of paraler lines, which lies in infinity, 
-therfore it's scale is equal to 0.
+Note that with homogeneous coordinates it is possible to express intersection of parallel lines, which lies in infinity, 
+therefore it's scale is equal to 0.
 
 TODO dualism
 
-Simillarly line can be derived as cross product of two points:
+Similarly line can be derived as cross product of two points:
 
 \begin{equation}
 \ehvect{l} = \ehvect{x} \times \ehvect{x}'
@@ -591,7 +714,7 @@ Simillarly line can be derived as cross product of two points:
 
 \subsection{Basic formula of computer vision}
 
-Equivalent to collinearity equations computer vision uses this equation to describe relationship between
+Computer vision uses this equation to describe relationship between
 object space and image space:
 
 \begin{equation}
@@ -617,18 +740,13 @@ object space and image space:
 \end{pmatrix}
 \end{equation}
 
-Which can be abbreviated as:
+In essence this equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry.
+
+The equation can be abbreviated as:
 
 \begin{equation}
 \escal{w} \ehvect{x} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
 \label{eq:p_exp}
-\end{equation}
-
-Whole projection can be merged into single matrix \ematr{P}, which is called camera marix:
-
-\begin{equation}
-\escal{w} \ehvect{x} = \ematr{P} \ehvect{X}
-\label{eq:p_abbr}
 \end{equation}
 
 TODO picture of system
@@ -636,25 +754,28 @@ TODO picture of system
 where:
 
 \begin{itemize}
-\item \ematr{K} is calibration matrix which contains interior orientaion parameters.  
-
-\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation and translation wich transforms point from object cordinate system 
-	      into camera cordinate system, which is left handed, with z axis perpedicular to image plane, with
-	      origin in principal point heading into the scene direction. Difference between camera coordiante 
-	      system in computer vision and photo coordiante system in computer vision is in deriction 
-	      if z axis and therfore in handness of system. Camera cooridnate system in computer vision 
-	      is left handed and photo coordiante system is right handed. TODO 
+\item \ematr{K} is calibration matrix which contains interior orientation parameters.  
+\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation and translation, which transforms point from object coordinate system 
+	      into camera coordinate system. It is left handed cartesian system, with z axis perpendicular to image plane heading into the scene direction
+	      origin in projection center. Difference between camera coordinate 
+	      system in computer vision and camera coordinate system in computer vision is the direction 
+	      of z axis and thus different handness of system. TODO 
 	      Vector $\evect{t}$ can  be transformed in object space coordiantes system:
 	      \begin{equation}
 	      \ehvect{C} = R_{T}\evect{t}
 	      \end{equation}
 	      giving coordinates of camera projective center. The parameters \ematr{R} and $\ehvect{C}$
-	      are exterior orietation of camera
+	      represents exterior orientation of camera
 	      
-\item $\ehvect{X}$ euclidean object space coordinates extended into homogenous form
+\item $\ehvect{X}$ euclidean object space coordinates extended into homogeneous form
+\item $\ehvect{x}$ photo space homogeneous coordinates extended into homogeneous form
 
-\item $\ehvect{x}$ image space homogenous coordinates
-\end{itemize}
+Whole projection can be merged into single matrix \ematr{P}, which is called camera matrix:
+
+\begin{equation}
+\escal{w} \ehvect{x} = \ematr{P} \ehvect{X}
+\label{eq:p_abbr}
+\end{equation}
 
 Camera matrix \ematr{P} defines reprojection up to scale $\escal{\lambda}$, therefore every camera matrix multiplied by scale gives same image points:
 
@@ -667,36 +788,35 @@ same image point coordinates.
 
 \subsection{Two view geometry}
 
-In this chapter there will be introduced theory which describes mutual relation of two images. 
+In this chapter there will be introduced theory, which describes mutual relation of two images. 
 The core of the theory lies in epipolar geometry.
 
 TODO picture of epipolar geometry
-If same object point is identified on two images there exists epipolar plane.
+If same object point is identified on two images then there exists epipolar plane.
 The epipolar plane contais:
 
 \begin{itemize}
-\item two rays which connects object point, with image points and camera centers in both images
+\item two rays which connects object point, with image points and camera centers of both images
 \item baseline, which connects projection centers of images
 \item epipoles, which are defined as intersection of image planes with baseline
 \item epipolar lines, which goes through epipoles and image points. It belongs into image plane, 
-      becouse both points are inside this plane.  
+      because both these points are inside this plane.  
 \end{itemize}
 
 
-The other relation of which comes form epipolar geomatry are:
+The other relations which comes form epipolar geomatry are:
 
 \begin{itemize}
 \item All epipolar lines in image intersects in epipole. If two images are only translated along the baseline 
      the epipole is in infinity.
-\item Every image point forms epipolar line in the other image. It allows to reduce space of possible occurence of the point 
-      from \eucl{2}, \eucl{1} of epipolar line, without any other information about the point. 
+\item Every image point forms epipolar line in the other image. It allows to reduce space of possible occurrence of the point 
+      from \eucl{2}, \eucl{1} of epipolar line, without any other information about the point e. g. object space coordinates. 
 
 \end{itemize}
 
-Algebraic derivation will be done starting with description of ray in camera coordinate system.
+Algebraic derivation will be done beginning with description of ray in camera coordinate system.
 The ray can be defined by two points.
-
-On of them can be projection center )$\ehvect{C}$, and 
+One of them can be projection center $\ehvect{C}$, and 
 image point $\ehvect{x}$ transform into camera coordinate system using psedo inverse matrix $\ematr{P}^{+}$, 
 where $\ematr{P}\ematr{P}^{+} = \ematr{I}$. After the transformation of x, direciton vector of ray is get.
 Using equation \eqref{eq:hline}, it is possible to express ray as:
@@ -705,7 +825,7 @@ Using equation \eqref{eq:hline}, it is possible to express ray as:
 \ematr{X}(\escal{\lambda}) = \ematr{P}^{+}\ehvect{x} + \escal{\lambda}\ehvect{C}
 \end{equation}
 
-In second camera with camera matrix \ematr{P'} image point coordiantes are:
+In second camera with camera matrix \ematr{P'} image point coordinates are:
 
 \begin{equation}
 \ehvect{x'} =  \ematr{P'}\ematr{P}\ehvect{x}
@@ -735,19 +855,19 @@ Cross product of two vectors \evect{a} and \evect{b} can be also written as mult
 \evect{b} = [a]_{\times} b
 \end{equation}
 
-Using this formulation of cross producut it is possible to write:
+Using this formulation of cross product it is possible to write:
 \begin{equation}
 \ehvect{l'_{e}}  = [e']_{\times} \ematr{P'}\ematr{P}\ehvect{x}
 \end{equation}
 
-From this exuation it is evident, that matrix, which transforms image point in the first image into 
-epipolar line of the second image and therfore descibes relation of two images is defined as:
+It is evident from this equation, that matrix, which transforms photo points in the first photo into 
+epipolar lines of the other photo and thus denoting relation of two images is defined as:
 
 \begin{equation}
 \ematr{F}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}
 \end{equation}
 
-Matrix \ematr{F} is called fundametral matrix. 
+Matrix \ematr{F} is called fundamental matrix. 
 
 Decomposing fundamental matrix using camera matrix expansion from \eqref{eq:p_abbr} and \eqref{eq:p_abbr}
 it is possible to derive another important matrix used computer vision, which is called essential matrix \ematr{E}.
@@ -757,9 +877,8 @@ Lets suppose that firs camera matrices are defined in this way:
 \label{eq:rel_or_cam1}
 \ematr{P}  = \ematr{K} \ematr{[}I|0\ematr{]}
 \end{equation}
-It means that first camera matrix lies in the origin of object space and its orientation is same
+It means that first camera coordinate system lies in the origin of object space and its orientation is same
 as axis of the object system.
-
 
 It's pseudo inverse matrix is:
 \begin{equation}
@@ -770,7 +889,7 @@ It's pseudo inverse matrix is:
 \end{pmatrix}
 \end{equation}
 
-And projection center coordinates are:
+And homogeneous projection center coordinates are:
 \begin{equation}
 \ehvect{C} =
 \begin{pmatrix}
@@ -786,7 +905,12 @@ The second camera matrix is defined in this way:
 \ematr{P}'  = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]}
 \end{equation}
 
+This relationship of two cameras is also called relative orientation, because rotation matrix \ematr{R} and vector \evect{t}
+denotes position and orientation of the second camera to the first one. In order to express cameras exterior orientations in world coordinate 
+system or merge it with another relative orientains it is needed to perform further transformations of the relative 
+exterior orientations, see \label{sec:ess_chain} and \label{sec:helmert}.
 
+Therefore the fundamental matrix equation can be simplified into:
 \begin{equation}
 \begin{split}
 \ematr{F}  &= [\ematr{P}'\ehvect{C}]_{\times} \ematr{P}'\ematr{P} 
@@ -805,13 +929,13 @@ _{\times}
 \end{split}
 \end{equation}
 
-Now comes more difficult part:
-Using this formula TODO cite:
+Now comes little bit more difficult part:
+Using this formula which applies for any non-singular matrix \ematr{K} and vector \evect{t}:
 \begin{equation}
-[\evect{t}]_{\times} \ematr{M} = \ematr{M}^{-T}[\ematr{M}^{-1}\evect{t}]_{\times}
+[\evect{t}]_{\times} \ematr{K} = \ematr{K}^{-T}[\ematr{K}^{-1}\evect{t}]_{\times}
 \end{equation}
 
-It is possible simply eqation:
+the equation gets simplified:
 \begin{equation}
 \begin{split}
 \ematr{F}  &= [\ematr{K}' \evect{t}]_{\times} \ematr{K}' \ematr{R} \ematr{K}^{-1} \\
@@ -820,8 +944,9 @@ It is possible simply eqation:
 \end{split}
 \end{equation}
 
-This exuation reveals very important fact about fundtamental matrix thet it can be split into three  main steps.
-First image point from first image is tranformed into first camera coordinate system. Result of the transformation is 
+This equation reveals very important fact about fundamental matrix which says that the transformation performed 
+by fundamental matrix can be devided into three main steps.
+At first photo point of first image is transformed into the first photo camera coordinate system. Result of the transformation is 
 point in the infinity, which describes ray represented by image point. 
 After that the ray is projected into second camera coordinate system. This is done by so called essential matrix:
 \begin{equation}
@@ -829,44 +954,109 @@ After that the ray is projected into second camera coordinate system. This is do
 \end{equation}
 
 
-As a last step, the ray is projected into the second image as epipolar line.
+As the last step, the ray is projected into the second image as epipolar line.
 
 
-It implies that with known exterior orientation it is possible to define essential matrix and if also interior orientation of 
-cameras of both images are known it is possible to determine fundamental matrix. 
+It implies that with known exterior orientation it is possible to define essential matrix. 
+Additionally if interior orientation of cameras of both photos are known it is possible to determine fundamental matrix. 
+The fundamental and essential matrices are core of two view geometry in computer vision.
 
-
-The fundametal and essential matrices are core of two view geometry in computer vision.
-
-\subsubsection{Triangultion of points}
+\subsubsection{Triangulation of points}
 \label{sec:triang}
 
 \subsubsection{Retrieving of exterior orientation from essential matrix}
 \label{sec:ess_eo}
-Exterior orientation can be retrivred from essential matrix. However there exists ambiguity of signs which gives 
+Exterior orientation
+can be retrivred from essential matrix. However there exists ambiguity of signs which gives 
 four possible solutions differing with sings.
 
 The four possible exterior orientation are:
 
+\begin{equation}
 [\ematr{R}|\evect{t}],
-
 [\ematr{R}|\evect{-t}],
-
 [\ematr{-R}|\evect{t}],
-
 [\ematr{-R}|\evect{-t}],
+\end{equation}
 
-The rotation [\ematr{R}] and vector \evect{-t} can be retrived from SVD decomposition of essential matrix.
+the rotation [\ematr{R}] and vector \evect{-t} can be retrived from SVD decomposition of essential matrix 
+where:
 
-\subsubsection{Chain of essential matrices}
+\begin{equation}
++- \ematr{R} = \ematr{U}  \ematr{W} \ematr{V}^{T}
++- \evect{t} = \evect{U}_{3,:}
+W = 
+\end{equation}
+
+
+Right exterior orientation from four ambiguity can be choosen according a constraint, which says that object points has to be in front
+of both photo planes.
+
+
+\subsubsection{Merging of relative orientations}
 \label{sec:ess_chain}
 
+If two relative orinetations are merged together, as first step it is necessary to compute scale of the two relative orientaions.
+The scale can be from comerspondinng distances in both coordinate system. Scale can be determined from distances of 
+object points to object coordinates of projective center of camera, which is present in both relative orientaions, which are being merge.
+
+The scale can be computed by this equation:
+\begin{equation}
+\escal{s}_{ro2-1} = \frac{\mathbf{\evect{X}^{ro1}_{1} - \evect{C^{ro1}_{1}}}}
+	                {\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}}
+\end{equation}
+
+where ro1 denotes destination orientaion of transformaiton and ro2 is the transfromat relative orientaion. 
+
+which get simplified when the relative orienation coordinate system  corresponds to the shared camere system: 
+\begin{equation}
+\escal{s}^{ro2-1} = \frac{\mathbf(\evect{X}_{ro1})}
+	                 {\mathbf(\evect{X}_{ro2})}
+\end{equation}
+
+After the scale was determined it is possible to transform exterior orienation in relative system of photo pair into the common relative system.
+In order to be thransformation easy to express, the common relative system is defined by arbitrary relative orientaion pair and other 
+relative orientaions are subsequantly transformed into this system. 
+
+Set of photos, which can be transformed into common coordinate system, is composed of the relative orientaions
+which comprise connected component of undirected graph where nodes denotes photos and edges represents relative orientaions. 
+In other words it is possible to transform relative orientaiton into the common relative coordinate system only if there 
+exist continonousw chain of relative orienations where two neighbourhood relative orietnaitons shares one photo.
+
+TODO PICTURE
+
+The transformaiton of relative orientations from 1 to n, with common system defined by 1 can be written as: 
+\begin{equation}
+\begin{split}
+&\ematr{P}_{1} = [\ematr{I}|\evect{O}] \\
+&\ematr{P}_{2} = [\ematr{R}^{ro1}|\evect{t}_{ro1}] \\
+&\ematr{P}_{3} = [\ematr{R}^{ro1} \ematr{R}^{ro2}| \ematr{R}^{ro1} \evect{t}^{ro2} \escal{s}^{ro2-1}] \\
+&\ematr{P}_{n} = [\ematr{R}^{ron} \ematr{R}^{ro(n - 1)}| R^{ro(n - 1)} \evect{t^{ron}} {s}^{ron- (n-1)}] \\
+\end{split}
+\end{equation}
+
+
+This eqaution works for chain of relative orientaion, where the shared camera in first relative orientation has 
+projection matrix defiend by $[\ematr{R}|\evect{t}]$ vector and the merging second relative orientaion is 
+defined $[\ematr{I}|\ematr{O}]$. If the camera is defined be the switched coordinate systems, it is needed to 
+transform system by multiplication of rotatin by $\ematr{R}^[T]$ and shift by $-\ematr{R}^[T]$.
 
 \subsubsection{Helmert transformation}
 \label{sec:helmert}
 
-\section{Bundle block adjusmnet}
+Helmert transgformation equation can be written as:
+\begin{equation}
+\ematr{X}_{t} = \evect{t} + \escal{s}\ematr{R}\evect{X}] \\
+\end{equation}
+where \ematr{R} is rotation matrix, \escal{s} is scale scalar and  \evect{t} is translation vector.
+The transformation is defined by seven parametrs (three translation coordinates, three rotation angles angles and scale).
+In order to get these parameters which defines relation of two coordinate system it is needed to have at least two corresponding points and  another one with 
+at least one known cordinate in both systems. 
 
+
+
+\section{Bundle block adjusmnet}
+coordinate
 Bundle block adjustment is method, which uses the non-linear least square technique (\ref{sec:least}) to refine parameters 
 of scene parameters. 
 
@@ -1192,12 +1382,12 @@ having 6 roots.
 This method is seen by computer vision community is most accurate \cite[p. 315]{Hartley2004}.  
 
 
-\subsection{Common coordinate system}
+\subsection{Common relative coordinate system}
 
 Currently all approximate values which are needed in \eqref{eq:col_eqs} are available for BBA. 
-The problem is tha it is not possible to adjust scene in one bundle, because tie point 
-object coordinates and essential matrices all related to the two photos, which they were 
-retrieved from. The two views defines it's own object coordinate system which is identical
+The problem is that it is not possible to adjust scene in one bundle, because tie points
+object coordinates and exterior orientaions are all related to the two photos, which they were 
+retrieved from. The two views defines it's own relative object coordinate system which is identical
 to the first camera coordinate system \eqref{eq:rel_or_cam1} and
 exterior orientaion in the system of the second camera \eqref{eq:rel_or_cam2}.
 
@@ -1380,18 +1570,135 @@ Due to time limitation this thesis deals only with lowest level modules, however
 the ultimate goal in mind to desing solution from basis properly in order to save a time in future spend 
 on refactoring.
 
-\subsection{Calibration module}
+In order to meet the implementaiton requirements these main steps can be implemented in form 
+of these GRASS low level modules:
 
-\subsection{Relative orientaion module}
+\begin{itemize}
+\item Camera calibration modules - Retrieves interior orienation, which is supposed to be known by 
+next steps of the workflow, therfore this step can be represented be the calibraiton module.
+\item Point match modules - Identification of tie points in the acquired images, which is out of the 
+scope of the thesis.
+\item Intial values modules - This module computes intial value of extrior oritnetation and 
+object coordinates of tie points, which are used in BBA. It uses information from the both
+previousle mentioned module.
+\item BBA modules - The module perform BBA based of date obtained be the other modules.
+\end{itemize}
 
-\subsection{Bundle block adjustment module}
+
+\subsection{Camera calibration module}
+
+The calibration module i.ortho.cam.calibrate is simple module written in Python, which calls
+function from OpenCV calib3d module. The module is based on calibration from 2D patern, which can 
+be easily printed. Most important imput parameter defines directory with images of 2D pattern, 
+taken by the camare. In order to obtain good results of camera calibraion, at least 10 images 
+from different positions all around the pattern should be taken \cite{camera_calibration2013opencv}.
+
+Currently OpenCV supports these three patterns:
+\begin{itemize}
+\item Chessboard pattern 
+\item Asymetric pattern of circles
+\item Symetric pattern of circles
+\end{itemize}
+
+Generally the circle patterns achieves higher accuracy \cite{camera_calibration2013opencv}.
+
+The identificaiton of pattern points (centers of circles or corners of chessboard squares) 
+are done by OpenCV functions, which are able to identify the points on photo of the pattern 
+without any other additional information except numpber of circles or squares per row and column
+of the pattern. Then the points coordinates in the photo are refined to subpixel accuracy.
+
+Photo coordinates identified in the pattern photos together with object coordinates which can be chosen
+arbitrary according to pattern type and number of rows and columns of pattern marks. 
+No other information is needed to retrieve interior orinentation of camere. The method is described 
+in \cite{zhang2000flexible}.
+
+The computed interior orinetaion is saved into GRASS GIS camera file, which is used by other GRASS GIS 
+orthorectificaiton modules. The module modifies the camera file via i.ortho.camre module.
+The GRASS GIS camera data model was extended to support radial and tangetial distortion coeffitients, which 
+have serious effect especially in cheap cameras, where optic system is not so precise.
+
+\subsection{Bundle block adjustment data model}
+ 
+Both the intial values and BBA modules basically handles  same data, thus 
+the data model can be designed in similar way. There can be 
+identified three essential classes, which are shared by both modules :
+\begin{itemize}
+\item Camera - the camera class has to store information about interior orienation 
+parameters including distortion. Camera class should contain referecnes of the photos
+clasess, which were acquired with the camera.
+\item Photo - members of photo class are references to the points, which were identified 
+	    in the photo and camera with the photo was taken,
+\item Point - the poitn object denotes representation of same object point in different images (tie points).
+ If the point is GCP it includes also information about it's object coordinates. 
+\end{itemize}
+
+
+This classes offer enough flexibility for both modules adaptation, which can be done be done by subclassing. 
+Likewise it sufficiently expresses  structure of the data and relations of the data structure elements.
+
+\subsection{Initial values module - i.ortho.initial}
+
+The i.ortho.initial module retrieves intial values of exterior orientation of the cameras and inital tie points object coordinates. If at least 3 gcps are 
+present in an input, relative coordinate system is transformed into world coordinate system of the gcp by applying Helmert transformaiton. 
+
+
+The module needs for input these 
+\begin{itemize}
+\item Interior orientations of cameras e. g. computed by i.cam.calibrate
+\item Tie points photo coordinates 
+\end{itemize}
+
+The module first builds interally graph like structure, where nodes represents images and edges holds information 
+about number of corresponding tie points, which are identified on two photos which edge links together.
+Than the relative orientaion of photo pairs is performed. The photos are oriented by going through the graph. 
+The the pair of photos which are taken for the relative orienation are the photos with the highest number of the corresponding tie points. 
+The next candidate is chosen from the subset of neighbourhood photos, which have not been already relativly oriented. The chosen pair 
+must also satisfy the highest number of corresponding tie points in the pair. Tha pair is comprised of one photo is already 
+part in at least one relative orietnation and the second photo is newly oriented. The relative orientaion of the photo 
+pair is performed by  the five point algorithm, which has been recently added into OpenCV as function findEssentialMat \cite{calib_manual2013opencv},
+which returns the essential matrix. Exterior orientaion is retrieved \ref{ess_eo} from the essential matrix by Rodrigues \cite{calib_manual2013opencv} 
+function. Because the exterior orientaiton is defined by relative coordinate system of the two cameras, it is needed to be transformed into 
+the common relatrive coordinate system. The coomon system is defined by the relative orientaiton coordinate system of the first pair.
+Every other relative system orientaito is connected to the common system by the chaining of essential matrices see \label{sec:ess_chain}.
+The last optional step of the module is transformaiton of the relative coordinate system into the word coordinate system. The helmert 
+transformation is performed by code from \cite{v.rectify}, V.rectify module is uses e. g. for transformaiton of Lidar point clouds 
+into world coordinate system. Besides other transformation it supports also helmert transformaiton. The code, which computes Helmert 
+transformation \ref{sec:helmert}, was moved from the v.rectify module into the GRASS GIS imagery library in order to be accesible also  by i.ortho.initial
+module. The known helmert transformaiton cooffintients are applied on the exterior orientaitons of cameras and objecet coordinates of the tie points.
+
+The output of the module are exterior orientations and object coordinates in comon relative or world coordinate system. Together with interior
+orientation parameters and image coordinates all needed information is obtained  for the i.ortho.bba module which performs final bundle block adjusmtent 
+iteration.  
+
+\subsection{Bundle block adjustment module - i.bba}
+
+The bundle block adjustment module perfroms non-linear least squares iteraion for collineariry equations. 
+The input into module represents all parameters of collinearity equaitons:
+\begin{itemize}
+\item Tie points photo coordinates e. g. identified manually or be automatic points matching algoritmhs
+\item Interior orientations of cameras e. g. computed by i.cam.calibrate
+\item Exterior orientations of cameras e. g. approximate values can computed by i.ortho.initial
+\item Tie points object photo coordinates e. g. identified manually or be automatic points matching algoritmhs
+\end{itemize}
+
+The module performs linear non-least square iteraiton until correciton of the parameters from the adjusmtent are smaller than
+defined treshold. The module supports is able to perform non-lineart least squares as free network or using selcted points 
+as knowns (at least three) and thus solve in classical way.
+TODO parameters adjustment definition
+
+
+The output of the module is the adjusmtent protocol which is attached in the Appendix \cite{sec:adj_protocol}. In the protocol, there
+is described every iteraiton of the bba including correction for all adjusted paramaters and standard deviaitons computed from 
+covarinace matrix of the adjustment. 
+
+
 
 
 \chapter{Discussion of reults}
 
 \chapter{Future development}
 
-\chapter{Conclusion}
+\chapter{Conclusion}findEssentialMat
 
 \section{References}
 \nobibliography{BP}
@@ -1423,5 +1730,20 @@ TODO
 \bibentry{i.ortho.photo}
 
 \bibentry{neteler2008open}
+
+\bibentry{camera_calibration2013opencv}
+
+\bibentry{zhang2000flexible}
+
+\bibentry{calib_manual2013opencv}
+
+\bibentry{v.rectify}
+
+\bibentry{brown1966distortion}
+
+\section{Appendix}
+\subsection{Adjustment protocol}
+\label{sec:adj_protocol}
+
 
 \end{document}}
