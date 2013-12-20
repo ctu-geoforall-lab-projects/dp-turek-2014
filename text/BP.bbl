@@ -1,0 +1,80 @@
+\begin{thebibliography}{10}
+
+\bibitem{alahi2012freak}
+Alexandre Alahi, Raphael Ortiz, and Pierre Vandergheynst.
+\newblock Freak: Fast retina keypoint.
+\newblock In {\em Computer Vision and Pattern Recognition (CVPR), 2012 IEEE
+  Conference on}, pages 510--517. IEEE, 2012.
+
+\bibitem{barazzetti2010extraction}
+L~Barazzetti, F~Remondino, and M~Scaioni.
+\newblock Extraction of accurate tie points for automated pose estimation of
+  close-range blocks.
+\newblock In {\em ISPRS Technical Commission III Symposium on Photogrammetric
+  Computer Vision and Image Analysis}, 2010.
+
+\bibitem{bruckner2008experimental}
+Marcel Br{\"u}ckner, Ferid Bajramovic, and Joachim Denzler.
+\newblock Experimental evaluation of relative pose estimation algorithms.
+\newblock In {\em VISAPP (2)}, pages 431--438, 2008.
+
+\bibitem{Hartley2004}
+R.~I. Hartley and A.~Zisserman.
+\newblock {\em Multiple View Geometry in Computer Vision}.
+\newblock Cambridge University Press, ISBN: 0521540518, second edition, 2004.
+
+\bibitem{leutenegger2011brisk}
+Stefan Leutenegger, Margarita Chli, and Roland~Y Siegwart.
+\newblock Brisk: Binary robust invariant scalable keypoints.
+\newblock In {\em Computer Vision (ICCV), 2011 IEEE International Conference
+  on}, pages 2548--2555. IEEE, 2011.
+
+\bibitem{i.ortho.photo}
+{Mike Baba, GRASS Development Team}.
+\newblock i.ortho.photo module, 2013.
+
+\bibitem{pietzsch2001robot}
+Tobias Pietzsch.
+\newblock Robot, position estimation of a mobile and camera, using a single
+  vehicle-mounted.
+\newblock Technical report, Dept. of Computer Science, TU Dresden, Germany,
+  2002.
+
+\bibitem{pietzsch2004application}
+Tobias Pietzsch.
+\newblock Application of a monocular camera as a motion sensor for mobile
+  robots.
+\newblock Master's thesis, Dept. of Computer Science, TU Dresden, Germany,
+  2004.
+
+\bibitem{rocchini2012robust}
+Duccio Rocchini, Markus Metz, Alessandro Frigeri, Luca Delucchi, Matteo
+  Marcantonio, and Markus Neteler.
+\newblock Robust rectification of aerial photographs in an open source
+  environment.
+\newblock {\em Computers \& geosciences}, 39:145--151, 2012.
+
+\bibitem{stewenius2006recent}
+Henrik Stewenius, Christopher Engels, and David Nist{\'e}r.
+\newblock Recent developments on direct relative orientation.
+\newblock {\em ISPRS Journal of Photogrammetry and Remote Sensing},
+  60(4):284--294, 2006.
+
+\bibitem{wiki:Eight-point_algorithm}
+Wikipedia.
+\newblock Eight-point algorithm, 2013.
+\newblock [Online; accessed 25-November-2013].
+
+\bibitem{wiki:SIFT}
+Wikipedia.
+\newblock Scale-invariant feature transform --- {W}ikipedia{,} the free
+  encyclopedia, 2013.
+\newblock [Online; accessed 25-November-2013].
+
+\bibitem{wiki:SURF}
+Wikipedia.
+\newblock Scale-invariant feature transform --- {W}ikipedia{,} the free
+  encyclopedia, 2013.
+\newblock [Online; accessed 25-November-2013].
+
+\end{thebibliography}

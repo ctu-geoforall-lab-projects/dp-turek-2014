@@ -207,7 +207,7 @@ that this kind of drone will become commonly used for many civil purposes.
 \label{sec:least}
 
 
-In linear alebra commonly solved eqaution is:
+In linear algebra commonly solved equation is:
 
 \begin{equation}
 \label{eq:linear_eq}
@@ -317,7 +317,8 @@ The least square is searching for values of parameters vector \evect{X}, which c
 This equation is the hearth of the least square method.
 
 The equation suppose that all measurements have same weigh (accuracy). The least squares method can be extended to support weights.
-Weight matrix \ematr{P} contains measurements weights on the diagonal with off-diagonal being zero elements.
+Weight matrix \ematr{P} contains measurements weights on the diagonal with off-diagonal being zero elements in case of assumption that 
+the measurements are not correlated.
 Row of weight in the matrix determines a measurement in design matrix \ematr{A} where the weight belongs.
 
 The equation, which is minimized by least squares is extended by weigh matrix:
@@ -769,6 +770,7 @@ where:
 	      
 \item $\ehvect{X}$ euclidean object space coordinates extended into homogeneous form
 \item $\ehvect{x}$ photo space homogeneous coordinates extended into homogeneous form
+\end{itemize}
 
 Whole projection can be merged into single matrix \ematr{P}, which is called camera matrix:
 
@@ -979,6 +981,8 @@ The four possible exterior orientation are:
 [\ematr{-R}|\evect{-t}],
 \end{equation}
 
+TODO picture
+
 the rotation [\ematr{R}] and vector \evect{-t} can be retrived from SVD decomposition of essential matrix 
 where:
 
@@ -989,16 +993,18 @@ W =
 \end{equation}
 
 
-Right exterior orientation from four ambiguity can be choosen according a constraint, which says that object points has to be in front
-of both photo planes.
+Right exterior orientation from four ambiguity can be chosen according simple assumption that all object points has to be in front
+of both photo planes (see picture).
+TODO
 
 
 \subsubsection{Merging of relative orientations}
 \label{sec:ess_chain}
 
-If two relative orinetations are merged together, as first step it is necessary to compute scale of the two relative orientaions.
-The scale can be from comerspondinng distances in both coordinate system. Scale can be determined from distances of 
-object points to object coordinates of projective center of camera, which is present in both relative orientaions, which are being merge.
+If two relative orientations are merged together, as first step it is necessary to calculate scale of the two relative orientations.
+The scale can be calculated from corresponding distances in both coordinate system. 
+It can be used distances of 
+object points and object coordinates of projective center of camera, which are present in both relative orientations.
 
 The scale can be computed by this equation:
 \begin{equation}
@@ -1006,27 +1012,28 @@ The scale can be computed by this equation:
 	                {\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}}
 \end{equation}
 
-where ro1 denotes destination orientaion of transformaiton and ro2 is the transfromat relative orientaion. 
+where ro1 denotes destination orientation of transformation and ro2 is the transformed relative orientation. 
 
-which get simplified when the relative orienation coordinate system  corresponds to the shared camere system: 
+The equation gets simplified if the relative orientation coordinate system  corresponds to the shared camera system: 
 \begin{equation}
 \escal{s}^{ro2-1} = \frac{\mathbf(\evect{X}_{ro1})}
 	                 {\mathbf(\evect{X}_{ro2})}
 \end{equation}
 
-After the scale was determined it is possible to transform exterior orienation in relative system of photo pair into the common relative system.
-In order to be thransformation easy to express, the common relative system is defined by arbitrary relative orientaion pair and other 
-relative orientaions are subsequantly transformed into this system. 
+After the scale was determined it is possible to transform exterior orientation in relative system of photo pair into the common relative system.
+In order to be transformation easy to express, the common relative system is defined by arbitrary relative orientation of pair and other 
+relative orientations are subsequently transformed into this system. 
 
-Set of photos, which can be transformed into common coordinate system, is composed of the relative orientaions
-which comprise connected component of undirected graph where nodes denotes photos and edges represents relative orientaions. 
-In other words it is possible to transform relative orientaiton into the common relative coordinate system only if there 
-exist continonousw chain of relative orienations where two neighbourhood relative orietnaitons shares one photo.
+Set of photos, which can be transformed into common coordinate system, is composed of the relative orientations
+which comprise connected component of undirected graph where nodes denotes photos and edges represents relative orientations. 
+In other words it is possible to transform relative orientation into the common relative coordinate system only if there 
+exist continuous chain of relative orientations where every two neighborhood relative orientations in the chain shares one photo.
 
 TODO PICTURE
 
-The transformaiton of relative orientations from 1 to n, with common system defined by 1 can be written as: 
+The transformation of relative orientations from 1 to n, with common system defined by 1 can be written as: 
 \begin{equation}
+\label{eq:comm_rel}
 \begin{split}
 &\ematr{P}_{1} = [\ematr{I}|\evect{O}] \\
 &\ematr{P}_{2} = [\ematr{R}^{ro1}|\evect{t}_{ro1}] \\
@@ -1036,10 +1043,10 @@ The transformaiton of relative orientations from 1 to n, with common system defi
 \end{equation}
 
 
-This eqaution works for chain of relative orientaion, where the shared camera in first relative orientation has 
-projection matrix defiend by $[\ematr{R}|\evect{t}]$ vector and the merging second relative orientaion is 
+This equation works for chain of relative orientation, where the shared camera in first relative orientation has 
+projection matrix defined by $[\ematr{R}|\evect{t}]$ matrix and the merging second relative orientation is 
 defined $[\ematr{I}|\ematr{O}]$. If the camera is defined be the switched coordinate systems, it is needed to 
-transform system by multiplication of rotatin by $\ematr{R}^[T]$ and shift by $-\ematr{R}^[T]$.
+transform system by multiplication of rotation by $\ematr{R}^[T]$ and shift by $-\ematr{R}^[T]$.
 
 \subsubsection{Helmert transformation}
 \label{sec:helmert}
@@ -1049,45 +1056,49 @@ Helmert transgformation equation can be written as:
 \ematr{X}_{t} = \evect{t} + \escal{s}\ematr{R}\evect{X}] \\
 \end{equation}
 where \ematr{R} is rotation matrix, \escal{s} is scale scalar and  \evect{t} is translation vector.
-The transformation is defined by seven parametrs (three translation coordinates, three rotation angles angles and scale).
-In order to get these parameters which defines relation of two coordinate system it is needed to have at least two corresponding points and  another one with 
-at least one known cordinate in both systems. 
+The transformation is defined by seven parameters (three translation coordinates, three rotation angles angles and scale).
+In order to get these parameters which defines relation of two coordinate system it is needed to know at least two corresponding points and  another one with 
+at least one known coordinate in both systems. 
 
 
 
-\section{Bundle block adjusmnet}
-coordinate
-Bundle block adjustment is method, which uses the non-linear least square technique (\ref{sec:least}) to refine parameters 
-of scene parameters. 
+\section{Bundle block adjustment}
 
-The main advantage of bundle block adjustment method is that the method is taking into acount whole scene and therefore using 
-maximum information for adjustment of scene paramers.
+Bundle block adjustment is method, which uses the least square technique (\ref{sec:least}) to refine  various scene parameters. 
 
-Cost functions of bba least sqaures method are photogrammetric collinearity equations \label{eq:p_abbr}.
+The main advantage of bundle block adjustment method is that the method is taking into account whole scene and therefore using 
+maximum information for adjustment of scene parameters. The principle of BBA has been known for very long time since 1950s.
+However the method has been employed in practical application in 1990's, because the performance of computers had not been 
+sufficient enough before. 
 
-Unfurtunatelly collinearity equations are non linear, therefore non-linear least square method is used. 
-As was mentioned before  (\ref{sec:non_least}) in order to method would give values of parameters, which 
-satisfies minimization constrain there is needed to provide sufficiently accurate intial values.
+Cost functions of BBA least squares method are photogrammetric collinearity equations \label{eq:p_abbr}.
 
-Thanks to the least squares method BBA is very flexible in terms of choosing of parameters to be adjust. 
-It is possible to select varios combinatations of interior and exterior orientation parameters and 
-the collinearity model could be extended to include other parametrs e. g.  
+Unfortunately collinearity equations are non linear, hence the non-linear least square method \ref{sec:non_least} must be used therefore 
+it is needed to provide sufficiently accurate initial values for finding global minimum.
 
-
+Thanks to the least squares method BBA is very flexible in terms of choosing of parameters to be adjusted. 
+It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters 
+and refine them using BBA. 
 
 
-For example three photos of a scene were taken. 3 tie points an 2 ground control points were indetified in all three photos.
+The BBA method is described on practical this practical example.
+
+
+There are three photos of a scene.
+There were identified 3 tie points an 2 ground control points in all three photos.
 Other two tie points one ground control point were identified on two photos and one grond control point and one tie point was identified 
 on only one photo. 
 
 Let say that initial values of tie points are known, but needed to be adjusted.
-Coordinates of ground control points are known, therefore they do not have to be adjusted. 
+Coordinates of ground control points are known with high accuracy, therefore they do not have to be adjusted. 
 
-For every tie point identified on image it is needed to adjust three parameters (object coordinates).
-However using two collinearity equation only two measurment are fetched done, 
-therefore in order to be tie point used in adjustment it has to be ideitified at least in two images. 
+Every tie point identified on image needs to refine three parameters (object coordinates). 
+If the tie point is identified on a photo it yields two measurements (two collinearity equations), 
+therefore it is needed to identify the tie point at least on two photos to get more measurements 
+than unknowns.
 
-Because ground control point does not take any new adjusted parameters, it is possible to use gcp which are identified only in one image. 
+Unlike tie points, ground control point does not bring any new adjusted parameters, therefore
+it is possible to use gcp which are identified only in one image. 
 
 In the example we have 3*3 adjusted parameters and 3 * 3 * 2 measurements for every tie point,  
 1 * 3 * 3 measurements for every gcp indetified in all three photos. 
@@ -1095,19 +1106,13 @@ In the example we have 3*3 adjusted parameters and 3 * 3 * 2 measurements for ev
 We have 2 * 3 adjusted parameters and 2 * 2 * 2 for every tie point,  
 1 * 2 * 3 measurements for every gcp visible in two photos.
 
-Tie point identified only in one photo can not be used because number of measuremtns is lesser (2) than number of adjusted parameters (3).
+Tie point identified only in one photo can not be used because number of measurements is smaller (2) than number of adjusted parameters (3).
 The ground control point gives two measurements.
 
+Overall score is 15 adjusted parameters and 43 measured parameters.
 
-Overall score is 15 adjusted parameters and 43 measurments paramets.
-
-Thanks to 28 redundnt measurements it is possible to add into adjusted parameters exterior orientation of images (+ 3 * 6) and it is possible to
-add some of the interior parameters into adustment.  
-
-\section{Relative orientation}
-
-Process of determination of two cameras exterior orientaiton in arbitrary space is called relative orientation.
-
+Thanks to 28 restaurant measurements it is possible to add into adjusted parameters exterior orientation of images (+ 3 * 6) and it is possible to
+add some of the interior parameters into adjustment.  
 
 \section{Orthorectification}
 
@@ -1318,8 +1323,8 @@ which well aproximates the inliers.
 In case of the epipolar family algorithms RANSAC works that in every iteration 
 in selecets random tie points, which used epipolar algorithm requires and 
 runs this agorithm. After obtaining an essential matrix from the algorithm the epipolar 
-distances for tie points are computed. There is specified some treshold of the distance which is used 
-for decision whether the measurment is inlier or outlier. The other treshold, which has to be specified 
+distances for tie points are computed. There is specified some threshold of the distance which is used 
+for decision whether the measurement is inlier or outlier. The other threshold, which has to be specified 
 is percentage of inliers of all tested points. If percentage of inliers is highest than in prevous iteration,
 the essentail matrix is set as the best fitting and iteration continues. The iteration terminates after user defined 
 number of iterations with returning the best fitting essential matrix.
@@ -1694,11 +1699,162 @@ covarinace matrix of the adjustment.
 
 
 
-\chapter{Discussion of reults}
+\chapter{Test case}
+
+The processing chain was developed and tested on data, which were kindly provided by Martin Rehak. The available 
+information about scene included:
+
+\begin{itemize}
+\item Tie points identified on the photos
+\item Position of cameras (leverage arm offset + gps coordinates)
+\item GCPS
+\item interior orientation of camera, which acquired the photos of the scene
+\end{itemize}
+
+
+Also there was included protocol of BBA from Bingo-F software \cite{bingo2013gip}, which reveals 
+the processing steps, which the software uses.
+In general information form this protocol was very helpful for me, because 
+ it should me how the processing chain should look like.
+
+Bingo-F is widely used well tested software software, which is used by many users on various  scenes configurations.  
+Compared to the developed processing chain in this thesis it is miles ahead, therefore the results of the Bingo-F adjustment were 
+regarded as reference for obtained data from the developed processing chain.
+
+Generally Bingo-F processing is very similar to the developed  processing chain of the developed solution, which is  
+described in-depth in previous chapter. First step is the relative orientations of pairs, then the pairs are merged into common relative 
+coordinates system. After that helmert transformation is performed into world coordinate system and as a last step BBA is performed.
+
+Unlike the developed processing chain,  the Bingo-F software was taking into account also information about position of cameras during the adjustment. 
+Because the developed processing chain should be general as much as possible it was decided that in first version  the processing chain would ignore this 
+information because according the aims set up in the previous chapter the final solution should require tie points photo coordinates and interior 
+orientation of cameras. Anyway later it is possible to extend the processing chain to work also with such additional information to improve accuracy 
+of the results. 
+
+Also the Bingo-F is capable to identify and rule out blunders in every step of processing chain and thus it is more robust. 
+In final BBA it computes weights probably according to defined standard deviations of parameters, which are available in the data. Also computation 
+of BBA is optimized therefore it is possible to solve scenes with thousands of tie points.
+
+Output  protocols of Bingo-F adjustment contains: 
+
+\begin{itemize}
+\item Interior and Exterior orientations of photos
+\item Object coordinates of tie points and gcps
+\end{itemize}
+
+The scene was adjusted as free network, adjusting interior orientation parameters (focal length, principal point coordinates),
+exterior orientations of photos, and object coordinates of all points. It was also adjusted lever-arm offset which describes 
+shift of GPS unit from projection center.  Lever-arm offset allows Bingo-F to use information of photo positions from GPS unit,
+which is shifted by this offset.  
+
+Final reconstructed  scene from Bingo-F results is shown in this plot:
+\includegraphics[scale=0.5]{figures/bingo_result.png}
+Unlike many other real scenes which can be comprised by hundreds of photos and thousands of tie points,   
+there are just a few tie points (64) and photos (45) taken by same camera. Also the photos capture same points thus there 
+is lot of redundancy, which should improve robustness of the bba. 
+
+In the rest of the chapter there will be presented results of subsequent steps, which are performed in processing chain and compared 
+to the Bingo-F results.
+
+The first step is relative orientation of pairs. The relative orientations of the pairs were done by OpenCV 5 point algorithm.
+The algorithm was successful on most of the pairs, however there are some pairs were algorithm does not work well.
+
+Example of the algorithm success can be showed in this plot:
+\includegraphics[scale=0.4]{figures/rel_or_576_598.png}
+The right plot shows the result of five point algorithm and the left plot shows result of Bingo-F. Note that both 
+plots are in different coordinate system, however it is possible to asses it visually. It is clearly visible
+that both scenes are very similar.
+
+On the other hand, there exists  few cases, which relative orientation were not successful.  
+One of such a cases is relative orientation of photos pair 553 and 591:  
+\includegraphics[scale=0.4]{figures/rel_or_553_591.png}
+It is clearly visible that result of relative orientation is completely different from the Bingo-F result.
+Most important factor, which affects success of the five point algorithm is threshold parameter of RANSAC loop.
+The above mentioned relative orientations were computed with RANSAC threshold parameters set to 0.001 mm.
+If the threshold parameter is changed in 0.1 mm, the result of relative orientation of pair 553 and 591 improves significantly.
+On the other hand another relative orientations go wrong. Therefore with statically set threshold parameter, there is always 
+few evidently wrong relative orientations in this scene. Thanks to the configuration of the scene, where lot of photos are 
+covering same points, it is  not serious problem, because the point is determined in most relative orientations  with 
+much better accuracy, thus it is possible to exclude this outliers. This could be serious problem e. g. if the photos 
+of scene would cover long chain where redundancy is much more lower.   
+In this case one wrong relative orientation could thread whole result of bba. If error would appear in the middle 
+of the chain it would  be propagated up  (TODO reference) one half of the chain which transformation on the wrongly
+determined pair, which is apparent from equations in \label{eq:comm_rel}. 
+In the test case there are not so many critical pairs, which has to be determined correctly to avoid spoiling the transformation 
+of the others dependent pairs. Fortunately the reference pair, which defines common relative system, is very stable and also 
+the other  core pairs on which depends lot of other pairs are stable. Probably there is some correlation between number 
+of points and stability of five point solution, because as it was already mentioned algorithm of merging searches 
+for maximum number of tie points from possible relative orientation, thus another way how to improve stability of the solution 
+could be identification of another tie points, which could be done automatically by pattern matching algorithms. 
+In the test case there 
+are 27 tie points in the reference pair. Which gradually decreases to 6 point in the pair, which is merged as last.
+
+During the merging process all object points computed from different relative orientations, which represents same point are 
+transformed into  the common relative system. Then the approximate coordinates by object points are determined as median
+of point coordinates from different relative orientations. Median was chosen because it is more robust to the effect of 
+big outliers caused by few wrong relative orientations in the set. If there is more than 50 percent of coordinates 
+which are close to the correct value and the rest are big outliers (luckily the test case is the case), median gives reasonable results over average,
+which is much more sensitive to the effect of the big outliers. 
+
+The next step is helmert transformation from the common relative orientation system into the world coordinate system using available gcps. 
+The transformed scene can be compared to the results of Bingo-F adjustment. Average difference of exterior orientation 
+of camera is approximately around 0.5 meters with highest outlier in meters. The object points coordinates 
+are little bit more accurate with average approximately 20 and highest utliers in 3-1 meters. 
+Angles differences are shown in this plot, where there are plotted axes of two camera coordinates systems, which represents 
+Bingo-F adjustment angles and the  initial angles. 
+\includegraphics[scale=0.4]{figures/angles_comaprison_relative_orinetaion.png}
+It is clear that there are a few orientations, which differs  (tenths of degrees) form the result. 
+As a last step bba was applied on these initial values with taking gcp as knowns TODO std in bingo.
+Despite the fact that there were few huge outliers in both parameters of cameras and points,
+bba after five iteration subsequently refines all scene parameter and reduces all cordinates 
+differences into the centimeters and angles into the tenths of degrees. 
+
+
+This plot again shows differences of cameras coordiantes system, which are no longer visible from this point of view
+unlike to the previous plot:
+\includegraphics[scale=0.4]{figures/result.png}
+
 
 \chapter{Future development}
 
-\chapter{Conclusion}findEssentialMat
+There is lot incredible amount if  work, which can be done in the feature. 
+Basically the work which has been done in this thesis, can be considered as prove of concept,
+which shows path, which should future implementation of bba in GRASS GIS.
+
+
+First step, which should be done is basically make whole processing chain workable for users, who 
+has good knowledge of photogrammetry or ocomputer vision. Currently  the processing chain was tested 
+just on one scene, where it gives some results which makes sense (see previous chapter). However 
+author is sure that in other more complicated scenes it would not work successfully because 
+the solution is not robust at all.
+
+In order to improve robustness of the processing chain this suggestions should be considered:
+\begin{itemize}
+\item Relative orientations - there is no check, whether relative orientation accuracy is successful or not. There 
+should be implemented some mechanism, which asses quality of relative orientation (probably according to object points reprojection ).
+Also it should be examined work of the five point algorithm with RANSAC loop, on scenes with higher number of the tie points, where 
+the outliers elimination effect of RANSAC loop should be much stronger.
+\item  Merging of relative orientations - currently if there is one wrong relative orientation, with lot of depended relative orientations  
+the error gets propagated up during transformer to the common relative coordiante system. Effect of such a inaccurate pair could be 
+reduced by performing  temporary bba, which can fix these big inaccuracies. Also the order of relative orientations should not 
+be chosen only by number of tie points but also taking into account quality of relative orientation.
+\item During final bba, the weights are ignored using identity matrix. Good choice of weights during every bba iteration 
+could make the chain significantly robust. Another way how to improve final accuracy of bba is skipping points, which 
+standard deviation from adjustment is higher than some results. Worth of exploring are also robust least squares methods,
+which uses another probability distribution functions instead of the normal distributu
+
+\item 
+\item 
+\end{itemize}
+
+
+
+\chapter{Future development}
+
+
+
+
+\chapter{Conclusion}
 
 \section{References}
 \nobibliography{BP}
@@ -1740,6 +1896,8 @@ TODO
 \bibentry{v.rectify}
 
 \bibentry{brown1966distortion}
+
+\bibentry{bingo2013gip}
 
 \section{Appendix}
 \subsection{Adjustment protocol}

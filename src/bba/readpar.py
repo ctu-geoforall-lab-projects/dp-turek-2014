@@ -17,6 +17,7 @@ class Point:
 
         self.res_c = None
         self.control_gcp = False
+
     def GetPhotoPoints(self):
         return self.ph_pts
 
@@ -156,6 +157,12 @@ class Camera:
         self.cam_m = cam_m
         self.distor = distor
 
+    def GetChipSize(self):
+        return self.chip_size
+
+    def SetChipSize(self, chip_size):
+        self.chip_size = chip_size
+
     def SetIO(self, io):
 
         if 'f' in io: 
@@ -271,6 +278,9 @@ class BingoParser:
         self._readPhotoPointsFile(self.pts, self.phs)
 
         self.res_eo = self._readResult(self.phs, self.pts)
+
+
+        self.cams[0].SetChipSize((11,8))
 
     def GetData(self):
         return self.cams, self.phs, self.pts, self.gcps

@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: BP.aux
+The style file: plain.bst
+Database file #1: BP.bib
+Warning--entry type for "i.ortho.photo" isn't style-file defined
+--line 111 of file BP.bib
+Warning--I didn't find a database entry for "nister2004efficient"
+Warning--I didn't find a database entry for "RANSAC"
+You've used 13 entries,
+            2118 wiz_defined-function locations,
+            565 strings with 5980 characters,
+and the built_in function-call counts, 4117 in all, are:
+= -- 407
+> -- 178
+< -- 3
++ -- 71
+- -- 58
+* -- 234
+:= -- 671
+add.period$ -- 40
+call.type$ -- 13
+change.case$ -- 69
+chr.to.int$ -- 0
+cite$ -- 13
+duplicate$ -- 163
+empty$ -- 347
+format.name$ -- 58
+if$ -- 888
+int.to.chr$ -- 0
+int.to.str$ -- 13
+missing$ -- 8
+newline$ -- 67
+num.names$ -- 26
+pop$ -- 98
+preamble$ -- 1
+purify$ -- 55
+quote$ -- 0
+skip$ -- 126
+stack$ -- 0
+substring$ -- 219
+swap$ -- 44
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 50
+warning$ -- 0
+while$ -- 39
+width$ -- 15
+write$ -- 140
+(There were 3 warnings)
