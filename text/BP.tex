@@ -141,10 +141,10 @@ right=25mm
 
 \necislovana{Introdduction}
 
-In recent decades tremndous development of information technology has fundamentally changed many disciplines.
+In recent decades tremendous development of information technology has fundamentally changed many disciplines.
 
-Photogrammetry has sucessfuly taken advantages of this development, and nowadays 
-it is using complently different methods and equipment, which allows to obtain and process data 
+Photogrammetry has successfully taken advantages of this development, and nowadays 
+it is using complacently different methods and equipment, which allows to obtain and process data 
 in huge scales with user friendly methods achieving very good accuracy.
 
 Heavy usage of information technologies likewise caused that borders between disciplines is blurring. 
@@ -183,6 +183,61 @@ has to buy it. Proprietary software works like blackbox, because user has no cha
 code and realize what his happening. 
 
 
+Both photogrammetry and computer vision is dealing with retrieving structure of scene from set of photos 
+covering the scene. The methods for retrieving the structure are based on pinhole camera model, which 
+describes relation of photo point to the 3D point in object camera system.
+Parameters which characterizes pinhole camera model are called interior orientation parameters.
+The relation is showed in this picture:
+
+Image plane is represented by image sensor in digital cameras, which  creates image converting light into electronic signal.
+Then the signal is processed inside the camera giving output as photograph, which is stored in a digital format. 
+Image sensor is divided into cells, which measure intensity of fallen light. The pixel value in final 
+photograph is based on the measured intensity of cell or group of cells. The pixel location in image corresponds
+to the location of the cells on the chip.
+
+
+All light rays going from the object points falling on image sensor are going through the same point in pinhole camera model.
+The point is called projective center. The ray which is perpendicular to the image plane is called principal ray and the point 
+where the principal ray intersects the image plane is called principal point. It is clear that during the projection 
+3D scene onto 2D plane it must be some information lost because of dimension reduction.
+
+
+If 3D coordinates of point are known it is possble to reproject it on the image plane. However as a consequence 
+of the dimension reduction it is not possible to determine the 3D coordinates of the point from 2D photo coordinates, 
+only the ray can be reconstructed.
+
+
+However if the point is located at least on the two photos, which were taken from different positions and their positions 
+to each other are known (this is called exterior orientation), it is possible 
+to reconstruct 3D coordinates of the point, because it lies on the intersection of the photo rays!
+Such a point, which is identified in multiple photos is called tie point.
+
+PICTURE
+
+
+This thesis is based on this such a simply principle, which allows to recover structure of the scene from multiple photos. 
+
+
+Computer vision field uses methods, which retrieves exterior orientation, for determination of robots position. 
+Process of recovering structure from set of photos is called structure from motion in computer vision field.
+
+TODO structure from motion picture
+
+Photogrammetry uses it for producing of digital terian models (DTM) and 
+orthophoto. In essence structure from motion method is equivalent to the creation 
+of digital terrian model.
+
+TODO DTM picture
+
+Orthophoto is created by 
+orthorectification process, which is transformation form perspective projection into orthogonal projection.
+Unlike non-orthorectified photo the orthophotos can merged together into seamless map. Recently 
+orthophoto has been widely used by map services like Google Maps or Mapy.cz. Fundamental 
+difference of the orthorectified photo and classical photo is that scale in whole orthophoto is same
+and therefore it is possible to measure true distances. During orthorectificaion distortion 
+caused by tilt of camera (if photo is not vertical), and elevation differences are removed.
+
+
 \newpage
 
 \chapter{Theoretical part}
@@ -214,7 +269,7 @@ In linear algebra commonly solved equation is:
 \ematr{A}\evect{X} = \evect{L} 
 \end{equation} 
 
-which can be interpereted as:
+which can be interpreted as:
 \begin{itemize}
 \item \evect{L} - vector of measurements
 \item \evect{X} - vector of parameters, which are searched to solve the system
@@ -237,22 +292,22 @@ kind of error.
 \item systematic error - this error has always same effect (value) on measurement.  Usually effect of this error can be 
 eliminated by choosing right measuremnt method, calibration of instrument or mathematic elimination.
 \item random error - this error is unavoidable becouse it is not possible to know perfectly all factors which has impact 
-on the measuremnts. The random errors follows normal distribution which is represented with probability density function of this shape:
+on the measurements. The random errors follows normal distribution which is represented with probability density function of this shape:
 
 TODO picture
 
 
 The normal distribution is characterized by two parameters, which are standard deviation and  mean. 
 If measurements are burden only with random error the mean represents accurate value and standard deviation represents 
-dispersion level of measuremnts. 
-Theoretically  if measuremnts of some parameter would be repeated infinite times and the measuremtns would be influenced only by random errors,
-the accurate value would be computed as  mean of the measuremtns. In case that for measuremt are performed by instruments with different accuracy
+dispersion level of measurements. 
+Theoretically  if measurements of some parameter would be repeated infinite times and the measurements would be influenced only by random errors,
+the accurate value would be computed as  mean of the measurements. In case that for measurement are performed by instruments with different accuracy
  accuraty value would be weighted mean with weight of measurement $\escal{p}_{i}$ defined as:
 \begin{equation}
 \escal{p}_{i} = \frac{\escal{const}}{\escal{\sigma}_{i}^{2}}
 \end{equation} 
 where \escal{const} is arbitrary chosen number which is used for calculation of all weights and $\escal{\sigma_{i}}$ is standard deviation of the measuremnt.
-It follows that it is possible to get closer to the accurate value by repating of measuremnts, which 
+It follows that it is possible to get closer to the accurate value by repeating of measuremnts, which 
 leads into solving overdetermined systems. 
 
 \end{itemize}
@@ -389,7 +444,7 @@ and giving:
 The accuracy of parameters also determines how many interations (speed of convergence) are needed to achieve optimal solution (global minimum).
 
 
-and therfore it is possible to use linear least sqaures \eqref{eq:least_sq} for adjustment 
+and therefore it is possible to use linear least sqaures \eqref{eq:least_sq} for adjustment 
 with non-linear cost functions.
 
 However the equation is slightly different. Instead of parameters vector \evect{X} there is used 
@@ -413,6 +468,21 @@ This is caused by run-off of non-linear function, which has more points with zer
 and therefore result depends where the non-linear least square iteration starts.
 
 
+\subsection{Least squares properties}
+
+It was proved that above derived least square method is solution of Gauss-Markoff model, which 
+says if measurements \evect{L} are random and vector of parameters \evect{X} is non-random, then
+vector \evect{dx}  has the lowest variance and it is unbiased. If density functions of measurements are normally 
+distributed then values obtained from cost functions using  computed parameters lies in maximum of the density
+function. In other words they posses maximum likehood.
+
+Unbiased unit weight standard deviation is given by:
+\begin{equation}
+\sigma_{0} = \frac{\evect{v}_{T} \ematr{P}  \evect{v}}{\escal{r}}
+\end{equation} 
+
+where \escal{r} is redundancy, which can be computed as difference of number of columns from rows of design matrix.
+
 \subsection{Free network least squares}
 \label{sec:free_net_least}
 
@@ -431,10 +501,6 @@ to know two coordinates (shift), rotation angle and its scale for definition of 
 3D network requires at least at least 
 two points and another point with one coordinate to define coordinate system and thus make matrix \ematr{A}
 invertible. The parameters are three coordinates of shift vector, three rotation angles and scale factor. 
-
-Computer vision field uses it for determination of robots position. Very popular is also structure from motion method,
-which is able to reconstruct 3D structure from set of images. In essence structure frm motion method is equivalent to the creation 
-of digital terrian model.
 One of possible methods how to solve this problem is computation of pseudo inverse matrix instead of matrix inversion or 
 extend the design matrix with additional constraints.
 
@@ -443,10 +509,10 @@ extend the design matrix with additional constraints.
 Both photogrammetry and computer vision process set of images, which covers some scene.
 The products of processing can be othophoto, DEM, structure from motion etc. 
 
-Essential information which must be obtained or known to obtain all the product is 
+Essential information which must be obtained to retrieve  all the product is 
 interior orientation and exterior orientation of camera.
 Exterior and interior orientation together describes relation between object point and
-it's corresponding image point.  
+it's corresponding image point in two subsequent transformations.  
 
 \subsection{Interior orientation}
 
@@ -466,7 +532,7 @@ Interior orientations parameters describing pinhole camera model are:
 \end{itemize}
 
 Camera optical system is imperfect, therefore it deviate from the ideal pinhole model  
- causing distortion of photo.
+ causing distortion in photo.
 
 The effect of distortion can be reduced by applying distortion corrections on measured image coordinates. Commonly 
 used model for distortion correction is Browns model \cite{brown1966distortion}.
@@ -499,7 +565,7 @@ where:
 \end{itemize}
 
 
-The relation of photo coordinate system and undistorted coordinates is defined as, which is based on the pinhole camera model:
+The relation of photo coordinate system and undistorted coordinates is defined as:
 
 \begin{equation}
 \begin{split}
@@ -507,7 +573,8 @@ The relation of photo coordinate system and undistorted coordinates is defined a
 &\escal{y}^{u} = \frac{\escal{Y}^{cam}}{\escal{Z}^{cam}}
 \end{split}
 \end{equation}
-which is clearly visible on this picture:
+
+which is clearly visible on this picture, describing pinhole camera model:
 
 
 
@@ -520,15 +587,13 @@ system before using in bellow mentioned equations.
 Exterior orientation is defined by position of camera center in object space and orientation of camera coordinate system in the object space .
 Photogrammetry uses representation of orientation by euler angles and rotation matrix.
 
-The euler angles are group of three angles, which describes subsequent rotations
+The euler angles are group of three angles, which describes three subsequent rotations
  around axes of 3D coordinate system. 
  Order of euler angles is important, because in case of breaching it, resulting orientation is different. 
  In this work there is used notation where at first rotation around y axis is 
  perform, then system is rotated around x axis and the last rotation is perform around z axis.
  
- TODO rotation matrices equation:
- 
- 
+Mathematically this rotation is combination of matrices which describes individual rotations:
  \begin{equation}
  \begin{split}
 \ematr{R} &= \ematr{R}_{z}(\escal{\kappa}) \ematr{R}_{x}(\escal{\omega}) \ematr{R}_{y}(\escal{\phi}) \\
@@ -568,7 +633,7 @@ The euler angles are group of three angles, which describes subsequent rotations
 
 \subsection{Basic formula of photogrammetry}
 
-Combining of exterior orientation and interior orientaiton it is possbile to define 
+Combining of exterior orientation and interior orientation it is possbile to define 
 direct relation between corresponding 3D point in object space and 2D point
 in photo:
 
@@ -625,13 +690,13 @@ coordinates by scale:
 \end{equation}
 
 Using homogeneous coordiantes it is possible to write all cartesian points plus points in infinity.
-Infinite point in homogeneous coordinates is written as: 
+Infinite homogeneous point is written as: 
 
 \begin{equation}
 \ehvect{x} = (\escal{x}, \escal{y}, \escal{z}, \escal{0})
 \end{equation}
 
-Which is impossible to express using cartesion coordiantes with finite numbers:
+which is impossible to express using cartesion coordiantes with finite numbers:
 
 \begin{equation}
 \evect{x} = (\escal{x} / \escal{0}, \escal{y} / \escal{0}, \escal{z} / \escal{0})
@@ -741,7 +806,8 @@ object space and image space:
 \end{pmatrix}
 \end{equation}
 
-In essence this equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry.
+This equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry,
+it is just written in matrix form using homogeneous coordiantes.
 
 The equation can be abbreviated as:
 
@@ -1067,8 +1133,9 @@ at least one known coordinate in both systems.
 Bundle block adjustment is method, which uses the least square technique (\ref{sec:least}) to refine  various scene parameters. 
 
 The main advantage of bundle block adjustment method is that the method is taking into account whole scene and therefore using 
-maximum information for adjustment of scene parameters. The principle of BBA has been known for very long time since 1950s.
-However the method has been employed in practical application in 1990's, because the performance of computers had not been 
+maximum information for adjustment of scene parameters, which leads to more accurate results.
+The principle of BBA has been known for very long time since 1950s.
+However the method has been employed in practical applications since 1990's, because the performance of computers had not been 
 sufficient enough before. 
 
 Cost functions of BBA least squares method are photogrammetric collinearity equations \label{eq:p_abbr}.
@@ -1086,71 +1153,70 @@ The BBA method is described on practical this practical example.
 
 There are three photos of a scene.
 There were identified 3 tie points an 2 ground control points in all three photos.
-Other two tie points one ground control point were identified on two photos and one grond control point and one tie point was identified 
+Other two tie points one ground control point were identified on two photos and one ground control point and one tie point was identified 
 on only one photo. 
 
-Let say that initial values of tie points are known, but needed to be adjusted.
+Let say that initial values of tie points are known, but needed to be refined to improve its accuracy.
 Coordinates of ground control points are known with high accuracy, therefore they do not have to be adjusted. 
 
 Every tie point identified on image needs to refine three parameters (object coordinates). 
 If the tie point is identified on a photo it yields two measurements (two collinearity equations), 
 therefore it is needed to identify the tie point at least on two photos to get more measurements 
-than unknowns.
+than unknowns. This makes perfectly sense because it is not possible to determine object point coordinates from one photo,
+because it can lie wherever on the ray  which goes through photo plane, projection center and the object point.
 
-Unlike tie points, ground control point does not bring any new adjusted parameters, therefore
-it is possible to use gcp which are identified only in one image. 
 
-In the example we have 3*3 adjusted parameters and 3 * 3 * 2 measurements for every tie point,  
-1 * 3 * 3 measurements for every gcp indetified in all three photos. 
+Unlike tie points, ground control point does not bring any new adjusted parameters, thus
+it is possible to use gcp which are identified only in one image. In this case the object coordinates 
+are known, thus there is no point ambiguity on the ray as in tie point. 
 
-We have 2 * 3 adjusted parameters and 2 * 2 * 2 for every tie point,  
-1 * 2 * 3 measurements for every gcp visible in two photos.
+In the example there are 3*3 adjusted parameters and 3 * 3 * 2 measurements for every tie point,  
+1 * 3 * 3 measurements for every gcp indetified, which are visible in all three photos. 
+Moreover there are 2 * 3 adjusted parameters and 2 * 2 * 2 measurements for every tie point,  
+1 * 2 * 3 measurements for the gcp visible in two photos.
 
-Tie point identified only in one photo can not be used because number of measurements is smaller (2) than number of adjusted parameters (3).
-The ground control point gives two measurements.
+Tie point which is identified only in one photo can not be used because number of measurements is smaller (2) than number of adjusted parameters (3).
+The ground control point gives two measurements and know adjusted parameters therefore it can be included.
 
 Overall score is 15 adjusted parameters and 43 measured parameters.
 
-Thanks to 28 restaurant measurements it is possible to add into adjusted parameters exterior orientation of images (+ 3 * 6) and it is possible to
-add some of the interior parameters into adjustment.  
+Thanks to 28 redundant measurements exterior orientation of images can be also adjusted, which adds 3 (photos) * 6 (eo params)
+and also it is possible to add some of the interior parameters into adjustment, because of 10 left over redundant measurement.  
+On the other hand the redundancy of measurement improves accuracy of results, which is the main point of the least square method,
+therefore it should be avoided to have nearly same number of measurements and adjusted parameters.
 
 \section{Orthorectification}
 
-Orthorectification is image transformation form perseptive prjection into orthogonal projetion.
-Unlike non-orthorectified photo the orthophotos can be merged together into map. Recently 
-orthophoto has been widely used by map services like Google Maps or Mapy.cz. Fundamental 
-difference of the orthorectified photo and classical photo is that scale in whole orthophoto is same
-and therefore it is possible to measure true distances. 
-
-
+The orthorectificaion is process which transforms photo from perspective projection into orthogonal projection. 
 \label{sec:single_ortho}
 There are two main methods for producing of orthophoto. The first method is able to produce orthophoto 
-from single photo of it's exterior and interior orientations are known and other information which describes
-relief must be known. This infromation is usually provided in form of digital terrain model (DTM), which 
-can be provided in raster form, which descibes relief whith same density defined by resolution of the raster, 
-or vecor surface, which is comprised by continues surface made of trinaglular irregular network (TIN).  
+from single photo if it's exterior and interior orientations are known and other information which describes
+relief must be also known. This information is usually provided in form of digital terrain model (DTM), which 
+can be provided in raster or vector form. Raster DTM describes relief with same density defined by resolution of the raster.
+Vector DTM is comprised by continuous surface made of triangular irregular network (TIN). 
 At the beginning of the orthorectificaiton empty raster is allocated, which represents orthophoto, 
-which covers photo scene and area of the DTM. After that coordinates are reprojected using collinearity
-equations into photo coordiantes. Becouse the DTM surface can be continues, it is needed to define 
-same step in which the reprojection is dona. The coordinates can be choosen e. g. from ever pixel center
-of the orthophoto pixel. Results of reprojection are not pixels cordinates which is integer number but 
+covering intersection of photo scene and area of the DTM. Then coordinates are reprojected using collinearity
+equations into photo coordiantes. Because the DTM surface continuous, it is needed to define 
+a step which defines shift of points which are reprojected, The points can be choosen e. g. from every pixel center
+of the alocated orthophoto pixel. Results of reprojection are not pixels cordinates which is integer number but 
 floating points numbers. Therfore value of pixel in orthophoto can be computed by different interpolation methods,
-which can take various number of neighbourhood pixels and functions.
+which can take into account various number of neighborhood pixels and functions.
 
-The other method is being used either in computer vision and photorammetry. In computer vision 
-it is called structure from motion. As the method name suggests, it is primarly used for retrieving
-strucure of the scene, which is equivalent of DTM in photogrammetry. In follows main advantage 
-of the mathod that DTM does not be needed unlike the first method DTM is not needed. Moreover 
-the DTM can be another result besides the orthophoto if this method. The method is based 
-on forward resection, where collinearity equations are employed. The other approach requires to have at least
+The other method is being used either in computer vision and photogrammetry.
+Computer vision calls it structure from motion. As the method name suggests, it is primarily used for retrieving
+structure of the scene, which is equivalent to creation of DTM in photogrammetry. In follows main advantage 
+of the method that DTM is not needed unlike the first orthorectificaiton method. Moreover 
+the DTM can be another output of the method besides the orthophoto.  The other approach requires to have at least
 two photos of known exterior and interior orientation. In contrast to the first method the exterior orientaiton
-can be defined in arbitrary coordinate system, because there is not needed to define relationship to 
-known DTM, therfore it is possble to generate orthophoto and DTM without need to have GCP. However 
-if the results should be transformed into world coordiante system it least three GCP needs to be known
-to perform Helmert transformation. 
+can be defined in arbitrary coordinate system, because there is not needed to define relationship to DTM, 
+therfore it is possble to generate orthophoto and DTM without any GCP. However 
+if the results should be transformed into world coordiante system at least three GCP needs to be known
+to perform helmert transformation. 
 
-The principle of the method is based of forward ray intersection. In order to find object coordiantes
-of point, the point has to be identified at least on two photos, than two rays connecting projection 
+
+The principle of the method is based of forward ray intersection, where collinearity equations are employed..
+In order to find object coordiantes
+of point, it has to be identified at least on two photos, than two rays connecting projection 
 center and image points are formed. The approximate object coordiantes can be find by trianglulation 
 method \ref{sec:triang} and than refined by BBA, which is also in principle based on the rays 
 resection.
@@ -1165,43 +1231,64 @@ previous theoretical chapter.
 \section{General solution of UAV bundle block adjustment}
 
 
-Few years ago in late 1990s it seemed that prolem of approximate values for BBA had been solved. 
-In this times BBA was mainly employed in aerial photogrammetry. Mapping mission using aerial 
-photogrammetry are done by experts and budget of such a mapping missions is very high. 
-The development of GPS and IMU uints, which allows to determine 
-postion respectively and orientation with propelly set up and calibrated camera and GPS/IMU 
-units allowed to get very precise approximate values of exterior orientation, therefore 
-it was possible to use it directly in BBA.
+The problem of initial values of exterior orientation was solved by  rigorous aerial photogrammetry in 1990s
+when global positioning system began to operate. The gps unit provides sufficiently accurate coordinates and  
+inertial measurement unit (IMU) measures orientations in space,  Combining the information from these units 
+whole initial exterior orientation is obtained. In order to be information useful it is need to determine 
+leverage arm offset, which describes shift of GPS unit to the perspective center and bore-sight offset
+which describes orientation of camera coordinate system towards IMU coordinate system. These two
+quantities are determined in calibration process. The measured values from these two units has to
+be corrected by the two quantities to represent exterior orientation.
+Aerial photogrammetry missions are expensive, thus they are prepared and carried out by experts using 
+professional equipment which is properly calibrated.
+Same aerial photogrammetry approaches make some apriori assumptions which simplifies the equation. 
+For instance it can be assumed that the aerial photo is vertical if orientation deviates from true vertical
+direction up to 2-3 degrees. Using this assumption collinearity equations can be linearized and 
+approximate values can be computed easily from gcps.
 
-  
-As it was already mentioned the development of technology gives oportunity to many poeple
-to perform photogrammetric measurements, because nearly everybody has camera in his pocket.
-On the other hand the solution must be very simple from the user point of view becouse 
-most of users has limited or no knowldge of photogrammetry. It follows the main requirement 
-on solution, which was set up at the beginning of the thesis.
 
-To make this requiremement of simplicity more specific the user should be able to used it having 
-just camera and UAV. No other hardware device should be needed. All other steps should be done 
-using open source software which can everybody download.
+Because nearly everybody has camera in his pocket nowadays and UAVs are becoming common, there is big demand 
+to provide solution which is very simple from the user point of view because 
+ordinary users has limited or no knowldge of photogrammetry. It follows the main requirement 
+on solution, which was set up at the beginning of the thesis. Ordinary users does not want 
+to spend money for other devices or time studying complicated methods, they just 
+want to take a group of photos of the scene and get the job done therefore the rigorous 
+methods of aerial photogrammetry can not be used.
 
-Also the solution should be flexible enough to process aditional data, which may known, 
-as GCPs approximate postion of cameras etc.With this aditional data it is possible 
-to increase accuracy of results and decrease number of  BBA iterations needed for finding 
-global minimum. Therfore it could be used by more advanced users.
+Also vertical photo constraint would be fundamental limitation because if user takes 
+photos of same scene they are oblique. Moreover UAVs flight track is much more unstable 
+so event if the user would try to obtain vertical photos, it would be very difficult to
+satisfy 2-3 degrees deviation.
 
-As consequance of these contraints, the minumum input into processing chain can be just photos
+In order to make this requirement of simplicity more specific, user should need only 
+to have camera to obtain structure of the scene. In order to be orthophoto generated 
+user would need to employ UAV in order to get images from vertical point of view.
+No other hardware device should be needed. 
+All other steps should be done 
+using open source software which can everybody download. Moreover they should be simple enough 
+to be feasible as much user as possible.
+
+Also the solution should be flexible enough to process additional data, which may be known about a scene, 
+as GCPs, positions of cameras etc. The additional data can
+ increase accuracy of results and computational time  
+ decreasing number of  BBA iterations needed for finding global minimum.
+
+As consequence of these constraints, the minumum input into processing chain can be just photos
 of the scene and other parameters, which can be derived from information on specific kind of photos.
 
-The another important requiremnt is two make the process as much automatic as possbile, because 
+The another important requirement is to make the process as much automatic as possible, because 
 if it would require a lot of time of user to go through the processing chain nobody would use it.
 
-To fulfil these requiremnts the solution can be described by this prcessing chain:
+This processing chain should fulfill about mentioned requirements for the solution:
 
 \begin{itemize}
-\item Camera calibration - getting interior orientaion of camera.
-\item Relative orienations of photo pairs - getting interior orientaion of camera.
-\item Triangulation of tie points - getting interior orientaion of camera.
-
+\item Camera calibration - getting interior orientation of camera. There exists simple technique for calibration
+of camera based on processing of 2D patterns photos. Whole process is very simple from the user point of view, it is needed 
+to print the pattern on sheet of paper, take photos of the pattern from different positions. The calibration 
+is done automatically based on the photos. No other input is needed from user.
+\item Tie point identification - it can be also done automatically be pattern match algorithms.
+\item Retrieval of initial values for bba - without any input of udser. Unformation form the previous two steps is used.
+\item Bundle block adjustment - fully automatic
 \end{itemize}
 
 
@@ -1263,7 +1350,7 @@ that it would be possible to write masters thesis focused only on feature extrac
 of visibility map.
 
 
-\subsection{Retrieving approximate values for bundle block adjusmtent}
+\subsection{Retrieving initial values for bundle block adjustment}
 
 
 The next step is to utilize all known information (interior orientaitn and extracted 
@@ -1275,7 +1362,7 @@ the parameters of interior orienation are known from the imput and only informat
 which is misisng are aproximate parameters of exterior orientation and object coordinates of 
 tie points. 
 
-\subsubsection{Aproximate values of exterior orienation}
+\subsubsection{Initial values of exterior orientation}
 
 There exist many methods how to obtain approximate values for exterior orientaiton of cameras, they 
 differs in information which they require for input, computation time and accuracy. 
@@ -1839,14 +1926,28 @@ the error gets propagated up during transformer to the common relative coordiant
 reduced by performing  temporary bba, which can fix these big inaccuracies. Also the order of relative orientations should not 
 be chosen only by number of tie points but also taking into account quality of relative orientation.
 \item During final bba, the weights are ignored using identity matrix. Good choice of weights during every bba iteration 
-could make the chain significantly robust. Another way how to improve final accuracy of bba is skipping points, which 
-standard deviation from adjustment is higher than some results. Worth of exploring are also robust least squares methods,
-which uses another probability distribution functions instead of the normal distributu
-
-\item 
-\item 
+could be big leap towards robustness of the bba. If the weights are selected properly, it is possible to eliminate of outliers 
+effect.
+Another way how to improve final accuracy of bba is skipping points, which 
+standard deviation from adjustment is higher than some threshold after. The standard deviation criteria can be assessed 
+after every iteration.
 \end{itemize}
 
+
+Another big room for improvement is computational speed of the processing chain.
+The most critical part which costs most of the time is bba.
+One bba iteration takes approximately 5 seconds in the test case, which can be nowadays considered as very small scene compared to the solved
+scenes with hundreds of photos and thousands of points. The bottleneck if the bba iteration is computation of inverse/pseudo inverse, where big matrices 
+must be solved. The size of the matrix is directly connected to the number of adjusted parameters. There exists  lot of methods which reducing computational 
+time of matrix inversion. Usuall bba inversed matrix is sparse (most of elements are zeros) and many optimization methods exploiting this property.
+It is also possible to speed up some parts of the code reimplementing them in C instead of currently used Python. However this should be done 
+as last step when the part, which is going to be reimplemented in C is tested and works well. Otherwise it would be waste of time and energy, if reimplemented 
+code would not be eventually used. 
+
+There is still needed to define interface between the developed modules and also their inteface. 
+This thesis outlines just rough architecture of final solution, because at this early stage of development 
+there is no point in dealing with the interface, because it can change lot of time during further development.
+se
 
 
 \chapter{Future development}
@@ -1857,7 +1958,7 @@ which uses another probability distribution functions instead of the normal dist
 \chapter{Conclusion}
 
 \section{References}
-\nobibliography{BP}
+%\nobibliography{BP}
 \bibliographystyle{plain}
 \bibentry{Hartley2004}
 
