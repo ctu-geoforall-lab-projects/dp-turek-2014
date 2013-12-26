@@ -560,16 +560,16 @@ Covariance of calculated parameters $\ematr{\Sigma}_{x}$ can be get from:
 
 and a posteriori covariance matrix $\ematr{\Sigma}_{\hat{l}}$ of measurements can be obtained from:
 \begin{equation}
-\ematr{\Sigma}_{\hat{l}} =  \ematr{A} \Sigma}_{\hat{x}} \ematr{A}^{T}
+\ematr{\Sigma}_{\hat{l}} =  \ematr{A} \ematr{\Sigma}_{\hat{x}} \ematr{A}^{T}
 \end{equation} 
 
 \subsection{Free network least squares}
 \label{sec:free_net_least}
 
-In geodesy it can happend that columns of design matrix \ematr{A}
+In geodesy it can happen that columns of design matrix \ematr{A}
 are not linearly independent. This can be caused by missing information
 about coordinate system in the design matrix. This issue is called datum deficiency.
-Datum deficiency makes normal matrix  \ematr{A}^{T} \ematr{P} \ematr{A} non invertible and therefore 
+Datum deficiency makes normal matrix $ \ematr{A}^{T} \ematr{P} \ematr{A}$ non invertible and therefore 
 least squares equation \label{eq:non_least_sq} cannot be solved.
 In order to avoid the datum deficiency issue it is needed to keep some parameters fixed, 
 which means that columns of the fixed parameters are excluded from design matrix\ematr{A}.
@@ -665,9 +665,9 @@ Photogrammetry uses representation of orientation by euler angles and rotation m
 The euler angles are group of three angles, which describes three subsequent rotations
  around axes of 3D coordinate system. 
  Order of euler angles is important, because in case of breaching it, resulting orientation is different. 
- In this work there is used notation where at first rotation around y axis by angle \escal{\phi} is 
- perform, then system is rotated around x axis  by angle \escal{\omega} and
- the last rotation is perform around z axis by angle \escal{\kappa}.
+ In this work there is used notation where at first rotation around y axis by angle $\escal{\phi}$ is 
+ perform, then system is rotated around x axis  by angle $\escal{\omega}$ and
+ the last rotation is perform around z axis by angle $\escal{\kappa}$.
  
 Mathematically the three euler rotations can be expressed as multiplication of three corresponding
 rotation matrices:
@@ -710,7 +710,7 @@ rotation matrices:
 
 \subsection{Basic formula of photogrammetry}
 
-Potting interior and exterior orientation together direct relation between corresponding 3D point in object space and 2D point
+Merging interior and exterior orientation together direct relation between corresponding 3D point in object space and 2D point
 in photo:
 
 \begin{equation}
@@ -750,8 +750,8 @@ TODO undistorted coords
 
 \subsection{Homogeneous coordinates}
 
-Computer vision mostly uses homogeneous coordinates, which allows to mathematically express some relations
- in more elegant way than using cartesian coordinates. 
+Computer vision uses homogeneous coordinates, which allows to mathematically express some relations
+ in more elegant way than using coordinates in cartesian form. 
 
 3D point in homogeneous coordinates is defined as:
 
@@ -761,8 +761,8 @@ Computer vision mostly uses homogeneous coordinates, which allows to mathematica
 
 \escal{w} component is called scale.
 
-The transformation of homogeneous point into cartesian coordinates is done with division 
-coordinates by scale:
+The transformation of homogeneous point into cartesian coordinates is done dividing 
+the coordinates by scale:
 \begin{equation}
 \evect{x} = (\escal{x} / \escal{w}, \escal{y} / \escal{w}, \escal{z} / \escal{w})
 \end{equation}
@@ -781,6 +781,9 @@ which is impossible to express using cartesion coordiantes with finite numbers:
 \end{equation}
 
 TODO graphic interpretation of hom coords 
+
+Picture shows 
+
 
 Thanks to homogeneous coordinates for planes in \eucl{3} and lines in \eucl{2} it allows to 
 use simple vector linear algebra operations 
@@ -870,7 +873,7 @@ object space and image space:
    & 0     & 0     & 1\\
 \end{pmatrix}
 \begin{pmatrix}
-   &\ematr{R} & \evect{t}\\
+&\ematr{R}&\evect{t}\\
 \end{pmatrix}
 \begin{pmatrix}
    \escal{X} \\
@@ -881,13 +884,17 @@ object space and image space:
 \end{equation}
 
 In essence the equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry.
-It is just written in matrix form using homogeneous coordinates embodying exactly same transformations.
+The two models differs only in definition of camera coordinate system.
+Computer vision uses left handed system with z axis heading into 
+the scene. Unlike  Photogrammetric system defines z axis in the opposite direction heading out of the scene, thus 
+it is right handed. Otherwise the basic formula embodies exactly same transformations as 
+collinearity equations written in different way.
 
 The equation can be abbreviated as:
 
 \begin{equation}
-\escal{w} \ehvect{x} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
 \label{eq:p_exp}
+\escal{w} \ehvect{x} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
 \end{equation}
 
 TODO picture of system
@@ -896,18 +903,20 @@ where:
 
 \begin{itemize}
 \item \ematr{K} is calibration matrix which contains interior orientation parameters.  
-\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation and translation, which transforms point from object coordinate system 
-	      into camera coordinate system. It is left handed cartesian system, with z axis perpendicular to image plane heading into the scene direction
-	      origin in projection center. Difference between camera coordinate 
-	      system in computer vision and camera coordinate system in computer vision is the direction 
-	      of z axis and thus different handness of system. TODO 
-	      Vector $\evect{t}$ can  be transformed in object space coordiantes system:
+\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix\ematr{R} and translation vector $\evect{t}$, 
+	      which transforms point from object coordinate system 
+	      into camera coordinate system. The camera system is left handed cartesian system originating in projective center 
+	      with z axis perpendicular to image plane heading into the scene direction.
+	      If the object space is right handed the rotation contains also switch of handedness,
+	      which is called reflection. If the rotation matrix includes reflection its determinant is negative.
+	      It must be taken into account before 
+	      The translation vector $\evect{t}$ can  be transformed in object space coordiantes system:
 	      \begin{equation}
-	      \ehvect{C} = R_{T}\evect{t}
+	      \ehvect{C} = \ematr{R}_{T}\evect{t}
 	      \end{equation}
-	      giving coordinates of camera projective center. The parameters \ematr{R} and $\ehvect{C}$
-	      represents exterior orientation of camera
-	      
+	      giving coordinates of camera projective center. The rotation matrix \ematr{R} and projective 
+	      center object coordinates $\evect{C}$
+	      represents exterior orientation of camera.   
 \item $\ehvect{X}$ euclidean object space coordinates extended into homogeneous form
 \item $\ehvect{x}$ photo space homogeneous coordinates extended into homogeneous form
 \end{itemize}
@@ -915,22 +924,23 @@ where:
 Whole projection can be merged into single matrix \ematr{P}, which is called camera matrix:
 
 \begin{equation}
-\escal{w} \ehvect{x} = \ematr{P} \ehvect{X}
 \label{eq:p_abbr}
+\ehvect{x} = \ematr{P} \ehvect{X}
 \end{equation}
 
-Camera matrix \ematr{P} defines reprojection up to scale $\escal{\lambda}$, therefore every camera matrix multiplied by scale gives same image points:
+Camera matrix \ematr{P} defines reprojection up to scale $\escal{\lambda}$, hence every camera matrix multiplied by scale gives same image points:
 
 \begin{equation}
 \ehvect{x}=\lambda\ehvect{P}\ehvect{X}
  \end{equation}
 
-It can be seen as representation of ray going from the projective center. The object point can be located everywhere on this ray, getting always 
+It can be interpreted as representation of ray going from the projective center. 
+The object point can be located everywhere on this ray, getting always 
 same image point coordinates.
 
 \subsection{Two view geometry}
 
-In this chapter there will be introduced theory, which describes mutual relation of two images. 
+In this chapter, there is introduced theory, which describes mutual relation of two images. 
 The core of the theory lies in epipolar geometry.
 
 TODO picture of epipolar geometry
@@ -953,13 +963,12 @@ The other relations which comes form epipolar geomatry are:
      the epipole is in infinity.
 \item Every image point forms epipolar line in the other image. It allows to reduce space of possible occurrence of the point 
       from \eucl{2}, \eucl{1} of epipolar line, without any other information about the point e. g. object space coordinates. 
-
 \end{itemize}
 
 Algebraic derivation will be done beginning with description of ray in camera coordinate system.
 The ray can be defined by two points.
 One of them can be projection center $\ehvect{C}$, and 
-image point $\ehvect{x}$ transform into camera coordinate system using psedo inverse matrix $\ematr{P}^{+}$, 
+image point $\ehvect{x}$ transform into camera coordinate system using pseudo inverse matrix $\ematr{P}^{+}$, 
 where $\ematr{P}\ematr{P}^{+} = \ematr{I}$. After the transformation of x, direciton vector of ray is get.
 Using equation \eqref{eq:hline}, it is possible to express ray as:
 
@@ -997,7 +1006,7 @@ Cross product of two vectors \evect{a} and \evect{b} can be also written as mult
 \evect{b} = [a]_{\times} b
 \end{equation}
 
-Using this formulation of cross product it is possible to write:
+Using this formulation of cross product thre:
 \begin{equation}
 \ehvect{l'_{e}}  = [e']_{\times} \ematr{P'}\ematr{P}\ehvect{x}
 \end{equation}
@@ -1011,16 +1020,16 @@ epipolar lines of the other photo and thus denoting relation of two images is de
 
 Matrix \ematr{F} is called fundamental matrix. 
 
-Decomposing fundamental matrix using camera matrix expansion from \eqref{eq:p_abbr} and \eqref{eq:p_abbr}
-it is possible to derive another important matrix used computer vision, which is called essential matrix \ematr{E}.
+Decomposing fundamental matrix using camera matrix expansion from \eqref{eq:p_abbr}
+it allows to derive another important of two view geometry, which is called essential matrix \ematr{E}.
 
 Lets suppose that firs camera matrices are defined in this way:
 \begin{equation}
 \label{eq:rel_or_cam1}
 \ematr{P}  = \ematr{K} \ematr{[}I|0\ematr{]}
 \end{equation}
-It means that first camera coordinate system lies in the origin of object space and its orientation is same
-as axis of the object system.
+It means that first camera coordinate system coincides with object space coordinate 
+system.
 
 It's pseudo inverse matrix is:
 \begin{equation}
@@ -1049,11 +1058,12 @@ The second camera matrix is defined in this way:
 
 This relationship of two cameras is also called relative orientation, because rotation matrix \ematr{R} and vector \evect{t}
 denotes position and orientation of the second camera to the first one. In order to express cameras exterior orientations in world coordinate 
-system or merge it with another relative orientains it is needed to perform further transformations of the relative 
-exterior orientations, see \label{sec:ess_chain} and \label{sec:helmert}.
+system or merge it with another relative orientations it is needed to perform further transformations of the relative 
+exterior orientations, see \ref{sec:ess_chain} and \ref{sec:helmert}.
 
-Therefore the fundamental matrix equation can be simplified into:
+Taking into account the relative orientation the equation can be simplified rewritten as:
 \begin{equation}
+\label{eg:funeq}
 \begin{split}
 \ematr{F}  &= [\ematr{P}'\ehvect{C}]_{\times} \ematr{P}'\ematr{P} 
 = [\ematr{K}' [\ematr{R}|\evect{t}]
@@ -1071,13 +1081,14 @@ _{\times}
 \end{split}
 \end{equation}
 
-Now comes little bit more difficult part:
-Using this formula which applies for any non-singular matrix \ematr{K} and vector \evect{t}:
+Now comes little bit more difficult part.
+This formula,
+which applies for any non-singular matrix \ematr{K} and vector \evect{t}:
 \begin{equation}
 [\evect{t}]_{\times} \ematr{K} = \ematr{K}^{-T}[\ematr{K}^{-1}\evect{t}]_{\times}
 \end{equation}
 
-the equation gets simplified:
+If the formula is applied to \eqref{eg:funeq}:  
 \begin{equation}
 \begin{split}
 \ematr{F}  &= [\ematr{K}' \evect{t}]_{\times} \ematr{K}' \ematr{R} \ematr{K}^{-1} \\
@@ -1086,9 +1097,9 @@ the equation gets simplified:
 \end{split}
 \end{equation}
 
-This equation reveals very important fact about fundamental matrix which says that the transformation performed 
+This equation reveals very important fact about fundamental matrix, which says that the transformation performed 
 by fundamental matrix can be divided into three main steps.
-At first photo point of first image is transformed into the first photo camera coordinate system. Result of the transformation is 
+At first photo point of first image is transformed into the first camera coordinate system. Result of the transformation is 
 point in the infinity, which describes ray represented by image point. 
 After that the ray is projected into second camera coordinate system. This is done by so called essential matrix:
 \begin{equation}
@@ -1100,24 +1111,25 @@ As the last step, the ray is projected into the second image as epipolar line.
 
 
 It implies that with known exterior orientation it is possible to define essential matrix. 
-Additionally if interior orientation of cameras of both photos are known it is possible to determine fundamental matrix. 
-The fundamental and essential matrices are core of two view geometry in computer vision.
+Morover if interior orientation of cameras of both photos are known it is possible to determine fundamental matrix,
+which describes relation of a two photos.
 
 \subsubsection{Triangulation of points}
 
 
+If the measurements would be precise, the 3D point 
+would lie in intersection of two rays which are lines connecting projection centers and image points 
+in the photos. Unfortunately the rays are never determined so precisly, thus it is needed to deal 
+ with the errors by triangulatin methods. 
 
-The triangultation can be done by several methods. If the measuremtns would be precise, the 3D point 
-would lie in intersection of two rays wich are lines conecting projection centers and image points 
-in the photos. Unfortunatelly the rays are never determined so precisly, thus it is needed to deal 
-somehow with the errors. 
+One of options is linear least square method based 
+on mineralization of collinearity equation \eqref{eq:col_eqs}.
 
-To solve this problem it is possible to use linear least squae methods. The solution is based 
-on direct linear method, which is linearized form of collinearity equation \eqref{eq:col_eqs}.
+The linearized collinearity can be written as:  
 \begin{equation}
 \label{eq:col_eqs}
 \begin{split}
-&\escal{x}^{im} = \frac{\escal{a}_{1}(\evect{X}^{obj}) + 
+&\escal{x}^{un} = \frac{\escal{a}_{1}(\evect{X}^{obj}) + 
                                   \escal{a}_{2}(\evect{Y}^{obj}) + 
                                   \escal{a}_{3}(\evect{Z}^{obj}) +
                                   \escal{a}_{4}
@@ -1127,7 +1139,7 @@ on direct linear method, which is linearized form of collinearity equation \eqre
                                   \escal{a}_{11}(\evect{Z}^{obj}) +
                                    1  
                                   } \\
-&\escal{y}^{im} = \frac{\escal{a}_{5}(\evect{X}^{obj}) + 
+&\escal{y}^{un} = \frac{\escal{a}_{5}(\evect{X}^{obj}) + 
                                   \escal{a}_{6}(\evect{Y}^{obj}) + 
                                   \escal{a}_{7}(\evect{Z}^{obj}) +                                 
                                   \escal{a}_{8}
@@ -1139,16 +1151,12 @@ on direct linear method, which is linearized form of collinearity equation \eqre
                                   }
 \end{split}
 \end{equation}
+ 
+This method is called direct linear transformation (DLT). It is easy to implement and 
+there is no need to know approximate vaules. 
 
-This method is easy to implement and there is no need to know approximate vaules.
-
-
-Main drawback of this method is that DLT model is not based on true projective geometry, thus 
-if elements of \evect{a} would be takend as unknowns in adjustment, the computed corrections 
-would not respect the projective transformation constraints.  In trinanglutation of image points 
-it is supposed that vector \evect{a} is known. However the vector \evect{a} is never determined 
-totally preciselly and therfore found solution does not have to be optimal.
-TODO
+Main drawback of this method is that DLT model does not respects pinhole camera model, thus
+the computed parametrs 
 
 The more complicated method from computer vision is called the optimal solution. 
 It is based on enforcing epipolar constraint, whith cost function 
@@ -1161,11 +1169,29 @@ This method is seen by computer vision community is most accurate \cite[p. 315]{
 
 \subsubsection{Retrieving of exterior orientation from essential matrix}
 \label{sec:ess_eo}
-Exterior orientation
-can be retrivred from essential matrix. However there exists ambiguity of signs which gives 
-four possible solutions differing with sings.
 
-The four possible exterior orientation are:
+
+Rotation [\ematr{R}] and vector \evect{-t} can be retrieved from essential matrix using 
+singular values decomposition (SVD):
+
+\begin{equation}
+\begin{split}
+\ematr{W} &=
+\begin{pmatrix}
+& 0 & -1 & 0 \\
+& 1 & 0 & 0 \\
+& 0 & 0 & 1\\
+\end{pmatrix}] \\
++- \ematr{R} &= \ematr{U}  \ematr{W} \ematr{V}^{T}\\
++- \evect{t} &= \evect{U}_{3,:}
+\end{split}
+\end{equation}
+
+where matrices \ematr{U} and \ematr{V} are two rotation matrices  obtained for SVD decomposition.
+The retrieved ration \ematr{R} matrix and the shift vector \evect{t} are defined up to sign,
+which causes four ambiguity. 
+
+The four possible exterior orientation, which gives for possible solutions, are:
 
 \begin{equation}
 [\ematr{R}|\evect{t}],
@@ -1174,27 +1200,17 @@ The four possible exterior orientation are:
 [\ematr{-R}|\evect{-t}],
 \end{equation}
 
-TODO picture
 
-the rotation [\ematr{R}] and vector \evect{-t} can be retrived from SVD decomposition of essential matrix 
-where:
-
-\begin{equation}
-+- \ematr{R} = \ematr{U}  \ematr{W} \ematr{V}^{T}
-+- \evect{t} = \evect{U}_{3,:}
-W = 
-\end{equation}
+The ambiguity of signs can be solved by assumption that all object points has to be in front
+of both photo planes:
 
 
-Right exterior orientation from four ambiguity can be chosen according simple assumption that all object points has to be in front
-of both photo planes (see picture).
-TODO
 
 
 \subsubsection{Merging of relative orientations}
 \label{sec:ess_chain}
 
-If two relative orientations are merged together, as first step it is necessary to calculate scale of the two relative orientations.
+If two relative orientations are merged together, as first step, it is necessary to calculate scale of the two relative orientations.
 The scale can be calculated from corresponding distances in both coordinate system. 
 It can be used distances of 
 object points and object coordinates of projective center of camera, which are present in both relative orientations.
@@ -1257,18 +1273,18 @@ at least one known coordinate in both systems.
 
 \section{Bundle block adjustment}
 
-Bundle block adjustment is method, which uses the least square technique (\ref{sec:least}) to refine  various scene parameters. 
+Bundle block adjustment is method (BBA), which uses the least square technique (\ref{sec:least}) to refine scene parameters. 
 
-The main advantage of bundle block adjustment method is that the method is taking into account whole scene and therefore using 
+The main advantage of bundle block adjustment method is that the method takes into account whole scene and therefore it utilizes 
 maximum information for adjustment of scene parameters, which leads to more accurate results.
-The principle of BBA has been known for very long time since 1950s.
-However the method has been employed in practical applications since 1990's, because the performance of computers had not been 
+The principle of BBA has been known for very long time since 1950s,
+however the method has been employed in practical applications since 1990's, because the performance of computers had not been 
 sufficient enough before. 
 
-Cost functions of BBA least squares method are photogrammetric collinearity equations \label{eq:p_abbr}.
+Cost functions of BBA least squares method are photogrammetric collinearity equations \label{eq:col_eqs}.
 
 Unfortunately collinearity equations are non linear, hence the non-linear least square method \ref{sec:non_least} must be used therefore 
-it is needed to provide sufficiently accurate initial values for finding global minimum.
+it is needed to provide sufficiently accurate initial values for finding values of parameters in global minimum of cost function.
 
 Thanks to the least squares method BBA is very flexible in terms of choosing of parameters to be adjusted. 
 It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters 
@@ -1276,8 +1292,6 @@ and refine them using BBA.
 
 
 The BBA method is described on practical this practical example.
-
-
 There are three photos of a scene.
 There were identified 3 tie points an 2 ground control points in all three photos.
 Other two tie points one ground control point were identified on two photos and one ground control point and one tie point was identified 
@@ -1298,7 +1312,7 @@ it is possible to use gcp which are identified only in one image. In this case t
 are known, thus there is no point ambiguity on the ray as in tie point. 
 
 In the example there are 3*3 adjusted parameters and 3 * 3 * 2 measurements for every tie point,  
-1 * 3 * 3 measurements for every gcp indetified, which are visible in all three photos. 
+1 * 3 * 3 measurements for every gcp identified, which are visible in all three photos. 
 Moreover there are 2 * 3 adjusted parameters and 2 * 2 * 2 measurements for every tie point,  
 1 * 2 * 3 measurements for the gcp visible in two photos.
 
@@ -1358,55 +1372,71 @@ previous theoretical chapter.
 \section{General solution of UAV bundle block adjustment}
 
 
-The problem of initial values of exterior orientation was solved by  rigorous aerial photogrammetry in 1990s
-when global positioning system began to operate. The gps unit provides sufficiently accurate coordinates and  
-inertial measurement unit (IMU) measures orientations in space,  Combining the information from these units 
-whole initial exterior orientation is obtained. In order to be information useful it is need to determine 
+In 1990s Global Positioning System (GPS) become first globally operational satellite navigation.
+GPS allows 
+to locate position of GPS unit with accuracy ranging  from decimeters to millimeters depending 
+on used technique and other conditions. 
+GPS greatly simplified obtaining of initial values of exterior orientation with better accuracy in photogrammetric aerial mapping missions.
+GPS unit together with 
+inertial measurement unit (IMU), which measures its orientations in object space,
+provides all values of exterior orientation. In order to be information useful it is need to determine 
 leverage arm offset, which describes shift of GPS unit to the perspective center and bore-sight offset
 which describes orientation of camera coordinate system towards IMU coordinate system. These two
 quantities are determined in calibration process. The measured values from these two units has to
-be corrected by the two quantities to represent exterior orientation.
-Aerial photogrammetry missions are expensive, thus they are prepared and carried out by experts using 
-professional equipment which is properly calibrated.
-Same aerial photogrammetry approaches make some apriori assumptions which simplifies the equation. 
+be corrected by the two quantities to represent true exterior orientation of camera coordinate system. The corrected values 
+can be refined by BBA. Collinearity equations can be extended to contain these corrections as refined parameters 
+ in BBA.
+
+Before GPS was introduced, aerial photogrammetry made some a priori assumptions about the camera position,
+which simplified the collinearity equation in order to get initial values of exterior orientation. 
 For instance it can be assumed that the aerial photo is vertical if orientation deviates from true vertical
 direction up to 2-3 degrees. Using this assumption collinearity equations can be linearized and 
 approximate values can be computed easily from gcps.
 
+Photogrammetric aerial mapping missions are prepared and carried out by experts using 
+professional equipment which is properly calibrated. As a consequence Budget of such a missions
+is high. These facts prevents further spreading of rigorous aerial photogrammetry methods.
 
-Because nearly everybody has camera in his pocket nowadays and UAVs are becoming common, there is big demand 
+Nowadays nearly everybody has camera in his pocket therefore there is big demand 
 to provide solution which is very simple from the user point of view because 
-ordinary users has limited or no knowldge of photogrammetry. It follows the main requirement 
-on solution, which was set up at the beginning of the thesis. Ordinary users does not want 
-to spend money for other devices or time studying complicated methods, they just 
-want to take a group of photos of the scene and get the job done therefore the rigorous 
-methods of aerial photogrammetry can not be used.
+vast majority of users has limited or no knowledge of photogrammetry. 
+Together with spread of UAV, the mapping missions can be performed with much lower 
+cost compared to regorous aerial photogrametry mission.
 
-Also vertical photo constraint would be fundamental limitation because if user takes 
-photos of same scene they are oblique. Moreover UAVs flight track is much more unstable 
-so event if the user would try to obtain vertical photos, it would be very difficult to
-satisfy 2-3 degrees deviation.
+It follows the main requirement 
+on solution, which needs to be simple and cheap enough,
+in order to be adopted by
+ordinary users, who do not want 
+to spend money for other devices or spend time studying complicated methods. 
+The users just 
+want to take a group of photos of the scene and get the job done by the software.
+The final solution should be flexible to process both terrestrial and aerial photos,
+which can give both orhophoto and structure / DTM as output. There should 
+not be any constraint on camera orientation because it should be able 
+to process photos acquired from camera holding in hand or camera mounted on UAV.
+Because of instability of  UAVs flight track and human hand, the photos 
+must be considered as oblique thus it is not possible to impose any constraints on camera orientation. 
 
-In order to make this requirement of simplicity more specific, user should need only 
-to have camera to obtain structure of the scene. In order to be orthophoto generated 
+In order to make this requirement of simplicity more specific, user should just need  
+ camera to obtain structure of the scene. 
+ In order to be orthophoto generated 
 user would need to employ UAV in order to get images from vertical point of view.
 No other hardware device should be needed. 
 All other steps should be done 
-using open source software which can everybody download. Moreover they should be simple enough 
-to be feasible as much user as possible.
+using open source software which can everybody freely download and use. 
 
 Also the solution should be flexible enough to process additional data, which may be known about a scene, 
 as GCPs, positions of cameras etc. The additional data can
  increase accuracy of results and computational time  
- decreasing number of  BBA iterations needed for finding global minimum.
+ decreasing number of  BBA iterations needed for finding global minimum. 
 
-As consequence of these constraints, the minumum input into processing chain can be just photos
+As consequence of these constraints, the minimum input into processing chain can be just photos
 of the scene and other parameters, which can be derived from information on specific kind of photos.
 
 The another important requirement is to make the process as much automatic as possible, because 
 if it would require a lot of time of user to go through the processing chain nobody would use it.
 
-This processing chain should fulfill about mentioned requirements for the solution:
+This processing chain should fulfill above mentioned requirements for the solution:
 
 \begin{itemize}
 \item Camera calibration - getting interior orientation of camera. There exists simple technique for calibration
