@@ -1,7 +1,7 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage{a4wide}
-\usepackage{lmodern}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{textcomp} 
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
@@ -102,6 +102,9 @@ right=25mm
 {\it #1}
 }
 
+\newcommand{\term}[1]{
+{\it #1}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -144,9 +147,9 @@ right=25mm
 In recent decades tremendous development of information technology has fundamentally changed many disciplines.
 
 Photogrammetry has successfully taken advantages of this development, and nowadays 
-it is using different methods and equipment, which allows to obtain and process data 
-in huge scales achieving very good accuracy. Some of the currently used 
-methods has been known for several decades, however technology was not so advanced to be use 
+it is using methods, which allows to process data 
+in huge scales achieving high accuracy. Some of the currently used 
+methods has been known for several decades, however technology was not so advanced in order to be employed 
  in practice. 
 
 Information technology has caused blurring of borders between disciplines. 
@@ -155,17 +158,8 @@ to see growing trend of combining knowledge from both fields.
 
 Both photogrammetry and computer vision are dealing with information recorded in photo. Computer vision 
 methods are employed in robotics, dealing with determination of robot position and retrieving structure 
-of environment which surround the robot.
-Photogrammetry is used to produce digital terrian models (DTM), precise structure of objects or orthophotos. 
-Orthophoto is created in 
-orthorectification process, which is transformation form perspective projection into orthogonal projection.
-Unlike non-orthorectified pohotography the orthophotos can be merged together into seamless map. Recently 
-orthophoto has been widely used by map services like Google Maps or Mapy.cz. Orthorectified photo 
-has same scale in all parts, therefore it is possible to measure true distances as in map. During orthorectificaion distortion 
-caused by tilt of camera (if photo is not vertical) together with elevation differences are removed.
-
-TODO PICTURES
-
+of environment which surrounds the robot.
+Photogrammetry is used to produce digital terrain models (DTM), precise structure of objects or orthophotos. 
 
 The core of photogrammetry is quickly moving  from  hardware towards software. In past it was necessary to have special 
 expensive equipment to perform photogrammetric measurement. Nowadays, thanks to current state of the art software, 
@@ -175,7 +169,7 @@ expensive equipment to perform photogrammetric measurement. Nowadays, thanks to 
  which positively affects precision of retrieved information.
  
 As a consequence of these changes, photogrammetry has not longer been domain of few professionals but it has 
-become to be used by much wider audience. 
+become used by much wider audience. 
 
 Geographical information system (GIS) is software which is used for storing and processing information,
 with spatial component. For instance  GIS is employed on backed of map portals (e. g. Google Maps) therefore nearly 
@@ -188,12 +182,12 @@ With growing importance of software there comes a question of licenses. There ar
 main branches: proprietary software and free software. Most of proprietary software is not available in 
 form of source code. The license of proprietary software allows to use it under certain terms and usually user 
 has to buy it. Proprietary software works like blackbox, because user has no chance to investigate the source 
-code and realize what is happening. Therefore user can only believe to software provider
-that software is doing what the provider advertises. 
+code and realize what is going on inside it. Therefore user can only believe to software provider
+that it is really doing what the provider advertises. 
 For instance it can be problem when some data are analyzed
 because the user loses control 
 over the data in processing chains which uses proprietary software in some steps.
-This also posses very serious security threads, because the software can do some hidden activity against user,
+This also posses very serious security threads, because the software can do some hidden activity against user
 e. g. obtaining personal data or tracking user activity.
 
 Despite the fact that current complexity of software is so huge,
@@ -204,75 +198,141 @@ carried out by community of developers which are gathered around the project.
 All popular free software projects have such a active communities, therefore it is
 very unlikely that same malicious code would be included into the project.
 Moreover if such a case would happen, it would not take a long time until such a change 
-would be spotted.
+would be spotted by someone from the community.
 
-\necislovana{Essential principle}
+GRASS GIS  (Geographic Resources Analysis Support System) is one of the free GIS software. 
+Besides many other features, GRASS is capable to create orthopohoto from aerial photos.
+GRASS orthorectification processing chain was implemented in 1990s.
+The processing chain was focused on  processing of photos taken by rigorous 
+photogrammetric aerial missions performed by manned aircrafts, which was 
+major method of obtaining orthophotos in those days. 
 
-Both photogrammetry and computer vision are dealing with retrieving structure of scene from set of photos 
-covering the scene. The methods for retrieving the structure are based on pinhole camera model, which 
-describes relation of photo point to the 3D point in object camera system.
-Parameters which characterizes pinhole camera model are called interior orientation parameters.
-The relation is showed in this picture:
-TODO
-
-Image plane is represented by digital cameras image sensor, which  creates image converting light into electronic signal.
-Then the signal is processed inside the camera giving output as photograph, which is stored in a digital format. 
-Image sensor is divided into cells, which measure intensity of fallen light on their surface. The pixel value in final 
-photograph is based on the measured intensity of cell or group of cells. The pixel location in image corresponds
-to the location of the cells on the chip.
-
-
-All light rays going from the object points and falling on image sensor are going through the same point in pinhole camera model.
-The point is called projective center. The ray which is perpendicular to the image plane is called principal ray and the point 
-where the principal ray intersects the image plane is called principal point. It is clear that during the projection of
-3D scene onto 2D plane it must be some information lost because of dimensional reduction.
-
-
-If 3D coordinates of point are known it is able to reproject it on the image plane. However as a consequence 
-of the dimension reduction it is not possible to determine the 3D coordinates of the point from 2D photo coordinates, 
-only the ray can be reconstructed.
-
-
-However if the point is located at least on a two photos, which were taken from different positions and these positions 
- are known (this is called exterior orientation), it is possible 
-to reconstruct 3D coordinates of the point, because it lies on the intersection of the photo rays.
-
-PICTURE
-
-
-In this thesis there are introduced and used such a methods leading to retrieval of the scene structure from the 
-the set of photos, which is based on such a simple principle! Computer vision calls it structure from motion 
-and photogrametry uses it for creation of orthophoto, DTM or structure of object.
-
-
-\newpage
+Nowadays there is a strong demand for  providing simple and general solution 
+which is able to produce orthophoto, structure of objects or 
+DTM. Current processing chain is not able to meet up such a demand.
+ The thesis tries to analyze current state of orthorectificaion in GRASS,
+explore and implement methods of photogrammetry and computer vision in order 
+to create such a solution. 
 
 \section{Theoretical part}
+
+
+\section{Essential principle}
+\label{sec:ess_princip}
+
+Both photogrammetry and computer vision are dealing with retrieving structure of scene from group of photos 
+ recording it. Structure retrieval methods are based on pinhole camera model, which 
+describes relation of \term{object point} in 
+3D camera coordinate system and projected 2D \term{photo point} in photo coordinate system.
+Parameters which characterizes pinhole camera model are called \term{interior orientation}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figures/pinhole_camera.png}
+    \caption{Pinhole camera model}
+\end{figure}
+
+
+
+\term{Image plane} is represented by digital camera image sensor, which  creates photo converting light into electronic signal.
+Then the signal is processed inside the camera giving output in form of photograph, which is stored in a digital format. 
+Image sensor is divided into cells, which measure intensity of fallen light on their surface. The pixel value in final 
+photograph is based on the measured intensity of cell or group of cells. Photo created by image sensor is inverted. This kind 
+of photo is called \term{negative} in analog photography.  Usually inversion is removed during processing inside 
+camera. The resulting non inverted photo is called \term{positive} in analog photography. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{figures/pinhole_camera_inversion.png}
+    \caption{Pinhole camera photo inversion \cite{mellish2005pinhole}}
+\end{figure}
+
+
+All light \term{rays} going from the object points and falling on image sensor are going through the same point in pinhole camera model.
+The point is called \term{projective center}. The ray which is perpendicular to the image sensor plane is called principal ray and the point 
+where the \term{principal ray} intersects the image sensor plane is called \term{principal point}.
+
+Pinhole camera model defines two coordinate systems. 2D  \term{photo coordinate system} is coincident
+with plane of positive.
+Coordinates of photo point are expressed in this system. Another one is 3D \term{camera coordinate system}
+where the object point is located. The system originates in projective center, Z coordinate 
+ is coincident with projective ray and X, Y axes being in parallel to x, y axes of photo system.
+
+ 
+As a consequence of dimensional reduction caused by 
+3D scene projection onto 2D plane, some information is lost.
+If 3D coordinates of point are known it is able to reproject it on the image sensor plane. However because 
+of the dimensional reduction,  only the ray can be reconstructed from the 2D photo point,
+3D coordinates of the point cannot be determined.
+ 
+In order to solve the ambiguity of object point position on the ray another information is needed.  
+Such a additional information can provide another photo from different position, which contains same point. 
+If positions of photos 
+ are known (this is called\term{ exterior orientation}), it is possible 
+to reconstruct 3D coordinates of the point, because it lies on the intersection of the photo rays.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/object_point_intersection.png}
+    \caption{Oject point reconstruction from intersection of two photo rays.}
+    \label{fig:obj_intersec}
+\end{figure}
+
+Real positions of points and exterior orientation of cameras are expressed in object coordinate system. 
+Exterior orientation describes relation between object coordinate system and camera coordinate system. 
+Relation between point in object 
+space and point in photo space can be expressed by combining interior and exterior orientation together.
+
+In this thesis, there are introduced and used such a methods leading to retrieval of the scene structure from the 
+the set of photos, which are based on such a simple principle of ray intersection! Computer vision calls it structure from motion 
+and photogrammetry uses it for creation of orthophoto, DTM or structure of object.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figures/dtm.jpg}
+    \caption{Digital terrain model \cite{kbosak2010bezmiechowa}.}
+\end{figure}
+
+Orthophoto is created in 
+orthorectification process, which is transformation form perspective projection into orthogonal projection.
+Unlike non-orthorectified pohotography the orthophotos can be merged together into seamless map. Recently 
+orthophoto has been widely used by map services like Google Maps or Mapy.cz. Orthorectified photo 
+has same scale in all parts, therefore it is possible to measure true distances as in map. During orthorectificaion distortion 
+caused by tilt of camera (if photo is not vertical) together with elevation differences are removed.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/orthophoto.png}
+    \caption{On the left picture there is showed effect of elevation differences 
+    which arises from perspective projection of pinhole camera model. 
+    On the right picture there is depicted orthogonal projection of orthophoto.}
+    \label{fig:ortho}
+\end{figure}
 
 
 \subsection{GRASS GIS}
 
 GRASS (Geographic Resources Analysis Support System) GIS is open source GIS software cabable of processing raster, vector and imagery data. 
-GRASS GIS can be considered one of 
-the most oldest active software project. The development of GRASS GIS begun by U.S. Army CERL  laboratory
+GRASS belongs among one of 
+the longest active software project. The development of GRASS began by U.S. Army CERL  laboratory
 in first half of 1980s. In 1990s U.S.Army gradually ceased developing GRASS GIS. Luckily it was decided to 
-release source code as public domain therefore the development could be taken over by volunteers. In the 1999 license 
-of GRASS GIS was changed into GNU GPL v2. Currently GRASS GIS is developed by GRASS development 
+release source code as public domain, therefore the development could be taken over by volunteers. In the 1999 license 
+of GRASS was changed into GNU GPL v2. Currently GRASS GIS is developed by GRASS development 
 team, which is comprised of developers spread world wide. 
  
-Individual functionalities of GRASS GIS are implemented in form of small simple modules, which 
+Individual functionalities of GRASS are implemented in form of small software packages called modules, which 
 can be combined to solve complex tasks.
 Unlike other GIS systems as QGIS or ArcGIS, it takes 
-more time for a new users to start understand the philosophy of GRASS architecture. Developers 
-has been aware of this problem, there they decided to develop graphical user interface, which 
+more time for a new users to start understand the GRASS philosophy. Developers 
+has been aware of this problem, therefore they decided to develop graphical user interface, which 
 has evolved dynamically.
 
-Data in GRASS GIS are stored in GIS Database. GIS Database is composed of locations. Every location 
+Data in GRASS are stored in GIS Database. GIS Database is composed of locations. Every location 
 defines its projection and all data, which belongs to the location, must be reprojected to 
-the projection in order to be included into the location. The location comprises from mapsets, which are used for organization 
+the projection of location. The location comprises from mapsets, which are used for organization 
 of data into consistent units. 
 
-Another important element of GRASS GIS is computational region. Region stores information about 
+Another important element of GRASS is computational region. Region stores information about geographical
 extend, which is defined by four values (north, south, east, west) of bounding box and 
 two values, which defines south-north and west-east resolution. Properly set region is 
 very important for raster data processing, because nearly all except import modules provides computation 
@@ -283,22 +343,33 @@ on currently set region. Vector data are processed in whole extend regardless re
 Unmanned aerial vehicle (UAV also known as drone) is aircraft without human pilot. Recently UAVs are ingloriously known for
 their heavy military employment especially by USA in Afghanistan and Pakistan. These military drones are equipped with state of the art 
 technology and their construction is similarly complex as small aircraft.  
-The number of military UAVs is quickly raising and nowadays USA traines more UAV operators than fighter plane pilots. 
+The number of military UAVs is quickly raising and nowadays USA trains more UAV operators than fighter plane pilots.
+
 There is also exponentially growing sector of civil drones, which is very broad category ranging
 from big military like size drones to small ones in size of few decimeters. There are several types of drones e. g. airplanes,
-helicopters, multicopters, paraglides, airships, baloons and others. 
+helicopters, multicopters, paraglides, airships, balloons and others. 
 Very promising category of drones are multirotor drones (e. g. hexacopters or octocopters), because they have simple construction and 
-even ordinary users are able to learn control them very quickly. Together with quickly decreasing prizes of octocopters it can be expected 
+even ordinary users are able to learn control them very quickly. Together with steeply decreasing prizes of octocopters it can be expected 
 that this kind of drone will become commonly used for many civil purposes.
 
-In photogrammetry cheap UAVs can be successfully used in mapping missions for creation of DTM and orthophoto.
-Main advantage of the mission are cost savings compared to missions which is performed by manned aircraft.
+In photogrammetry cheap UAVs can be successfully employed in mapping missions for creation of DTM/structure retrieval and orthophoto.
+Main advantage of the UAV mission are cost savings compared to mission which is performed by manned aircraft.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.8]{figures/octocopter.jpg}
+    \caption{Octocopter \cite{boe2013octocopter}}
+    \label{fig:sample_figure}
+\end{figure}
+
+
 
 \subsection{Least squares}
 \label{sec:least}
 
 
-In linear algebra commonly solved equation is:
+In linear algebra, commonly solved equation is:
 
 \begin{equation}
 \label{eq:linear_eq}
@@ -318,7 +389,7 @@ which can be interpreted as:
 If matrix \ematr{A} is 
 non singular matrix  and vector \evect{b} is non zero vector, then there exists exactly one solution 
 for vector of parameters  \evect{X} to satisfy the equation. Non singular matrix is always square matrix, 
-which has both column vectors and row vectors linearly independent. 
+which has all column vectors and row vectors linearly independent. 
 
 Basically every measurement is burden with some error. The errors can be devided into these main categories:  
 \begin{itemize}
@@ -333,14 +404,15 @@ on a measurement. The random errors follows normal distribution which is represe
 TODO picture
 
 
-The normal distribution is characterized by two parameters, which are standard deviation and  mean. 
+The normal distribution is characterized by two parameters, which are standard deviation 
+$\escal{\sigma}$ and mean $\escal{\mu}$. 
 If measurements are burden only with random error the mean represents accurate value and standard deviation represents 
 dispersion level of measurements. 
 Theoretically  if measurements of some parameter would be repeated infinite times and the measurements would be influenced only by random errors,
 accurate values could be computed as mean.
 It follows that it is possible to get closer to the accurate value by repeating of measuremnts, which 
 leads into solving overdetermined systems. Another important implication is that if same number of measurement is perfromed by more accurate 
-instrument, the mean of measurements is closer to the accurate value than the mean of measurements perform with less precise instrument.
+instrument, the mean of measurements is statistically closer to the accurate value than the mean of measurements perform with less precise instrument.
 Measurements of different accuracies, can be combined together by weighted mean
 with weight of measurement $\escal{p}_{i}$ defined as:
 \begin{equation}
@@ -353,13 +425,13 @@ and $\escal{\sigma_{i}}$ is standard deviation of the instrument used for the me
 
 The overdetermined systems are solved in many fields which deals with measurements, where the precision matters (e. g. 
 surveying, photogrammetry etc.).
-As consequence of overdetermination, the design matrix \ematr{A} becomes rectangular with more linearly independent rows than independent columns 
+As consequence of overdetermination, the design matrix \ematr{A} becomes rectangular with more rows than columns 
 and therefore the solution does not exist for this linear equations system \eqref{eq:linear_eq}.
 Only if the measurements would be perfect it would be possible to find such a parameters vector \evect{X}, to 
 solve the system of linear equations \eqref{eq:linear_eq}. 
 
-Due to measurements imperfection it is not possible to find such a parameters of vector \evect{X} to make difference \evect{v} between measured values and 
-result of cost function using the parameters equal to zero:
+Due to measurement imperfections it is not possible to find such a parameters of vector \evect{X} to make difference \evect{v} between measured values and 
+result of cost function using the parameters equal to zero.
 
 \begin{equation}
 \label{eq:least_v}
@@ -368,8 +440,16 @@ result of cost function using the parameters equal to zero:
 
 
 
-Hence it is needed to define different condition, which allows to find optimal solution of the 
+Hence it is needed to define another condition, which allows to find optimal solution of the 
 overdetermined system.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/squares.png}
+    \caption{In this chase least squares method finds such a line,
+    which minimizes sum of squares areas. }
+    \label{fig:squares}
+\end{figure}
 
 The least square method finds such a values of parameters vector \evect{X}, which 
 follows condition of minimum sum of square differences \evect{v}: 
@@ -378,9 +458,7 @@ follows condition of minimum sum of square differences \evect{v}:
 \evect{v}^{T} \evect{v} = min
 \end{equation} 
 
-TODO picture
-
-The minimized equation can be rewritten:
+The minimized equation can be rewritten as:
 
 \begin{equation}
 \begin{split}
@@ -390,21 +468,21 @@ The minimized equation can be rewritten:
 \end{split}
 \end{equation} 
 
-According to calculus notation least squares method searches for global minimum if the square difference function. 
+According to calculus notation least squares method searches for global minimum of the square difference function. 
 The global minimum of the function can be obtained using partial derivative of parameters in cost function.
-In this case derivatives are simple because it is supposed that our cost functions are linear, therefore 
-its square forms  second degree polynomial e. g. parabola in \eucl{2}, paraboloid in \eucl{3} etc., which has
-only one point, where all partial derivatives are equal to zero, regardless dimension of the function. The point It is 
+In this case derivatives are simple because it is supposed that cost functions are linear, therefore 
+its square forms  second degree polynomial e. g. parabola in \eucl{2}, paraboloid in \eucl{3} etc. All these functions has
+only one point, where all partial derivatives are equal to zero, regardless dimension of the function. It is 
 exactly the global minimum, which the least squares method searches for!
 
 The partial derivative of minimized function can be written as:
  
 \begin{equation}
-\frac{\partial diff}{\partial \evect{X}} = -2\ematr{A}^{T} \evect{L} + -2\ematr{A}^{T}\ematr{A} \evect{X} 
+\frac{\partial \efunc{f} (\evect{v}^{T} \evect{v}) }{\partial \evect{X}} = -2\ematr{A}^{T} \evect{L} + -2\ematr{A}^{T}\ematr{A} \evect{X} 
 \label{eq:least_part}
 \end{equation} 
 
-Giving this equation equal to zero, the global minimum can :
+Giving this equation equal to zero, the global minimum can be find:
 \begin{equation}
 -2\ematr{A}^{T} \evect{L} + -2\ematr{A}^{T}\ematr{A} \evect{X} = 0 
 \end{equation} 
@@ -434,51 +512,63 @@ therefore the least square equation is altered into this form:
 
 \subsubsection{Non-linear least squares}
 \label{sec:non_least}
-So far it was supposed that cost function is linear and thus global minimum can be found simply by means of linear algebra  \eqref{eq:least_sq}.
-Unfortunately in many cases the relationship between parameters and 
-measured values is not linear, hence it is needed to adapt linear least squares equations for this case.
+So far it was supposed that cost function is linear thus global minimum can be found simply by means of linear algebra  \eqref{eq:least_sq}.
+Unfortunately it is very common that the relationship between parameters and 
+measured values is not linear, hence it is needed to adapt linear least squares equations for non-linear
+cost functions.
 
-Unlike linear least squares, which square of cost function is represented by function  (parabola, paraboloid...) with just one point where all
-partial derivatives are being zero, the non-linear cost function can have many such a points (local minimas, stationary points, maximas). 
+Unlike linear least squares, which square of difference \label{eq:least_be_part}
+is represented by function  (parabola, paraboloid...) with just one point where all
+partial derivatives are being zero, the non-linear cost function can have many such a points e. g. other local minimas. 
 
 This problem of non-linearity can be solved by linearization of non-linear equations.
 The main idea of linearization process is to approximate the cost function with first degree Taylor polynomial,
 which is linear and therefore it is possible to use linear least square equation \eqref{eq:least_sq} 
 to solve non-linear problem. 
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/taylor.png}
+    \caption{Function $\efunc{f}_{i}$ is approximated by first degree Taylor polynom $\efunc{T} ^{\efunc{f}_{i}}$,
+    which forms line. $\Delta$ represents aproximation error.}
+    \label{fig:taylor}
+\end{figure}
+
+
 Approximation of cost function with a first degree Taylor polynomial can be written as:
 \begin{equation}
-\efunc{T^{f_{i}, X_{0}}_{1}} = f_{i}(X_{0}) + \frac{\partial \efunc{f_{i}}}{\partial {X_{0}}} f_{i}'(X_{0}) (X -  X_{0}) 
-... \frac{\partial \efunc{f_{i}}}{\partial {X_{0}}} f_{i}'(X_{n}) (X -  X_{0}) 
+\efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) = 
+	      \efunc{f}_{i}(\evect{X}_{0}) + 
+               \frac{\partial}{\partial {\escal{X}_{0_{1}}}} \efunc{f}_{i} (\evect{X}_{0}) (\evect{X} -  \evect{X}_{0}) 
+\ ... \ + \frac{\partial}{\partial {\escal{X}_{0_{n}}}} \efunc{f_{i}}(\evect{X}_{n}) (\evect{X} - \evect{X}_{0}) 
 \end{equation}
 
 where:
 \begin{itemize}
 \item $\evect{X}_{0}$ is point where the Taylor polynomial touches function, which it approximates. E. g. first degree Taylor polynomial 
-      is line, which is tangent of function at point $X_{0}$ in \eucl{2}, in \eucl{3} it is tangent plane and n-dimensional 
-      space it is tangent hyperplane.
+      is line, which is tangent of function at point $X_{0}$ in \eucl{2}, tangent plane in \eucl{3} and  
+      tangent hyperplane in  \eucl{n}.
 \item \evect{X} is point where a Taylor polynomial returns approximate value of function $\efunc{f}_{i}$
 \end{itemize}
-
-TODO picture 
 
 Least squares Taylor polynomial can be written as:
 
 \begin{equation}
-\efunc{T^{f_{i}, X_{0}}_{1}} = f_{i}(X_{0}) - a_{0} x_{0} ... a_{n} x_{k} 
+\efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) =  \efunc{f}_{i}(\evect{X}_{0}) + \escal{a}_{0} \escal{dx}_{0} \ ... \ + \escal{a}_{n} \escal{dx}_{n} 
 \end{equation} 
 
-in matrix form:
+in matrix form with formal substitution $\evect{L_{X_{0}}} = \efunc{f}_{i}(\evect{X}_{0})$:
 \begin{equation}
-\efunc{T^{f_{i}, X_{0}}_{1}} = \evect{v} = \evect{L_{X_{0}}} - \ematr{A}\evect{dx}
+\label{eq:expanded_taylor}
+\efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) = \evect{L_{X_{0}}} + \ematr{A}\evect{dx}
 \end{equation} 
 
-And analogous equation to \label{eq:least_v} can be derived:
+And analogous equation to \eqref{eq:least_v} can be derived:
 \begin{equation}
-\evect{v} = \evect{L} - \efunc{T^{f_{i}, X_{0}}_{1}}
+\evect{v} = \evect{L} - \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X})
 \end{equation} 
  
-Taylor polynomial member can be rewritten as:
+Taylor polynomial member can be expanded by \eqref{eq:expanded_taylor}:
 \begin{equation}
 \begin{split}
 \evect{v} &=  \evect{L_{X_{0}}} - \evect{L} - \ematr{A}\evect{dx} \\
@@ -486,23 +576,24 @@ Taylor polynomial member can be rewritten as:
 \end{split}
 \end{equation}
 
-If the differences vector is substituted into least squares minimization criteria:
+If the differences vector is substituted into least squares minimization criterion:
 \begin{equation}
 \label{eq:min_cond}
 \evect{v}^{T}  \ematr{P} \evect{v} = min
 \end{equation}
 
 the essential equation for non linear least squares can be derived 
-following same steps as in linear least squares:
+similarly to linear least squares:
 
 \begin{equation}
+\begin{split}
 \label{eq:non_least_sq}
-\evect{dx} = (\ematr{A}^{T} \ematr{P} \ematr{A})^{-1} \ematr{A}^{T} \ematr{P} \ematr{l}
-\evect{X} =  {\evect{dx} -  \evect{X_{0}}}
-\label{eq:least_sq}
+\evect{dx} &= (\ematr{A}^{T} \ematr{P} \ematr{A})^{-1} \ematr{A}^{T} \ematr{P} \ematr{l} \\
+\evect{X} &=  {\evect{dx} -  \evect{X_{0}}} \\
+\end{split}
 \end{equation}
 
-If the equation is compared to the linear least squares equation \label{eq:least_sq},
+comparing the equation to the linear least squares equation \eqref{eq:least_sq},
  it is slightly different. Instead of parameters vector \evect{X} there is used 
 parameters vector of differences \evect{dx} and measurement vector \evect{L} is analogous to vector \evect{l}. In this two minor 
 substitutions there are hidden major limitations of the non-linear least squares method, 
@@ -511,21 +602,21 @@ where the prize for approximation is paid.
 As it was already mentioned the Taylor polynomial requires some point $\evect{X_{0}}$, where it is tangent to 
 approximated function.
 This approximation is good in close surroundings of point $\evect{X_{0}}$, however as the distance 
-grows the approximation error may increase significantly.
+grows the approximation error $\Delta$ may increase significantly, which can be clearly seen in Figure \ref{fig:taylor}.
 
 Therefore, unlike linear least square method, non-linear least squares requires initial 
-value of parameters \evect{X}. If the initial values are not accurate 
-enough, it is possible to iteratively run linear least squares subsequently using parameters vector \evect{X}
+values of parameters \evect{X}. If the initial values are not accurate 
+enough, it is possible to iteratively run linear least squares subsequently using adjusted parameters vector \evect{X}
 from previous iteration to eventually approach global minimum of the cost function. 
 Therefore the closeness of the initial point $\evect{X_{0}}$ to global minimum affects how many iterations (speed of convergence)
 are needed to achieve optimal solution (global minimum).
 
-Unfortunately the non-linear least square method has another one even more serious pitfall, which 
+Unfortunately the non-linear least square method has another one, even more serious pitfall, which 
 does not guarantee that it will iterate towards global minimum at all!
-In this case the found parameters \evect{X} are completely wrong because 
+In this case, the found parameters \evect{X} are completely wrong because 
 it does not satisfies minimum squares difference condition \label{eq:min_cond}. If the initial values are 
-inaccurate the least squares can iterate toward other points with zero derivation as local minimas or stationary points.  
-This is caused by run-off of non-linear functions, which has more points with zero derivative,
+inaccurate, the least squares can iterate toward other points with zero derivation e. g. local minimas.  
+This is caused by run-off of non-linear functions, which has more points with zero derivative
 and therefore result depends on initial point given by $\evect{X_{0}}$  of non-linear least squares iteration.
 
 
@@ -533,21 +624,21 @@ and therefore result depends on initial point given by $\evect{X_{0}}$  of non-l
 
 It was proved that above derived least square method is solution of Gauss-Markoff model, which 
 says if measurements \evect{L} are random with known covariance matrix $\ematr{\Sigma}_{l}$  and vector of parameters \evect{X} is non-random, then
-vector \evect{dx}  has the lowest variance and it is unbiased.If density functions of measurements are normally 
+vector \evect{dx}  has the lowest variance and it is unbiased. If density functions of measurements are normally 
 distributed then values obtained from cost functions using  computed parameters lies in maximum of the density
-function. In other words posses maximum likehood.
+function. In other words they posses maximum likehood.
 
 The weight matrix is calculated form covariance matrix in similar way as weights in weighted mean \eqref{eq:wmean}:
 \begin{equation}
 \ematr{P} = \frac{\escal{const}}{\escal{\Sigma}_{i}^{2}}
 \end{equation} 
 
-\escal{const} is chosen arbitrary, therefore it can be selected as unit a priori weight standard deviation $\sigma_{0}$. 
+\escal{const} is chosen arbitrary. It can be selected as unit a priori weight standard deviation $\sigma_{0}$. 
 
 
 Unbiased unit weight standard deviation $\hat{\sigma}_{0}$ can be also estimated a posteriori as:
 \begin{equation}
-\escal{\hat{\sigma}}_{0}^{2} = \frac{\evect{v}_{T} \ematr{P}  \evect{v}}{\escal{r}}
+\escal{\hat{\sigma}}_{0}^{2} = \frac{\evect{v}^{T} \ematr{P}  \evect{v}}{\escal{r}}
 \end{equation} 
 
 where \escal{r} is redundancy, which is difference of columns number from rows number of design matrix \ematr{A}.
@@ -565,11 +656,11 @@ and a posteriori covariance matrix $\ematr{\Sigma}_{\hat{l}}$ of measurements ca
 \subsubsection{Free network least squares}
 \label{sec:free_net_least}
 
-In geodesy it can happen that columns of design matrix \ematr{A}
+In geodesy, it can happen that columns of design matrix \ematr{A}
 are not linearly independent. This can be caused by missing information
 about coordinate system in the design matrix. This issue is called datum deficiency.
 Datum deficiency makes normal matrix $ \ematr{A}^{T} \ematr{P} \ematr{A}$ non invertible and therefore 
-least squares equation \label{eq:non_least_sq} cannot be solved.
+least squares equation \ref{eq:non_least_sq} cannot be solved.
 In order to avoid the datum deficiency issue it is needed to keep some parameters fixed, 
 which means that columns of the fixed parameters are excluded from design matrix\ematr{A}.
 
@@ -579,28 +670,35 @@ three dimensional coordinate system is defined by three coordinates of shift vec
 
 If there is not enough fixed points, the network has to be adjusted as free network.
 One of possible methods how to adjust free network is calculation of pseudo inverse matrix of the normal matrix instead of
-inversion. Another option is adding inner constraints the design matrix.
+inversion. Another option is adding inner constraints to the design matrix.
 
 \subsection{Short introduction to photogrammetry}
 
-Essential information which must be obtained to retrieve product of photogrammetric is 
-interior orientation and exterior orientation of camera.
+Essential information, which must be known to obtain any photogrammetric
+ product (e. g. orthophoto or DTM) from group of photos is their interior orientation and exterior orientation.
 Exterior and interior orientation together describes relation between object point and
-it's corresponding image point in two subsequent transformations.
+it's corresponding photo point.
 
 \subsubsection{Interior orientation}
 
 Interior orientation describes relation between measured 2D photo coordinates 
-and corresponding 3D in camera coordinate system.
+and corresponding 3D in camera coordinate system which is based on pinhole camera model described in \ref{sec:ess_princip}.
 
-Camera coordinate system has origin in projective point, z axis heading out of the scene  and x, y axes being parallel to photo plane. 
+Photogrammetric camera coordinate system has origin in projective point,
+z axis heading out of the scene  and x, y axes being parallel to photo plane. Directions of 
+x, y axes are selected in way to be the camera system right handed.
 
-Photogrammetry equations are based on pinhole camera model, which describes projection of 3D point onto image plane:
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figures/photogrammetric_model.png}
+    \caption{Photogrammetric camera coordinate system in arbitrary object coordinate system.}
+    \label{fig:ph_model}
+\end{figure}
 
 Interior orientations parameters describing pinhole camera model are:
 \begin{itemize}
   \item Focal length \escal{f} - it is distance of projective center from principal point.
-  \item Principal point coordinates - In ideal case location of principal point would be exactly in the middle 
+  \item Principal point coordinates $(\escal{x}^{ph}_{pp}, \escal{y}^{ph}_{pp})$ - In ideal case photo system position of principal point would be exactly in the middle 
 	of the photo.  However in most cases there is some shift of principal point from the photo center due to
 	camera construction inaccuracies.
 \end{itemize}
@@ -617,46 +715,45 @@ The model defines these two types of distortion:
        imperfect alignment of lenses in camera optical system.
 \end{itemize}
 
-Mathematically brown model is written:
+Mathematically brown model is expressed by these equations:
 
 \begin{equation}
 \label{eq:undistort}
 \begin{split}
-\escal{x}^{u} =& (x^{ph} - x^{pp})(1 + K_{1}r^2 + K_2r^4 + ...) + \\
-&(P_1(r^2 + 2(x^{ph} - x^{pp})^2) + 2P_2(x^{ph} - x^{pp})(y^{m} - y^{pp}))(1 + P_3r^2 + P_4r^4 ...) \\
-\escal{y}^{u} =& (y^{ph} - y^{pp})(1 + K_1r^2 + K_2r^4 + ...) + \\
-&(P_2(r^2 + 2(y^{ph} - y^{pp})^2) + 2P_1(x^{ph} - x^{pp})(y^{m} - y^{pp}))(1 + P_3r^2 + P_4r^4 ...) \\
-r =& \sqrt{(x_{ph} - x^{pp})^2 + (y^{ph} - y^{pp})^2}
+\escal{x}^{u} =& (\escal{x}^{ph} - \escal{x}^{ph}_{pp})(1 + \escal{K}_{1}r^2 + \escal{K}_2r^4 + ...) + \\
+&(\escal{P}_1(\escal{r}^2 + 2(\escal{x}^{ph} - \escal{x}^{ph}_{pp})^2) + 2\escal{P}_2(\escal{x}^{ph} - \escal{x}^{ph}_{pp})(\escal{y}^{ph} - \escal{y}^{ph}_{pp}))(1 + \escal{P}_3r^2 + \escal{P}_4r^4 ...) \\
+\escal{y}^{u} =& (\escal{y}^{ph} - \escal{y}^{ph}_{pp})(1 + \escal{K}_1r^2 + \escal{K}_2r^4 + ...) + \\
+&(\escal{P}_2(\escal{r}^2 + 2(\escal{y}^{ph} - \escal{y}^{ph}_{pp})^2) + 2\escal{P}_1(\escal{x}^{ph} - \escal{x}^{pp})(y^{ph} - \escal{y}^{ph}_{pp}))(1 + \escal{P}_3r^2 + \escal{P}_4r^4 ...) \\
+\escal{r} =& \sqrt{(\escal{x}^{ph} - \escal{x}^{ph}_{pp})^2 + (\escal{y}^{ph} - \escal{y}^{ph}_{pp})^2}
 \end{split}
 \end{equation}
+
 where:
+
 \begin{itemize}
-  \item $\escal{x}^{u}$ and $\escal{y}^{u}$  are undistorted coordinates likewise corrected of the principal point shift.
+  \item $\escal{x}^{u}$ and $\escal{y}^{u}$  are undistorted coordinates also corrected of the principal point.
   \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are measured photo coordinates.
   \item $\escal{K}_{i}$ are radial distortion coefficients.
   \item $\escal{P}_{i}$ are tangential distortion coefficients.
 \end{itemize}
 
 
-The relation of photo coordinate system and undistorted coordinates is defined as:
+Relation of undistorted point to object point in camera system can be calculated from 
+triangles similarity:
 
 \begin{equation}
 \begin{split}
-&\escal{x}^{u} = \frac{\escal{X}^{cam}}{\escal{Z}^{cam}} \\
-&\escal{y}^{u} = \frac{\escal{Y}^{cam}}{\escal{Z}^{cam}}
+&\escal{x}^{u} =  - \escal{f} \frac{\escal{X}^{cam}}{\escal{Z}^{cam}}   \\
+&\escal{y}^{u} = - \escal{f} \frac{\escal{Y}^{cam}}{\escal{Z}^{cam}} 
 \end{split}
 \end{equation}
-
-which is clearly visible on this picture, describing pinhole camera model:
-
-TODO picture
 
 
 \subsubsection{Exterior orientation}
 
-After transformation of 2D photo points into 3D camera coordinate system it is needed to transform it into object coordinate space,
-because usually the object coordinate system is not coincident with camera coordinae system. 
-Object space coordinate system must be cartesian otherwise it must be transformed before into cartesion one before applying exquations 
+After transformation of 2D photo points into 3D camera coordinate system it is needed to transform it into object space,
+because usually the object coordinate system is not coincident with camera coordinate system. 
+Object space coordinate system must be cartesian otherwise it must be transformed into cartesian one before applying equations 
 derived bellow. 
 
 Exterior orientation is defined by position of camera center in object space and orientation of camera coordinate system in the object space.
@@ -664,8 +761,8 @@ Photogrammetry uses representation of orientation by euler angles and rotation m
 The euler angles are group of three angles, which describes three subsequent rotations
  around axes of 3D coordinate system. 
  Order of euler angles is important, because in case of breaching it, resulting orientation is different. 
- In this work there is used notation where at first rotation around y axis by angle $\escal{\phi}$ is 
- perform, then system is rotated around x axis  by angle $\escal{\omega}$ and
+ In this work there is used BLUH notation \cite{baumker2001new} where rotation around y axis by angle $\escal{\phi}$ is 
+ perform at first, then system is rotated around x axis  by angle $\escal{\omega}$ and
  the last rotation is perform around z axis by angle $\escal{\kappa}$.
  
 Mathematically the three euler rotations can be expressed as multiplication of three corresponding
@@ -707,23 +804,39 @@ rotation matrices:
 \end{split}
 \end{equation}
 
+BLUH angles can be retrieved from rotation matrix using these equitations: 
+ \begin{equation}
+ \begin{split}
+\escal{\phi} &=  arctan \left(\frac{\ematr{R}_{31}}{\ematr{R}_{33}} \right)\\
+\escal{\omega} &= arctan \left(\frac{-\ematr{R}_{32}}{ \sqrt{ \ematr{R}_{12}^{2} + \ematr{R}_{22}^{2} }} \right)\\
+\escal{\kappa} &=  arctan \left(\frac{\ematr{C}_{12}}{\ematr{R}_{22}} \right)
+\end{split}
+\end{equation}
+
+Arkus tangens should be calculated with function, which puts final angle into proper quadrant, according to sings of numerator 
+and denominator. Usually this functions is called \term{atan2}. 
+
+Pitfall of euler angles is when value of second euler angle is 90 or 270 degrees,  
+then euler angles representation is singular, which is called gimbal lock. 
+If values  of euler angles are close to the gimbal lock, it could cause series numerical instabilities.
+
 \subsubsection{Basic formula of photogrammetry}
 
-Merging interior and exterior orientation together direct relation between corresponding 3D point in object space and 2D point
+Merging interior and exterior orientation together, direct relation between corresponding 3D point in object space and 2D point
 in photo:
 
 \begin{equation}
 \label{eq:col_eqs}
 \begin{split}
-&\escal{x}^{u} = -\escal{f}\frac{\ematr{R}_{11}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
+&\escal{x}^{ph} = \escal{x}^{pp} -\escal{f}\frac{\ematr{R}_{11}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
                                   \ematr{R}_{12}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pc}) + 
                                   \ematr{R}_{13}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pc})                                  
                                   }{
 				  \ematr{R}_{31}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
                                   \ematr{R}_{32}(\evect{Y}^{obj} - \evect{Y}^{obj}_{pc}) + 
                                   \ematr{R}_{33}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pc})     
-                                  } \\
-&\escal{y}^{u} = -\escal{f}\frac{\ematr{R}_{21}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
+                                  } +  \\
+&\escal{y}^{ph} = \escal{y}^{pp} -\escal{f}\frac{\ematr{R}_{21}(\evect{X}^{obj} - \evect{X}^{obj}_{pc}) + 
                                   \ematr{R}_{22}(\evect{Y}^{obj} - ) + 
                                   \ematr{R}_{23}(\evect{Z}^{obj} - \evect{Z}^{obj}_{pc})                                  
                                   }{
@@ -736,21 +849,19 @@ in photo:
 
 These two equations are called collinearity equations, where
 \begin{itemize}
-  \item $\escal{x}^{u}$ and $\escal{y}^{u}$ are undistorted coordinates \eqref{eq:undistort}
+  \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are photo points (equation are expressed in simple form without taking distortion into account)
   \item $\evect{X}^{obj}$, $\evect{Y}^{obj}$, $\evect{Z}^{obj}$ are the point coordinates in object space
   \item $\ematr{R}$ is rotation matrix describing camera system orientation
-  \item $\evect{X}^{obj}_{pc}$, $\evect{Y}^{obj}_{pc}$, $\evect{Z}^{obj}_{pc}$ are coordinates of prjection center
+  \item $\evect{X}^{obj}_{pc}$, $\evect{Y}^{obj}_{pc}$, $\evect{Z}^{obj}_{pc}$ are coordinates of projective center
   \item \escal{f} is focal length
 \end{itemize}
-
-TODO undistorted coords
 
 \subsection{Short introduction into computer vision}
 
 \subsubsection{Homogeneous coordinates}
 
 Computer vision uses homogeneous coordinates, which allows to mathematically express some relations
- in more elegant way than using coordinates in cartesian form. 
+ in more elegant way than using coordinates in more common cartesian form. 
 
 3D point in homogeneous coordinates is defined as:
 
@@ -766,7 +877,7 @@ the coordinates by scale:
 \evect{x} = (\escal{x} / \escal{w}, \escal{y} / \escal{w}, \escal{z} / \escal{w})
 \end{equation}
 
-Using homogeneous coordiantes it is possible to write all cartesian points plus points in infinity.
+Using homogeneous coordinates it is possible express all cartesian points plus points in infinity.
 Infinite homogeneous point is written as: 
 
 \begin{equation}
@@ -784,9 +895,9 @@ TODO graphic interpretation of hom coords
 Picture shows 
 
 
-Thanks to homogeneous coordinates for planes in \eucl{3} and lines in \eucl{2} it allows to 
+Homogeneous coordinates form allows to 
 use simple vector linear algebra operations 
-to get useful information.
+to get useful information about plane in \eucl{3} and line in \eucl{2}.
 
 Plane in \eucl{3} can be written as:
 
@@ -801,7 +912,7 @@ Using homogeneous coordinates it can be expressed as vector:
 \end{equation}
 
 
-Line in \eucl{2} is defined by equation:
+Similarly a line in \eucl{2} is defined by equation:
 \begin{equation}
 \escal{a}\escal{x} + \escal{b}\escal{y} + \escal{c} = 0
 \end{equation}
@@ -818,13 +929,13 @@ It is easy to find out whether point lies on line in \eucl{2}:
 \ehvect{x}^{T} \ehvect{l} = 0
 \end{equation}
 
-or whether if a point lies on plane:
+or whether a point lies on plane \eucl{3}:
 \begin{equation}
 \ehvect{x}^{T} \ehvect{\pi} = 0
 \end{equation}
 
 
-In \eucl{3}, line cannot be written so elegantly.
+In \eucl{3}, a line cannot be written so elegantly.
 One of options is to define it given points $\ehvect{p}$ and $\ehvect{q}$ as:
 \begin{equation}
  \ehvect{l} = \escal{\mu}\ehvect{q} + \escal{\lambda}\ehvect{p}
@@ -832,20 +943,18 @@ One of options is to define it given points $\ehvect{p}$ and $\ehvect{q}$ as:
 
 If the point is given as direction of the line $\ehvect{d} = (x, y, z, 0)$ (it is point in infinity), the equation get simplified to:
 \begin{equation}
-\ehvect{l} = \ehvect{d} + \escal{\lambda}\ehvect{p} \label{eq:hline}
+\label{eq:hline}
+\ehvect{l} = \ehvect{d} + \escal{\lambda}\ehvect{p}
 \end{equation}
-TODO where not zeros
 
-Computation of lines intersection ($\ehvect{l}, \ehvect{l}'$) can be done also in very simple way by cross product in \eucl{2}:
+Computation of lines ($\ehvect{l}, \ehvect{l}'$) intersection  can be done also in very simple way by cross product in \eucl{2}:
 
 \begin{equation}
 \ehvect{x} = \ehvect{l} \times \ehvect{l}' \label{eq:def_hline_pts}
 \end{equation}
 
-Note that with homogeneous coordinates it is possible to express intersection of parallel lines, which lies at infinity, 
-therefore it's scale is equal to 0.
-
-TODO dualism
+Unlike cartesian coordinates, homogeneous form allows to express intersection of parallel lines, which lies at infinity. 
+In this case the point lies in infinity thus it's scale is equal to 0.
 
 Similarly line can be derived as cross product of two points:
 
@@ -857,7 +966,7 @@ Similarly line can be derived as cross product of two points:
 \subsubsection{Basic formula of computer vision}
 
 Computer vision uses this equation to describe relationship between
-object space and image space:
+object point and photo point:
 
 \begin{equation}
 \begin{pmatrix}
@@ -884,19 +993,23 @@ object space and image space:
 
 In essence the equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry.
 The two models differs only in definition of camera coordinate system.
-Computer vision uses left handed system with z axis heading into 
-the scene. Unlike  Photogrammetric system defines z axis in the opposite direction heading out of the scene, thus 
-it is right handed. Otherwise the basic formula embodies exactly same transformations as 
-collinearity equations written in different way.
+Unlike photogrammetric camera system (Figure \ref{fig:ph_model}), computer vision defines z axis in the opposite direction heading into scene \cite[p. 156]{Hartley2004}.
+Both systems are right handed.
+Otherwise the basic formula embodies exactly same transformations as collinearity equations written in different way.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figures/photogrammetric_model.png}
+    \caption{Computer vision camera coordinate system in arbitrary object coordinate system.}
+    \label{fig:cv_model}
+\end{figure}
 
 The equation can be abbreviated as:
 
 \begin{equation}
 \label{eq:p_exp}
-\escal{w} \ehvect{x} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
+\ehvect{x} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
 \end{equation}
-
-TODO picture of system
 
 where:
 
@@ -904,14 +1017,10 @@ where:
 \item \ematr{K} is calibration matrix which contains interior orientation parameters.  
 \item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix\ematr{R} and translation vector $\evect{t}$, 
 	      which transforms point from object coordinate system 
-	      into camera coordinate system. The camera system is left handed cartesian system originating in projective center 
-	      with z axis perpendicular to image plane heading into the scene direction.
-	      If the object space is right handed the rotation contains also switch of handedness,
-	      which is called reflection. If the rotation matrix includes reflection its determinant is negative.
-	      It must be taken into account before 
-	      The translation vector $\evect{t}$ can  be transformed in object space coordiantes system:
+	      into camera coordinate system. 
+	      The vector $\evect{t}$ can  be transformed by:
 	      \begin{equation}
-	      \ehvect{C} = \ematr{R}_{T}\evect{t}
+	      \ehvect{C} = - \ematr{R}^{T}\evect{t}
 	      \end{equation}
 	      giving coordinates of camera projective center. The rotation matrix \ematr{R} and projective 
 	      center object coordinates $\evect{C}$
@@ -924,76 +1033,87 @@ Whole projection can be merged into single matrix \ematr{P}, which is called cam
 
 \begin{equation}
 \label{eq:p_abbr}
-\ehvect{x} = \ematr{P} \ehvect{X}
+\ehvect{x} =  \ematr{P} \ehvect{X} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
 \end{equation}
 
-Camera matrix \ematr{P} defines reprojection up to scale $\escal{\lambda}$, hence every camera matrix multiplied by scale gives same image points:
+Camera matrix \ematr{P} defines reprojection up to scale $\escal{\lambda}$, thus every camera matrix multiplied by scale gives same photo points:
 
 \begin{equation}
 \ehvect{x}=\lambda\ehvect{P}\ehvect{X}
  \end{equation}
 
-It can be interpreted as representation of ray going from the projective center. 
-The object point can be located everywhere on this ray, getting always 
-same image point coordinates.
+The equation can be interpreted as representation of ray going through the photo point and projective center. 
+The object point can be everywhere on this ray (depending on $\lambda$ parameter value), getting always 
+same photo point coordinates.
 
-\subsubsection{Two view geometry}
+\subsubsection{Two photos geometry}
 
-In this chapter, there is introduced theory, which describes mutual relation of two images. 
-The core of the theory lies in epipolar geometry.
+In this chapter, there is introduced theory, which describes mutual relation of two photos. 
+The core of the relation arises from epipolar geometry.
 
-TODO picture of epipolar geometry
-If same object point is identified on two images then there exists epipolar plane.
-The epipolar plane contais:
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figures/epipolar.png}
+    \caption{Epipolar geometry.}
+    \label{fig:epipolae}
+\end{figure}
+
+If same object point is identified on two photos then there exists epipolar plane $\pi$.
+The epipolar plane contains:
 
 \begin{itemize}
-\item two rays which connects object point, with image points and camera centers of both images
-\item baseline, which connects projection centers of images
-\item epipoles, which are defined as intersection of image planes with baseline
-\item epipolar lines, which goes through epipoles and image points. It belongs into image plane, 
-      because both these points are inside this plane.  
+\item Two rays which connects object point, with photo points and camera centers of both photos.
+\item Baseline \escal{b}, which connects projection centers of images.
+\item Epipoles (\escal{e}, \escal{e'}). Epipole lies on intersection of poto plane with baseline.
+\item Epipolar lines  $(\escal{l}_{e}, \escal{l'}_{e})$. Epipolar line is in photo plane going through epipole and photo point.
 \end{itemize}
 
 
-The other relations which comes form epipolar geomatry are:
+Other relations, which comes form epipolar geomatry are:
 
 \begin{itemize}
-\item All epipolar lines in image intersects in epipole. If two images are only translated along the baseline 
-     the epipole is in infinity.
-\item Every image point forms epipolar line in the other image. It allows to reduce space of possible occurrence of the point 
+\item All epipolar lines of  photo intersect in epipole. If images are merely translate whith no diffrence in orientaion, 
+the epipoles are in infinity.
+\item Photo point forms epipolar line in the other photo. It allows to reduce space of possible occurrence of the point 
       from \eucl{2}, \eucl{1} of epipolar line, without any other information about the point e. g. object space coordinates. 
 \end{itemize}
 
-Algebraic derivation will be done beginning with description of ray in camera coordinate system.
-The ray can be defined by two points.
-One of them can be projection center $\ehvect{C}$, and 
-image point $\ehvect{x}$ transform into camera coordinate system using pseudo inverse matrix $\ematr{P}^{+}$, 
-where $\ematr{P}\ematr{P}^{+} = \ematr{I}$. After the transformation of x, direciton vector of ray is get.
-Using equation \eqref{eq:hline}, it is possible to express ray as:
+Rest of this section deals with algebraic deriving of most important relations of two photos geometry. 
+
+Camera matrix \ematr{P} represents projection from object system to first photo system.
+Reverse the transformation can not be done with inverse matrix because of the rectangular shape (3x4) of 
+camera matrix \ematr{P}. Instead of matrix inversion,  pseudo inverse matrix $\ematr{P}^{+}$ must be 
+calculated to reverse the transformation. Pseudo inverse matrix has this property: $\ematr{P}\ematr{P}^{+} = \ematr{I}$.
+Transformed photo point
 
 \begin{equation}
-\ematr{X}(\escal{\lambda}) = \ematr{P}^{+}\ehvect{x} + \escal{\lambda}\ehvect{C}
+\ehvect{x'} =  \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-In second camera with camera matrix \ematr{P'} image point coordinates are:
+is point in infinity, which represents direction of ray.
+If this point is projected into second photo by camera matrix $\ematr{P'}$ resulting point in infinity 
+represents direction of epipolar line $\escal{l'}_{e}$. One variant, how a line can be defined, is by direction 
+and point. In order to define epipolar line $\escal{l'}_{e}$ missing point can be obtained from 
+projection of first camera projective center $\evect{C}$ into the second photo, where it represent
+epipole:
 
 \begin{equation}
-\ehvect{x'} =  \ematr{P'}\ematr{P}\ehvect{x}
+\ehvect{e'} =  \ematr{P'}\ehvect{C} \\
 \end{equation}
 
-and projective center of first camera is projected into epipole: 
+%According to  \eqref{eq:hline} line can be given as:
+
+%\begin{equation}
+%\ematr{X}(\escal{\lambda}) = \ematr{P}^{+}\ehvect{x} + \escal{\lambda}\ehvect{C}
+%\end{equation}
+
+Epipolar line is given using \eqref{eq:def_hline_pts} by:
 
 \begin{equation}
-\ehvect{e'} =  \ematr{P'}\ehvect{C}
+\ehvect{l'_{e}} =  \ehvect{e'} \times \ehvect{x'} = (\ematr{P'}\ehvect{C}) \times \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-Having two points in image coordinate system of second camera it is possible to define epipolar line using \eqref{eq:def_hline_pts} as:
-
-\begin{equation}
-\ehvect{l'_{e}} =  \ehvect{e'} \times \ehvect{x'} = \ematr{P'}\ehvect{C} \times \ematr{P'}\ematr{P}\ehvect{x}
-\end{equation}
-
-Cross product of two vectors \evect{a} and \evect{b} can be also written as multiplication of matrix and vector:
+Cross product of two vectors \evect{a} and \evect{b} can be likewise written as multiplication of matrix and vector:
 
 \begin{equation}
 \evect{a}  \times \evect{b}  = 
@@ -1005,41 +1125,41 @@ Cross product of two vectors \evect{a} and \evect{b} can be also written as mult
 \evect{b} = [a]_{\times} b
 \end{equation}
 
-Using this formulation of cross product thre:
+Using matrix notation of cross product gives:
 \begin{equation}
-\ehvect{l'_{e}}  = [e']_{\times} \ematr{P'}\ematr{P}\ehvect{x}
+\ehvect{l'_{e}}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-It is evident from this equation, that matrix, which transforms photo points in the first photo into 
-epipolar lines of the other photo and thus denoting relation of two images is defined as:
+It is apparent from this equation, that matrix, which transforms photo points in the first photo into 
+epipolar lines of the other photo and hence denoting relation of two images is defined as:
 
 \begin{equation}
-\ematr{F}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}
+\ematr{F}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}
 \end{equation}
 
 Matrix \ematr{F} is called fundamental matrix. 
 
-Decomposing fundamental matrix using camera matrix expansion from \eqref{eq:p_abbr}
-it allows to derive another important of two view geometry, which is called essential matrix \ematr{E}.
+Fundamental matrix can be expanded by \eqref{eq:p_abbr}, which
+allows to derive another important matrix of two view geometry, which is called essential matrix \ematr{E}.
 
-Lets suppose that firs camera matrices are defined in this way:
+Lets suppose that camera matrix of first photo is defined in this way:
 \begin{equation}
 \label{eq:rel_or_cam1}
 \ematr{P}  = \ematr{K} \ematr{[}I|0\ematr{]}
 \end{equation}
-It means that first camera coordinate system coincides with object space coordinate 
+It means that camera coordinate system coincides with object space coordinate 
 system.
 
 It's pseudo inverse matrix is:
 \begin{equation}
-\ematr{P}_{+} =
+\ematr{P}^{+} =
 \begin{pmatrix}
    \ematr{K}^{-1} \\
    \evect{0^{T}} \\
 \end{pmatrix}
 \end{equation}
 
-And homogeneous projection center coordinates are:
+homogeneous projection center coordinates are:
 \begin{equation}
 \ehvect{C} =
 \begin{pmatrix}
@@ -1048,23 +1168,37 @@ And homogeneous projection center coordinates are:
 \end{pmatrix}
 \end{equation}
 
-
 The second camera matrix is defined in this way:
 \begin{equation}
 \label{eq:rel_or_cam2}
 \ematr{P}'  = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]}
 \end{equation}
 
-This relationship of two cameras is also called relative orientation, because rotation matrix \ematr{R} and vector \evect{t}
+
+Epipole is given as:
+\begin{equation}
+\begin{split}
+\label{eg:second_epipole}
+\ehvect{e'} &=  \ematr{P'}
+\begin{pmatrix}
+   \evect{0} \\
+    1 \\
+\end{pmatrix} \\
+&= \ematr{K}' \evect{t}\\
+\end{split}
+\end{equation}
+
+
+This relationship of two cameras is also called \term{relative orientation}, because rotation matrix \ematr{R} and vector \evect{t}
 denotes position and orientation of the second camera to the first one. In order to express cameras exterior orientations in world coordinate 
 system or merge it with another relative orientations it is needed to perform further transformations of the relative 
-exterior orientations, see \ref{sec:ess_chain} and \ref{sec:helmert}.
+exterior orientations, for more information see chapters \ref{sec:ess_chain} and \ref{sec:helmert}.
 
-Taking into account the relative orientation the equation can be simplified rewritten as:
+Taking into account the relative orientation the fundamental matrix equation can be rewritten as:
 \begin{equation}
 \label{eg:funeq}
 \begin{split}
-\ematr{F}  &= [\ematr{P}'\ehvect{C}]_{\times} \ematr{P}'\ematr{P} 
+\ematr{F}  &= [\ematr{P}'\ehvect{C}]_{\times} \ematr{P}'\ematr{P}^{+}
 = [\ematr{K}' [\ematr{R}|\evect{t}]
 \begin{pmatrix}
    \evect{0} \\
@@ -1076,55 +1210,56 @@ _{\times}
    \evect{K}^{-1} \\
    \evect{0}^{T} \\
 \end{pmatrix} \\
-&= [\ematr{K}' \evect{t}]_{\times} \ematr{K}'\ematr{R}\ematr{K}^{-1} 
+&= [\ematr{K}' \evect{t}]_{\times} \ematr{K}'\ematr{R}\ematr{K}^{-1} \\
+&= [\ehvect{e}']_{\times} \ematr{K}'\ematr{R}\ematr{K}^{-1} 
 \end{split}
 \end{equation}
 
-Now comes little bit more difficult part.
-This formula,
-which applies for any non-singular matrix \ematr{K} and vector \evect{t}:
+Now there comes little bit more difficult part.
+This formula applies for any non-singular matrix \ematr{K} and vector \evect{t}:
 \begin{equation}
-[\evect{t}]_{\times} \ematr{K} = \ematr{K}^{-T}[\ematr{K}^{-1}\evect{t}]_{\times}
+[\evect{e}']_{\times} \ematr{K'} = \ematr{K}'^{-T}[\ematr{K}'^{-1}\evect{e}']_{\times}
 \end{equation}
 
-If the formula is applied to \eqref{eg:funeq}:  
+Using the formula to \eqref{eg:funeq}, it is given:  
 \begin{equation}
 \begin{split}
-\ematr{F}  &= [\ematr{K}' \evect{t}]_{\times} \ematr{K}' \ematr{R} \ematr{K}^{-1} \\
-	   &= \ematr{K}^{-T} [\ematr{K}'_{-1} \ematr{K}' \evect{t}]_{\times} \ematr{R} \ematr{K}^{-1} \\
-	   &= \ematr{K}^{-T} [\evect{t}]_{\times} \ematr{R} \ematr{K}^{-1}
+\ematr{F}  &= [\ehvect{e}']_{\times} \ematr{K}' \ematr{R} \ematr{K}^{-1} \\
+	   &= \ematr{K}'^{-T} [\ematr{K}'^{-1} \ematr{K}' \evect{t}]_{\times} \ematr{R} \ematr{K}^{-1} \\
+	   &= \ematr{K}'^{-T} [\evect{t}]_{\times} \ematr{R} \ematr{K}^{-1}
 \end{split}
 \end{equation}
 
 This equation reveals very important fact about fundamental matrix, which says that the transformation performed 
-by fundamental matrix can be divided into three main steps.
+by matrix can be divided into three main steps.
 At first photo point of first image is transformed into the first camera coordinate system. Result of the transformation is 
-point in the infinity, which describes ray represented by image point. 
+point in the infinity, which describes ray represented by photo point. 
 After that the ray is projected into second camera coordinate system. This is done by so called essential matrix:
 \begin{equation}
 	 \ematr{E}  = [\evect{t}]_{\times} \ematr{R}
 \end{equation}
 
 
-As the last step, the ray is projected into the second image as epipolar line.
+As the last step, the ray is projected into the second photo as epipolar line.
 
 
 It implies that with known exterior orientation it is possible to define essential matrix. 
-Morover if interior orientation of cameras of both photos are known it is possible to determine fundamental matrix,
+Moreover if interior orientation of cameras of both photos are known it is possible to determine fundamental matrix,
 which describes relation of a two photos.
 
 \subsubsection{Triangulation of points}
 \label{eq:triang}
 
-If the measurements would be precise, the 3D point 
-would lie in intersection of two rays which are lines connecting projection centers and image points 
-in the photos. Unfortunately the rays are never determined so precisly, thus it is needed to deal 
- with the errors by triangulatin methods. 
+If measurements would be precise, object point 
+would lie on intersection of two rays which is clearly visible on 
+ Figure \ref{fig:obj_intersec}. Unfortunately the rays are never determined so precisely to intersect.
+Triangulation methods deals with the imprecision.  
 
-One of options is linear least square method based 
-on mineralization of collinearity equation \eqref{eq:col_eqs}.
+Direct linear transformation (DLT) method  is based 
+on lineralization of collinearity equations \eqref{eq:col_eqs}
+employing least square method on it.
 
-The linearized collinearity can be written as:  
+The linearized collinearity equations can be written as:  
 \begin{equation}
 \label{eq:col_eqs}
 \begin{split}
@@ -1151,26 +1286,28 @@ The linearized collinearity can be written as:
 \end{split}
 \end{equation}
  
-This method is called direct linear transformation (DLT). It is easy to implement and 
-there is no need to know approximate vaules. 
-
+It is easy to implement and 
+there is no need to know approximate values. 
 Main drawback of this method is that DLT model does not respects pinhole camera model, thus
-the computed parametrs 
+minimized parameters in vector \evect{a} do not follow rigorous camera geometry which 
+may result in inaccurate retrieval of object coordinates.
 
-The more complicated method from computer vision is called the optimal solution. 
-It is based on enforcing epipolar constraint, whith cost function 
-minimizing distance of projected points from the other images to epipolar lines.
+The more complicated method is called the optimal solution. 
+It is based on enforcing epipolar constraint.  Cost function 
+minimizes sum of distance of photo points to epipolar lines, which are created 
+by projecting corresponding photo points form other images.
 
 The cost function is not linear however it's derivative leads into 6 degree polynomial thus 
-having 6 roots.
+it has 6 roots. The root, which represents correct solution gives smallest values of cost functions, 
+because it represents global minimum. 
 
-This method is seen by computer vision community is most accurate \cite[p. 315]{Hartley2004}.  
+This method is considered by computer vision community as most accurate \cite[p. 315]{Hartley2004}.  
 
-\subsubsection{Retrieving of exterior orientation from essential matrix}
+\subsubsection{Retrieving of relative orientation from essential matrix}
 \label{sec:ess_eo}
 
 
-Rotation [\ematr{R}] and vector \evect{-t} can be retrieved from essential matrix using 
+Rotation \ematr{R} and vector \evect{t} can be retrieved from essential matrix using 
 singular values decomposition (SVD):
 
 \begin{equation}
@@ -1187,11 +1324,10 @@ singular values decomposition (SVD):
 \end{equation}
 
 where matrices \ematr{U} and \ematr{V} are two rotation matrices  obtained for SVD decomposition.
-The retrieved ration \ematr{R} matrix and the shift vector \evect{t} are defined up to sign,
-which causes four ambiguity. 
+The retrieved rotation \ematr{R} matrix and the shift vector \evect{t} are defined up to sign,
+which causes four case ambiguity. 
 
-The four possible exterior orientation, which gives for possible solutions, are:
-
+As a consequence of the  ambiguity it gives four relative orientations: 
 \begin{equation}
 [\ematr{R}|\evect{t}],
 [\ematr{R}|\evect{-t}],
@@ -1200,16 +1336,22 @@ The four possible exterior orientation, which gives for possible solutions, are:
 \end{equation}
 
 
-The ambiguity of signs can be solved by assumption that all object points has to be in front
-of both photo planes:
+The correct solution can be found   by assumption that all object points has to be in front
+of both photo planes.
 
-
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figures/eo_ambiguity.png}
+    \caption{Four possible relative orientations of cameras.}
+    \label{fig:rel_or_amb}
+\end{figure}
 
 
 \subsubsection{Merging of relative orientations}
 \label{sec:ess_chain}
 
-If two relative orientations are merged together, as first step, it is necessary to calculate scale of the two relative orientations.
+If two relative orientations are merged together, as first step, it is necessary to calculate scale of the one orientation
+to the other because the systems are defined up to scale.
 The scale can be calculated from corresponding distances in both coordinate system. 
 It can be used distances of 
 object points and object coordinates of projective center of camera, which are present in both relative orientations.
@@ -1220,7 +1362,7 @@ The scale can be computed by this equation:
 	                {\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}}
 \end{equation}
 
-where ro1 denotes destination orientation of transformation and ro2 is the transformed relative orientation. 
+where \term{ro1} denotes destination relative orientation of transformation and \term{ro2} is the transformed relative orientation. 
 
 The equation gets simplified if the relative orientation coordinate system  corresponds to the shared camera system: 
 \begin{equation}
@@ -1228,144 +1370,200 @@ The equation gets simplified if the relative orientation coordinate system  corr
 	                 {\mathbf(\evect{X}_{ro2})}
 \end{equation}
 
-After the scale was determined it is possible to transform exterior orientation in relative system of photo pair into the common relative system.
-In order to be transformation easy to express, the common relative system is defined by arbitrary relative orientation of pair and other 
-relative orientations are subsequently transformed into this system. 
+Commonly there are processed bundles of photos capturing a scene. Relative orientation pairs of photos capture only fragments of the scene, 
+therefore the information of scene is scattered.  
+In order to interpret the scene as whole it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
+For sake of simplicity, the common relative system is defined by arbitrary relative orientation of pair and other 
+relative orientations are subsequently transformed into the common system. 
 
-Set of photos, which can be transformed into common coordinate system, is composed of the relative orientations
-which comprise connected component of undirected graph where nodes denotes photos and edges represents relative orientations. 
-In other words it is possible to transform relative orientation into the common relative coordinate system only if there 
+Group of photos, which can be transformed into common system, is composed of the relative orientations pairs
+which comprise connected component of undirected graph where nodes represents  photos and edges denotes  relative orientations. 
+In other words, it is possible to transform relative orientation into the common relative coordinate system only if there 
 exist continuous chain of relative orientations where every two neighborhood relative orientations in the chain shares one photo.
 
-TODO PICTURE
-
-The transformation of relative orientations from 1 to n, with common system defined by 1 can be written as: 
+The transformation of relative orientations from 1 to n, with common system defined by relative orientation 1 can be written as: 
 \begin{equation}
 \label{eq:comm_rel}
 \begin{split}
 &\ematr{P}_{1} = [\ematr{I}|\evect{O}] \\
-&\ematr{P}_{2} = [\ematr{R}^{ro1}|\evect{t}_{ro1}] \\
+&\ematr{P}_{2} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] \\
 &\ematr{P}_{3} = [\ematr{R}^{ro1} \ematr{R}^{ro2}| \ematr{R}^{ro1} \evect{t}^{ro2} \escal{s}^{ro2-1}] \\
-&\ematr{P}_{n} = [\ematr{R}^{ron} \ematr{R}^{ro(n - 1)}| R^{ro(n - 1)} \evect{t^{ron}} {s}^{ron- (n-1)}] \\
+&\ematr{P}_{n} = [\ematr{R}^{ron} \ematr{R}^{ro(n - 1)}| R^{ro(n - 1)} \evect{t}^{ron} {s}^{ron- (n-1)}] \\
 \end{split}
 \end{equation}
 
 
-This equation works for chain of relative orientation, where the shared camera in first relative orientation has 
+The equations applies for chain of relative orientation, where the shared camera in first relative orientation has 
 projection matrix defined by $[\ematr{R}|\evect{t}]$ matrix and the merging second relative orientation is 
-defined $[\ematr{I}|\ematr{O}]$. If the camera is defined be the switched coordinate systems, it is needed to 
-transform system by multiplication of rotation by $\ematr{R}^[T]$ and shift by $-\ematr{R}^[T]$.
+defined $[\ematr{I}|\ematr{O}]$.
 
 \subsubsection{Helmert transformation}
 \label{sec:helmert}
 
 Helmert transformation equation can be written as:
 \begin{equation}
-\ematr{X}_{t} = \evect{t} + \escal{s}\ematr{R}\evect{X}] \\
+\ematr{X}_{t} = \evect{t} + \escal{s}\ematr{R}\evect{X} \\
 \end{equation}
 where \ematr{R} is rotation matrix, \escal{s} is scale scalar and  \evect{t} is translation vector.
-The transformation is defined by seven parameters (three translation coordinates, three rotation angles angles and scale).
+The transformation is defined by seven parameters (three translation coordinates, three rotation angles and scale).
 In order to get these parameters which defines relation of two coordinate system it is needed to know at least two corresponding points and  another one with 
 at least one known coordinate in both systems. 
 
+Helmert transformation parameters can be retrieved from corresponding points by several methods. It can be determined
+iterativaly by non-linear least square methods. There exist also closed form method, which is based on SVD decomposition
+\cite{sjoberg2013closed}.
 
 
 \subsection{Bundle block adjustment}
 
-Bundle block adjustment is method (BBA), which uses the least square technique (\ref{sec:least}) to refine scene parameters. 
-
-The main advantage of bundle block adjustment method is that the method takes into account whole scene and therefore it utilizes 
+Bundle block adjustment (BBA) is method, which uses the least squares technique (\ref{sec:least}) to refine scene parameters. 
+The main advantage of BBA is that the method takes into account whole scene and therefore it utilizes 
 maximum information for adjustment of scene parameters, which leads to more accurate results.
 The principle of BBA has been known for very long time since 1950s,
 however the method has been employed in practical applications since 1990's, because the performance of computers had not been 
 sufficient enough before. 
 
-Cost functions of BBA least squares method are photogrammetric collinearity equations \label{eq:col_eqs}.
 
-Unfortunately collinearity equations are non linear, hence the non-linear least square method \ref{sec:non_least} must be used therefore 
-it is needed to provide sufficiently accurate initial values for finding values of parameters in global minimum of cost function.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figures/bba.png}
+    \caption{BBA takes into account scene as whole.}
+    \label{fig:rel_or_amb}
+\end{figure}
 
-Thanks to the least squares method BBA is very flexible in terms of choosing of parameters to be adjusted. 
-It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters 
-and refine them using BBA. 
+Cost functions of BBA least squares method are photogrammetric collinearity equations \eqref{eq:col_eqs}.
+The least squares method tries to find such a vector of adjusted parameters \evect{X} to minimize
+sum  of square differences between measured photo points coordinates and photo points coordinates calculated 
+from collinearity equations using adjusted parameters \evect{X}.
 
+Unfortunately collinearity equations are non linear, hence the non-linear least square method \ref{sec:non_least} must be employed, which 
+needs to be provided  whith sufficiently accurate initial values in order to find values of parameters which satisfies minimization criterion.
 
-The BBA method is described on practical this practical example.
-There are three photos of a scene.
-There were identified 3 tie points an 2 ground control points in all three photos.
-Other two tie points one ground control point were identified on two photos and one ground control point and one tie point was identified 
-on only one photo. 
+Thanks to the least squares method BBA is very flexible in terms of selection of parameters to be adjusted. 
+It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters. 
 
-Let say that initial values of tie points are known, but needed to be refined to improve its accuracy.
-Coordinates of ground control points are known with high accuracy, therefore they do not have to be adjusted. 
+Following example describes BBA in practice.
+Lets suppose that inital values of adjusted parameters are known with sufficient accuracy in order to the least squares
+method eventually iterate to global minimu.
+Lets say that there is a scene, which is captured by three photos.
+There are identified three tie points and two ground control points in all three photos.
+Tie point is kind of point, which is identified only on photos with missing information about its object coordinates.  
+Unlike tie point, object coordinates of ground control point (GCP) are known.
+Additional two tie points and one GCP are identified in two photos.
+Also another one ground control point and one tie point are identified 
+in only one photo. 
 
-Every tie point identified on image needs to refine three parameters (object coordinates). 
-If the tie point is identified on a photo it yields two measurements (two collinearity equations), 
+%Initial values of tie point object coordiantes were obtained, but the values needed to be refined by BBA to improve its accuracy.
+
+Every tie point needs to refine three parameters (object coordinates). 
+Object coordinates of GCPs are known with high accuracy, therefore they are not refined by BBA. 
+If the tie point is identified on a photo it yields two measurements (x, y collinearity equations), 
 therefore it is needed to identify the tie point at least on two photos to get more measurements 
 than unknowns. This makes perfectly sense because it is not possible to determine object point coordinates from one photo,
-because it can lie wherever on the ray  which goes through photo plane, projection center and the object point.
+because it can lie wherever on the ray (See Figure \ref{fig:obj_intersec}).
 
+Unlike tie points, GCPs does not bring any new adjusted parameters, which 
+allows to use the GCP visible only in single photo. In this case, the object coordinates 
+are known, thus there is no ray ambiguity. 
 
-Unlike tie points, ground control point does not bring any new adjusted parameters, thus
-it is possible to use gcp which are identified only in one image. In this case the object coordinates 
-are known, thus there is no point ambiguity on the ray as in tie point. 
+Lets suppose that it is adjusted exterior orientations and object coordinates of tie points.  
+Every photo yields six parameters of exterior orientation (three projective center coordinates and three orientation angles) 
+which gives 6 * 3 = 18 parameters. 
 
-In the example there are 3*3 adjusted parameters and 3 * 3 * 2 measurements for every tie point,  
-1 * 3 * 3 measurements for every gcp identified, which are visible in all three photos. 
-Moreover there are 2 * 3 adjusted parameters and 2 * 2 * 2 measurements for every tie point,  
-1 * 2 * 3 measurements for the gcp visible in two photos.
+Tie points gives 5 * 3 = 15 adjusted parameters of object coordiantes. 
+Only 5 tie points are used in BBA because the tie point visible in just one photo is skipped because of the ray ambiguity.
+GCPs does not gives any adjusted parameters since coordinates are known.
 
-Tie point which is identified only in one photo can not be used because number of measurements is smaller (2) than number of adjusted parameters (3).
-The ground control point gives two measurements and know adjusted parameters therefore it can be included.
+Every tie point and GCP, visible on three photos gives 6 measurements (two collinearity equations for every photo point),
+which gives totally 30 measurement.
+Points visible from two photos gives 4 measurements, which totally yields 12 measurements.
+GCP which is visible from single photo gives additional 2 measurements.
 
-Overall score is 15 adjusted parameters and 43 measured parameters.
+Overall score is 33 adjusted parameters and 44 measurements.
 
-Thanks to 28 redundant measurements exterior orientation of images can be also adjusted, which adds 3 (photos) * 6 (eo params)
-and also it is possible to add some of the interior parameters into adjustment, because of 10 left over redundant measurement.  
+Thanks to 9 redundant measurements it is possible to add some of the interior parameters into adjustment.  
 On the other hand the redundancy of measurement improves accuracy of results, which is the main point of the least square method,
 therefore it should be avoided to have nearly same number of measurements and adjusted parameters.
 
+In first least squares iteration, initial values of adjusted parameters are put into parameters vector $\evect{X}$. 
+Vector $\evect{L}_{X0}$ can be computed applying the parameter vector $\evect{X}$ on collinearity
+equations. In order to calculate all collinearity equations and its derivatives it is also needed to 
+use values of not adjusted parameters which are not presented in the parameters vector.
+Measured photo points are represented by vector $\evect{L}$.
+Design matrix $\ematr{A}$ is comprised of values of  collinearity equations partial derivations respect to adjusted parameters
+given by parameters vector $\evect{X}$. Columns of the design matrix represents partial derivatives 
+respects to corresponding parameter  in  $\evect{X}$  (mumber of column equals to position of parameter in  $\evect{X}$ ).
+Analog logic applies for design matrix row and position in $\evect{L}$ or $\evect{L}_{X0}$ vectors.
+In the example, design matrix has 44 rows and 33 columns $\ematr{A}$.
+
+
+%Let say that first two rows (x, y) in design matrix represents some photo point of GCP.
+%It follows that first two positions in vector  $\evect{L}$ represents measured x, y photo coordiantes.
+%First two values of vector $\evect{L}_{X0}$ are computed  
+
+
+All needed information is available to perform first iteration of non linear least square 
+method \label{sec:non_least}. As result of iteration refined values of vector  $\evect{X}$
+are obtained. If another iteration is needed to performed same process is repeated 
+with adjusted vector $\evect{X}$.
+
 \subsection{Orthorectification}
 
-The orthorectificaion is process which transforms photo from perspective projection into orthogonal projection. 
+The orthorectificaion is process, which transforms photo from perspective projection into orthogonal projection (See Figure \ref{fig:ortho}). 
 \label{sec:single_ortho}
-There are two main methods for producing of orthophoto. The first method is able to produce orthophoto 
-from single photo if it's exterior and interior orientations are known and other information which describes
-relief must be also known. This information is usually provided in form of digital terrain model (DTM), which 
-can be provided in raster or vector form. Raster DTM describes relief with same density defined by resolution of the raster.
+There are two main methods for producing of orthophoto. The first method is able to retrieve orthophoto 
+from single photo. It requires exterior, interior orientations of the photo and shape of relief. 
+Shape of relief is usually provided in form of digital terrain model (DTM), which 
+can be given in raster or vector form. Raster DTM describes relief with same density defined by resolution of the raster.
 Vector DTM is comprised by continuous surface made of triangular irregular network (TIN). 
-At the beginning of the orthorectificaiton empty raster is allocated, which represents orthophoto, 
-covering intersection of photo scene and area of the DTM. Then coordinates are reprojected using collinearity
-equations into photo coordiantes. Because the DTM surface continuous, it is needed to define 
-a step which defines shift of points which are reprojected, The points can be choosen e. g. from every pixel center
-of the alocated orthophoto pixel. Results of reprojection are not pixels cordinates which is integer number but 
-floating points numbers. Therfore value of pixel in orthophoto can be computed by different interpolation methods,
-which can take into account various number of neighborhood pixels and functions.
+At the beginning of the orthorectificaiton empty raster is allocated, which represents orthophoto.
+It covers intersection of photo scene and area of the DTM.
 
-The other method is being used either in computer vision and photogrammetry.
-Computer vision calls it structure from motion. As the method name suggests, it is primarily used for retrieving
-structure of the scene, which is equivalent to creation of DTM in photogrammetry. In follows main advantage 
-of the method that DTM is not needed unlike the first orthorectificaiton method. Moreover 
-the DTM can be another output of the method besides the orthophoto.  The other approach requires to have at least
-two photos of known exterior and interior orientation. In contrast to the first method the exterior orientaiton
-can be defined in arbitrary coordinate system, because there is not needed to define relationship to DTM, 
-therfore it is possble to generate orthophoto and DTM without any GCP. However 
-if the results should be transformed into world coordiante system at least three GCP needs to be known
-to perform helmert transformation. 
+In the next step, empty orthophoto is filled by values. 
+At first all points representing centers of pixels are given Z coordinates from DTM. 
+Then the points are transformed into the photo coordinate system using collinearity equations.
+Because the transformed point is represented by floating point, value which is given 
+to the pixel in orthophoto is deteremined by interpolation of surrounding pixels of the transformed 
+point into the photo. There can be many variation in used interpolation methods, selection of points 
+for transformation etc. 
+but main principle is still the same which is based on back projection of object point into 
+the photo to obtain values for orthophoto.
 
+The other method can be considered a extension of the first one because initially it generates DTM than it recovers orthophoto 
+according to same principle as the first method. The principle of the method is based on triangulation of object point
+from photo points, which requires to be known interior and extrerior orientation of photos. The reconstructed point 
+must be visible at least on two photos in order to solve the ray ambiguity. It follows that it requires more than 
+one photo in contrast to the first method.
+Object coordinate system 
+can be defined arbitrarily, because there is no needed to define relationship to input DTM as the first method requires.
+In stead of this DTM is created in any system directly by the method.
+Hence,  orthophoto and DTM can be generated without any GCP. 
+Approximate object points  are calculated by triangulation 
+methods \ref{sec:triang} and than refined by BBA. 
 
-The principle of the method is based of forward ray intersection, where collinearity equations are employed..
-In order to find object coordiantes
-of point, it has to be identified at least on two photos, than two rays connecting projection 
-center and image points are formed. The approximate object coordiantes can be find by trianglulation 
-method \ref{sec:triang} and than refined by BBA, which is also in principle based on the rays 
-resection.
- 
+The DTM is created from retrieved object coordinates. There 
+are plenty of methods for DTM creation from points. Raster DTM can be created by various interpolation methods, 
+which predicts value of raster according to surrounding points. Commonly used method for  creation of 
+vector DTM (TIN) is Delaunay triangulation, which creates surface comprised of triangle network, corners of which are located 
+on object points. The triangulation finds such a configuration of triangles, that no object 
+point is inside the circumcircle of any triangle.
+In case of processing big number of points Finite element method 
+should be used instead of Delaunay triangulation, because it is computationally more efficient.
+Unlike Delaunay triangulation, which creates surface including all object points, Finite element method
+is based on principle of dividing trangle into smaller triangles. 
+The triangel is splot to smaller ones until it sufficiently aproximates surrounding object points. 
+This method is able to create DTM from millions of points.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/finite_elements.png}
+    \caption{TIN created by Finite element method.}
+    \label{fig:rel_or_amb}
+\end{figure}
+
+After obtaining of DTM, orthophoto can be created using same principle, which was described in the first method. 
 
 \section{Analytical part}
-
-Methods of the processing chain which are mentioned in this chapter are described in 
-previous theoretical chapter.
 
 \subsection{General solution of UAV bundle block adjustment}
 
@@ -1374,26 +1572,25 @@ In 1990s Global Positioning System (GPS) become first globally operational satel
 GPS allows 
 to locate position of GPS unit with accuracy ranging  from  millimeters to decimeters depending 
 on used technique and other conditions. 
-GPS greatly simplified obtaining of initial values of exterior orientation with better accuracy in photogrammetric aerial mapping missions.
+GPS greatly simplified obtaining of initial values of exterior orientation in photogrammetric aerial mapping missions.
 GPS unit together with 
 inertial measurement unit (IMU), which measures its orientations in object space,
-provides all needed parameters of exterior orientation. In order to be information useful it is need to determine 
-leverage arm offset, which describes shift of GPS unit to the perspective center and bore-sight offset
+provides all needed parameters of exterior orientation with sufficient accuracy. In order to be information useful it is need to determine 
+leverage arm offset, which describes shift of GPS unit to the perspective center and bore sight offset
 which describes orientation of camera coordinate system towards IMU coordinate system. These two
-quantities are determined in calibration process. The measured values from these two units has to
+quantities are determined in calibration process. The measured values from GPS and IMU units has to
 be corrected by the two quantities to represent true exterior orientation of camera coordinate system. The corrected values 
-can be refined by BBA. Collinearity equations can be extended to include these corrections in order to be adjusted parameters 
- in BBA.
+can be refined by BBA if Collinearity equations are extended to include the corrections.
 
 Before GPS was introduced, aerial photogrammetry made some a priori assumptions about the camera position,
 which simplified the collinearity equation in order to get initial values of exterior orientation. 
 For instance it can be assumed that the aerial photo is vertical if orientation deviates from true vertical
 direction up to 2-3 degrees. Using this assumption collinearity equations can be linearized and 
-approximate values can be computed easily from gcps.
+approximate values can be computed easily from GCPs.
 
 Photogrammetric aerial mapping missions are prepared and carried out by experts using 
 professional equipment which is properly calibrated.
-As a consequence budget of such a missions
+As a consequence, budget of such a missions
 is high. These facts prevents further spreading of rigorous aerial photogrammetry methods.
 
 Nowadays nearly everybody has camera in his pocket, thus there is big demand 
@@ -1409,33 +1606,31 @@ ordinary users, who do not want
 to spend money for other devices or spend time studying complicated methods. 
 The users just 
 want to take a group of photos of the scene and get the job done by the software.
-The final solution should be flexible to process both terrestrial and aerial photos,
-which can give both orhophoto and structure / DTM as output. There should 
-not be any constraint on camera orientation because it should be able 
+The final solution should be flexible to process both terrestrial and aerial photos
+giving both orhophoto and structure / DTM as output. 
+No limitation on camera orientation should be enforced, because it should be possible 
 to process photos acquired from camera held by hand or mounted on UAV.
-Because of instability of  UAVs flight track and human hand, the photos 
-must be considered as oblique thus it is not possible to impose any constraints on camera orientation. 
+Because of instability of UAVs flight track and human hand, the photos 
+must be considered as oblique. 
 
-In order to make this requirement of simplicity more specific, user should just need  
- camera to obtain structure of the scene. 
- In order to be orthophoto generated 
-user would also need to employ UAV in order to get images from approximately vertical point of view.
+In order to meet the requirement of simplicity, user should just need  
+ camera to obtain structure of the scene. Orhophoto creation would also need to employ of UAV
+in order to get images from approximately vertical point of view.
 No other hardware device should be needed. 
 All other steps should be done 
-using open source software which can everybody freely download and use. 
+using free software, which can everybody freely download and use. 
 
-Also the solution should be flexible enough to process additional data, which may be known about a scene, 
-as GCPs, positions of cameras etc. The additional data can
+The solution should be flexible enough to process additional data, which may be known about a scene, 
+e. g. GCPs, positions of cameras etc. The additional data can
  increase accuracy of results and computational time  
  decreasing number of  BBA iterations needed for finding global minimum. This is very important 
  for professional photogrammetric measurements, where accuracy is very important.
 
 As consequence of these constraints, the minimum required input can be just photos
-of the scene and other information, which can be derived from photos of specific scene.
+of the scene and other information, which can be derived from photos of calibration scene.
 
 The another important requirement is to make the process as much automatic as possible, because 
 if it would require a lot of time of user to go through the processing chain nobody would use it.
-
 
 This processing chain should fulfill above mentioned requirements for the solution:
 
@@ -1443,11 +1638,11 @@ This processing chain should fulfill above mentioned requirements for the soluti
 \item Camera calibration - determination of camera interior orientation. There exists simple techniques for calibration
 of camera based on processing of 2D patterns photos. Whole process is very simple from the user point of view, it is needed 
 to print the pattern on sheet of paper, take photos of the pattern from different positions. The calibration 
-is done automatically based on the photos. No other input except the photos of pattern is needed from user.
-\item Tie point identification - it can be also done automatically be pattern match algorithms.
+is done automatically based on the photos. No other user input except  capturing of the photos of pattern is needed.
+\item Tie point identification - it can be done fully automatically by pattern matching algorithms.
 \item Retrieval of initial values for BBA - it is fully automatic process without need of any manual user input.
 As input it needs tie points and interior orientation of camera, which are given by previous two steps.
-\item Bundle block adjustment - fully automatic, it uses information from all three previous steps.
+\item Bundle block adjustment - it is fully automatic integrating information from all three previous steps.
 \end{itemize}
 
  
@@ -1456,7 +1651,7 @@ As input it needs tie points and interior orientation of camera, which are given
 Camera calibration is process, which deals with determination of interior orientation parameters including distortion.
 There exists many different methods of camera calibration.
 
-One family of calibration methods are based on photos acquiring calibration object.
+One family of calibration methods are based on photos capturing calibration object.
 The calibration object includes calibration points, which relative position to each other is  precisely determined.  
 
 The methods can be further divided according to dimension of the object:
@@ -1467,23 +1662,23 @@ perpendicular planes, which are covered by calibration points. Drawback of 3D ca
 is that accurate construction of the calibration object is complicated.
 \item 2D plane based calibration - This calibration method is less accurate compared to 3D calibration. 
 The accuracy can be improved by acquiring more photos of the calibration object.
-On the other hand it is possible to use as calibration object the sheet of paper, which is much 
-easier than construction of 3D calibration object.
+On the other hand calibration object can be printed on a sheet of paper, which is much 
+easier compared to construction of 3D calibration object.
 \end{itemize}
 
 
-Another method is self-calibration, which uses BBA to find values of the interior orientation parameters.
+Another method is self-calibration, which finds values of the interior orientation parameters by BBA.
 However at least initial values of focal length and principal point must be known.
 Usually focal length and chip size are publicly available by manufacturer. The principal point 
 can be computed dividing chip size by two, because it is supposed that it lies close to 
 the middle of the photo.
 It is more convenient to use 
-pixels as expression, therefore focal length and principal point coordinates can be 
+pixels as units of interior orientation, therefore focal length and principal point coordinates can be 
 converted from millimeters units into pixels using photo resolution. 
-The interior orientation from manufacturer information should not be interpreted as very accurate, therefore 
-it has  to be made more accurate by camera calibration.
+Interior orientation provided based on manufacturer information should not be interpreted as very accurate, therefore 
+it has  to be refined by camera calibration.
 Including interior orientation as parameters of BBA
-can lead into over-parametrization which can may result in inaccurate results.
+can lead into over-parametrization which may result in inaccurate results.
 In case of self-calibration it is recommended to take acquire convergent photos from many different directions and position in order
 to avoid correlation of adjusted parameters. 
 
@@ -1498,123 +1693,111 @@ orientation.
 
 \subsubsection{Tie points identification}
 
-The simplest way from developer point of view is to force user to identify tie points on 
-the photographs manually. However users would have to waste a lot of time on such a 
+From developer point of view, the simplest way of tie points identification is to force user to locate tie points on 
+the photos manually. However users would have to waste a lot of time on such a 
 dull task. Fortunately there  exist algorithms, which are able to identify tie points on photos
 automatically. The state of the art algorithms are SIFT \cite{wiki:SIFT} and SURF \cite{wiki:SURF}.
-These algorithms allows to identify tie points on photos, which covers same scene, without need to include any other information.
-Unfortunately both algorithms are patented in USA, therefore their use should be avoided open source community.
+These algorithms allows to identify tie points on corresponding photos capturing same parts of the scene, without need to include any other information.
+Unfortunately both algorithms are patented in USA, therefore their use should be avoided in open source community.
 
 Recently new BRISK \cite{leutenegger2011brisk} and FREAK \cite{alahi2012freak} algorithms
 has been developed, which does not have patent restriction. 
 
-Another problem of tie points matching is determination of corresponding photos, which scenes are overlapping. 
-If photos are taken in strip, it is easy, because the corresponding photos are comprised form neighborhood phots 
+Another issue of tie points matching is determination of corresponding photos. 
+If photos are taken in strip, it is easy, because the corresponding photos are comprised form neighborhood photos 
 in the chain.
-
-If there is no apriori information about photo order, the easiest way is to use brute force and 
-try to find tie points in all images in set.
-However it become unsolvable problem with higher number images, because 
-computational time very big. In order to avoid this, visibility map \cite{barazzetti2010extraction} can be build up. 
-The visibility map is graph with photos as nodes. The graph edges connects photos and represents existing scene overlap 
-in photos.  It is possible to use information from GPS and IMU units for creation of visibility map.
+If there is no a priori information about photo order, the easiest way is to use brute force 
+checking all photo pairs combinations to find correspondence.
+However it become unsolvable problem with higher number photos, because 
+of high number of combination which needs to be checked. In order to avoid this, visibility map \cite{barazzetti2010extraction} can be build up. 
+The visibility map is graph with photos as nodes. The graph edges connects photos if there is
+correspondence between them.  It is possible to use information from GPS and IMU units for creation of visibility map.
 
 Another speed up can be done decreasing resolution of photos 
-for first search of tie points. First search of photos only identifies correspondent photos.
-In second step tie points extraction is done on full resolution but only with correspondent photos,
-which were identified in the first search.
+for first search of tie points. First search of photos only identifies correspondence.
+In second step tie points extraction is done on full resolution but only with correspondent photos.
 
 \subsubsection{Retrieving initial values for bundle block adjustment}
 
 The next step is to utilize all known information (interior orientation and extracted 
-image coordinates of tie points) to get missing initial values of parameters for BBA. 
+photo coordinates of tie points) to get missing initial values of parameters for BBA. 
 
 Because collinearity equations \ref{eq:col_eqs} are the cost functions of BBA,
-extracted image coordinates represents measurement,
-the parameters of interior orienation are known from the input, thus only information, 
+extracted photo coordinates represents measurement,
+the parameters of interior orientation, thus only information, 
 which is missing, are parameters of exterior orientation and object coordinates of 
 tie points. 
 
 There exist many methods how to obtain initial values of exterior orientations. The methods 
 differ in information which they require for input, computation time and accuracy. 
 In order to fulfill the set up requirements a chosen method should be able to retrieve exterior orientation 
-using just image coordinates of tie points and interior orientation of camera. The method 
-should be general in order to be able to process oblique photos.
+using just photo coordinates of tie points and interior orientation of camera. The method 
+should be general in terms of capability to process oblique photos and robustness to 
+various object points configuration.
 
-There exists family of closed form computer vision algorithms,
-which are able to determine relative orientation (essential matrix) from image coordinates 
+One group of methods requires knowledge of object point coordinates to retrieve exterior
+orientation. 
+The requirement of object coordinates would have negative impact on processing 
+chain because, it would require manually identify such a points, thus 
+such a methods should be avoided. 
+
+Another group of methods is family of closed form computer vision algorithms,
+which are able to determine relative orientation (essential matrix) from photo coordinates 
 of the tie points. The algorithms are based on epipolar geometry using essential matrix 
-constraints to find the solution. 
+properties to find the solution. 
 
-The closed form algorithms are called 
-according to required number of identified tie points in two pictures.
+The closed form algorithms are given the names 
+according to required number of identified tie points in two photos.
 There exist eight, seven, six and five point algorithms. The five point algorithm seems to perform best in most
-of cases \cite{stewenius2006recent} and it is not sensitive on planar points configuration.
+of cases \cite{stewenius2006recent} and it is not sensitive on planar points configuration as others.
 
-Only case when the five point algorithm \cite{nister2004efficient} underperforms 
+Only case, when the five point algorithm \cite{nister2004efficient} underperforms 
 \cite{bruckner2008experimental} the others is forward motion of camera.
-However this should occur in very rare cases, and it is possible 
-to combine it with eight point algorithm to achieve higher accuracy.
+This flaw can be eliminate by  joint usage of eight and five point algorithms.
 
 Main disadvantage of the five point algorithm is that it can produce up to ten solution.
 Hence it is needed to asses the solutions and select the correct one. The number of solutions
 can be reduced by assumption that all tie points lies in front of both photo 
 planes. After sorting out obviously non sense solution,
- the correct solution can be selecting the one which has minimum sum of epipolar distances, which is tie point distances
- from epipolar lines, which were computed by transforming corresponding tie points from the other photo
- using essential matrix of the solution and calibration matrix of the photos cameras.  
-
- TODO epipolar distance
- 
-Because matching algorithms are not perfect, thus  certain number of the tie points are matched 
-incorrectly, hence it is needed to be the relative orientation robust enough to
+ the correct solution can by selected by assumption that it gives minimum sum of epipolar distances.
+ Epipolar distance is photo point distance
+ from epipolar line. The epipolar line is computed from corresponding photo point 
+ in another photo using fundamental matrix.
+  
+Because matching algorithms are not perfect, certain number of the tie points are matched 
+incorrectly, thus it is needed to be the relative orientation robust enough to
 deal with these outliers.
 
-The RANSAC \cite{RANSAC} method is commonly used with this family of epipolar algorithms to 
+The RANSAC \cite{wiki:RANSAC} method is commonly used with the family of epipolar algorithms to 
 make it more robust for effect of outliers.
-Principle of RANSAC is to find such  a solution in group of measurements with outliers, 
+Principle of RANSAC is finding such  a solution in group of measurements with outliers, 
 which well approximates inliers.  
 
-In case of the epipolar algorithms family RANSAC selects random tie points in every iteration.
-The number of selected tie points is chosen according to minumum number, which the epipolar algorithm requires.
-The the epipolar algorithm is launched with the selected points as input. 
+In case of the epipolar algorithms family, RANSAC selects random tie points in every iteration.
+The number of selected tie points is chosen according to minimum number, which the epipolar algorithm requires.
+The epipolar algorithm is launched with the selected points as input. 
 Quality of returned essential matrix by epipolar algorithm is assessed by 
-computing epipolar distances of tie points. There is specified some threshold of the distance which is used 
+computing epipolar distances of tie points. There is specified some threshold of the distance, which is used 
 for decision whether the measurement is inlier or outlier. The other threshold, which has to be specified 
 is minimum percentage of inliers from all tested points. If percentage of inliers is higher than in any previous iteration
 and it satisfies the minimum percentage of inliers threshold, then
 the essential matrix is set as the best fitting and iteration continues. The iteration terminates after 
-maximum number of iterations returning the best fitting essential matrix.
-
-TODO RANSAC PICTURE
+reaching maximum number of iterations returning the best fitting essential matrix.
 
 After essential matrices are obtained, all needed information for calculation of initial object point coordiantes
-is  available. The object points coordinates can be computed by triangulation methods \ref{eq:triang}.
+is  available. The object points coordinates can be computed by triangulation methods described in \ref{eq:triang}.
+
 
 \subsubsection{Common relative coordinate system}
 
 All approximate values, which are needed for BBA collinearity cost functions are available. 
 However it is not possible to adjust scene in one bundle, because
-object coordinates of tie points and exterior orientations are denoted in  individual relative object coordinate systems
-of the relative orientation photo pairs.
+object coordinates of tie points and exterior orientations are denoted in  individual object coordinate systems
+of relative orientation of the photo pairs.
 
-Therefore it is needed to transform all features in individual relative coordinate systems of photo pairs into 
-an common relative coordinate system. First of all the common system has to be defined,
-in order to make the transformation process simple it is defined by one of  relative orientation systems of photo pairs.
-
-The next step is to connect successively the relative orientation systems into the common relative one.  
-An block of all the relative orientation systems, which can be merged, is composed of the systems 
-where exists path from the pair which defines common system.
-The path exists if there is chain of neighborhood photo pairs systems, which 
-shares one photo.
-
-Relative orientation systems are defined up to scale therefore 
-it is needed to determine it between the  merged system and the common one. Then the merged system 
-has to be rescaled before merging into the common relative system. 
-The scale can be computed by comparison of distances which are common in both systems.
-One approach uses tie points object coordinates in both systems 
-computing distances from projection center which belongs to the shared photo, more in \ref{seq:ess_chain}. 
-
+Therefore it is needed to transform all features from individual relative coordinate systems of photo pairs into 
+an common relative coordinate system.
+Relative orientation systems are subsequently transformed into the common relative system \ref{sec:ess_chain}. 
 
 \subsubsection{Transformation into world coordinate system}
 Difference between world coordinate system and common relative system is that the common relative system 
@@ -1642,7 +1825,7 @@ All initial values of parameters in collinear equations are obtained and transfo
 BBA can be performed.
 
 Main reason for employing BBA is to improve accuracy of results.
-In order to obtain initial values it was only used information from relative orientation of photo pairs.
+In order to obtain initial values it was merely used information from relative orientation of photo pairs.
 However many object point are usually visible from more than two photos. This redundancy is not fully taken 
 into account during retrieval of initial values. The object points coordinates are calculated 
 just from two photos and only redundancy which can appear there is when point is part of more 
@@ -1650,12 +1833,12 @@ photo pairs, which relative orientation was computed.
 
 Unlike initial values retrieval, BBA utilizes this redundancy rigorously, therefore 
 it can significantly improve accuracy of the adjusted parameters.
-Frequently initial values may contain few big outliers, which accuracy can be significantly improved.
-Moreover if the point in wrongly identified in a photo, such a point can be recognized and its 
+Commonly initial values of parameters contains certain amount of outliers, caused by instabilities in previous steps of processing chain.
+The BBA can also significantly improve accuracy of such a parameters.
+Moreover if the point is wrongly identified in a photo, such a point can be recognized and its 
 negative effect can be eliminated.
 
-
-If in the adjusted network there are at least three GCPs, the ordinary non-linear least square method \label{sec:non_least} 
+If  there are at least three GCPs and the scene is transformed into world coordinate system the ordinary non-linear least square method \label{sec:non_least} 
 can be used for BBA otherwise
 it is needed to use free network least squares \label{sec:free_net_least} to cope with datum deficiency. 
 
@@ -1669,16 +1852,15 @@ GRASS orthorectification workflow.
 
 
 The module was developed in 1990s,  
-when analog aerial photos were mostly processed. Therefore it supports 
+when analog photos were mostly processed. Therefore it supports 
  transformation of scanned photo using fiducial marks from coordinate system of scanned image into 
  photo coordinate system. The fiducial marks are used for calculation of 
- affine transformation coefficients, because their photo coordinates are known 
- and corresponding scanned image coordinates has to be identified manually. 
+ affine transformation coefficients form known photo coordinates 
+ and corresponding scanned image coordinates, which are identified manually. 
  This is done by i.photo.2image submodule, which allows to identify the fiducial 
  marks in scanned image coordinates system and assign known photo coordinates.
-  In case of digital photo processing imaginary fiducial marks has to be defined, which
-can be located e. g. in the middle of photo sides. The fiducial marks 
-photo coordinates has to be given in milimeters. 
+  In case of digital photo processing, imaginary fiducial marks has to be defined, which
+can be located e. g. in the middle of photo sides.  
   
 
 The interior orientation parameters of camera are supposed to be known and can 
@@ -1687,7 +1869,7 @@ The data model is not taking distortion
 coefficients into account. 
 The next step is retrieval of exterior orientation parameters by i.photo.2target submodule.  
 The retrieval 
-of exterior orientation is based on non-linear least square iteration. Unlike BBA
+of exterior orientation is based on non-linear least squares iteration. Unlike BBA,
 the photos are adjusted separately, therefore only GCPs can be used,
 because it is not possible to determine object coordinates of tie point from one photo.
 At least three ground control points has to be available because six exterior parameters are 
@@ -1945,33 +2127,35 @@ The module input is:
 \item Tie points photo coordinates 
 \end{itemize}
 
-The module first builds internally graph like structure, where nodes represents photos and edges holds information 
+The module builds internally graph like structure, where nodes represents photo and edges holds information 
 about number of corresponding tie points, which are identified on two photos which edge links together.
-Then the relative orientation of photo pairs is performed. The photos are oriented by going through the graph. 
-The pair of photos which are taken for the first relative orientation are the photos with the highest number of the corresponding tie points. 
+Then the relative orientation of photo pairs is performed. The photos are oriented in order defined by going through the graph. 
+Reference pair of photos which is taken for the first relative orientation, is comprised by the photos with the highest number of the corresponding tie points.
 The next candidate is chosen from the subset of neighborhood photos, which have not been already relatively oriented. The chosen pair 
-must also satisfy the highest number of corresponding tie points from all candidate pairs. The pair is comprised of one photo, which is already 
-part in at least one relative orientation, and the second photo, which is newly oriented. The relative orientation of the photo 
+must also satisfy condition of the highest number of corresponding tie points from all candidate pairs. The pair is comprised of one photo, which is already 
+part at least in one relative orientation, and the second photo, which is newly oriented. The relative orientation of the photo 
 pair is performed by  the five point algorithm, which has been recently added into development version of OpenCV as function findEssentialMat \cite{calib_manual2013opencv},
 which returns the essential matrix. Exterior orientation is retrieved \ref{ess_eo} from the essential matrix by Rodrigues \cite{calib_manual2013opencv} 
 function. Because the exterior orientation is defined by relative coordinate system of the two cameras, it is needed to be transformed into 
-the common relative coordinate system. The common system is defined by the relative orientation coordinate system of the first pair, with highest 
+the common relative coordinate system. The common system is defined by the relative orientation coordinate system of the reference pair, with highest 
 number of tie points.
-Every other relative orientation system is connected to the common system by process of merging of relative orientations see \label{sec:ess_chain}.
+Every other relative orientation system is connected to the common system by process of merging of relative orientations see \ref{sec:ess_chain}.
 
-The last optional step of the module is transformation of the relative coordinate system into the word coordinate system. The helmert 
-transformation coefficients \ref{sec:helmert} are retrieved by code from v.rectify module \cite{v.rectify}, V.rectify module is used e. g. for transformation of Lidar point clouds.
+The last optional step of the module is transformation of the relative coordinate system into the word coordinate system. Helmert 
+transformation coefficients \ref{sec:helmert} are retrieved by code from v.rectify module \cite{v.rectify}, 
+V.rectify module is used e. g. for transformation of Lidar point clouds.
 The code, which computes the coefficients
 was moved from the v.rectify module into the GRASS GIS imagery library in order to be accessible also by other modules as i.ortho.initial
-module through ctypes interface.
-Calculated Helmert transformaiton coefficients are applied on the exterior orientations of cameras and object coordinates of the tie points.
+module, which uses ctypes interface to call it.
+Calculated Helmert transformation coefficients are applied on the exterior orientations of cameras and object coordinates of the tie points.
 
 The output of the module are exterior orientations and object coordinates in common relative or world coordinate system. Together with interior
-orientation parameters and image coordinates all needed information is obtained  for the i.ortho.bba module which performs final BBA.  
+orientation parameters and image coordinates all needed information is obtained for the i.ortho.bba module which performs final BBA.  
 
 \subsubsection{Bundle block adjustment module - i.bba}
 
-The bundle block adjustment module performs non-linear least squares iteration for collinearity equations. 
+The bundle block adjustment module performs non-linear least squares iteration, which 
+uses collinearity equations as cost functions. 
 The module input represents all parameters of collinearity equations:
 \begin{itemize}
 \item Tie points photo coordinates e. g. identified manually or automatically by points matching algorithms
@@ -1990,7 +2174,7 @@ covariance matrix of the adjustment.
 
 \section{Test case}
 
-The processing chain was developed and tested on data, which were kindly provided by Martin Rehak. The available 
+The processing chain was developed and tested on data, which were kindly provided by Martin Řehák. The available 
 information about scene included:
 
 \begin{itemize}
@@ -2000,43 +2184,65 @@ information about scene included:
 \item Interior orientation of camera, which acquired the photos of the scene
 \end{itemize}
 
+Every parameters also included its standard deviation. 
+
 Also there was included protocol of BBA from Bingo-F software \cite{bingo2013gip}, which reveals 
-the processing steps if the software uses.
-In general information form this protocol was very helpful for me, because 
+information about processing steps which the software uses to retrieve structure of the scene.
+In general information from this protocol was very helpful for me, because 
  it showed me how the processing chain should look like.
 
-Bingo-F is widely used well tested software software, which is used by many users on various  scenes configurations.  
+Bingo-F is widely used, well tested software, which is used by many users on various scenes configurations.  
 Compared to the developed processing chain in this thesis it is miles ahead, therefore the results of the Bingo-F adjustment were 
 regarded as reference for obtained data from the developed processing chain.
 
 Generally Bingo-F processing is very similar to the developed  processing chain, which is  
-described in-depth in previous chapter. First step is the relative orientations of pairs, then the pairs are merged into common relative 
-coordinates system. After that Helmert transformation is performed into world coordinate system and as a last step BBA is performed.
+described in-depth in previous chapters. First step is the relative orientations of pairs, then the pairs are merged into common relative 
+coordinates system. After that helmert transformation is performed into world coordinate system and as a last step BBA is performed.
 
 Unlike the developed processing chain,  the Bingo-F software also take into account information about position of cameras. 
 Because the developed processing chain should be general as much as possible it was decided that in first version  the processing chain would ignore this 
-information because according the aims set up in the previous chapter the final solution should require only tie points photo coordinates and interior 
-orientation of cameras. Anyway later it is possible to extend the processing chain to work also with such additional information to improve accuracy 
+information because according to the set up goals the final solution should require only photo coordinates of tie points and interior 
+orientation of cameras. Anyway in future it is possible to extend the processing chain to work also with such additional information to improve accuracy 
 of the results. 
 
-Also the Bingo-F is capable to identify and rule out blunders in every step of processing chain and thus it is more robust. 
-In final BBA it computes weights probably according to defined standard deviations of parameters, which are available in the data. Also computation 
-of BBA is optimized therefore it is possible to solve scenes with thousands of tie points.
-
-Output  protocols of Bingo-F adjustment contains: 
-
+Also the Bingo-F is capable to identify and rule out blunders in every step of processing chain and thus it is more robust.
+These blunders check are noticeable from adjustment protocols in these steps:
 \begin{itemize}
-\item Interior and Exterior orientations of photos
+\item Interior and exterior orientations of photos
 \item Object coordinates of tie points and gcps
 \end{itemize}
 
-The scene was adjusted as free network, adjusting interior orientation parameters (focal length, principal point coordinates),
+
+
+Bingo-F is highly optimized therefore it allows to solve scenes with thousands of tie points.
+
+Output  protocols of Bingo-F adjustment contains: 
+\begin{itemize}
+\item Relative orientation - It seems that Bingo-F asses reprojection error, which is computed 
+as difference of measured photo coordinates of a tie point and reprojected object coordinate of the tie point computed during relative orientaion.
+\item Merging to common relative system -  There is performed so called "Pre-adjustment" of some points. It is probably some type of freee network 
+BBA. There exists also blunder check in computation of scale. There is checked difference of object coordinates of points 
+which were used for computation of scale. The difference is computed between tie points defined in both common relative system 
+and relative orientation system of merged pair after being transformed into the common relative system.
+If standard deviation of object points coordinates is higher than certain threshold, then 
+scale is computed again skipping point with the highest difference.
+The process is repeated  until  the threshold of standard deviation is satisfied.  
+\item During BBA iteration there are probably used weight where information about standard deviation of measurement 
+and standard deviation of parameters is utilized. Blunder detection mechanism rules out points, which 
+has standard deviation higher than certain threshold. Setting standard deviation threshold  is common way how to identify 
+blunders. It comes out of the normal distribution characteristics, because probability that measurement occurs with value 
+ higher than 3 standard deviations is extremely small, therefore such a measurements are considered as blunders in practice.
+\end{itemize}
+
+The scene was adjusted as free network adjusting interior orientation parameters (focal length, principal point coordinates),
 exterior orientations of photos and object coordinates of all points. It was also adjusted lever-arm offset which describes 
 shift of GPS unit from projection center.  Lever-arm offset allows Bingo-F to use information of photo positions from GPS unit,
 which is shifted by this offset.  
 
 Final reconstructed  scene from Bingo-F results is shown in this plot:
+
 \includegraphics[scale=0.5]{figures/bingo_result.png}
+
 Unlike many other real scenes which can be comprised by hundreds of photos and thousands of tie points,   
 there are just a few tie points (64) and photos (45) taken by same camera. Also the photos capture same points thus there 
 is lot of redundancy. Solving the scene with such redundant scene should improve robustness of the BBA iteration. 
@@ -2048,16 +2254,21 @@ The first step is relative orientation of pairs. The relative orientations of th
 The algorithm was successful on most of the pairs, however there are some pairs were algorithm does not work well.
 
 Example of the algorithm success can be showed in this plot:
+
 \includegraphics[scale=0.4]{figures/rel_or_576_598.png}
+
 The right plot shows the result of five point algorithm and the left plot shows result of Bingo-F. Note that both 
 plots are in different coordinate system, however it is possible to asses it visually. It is clearly visible
 that both scenes are very similar.
 
-On the other hand, there exists  few cases, which relative orientation were not successful.  
+On the other hand, there exists  few cases, with unsuccessful relative orientation.  
 One of such a cases is relative orientation of photos pair 553 and 591:  
+
 \includegraphics[scale=0.4]{figures/rel_or_553_591.png}
+
 It is clearly visible that result of relative orientation is completely different from the Bingo-F result.
-Most important factor, which affects success of the five point algorithm is threshold parameter of RANSAC loop.
+Most important factor, which affects success of the five point algorithm is threshold parameter of RANSAC defining 
+if point is considered inlier or outlier.
 The above mentioned relative orientations were computed with RANSAC threshold parameters set to 0.001 mm.
 If the threshold parameter is changed in 0.1 mm, the result of relative orientation of pair 553 and 591 improves significantly.
 On the other hand another relative orientations go wrong. Therefore with statically set threshold parameter, there are always 
@@ -2066,41 +2277,54 @@ covering same points, it is  not serious problem, because the point is determine
 much better accuracy, thus it is possible to exclude this outliers. This could be serious problem e. g. if the photos 
 of scene would cover long chain where redundancy is much more lower.   
 In this case one wrong relative orientation could thread whole result of bba. If error would appear in the middle 
-of the chain it would  be propagated up  one half of the chain which transformation on the wrongly
+of the chain it would  be propagated up in one half of the chain which transformation depends on the wrongly
 determined pair, which is apparent from equations in \label{eq:comm_rel}. 
 In the test case there are not so many critical pairs, which has to be determined correctly to avoid spoiling the transformation 
 of the others dependent pairs. Fortunately the reference pair, which defines common relative system, is very stable and also 
-the other  core pairs on which depends lot of other pairs are stable. Probably there is some correlation between number 
-of points and stability of five point solution, because as it was already mentioned algorithm of merging searches 
-for maximum number of tie points from possible relative orientation, thus another way how to improve stability of the solution 
-could be identification of another tie points, which could be done automatically by pattern matching algorithms. 
+the other  core pairs on which depends lot of other pairs are stable. 
+Probably there is some correlation between number 
+and success rate of RANSAC loop to select correct solution. 
+Therefore another way how to improve stability of the solution 
+could be identification of more tie points, which could be done automatically by pattern matching algorithms. 
 In the test case there 
 are 27 tie points in the reference pair. Which gradually decreases to 6 point in the pair, which is merged as last.
 
-During the merging process all object points computed from different relative orientations, which represents same point are 
-transformed into  the common relative system. Then the approximate coordinates by object points are determined as median
-of point coordinates from different relative orientations. Median was chosen because it is more robust to the effect of 
+During the merging process all object coordinates, which are computed from different relative orientations and represent same point, are 
+transformed into  the common relative system individually. Then the final coordinates of object points are determined as median
+of corresponding transformed object coordinates from different relative orientations. Median was chosen because it is more robust to the effect of 
 big outliers caused by few wrong relative orientations in the set. If there is more than 50 percent of coordinates 
 which are close to the correct value and the rest are big outliers (luckily the test case is the case), median gives reasonable results over average,
 which is much more sensitive to the effect of the big outliers. 
 
-The next step is helmert transformation of the common relative orientation system into the world coordinate system using available GCPs. 
-The transformed scene can be compared to the results of Bingo-F adjustment. Average difference of exterior orientation 
+This plot shows situation before computing median of all corresponding object coordinates:
+
+\includegraphics[scale=0.55]{figures/before_median.png}
+
+Plotted points with same color represents same the corresponding coordinates computed by different relative orientation. It can be noticed that 
+the points of same color tend to make clusters, however there are some big outliers, which effect is eliminated by applying
+median on the points.
+
+The next step is helmert transformation of the common relative system into the world coordinate system using available GCPs.
+The transformed scene can be finally compared to the results of Bingo-F adjustment.
+Average difference of exterior orientation 
 of camera is approximately around 0.5 meters with highest outlier in meters. The object points coordinates 
-are little bit more accurate with average approximately 20 and highest outliers in 3-1 meters. 
+are little bit more accurate with average approximately 20 cm and highest outliers in 3-1 meters. 
 Angles differences are shown in this plot, where there are plotted axes of two camera coordinates systems, which represents 
 Bingo-F adjustment angles and the  initial angles. 
-\includegraphics[scale=0.4]{figures/angles_comaprison_relative_orinetaion.png}
-It is clear that there are a few orientations, which differs  (tenths of degrees) form the result. 
 
-As a last step bba was applied on these initial values with taking gcp as knowns.
+\includegraphics[scale=0.4]{figures/angles_comaprison_relative_orinetaion.png}
+
+It is clear that there are a few orientations, which differs in tenths of degrees form the result. 
+
+As a last step BBA was applied on these initial values with taking GCP as knowns.
 Despite the fact that there were few huge outliers in both parameters of cameras and points,
 BBA after five iteration subsequently refines all scene parameter and reduces all cordinates 
 differences into the centimeters and angles into the tenths of degrees. 
 
 
-This plot again shows differences of cameras coordiantes system, which are no longer visible from this point of view
+This plot again shows differences of cameras coordinates system, which are no longer visible from this point of view
 unlike to the previous plot:
+
 \includegraphics[scale=0.4]{figures/result.png}
 
 
@@ -2135,7 +2359,7 @@ Calculation of scale lacks checks
 could be big leap towards robustness of the BBA. If the weights are selected properly, it is possible to eliminate of outliers 
 effect.
 Another way how to improve final accuracy of BBA is skipping points, which 
-standard deviation from adjustment is higher than some threshold after. The standard deviation criteria can be assessed 
+standard deviation from adjustment is higher than some threshold after. The standard deviation criterion can be assessed 
 after every iteration.
 \end{itemize}
 
@@ -2175,7 +2399,7 @@ there is no point in dealing with the interface, because it can change lot of ti
 \section{Conclusion}
 
 \section{References}
-%\nobibliography{BP}
+\bibliography{BP}
 \bibliographystyle{plain}
 \bibentry{Hartley2004}
 
@@ -2218,6 +2442,16 @@ TODO
 \bibentry{bingo2013gip}
 
 \bibentry{labe2004geometric}
+
+\bibentry{mellish2005pinhole}
+
+\bibentry{boe2013octocopter}
+
+\bibentry{kbosak2010bezmiechowa}
+
+\bibentry{baumker2001new}
+
+\bibentry{sjoberg2013closed}
 
 \section{Appendix}
 \subsection{Adjustment protocol}
