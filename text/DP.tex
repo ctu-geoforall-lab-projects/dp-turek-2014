@@ -760,18 +760,18 @@ inversion. Another option is adding inner constraints to the design matrix.
 \subsection{Short introduction to photogrammetry}
 
 Essential information, which must be known to obtain any photogrammetric
- product (e. g. orthophoto or DTM) from group of photos is their interior orientation and exterior orientation.
+ product (e.g. orthophoto or DTM) from group of photos is their interior orientation and exterior orientation.
 Exterior and interior orientation together describes relation between object point and
 it's corresponding photo point.
 
 \subsubsection{Interior orientation}
 
 Interior orientation describes relation between measured 2D photo coordinates 
-and corresponding 3D in camera coordinate system which is based on pinhole camera model described in \ref{sec:ess_princip}.
+and corresponding 3D camera-related coordinate system which is based on pinhole camera model described in chapter \ref{sec:ess_princip}.
 
 Photogrammetric camera coordinate system has origin in projective point,
-z axis heading out of the scene  and x, y axes being parallel to photo plane. Directions of 
-x, y axes are selected in way to be the camera system right handed.
+$z$ axis heading out of the scene  and $x$, $y$ axes being parallel to photo plane. Directions of 
+$x$, $y$ axes are selected in way to be the camera system right handed.
 
 \begin{figure}[h]
     \centering
@@ -780,9 +780,9 @@ x, y axes are selected in way to be the camera system right handed.
     \label{fig:ph_model}
 \end{figure}
 
-Interior orientations parameters describing pinhole camera model are:
+Interior orientation parameters describing pinhole camera model are:
 \begin{itemize}
-  \item Focal length \escal{f} - it is distance of projective center from principal point.
+  \item Focal length \escal{f} - A distance of projective center from principal point.
   \item Principal point coordinates $(\escal{x}^{ph}_{pp}, \escal{y}^{ph}_{pp})$ - In ideal case photo system position of principal point would be exactly in the middle 
 	of the photo.  However in most cases there is some shift of principal point from the photo center due to
 	camera construction inaccuracies.
@@ -800,7 +800,7 @@ The model defines these two types of distortion:
        imperfect alignment of lenses in camera optical system.
 \end{itemize}
 
-Mathematically brown model is expressed by these equations:
+Mathematically the Brown model is expressed by these equations:
 
 \begin{equation}
 \label{eq:undistort}
@@ -815,10 +815,13 @@ Mathematically brown model is expressed by these equations:
 
 where:
 
+%%% ML: jednotlive polozky se vetsinou oddeluji carkou a posledni
+%%% konci teckou (zde opraveno, nevim jak jinde v textu)
+
 \begin{itemize}
-  \item $\escal{x}^{u}$ and $\escal{y}^{u}$  are undistorted coordinates also corrected of the principal point.
-  \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are measured photo coordinates.
-  \item $\escal{K}_{i}$ are radial distortion coefficients.
+  \item $\escal{x}^{u}$ and $\escal{y}^{u}$  are undistorted coordinates also corrected of the principal point,
+  \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are measured photo coordinates,
+  \item $\escal{K}_{i}$ are radial distortion coefficients,
   \item $\escal{P}_{i}$ are tangential distortion coefficients.
 \end{itemize}
 
@@ -841,7 +844,10 @@ because usually the object coordinate system is not coincident with camera coord
 Object space coordinate system must be cartesian otherwise it must be transformed into cartesian one before applying equations 
 derived bellow. 
 
-Exterior orientation is defined by position of camera center in object space and orientation of camera coordinate system in the object space.
+%%% ML: rekl bych, ze se euler angle pise s velkym pismenem, objevuje
+%%% se dal v textu, chtelo by to opravit i tam
+
+Exterior orientation is defined by position of camera center in object space and orientation of the camera coordinate system in the object space.
 Photogrammetry uses representation of orientation by euler angles and rotation matrix.
 The euler angles are group of three angles, which describes three subsequent rotations
  around axes of 3D coordinate system. 
@@ -852,6 +858,9 @@ The euler angles are group of three angles, which describes three subsequent rot
  
 Mathematically the three euler rotations can be expressed as multiplication of three corresponding
 rotation matrices:
+
+%%% ML: chtelo by vyresit cislovani teto rovnice, ktere vychazi na novy radek
+
  \begin{equation}
  \begin{split}
 \ematr{R} &= \ematr{R}_{z}(\escal{\kappa}) \ematr{R}_{x}(\escal{\omega}) \ematr{R}_{y}(\escal{\phi}) \\
@@ -898,7 +907,9 @@ BLUH angles can be retrieved from rotation matrix using these equitations:
 \end{split}
 \end{equation}
 
-Arkus tangens should be calculated with function, which puts final angle into proper quadrant, according to sings of numerator 
+%%% ML: rekl bych, ze spravne "arc tangent" a ne "Arkus tangens"
+
+Arkus tangens should be calculated with the function, which puts final angle into proper quadrant, according to sings of numerator 
 and denominator. Usually this functions is called \term{atan2}. 
 
 Pitfall of euler angles is when value of second euler angle is 90 or 270 degrees,  
@@ -934,27 +945,35 @@ in photo:
 
 These two equations are called collinearity equations, where
 \begin{itemize}
-  \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are photo points (equation are expressed in simple form without taking distortion into account)
-  \item $\evect{X}^{obj}$, $\evect{Y}^{obj}$, $\evect{Z}^{obj}$ are the point coordinates in object space
-  \item $\ematr{R}$ is rotation matrix describing camera system orientation
-  \item $\evect{X}^{obj}_{pc}$, $\evect{Y}^{obj}_{pc}$, $\evect{Z}^{obj}_{pc}$ are coordinates of projective center
-  \item \escal{f} is focal length
+  \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are photo points (equation are expressed in simple form without taking distortion into account),
+  \item $\evect{X}^{obj}$, $\evect{Y}^{obj}$, $\evect{Z}^{obj}$ are the point coordinates in the object space,
+  \item $\ematr{R}$ is rotation matrix describing camera system orientation,
+  \item $\evect{X}^{obj}_{pc}$, $\evect{Y}^{obj}_{pc}$, $\evect{Z}^{obj}_{pc}$ are coordinates of the projective center,
+  \item \escal{f} is a focal length.
 \end{itemize}
 
-\subsection{Short introduction into computer vision}
+%%% ML: into -> to (jiz opraveno)
+
+\subsection{Short introduction to computer vision}
+
+%%% ML: podobne jako u minule kapitoly, v textu nejsou reference (az
+%%% na jednu vyjimku), predpokladam, ze jsi z neco cerpal...
 
 \subsubsection{Homogeneous coordinates}
+
+%%% ML: dvakrat se ve vete opakuke "in more", btw, nemelo by byt "in
+%%% the more" ?
 
 Computer vision uses homogeneous coordinates, which allows to mathematically express some relations
  in more elegant way than using coordinates in more common cartesian form. 
 
-3D point in homogeneous coordinates is defined as:
+3D point in homogeneous coordinates are defined as:
 
 \begin{equation}
 \ehvect{x} = (\escal{x}, \escal{y}, \escal{z}, \escal{w})
 \end{equation}
 
-\escal{w} component is called scale.
+where \escal{w} component is called a scale.
 
 The transformation of homogeneous point into cartesian coordinates is done dividing 
 the coordinates by scale:
@@ -962,18 +981,20 @@ the coordinates by scale:
 \evect{x} = (\escal{x} / \escal{w}, \escal{y} / \escal{w}, \escal{z} / \escal{w})
 \end{equation}
 
-Using homogeneous coordinates it is possible express all cartesian points plus points in infinity.
+Using homogeneous coordinates it is possible to express all cartesian points plus points in infinity.
 Infinite homogeneous point is written as: 
 
 \begin{equation}
 \ehvect{x} = (\escal{x}, \escal{y}, \escal{z}, \escal{0})
 \end{equation}
 
-which is impossible to express using cartesion coordiantes with finite numbers:
+which is impossible to express using cartesion coordinates with finite numbers:
 
 \begin{equation}
 \evect{x} = (\escal{x} / \escal{0}, \escal{y} / \escal{0}, \escal{z} / \escal{0})
 \end{equation}
+
+%%% ML: TODO
 
 TODO graphic interpretation of hom coords 
 
@@ -1039,9 +1060,9 @@ Computation of lines ($\ehvect{l}, \ehvect{l}'$) intersection  can be done also 
 \end{equation}
 
 Unlike cartesian coordinates, homogeneous form allows to express intersection of parallel lines, which lies at infinity. 
-In this case the point lies in infinity thus it's scale is equal to 0.
+In this case the point lies in infinity thus its scale is equal to 0.
 
-Similarly line can be derived as cross product of two points:
+Similarly a line can be derived as cross product of two points:
 
 \begin{equation}
 \ehvect{l} = \ehvect{x} \times \ehvect{x}'
@@ -1078,7 +1099,7 @@ object point and photo point:
 
 In essence the equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry.
 The two models differs only in definition of camera coordinate system.
-Unlike photogrammetric camera system (Figure \ref{fig:ph_model}), computer vision defines z axis in the opposite direction heading into scene \cite[p. 156]{Hartley2004}.
+Unlike photogrammetric camera system (Figure \ref{fig:ph_model}), computer vision defines $z$ axis in the opposite direction heading into scene \cite[p. 156]{Hartley2004}.
 Both systems are right handed.
 Otherwise the basic formula embodies exactly same transformations as collinearity equations written in different way.
 
@@ -1099,17 +1120,17 @@ The equation can be abbreviated as:
 where:
 
 \begin{itemize}
-\item \ematr{K} is calibration matrix which contains interior orientation parameters.  
+\item \ematr{K} is calibration matrix which contains interior orientation parameters
 \item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix\ematr{R} and translation vector $\evect{t}$, 
 	      which transforms point from object coordinate system 
-	      into camera coordinate system. 
+	      to camera coordinate system. 
 	      The vector $\evect{t}$ can  be transformed by:
 	      \begin{equation}
 	      \ehvect{C} = - \ematr{R}^{T}\evect{t}
 	      \end{equation}
 	      giving coordinates of camera projective center. The rotation matrix \ematr{R} and projective 
 	      center object coordinates $\evect{C}$
-	      represents exterior orientation of camera.   
+	      represents exterior orientation of the camera.   
 \item $\ehvect{X}$ euclidean object space coordinates extended into homogeneous form
 \item $\ehvect{x}$ photo space homogeneous coordinates extended into homogeneous form
 \end{itemize}
@@ -1133,6 +1154,10 @@ same photo point coordinates.
 
 \subsubsection{Two photos geometry}
 
+%%% ML: prvni veta odstavce zni divne
+
+%%% ML: na konci vety by mela byt reference na obrazek
+
 In this chapter, there is introduced theory, which describes mutual relation of two photos. 
 The core of the relation arises from epipolar geometry.
 
@@ -1143,8 +1168,17 @@ The core of the relation arises from epipolar geometry.
     \label{fig:epipolae}
 \end{figure}
 
+%%% ML: prvni veta zni taky divne 
+
 If same object point is identified on two photos then there exists epipolar plane $\pi$.
 The epipolar plane contains:
+
+%%% ML: v textu pouzivas dva styly - prvni zacina velkym pismenem a
+%%% teckou; druhy malym pismenem (nekdy konci carkou nebo bez carky),
+%%% osobne bych se priklanel zacinat malym pismenem a koncit carkou,
+%%% posledni potom konci teckou, chtelo by to sjednotit (low
+%%% priority), podstatne je zachovat jednotny styl, jinak to zbytecne
+%%% rusi
 
 \begin{itemize}
 \item Two rays which connects object point, with photo points and camera centers of both photos.
@@ -1153,17 +1187,23 @@ The epipolar plane contains:
 \item Epipolar lines  $(\escal{l}_{e}, \escal{l'}_{e})$. Epipolar line is in photo plane going through epipole and photo point.
 \end{itemize}
 
+%%% ML: "which comes form epipolar geomatry" -> "which comes from
+%%% epipolar geometry", ale i tak zni divne
 
-Other relations, which comes form epipolar geomatry are:
+\noindent Other relations, which comes form epipolar geomatry are:
 
 \begin{itemize}
-\item All epipolar lines of  photo intersect in epipole. If images are merely translate whith no diffrence in orientaion, 
+\item All epipolar lines of  photo intersect in epipole. If images are merely translate with no diffrence in orientaion, 
 the epipoles are in infinity.
 \item Photo point forms epipolar line in the other photo. It allows to reduce space of possible occurrence of the point 
-      from \eucl{2}, \eucl{1} of epipolar line, without any other information about the point e. g. object space coordinates. 
+      from \eucl{2}, \eucl{1} of epipolar line, without any other information about the point e.g. object space coordinates. 
 \end{itemize}
 
-Rest of this section deals with algebraic deriving of most important relations of two photos geometry. 
+Rest of this section deals with algebraic deriving of the most important relations of two photos geometry. 
+
+%%% ML: projection? first photo system? - to bude tou pozdni hodinou ;-)
+
+%%% ML: Reverse the transformation, bez "the", rectangular shape (3 x 4) ???
 
 Camera matrix \ematr{P} represents projection from object system to first photo system.
 Reverse the transformation can not be done with inverse matrix because of the rectangular shape (3x4) of 
@@ -1175,7 +1215,10 @@ Transformed photo point
 \ehvect{x'} =  \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-is point in infinity, which represents direction of ray.
+%%% ML: "One variant, how a line can be defined, is by direction and
+%%% point." divne receno, TODO for me: projit tuto kapitolu jeste jednou...
+
+is a point in the infinity, which represents direction of ray.
 If this point is projected into second photo by camera matrix $\ematr{P'}$ resulting point in infinity 
 represents direction of epipolar line $\escal{l'}_{e}$. One variant, how a line can be defined, is by direction 
 and point. In order to define epipolar line $\escal{l'}_{e}$ missing point can be obtained from 
@@ -1192,13 +1235,15 @@ epipole:
 %\ematr{X}(\escal{\lambda}) = \ematr{P}^{+}\ehvect{x} + \escal{\lambda}\ehvect{C}
 %\end{equation}
 
+%%% ML: using?
+
 Epipolar line is given using \eqref{eq:def_hline_pts} by:
 
 \begin{equation}
 \ehvect{l'_{e}} =  \ehvect{e'} \times \ehvect{x'} = (\ematr{P'}\ehvect{C}) \times \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-Cross product of two vectors \evect{a} and \evect{b} can be likewise written as multiplication of matrix and vector:
+Cross product of two vectors \evect{a} and \evect{b} can be likewise written as a multiplication of the matrix and vector:
 
 \begin{equation}
 \evect{a}  \times \evect{b}  = 
@@ -1210,19 +1255,25 @@ Cross product of two vectors \evect{a} and \evect{b} can be likewise written as 
 \evect{b} = [a]_{\times} b
 \end{equation}
 
+%%% ML: Using ... gives (to nezni moc anglicky)
+
 Using matrix notation of cross product gives:
 \begin{equation}
 \ehvect{l'_{e}}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-It is apparent from this equation, that matrix, which transforms photo points in the first photo into 
+%%% ML: tento odstavec by chtel prepsat...
+
+It is apparent from this equation, that the matrix, which transforms photo points in the first photo into 
 epipolar lines of the other photo and hence denoting relation of two images is defined as:
 
 \begin{equation}
 \ematr{F}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}
 \end{equation}
 
-Matrix \ematr{F} is called fundamental matrix. 
+%%% ML: zvyraznit "fundamental matrix" (?)
+
+Matrix \ematr{F} is called a fundamental matrix. 
 
 Fundamental matrix can be expanded by \eqref{eq:p_abbr}, which
 allows to derive another important matrix of two view geometry, which is called essential matrix \ematr{E}.
