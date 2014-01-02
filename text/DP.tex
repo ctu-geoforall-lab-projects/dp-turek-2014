@@ -267,6 +267,8 @@ camera. The resulting non inverted photo is called \term{positive} in analog pho
     \caption{Pinhole camera photo inversion \cite{mellish2005pinhole}}
 \end{figure}
 
+% ML: \term{} na konci vety vytvari NEZADOUCI MEZERU, to se da
+% odstranit v definici znakem '%'
 
 All light \term{rays} going from the object points and falling on image sensor are going through the same point in pinhole camera model.
 The point is called \term{projective center}. The ray which is perpendicular to the image sensor plane is called principal ray and the point 
@@ -286,15 +288,18 @@ of the dimensional reduction,  only the ray can be reconstructed from the 2D pho
 3D coordinates of the point cannot be determined.
  
 In order to solve the ambiguity of object point position on the ray another information is needed.  
+%%% ML: "a additional" asi bez clenu, jinak je spravne 'an'
 Such a additional information can provide another photo from different position, which contains same point. 
 If positions of photos 
- are known (this is called\term{ exterior orientation}), it is possible 
+ are known (this is called \term{exterior orientation}), it is possible 
 to reconstruct 3D coordinates of the point, because it lies on the intersection of the photo rays.
+
+%%% ML: predpokladam, ze obrazky bez uvedene reference jsou puvodni
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.2]{figures/object_point_intersection.png}
-    \caption{Oject point reconstruction from intersection of two photo rays.}
+    \caption{Object point reconstruction from intersection of two photo rays.}
     \label{fig:obj_intersec}
 \end{figure}
 
@@ -307,18 +312,27 @@ In this thesis, there are introduced and used such a methods leading to retrieva
 the set of photos, which are based on such a simple principle of ray intersection! Computer vision calls it structure from motion 
 and photogrammetry uses it for creation of orthophoto, DTM or structure of object.
 
+%%% ML: spravnejsi by bylo napsat DMT v kombinaci s ortofotem (drap
+%%% over)
+
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.3]{figures/dtm.jpg}
     \caption{Digital terrain model \cite{kbosak2010bezmiechowa}.}
 \end{figure}
 
+%%% ML: misto Mapy.cz bych asi uvedl mezinarodni projekt anebo v
+%%% poznamce pod carou vysvetlit co je Mapy.cz
+
 Orthophoto is created in 
-orthorectification process, which is transformation form perspective projection into orthogonal projection.
+orthorectification process, which is transformation from perspective projection into orthogonal projection.
 Unlike non-orthorectified pohotography the orthophotos can be merged together into seamless map. Recently 
-orthophoto has been widely used by map services like Google Maps or Mapy.cz. Orthorectified photo 
-has same scale in all parts, therefore it is possible to measure true distances as in map. During orthorectificaion distortion 
+orthophoto has been widely used by map services like Google Maps or Mapy.cz. Ortho\-rectified photo 
+has same scale in all parts, therefore it is possible to measure true distances as in the map. During orthorectification process distortion 
 caused by tilt of camera (if photo is not vertical) together with elevation differences are removed.
+
+%%% ML: pokud je popisek obrazku moc dlouhy, tak by mel byt pro sekci
+%%% 'seznam obrazku' zkracen \caption[kratky]{dlouhy}
 
 \begin{figure}[h]
     \centering
@@ -332,44 +346,70 @@ caused by tilt of camera (if photo is not vertical) together with elevation diff
 
 \subsection{GRASS GIS}
 
+%%% ML: hodila by se reference na GNU GPL a mozna i na webove stranky
+%%% projektu GRASS
+
 GRASS (Geographic Resources Analysis Support System) GIS is open source GIS software cabable of processing raster, vector and imagery data. 
 GRASS belongs among one of 
 the longest active software project. The development of GRASS began by U.S. Army CERL  laboratory
-in first half of 1980s. In 1990s U.S.Army gradually ceased developing GRASS GIS. Luckily it was decided to 
+in first half of 1980s. In 1990s U.S. Army gradually ceased developing GRASS GIS. Luckily it was decided to 
 release source code as public domain, therefore the development could be taken over by volunteers. In the 1999 license 
-of GRASS was changed into GNU GPL v2. Currently GRASS GIS is developed by GRASS development 
-team, which is comprised of developers spread world wide. 
- 
-Individual functionalities of GRASS are implemented in form of small software packages called modules, which 
+of GRASS was changed into GNU GPL v2. Currently GRASS GIS is developed by the GRASS Development 
+Team, which is comprised of developers spread world wide. 
+
+%%% ML: reference na QGIS a ArcGIS nebo jako poznamka pod carou (?)
+
+%%% ML: "a new users", bez clenu nebo "the new users" (?)
+
+Individual functionalities of GRASS are implemented in form of small software packages called "modules", which 
 can be combined to solve complex tasks.
 Unlike other GIS systems as QGIS or ArcGIS, it takes 
-more time for a new users to start understand the GRASS philosophy. Developers 
-has been aware of this problem, therefore they decided to develop graphical user interface, which 
+more time for a new users to start understand the GRASS philosophy. GRASS developers 
+have been aware of this problem, therefore they decided to develop graphical user interface, which 
 has evolved dynamically.
+
+%%% ML: "so called" GIS database (?)
 
 Data in GRASS are stored in GIS Database. GIS Database is composed of locations. Every location 
 defines its projection and all data, which belongs to the location, must be reprojected to 
 the projection of location. The location comprises from mapsets, which are used for organization 
 of data into consistent units. 
 
+%%% ML: pro citelnost textu by mozna bylo dobre slova location, mapset
+%%% ci comp. region pri prvnim pouziti zvyraznit ({\em }) - osobni
+%%% nazor (low priority)
+
+
+%%% ML: nektere moduly pro praci s vektorovymi daty maji prepinar pro
+%%% akcepovani regionu, ale zde bych to neuvadel, neni to pro praci
+%%% dulezite
+
+%%% ML: extend -> extent (jiz opraveno, snad jsem nic neprehlednul)
+
 Another important element of GRASS is computational region. Region stores information about geographical
-extend, which is defined by four values (north, south, east, west) of bounding box and 
+extent, which is defined by four values (north, south, east, west) of bounding box and 
 two values, which defines south-north and west-east resolution. Properly set region is 
 very important for raster data processing, because nearly all except import modules provides computation 
-on currently set region. Vector data are processed in whole extend regardless region.
+on currently set region. Vector data are processed in whole extent regardless region.
 
 \subsection{UAV}
+
+%%% ML: myslim, ze se nejvic UAV vyrabi v Izraely, pouziti pro
+%%% vojenske ucely je nejvice viditelne u U.S. Army, ta Izraelska je
+%%% snad pouziva jeste vic, to jenom na okraj
 
 Unmanned aerial vehicle (UAV also known as drone) is aircraft without human pilot. Recently UAVs are ingloriously known for
 their heavy military employment especially by USA in Afghanistan and Pakistan. These military drones are equipped with state of the art 
 technology and their construction is similarly complex as small aircraft.  
 The number of military UAVs is quickly raising and nowadays USA trains more UAV operators than fighter plane pilots.
 
+%%% ML: prize -> price (jiz opraveno)
+
 There is also exponentially growing sector of civil drones, which is very broad category ranging
-from big military like size drones to small ones in size of few decimeters. There are several types of drones e. g. airplanes,
+from big military like size drones to small ones in size of few decimeters. There are several types of drones e.g. airplanes,
 helicopters, multicopters, paraglides, airships, balloons and others. 
-Very promising category of drones are multirotor drones (e. g. hexacopters or octocopters), because they have simple construction and 
-even ordinary users are able to learn control them very quickly. Together with steeply decreasing prizes of octocopters it can be expected 
+Very promising category of drones are multirotor drones (e.g. hexacopters or octocopters), because they have simple construction and 
+even ordinary users are able to learn control them very quickly. Together with steeply decreasing prises of octocopters it can be expected 
 that this kind of drone will become commonly used for many civil purposes.
 
 In photogrammetry cheap UAVs can be successfully employed in mapping missions for creation of DTM/structure retrieval and orthophoto.
@@ -383,11 +423,15 @@ Main advantage of the UAV mission are cost savings compared to mission which is 
     \label{fig:sample_figure}
 \end{figure}
 
-
+%%% ML: pred finalnim tiskem zkontrolovat rozumne pozicovani obrazku a
+%%% hlavne zacatek kapitoli na konci stranky, da se vyresit zvetseni
+%%% mezery (\vskip) anebo vynucenim konce stranky (\newline)
 
 \subsection{Least squares}
 \label{sec:least}
 
+%%% ML: v kapitole nejsou uvedeny ZADNE reference, nepredpokladam, ze
+%%% jsi ji psal z patra bez pouziiti zadne literatury...
 
 In linear algebra, commonly solved equation is:
 
@@ -395,6 +439,12 @@ In linear algebra, commonly solved equation is:
 \label{eq:linear_eq}
 \ematr{A}\evect{X} = \evect{L} 
 \end{equation} 
+
+
+%%% ML: \evect{} podobny problem jako u \term{} - VYNUCENA MEZERA, coz
+%%% dela neplechu na konci radky (mezera pred teckou), podobnym
+%%% problem budou trpet i dalsi prikazy, chtelo by je opravit
+%%% (%) a zkontrolovat, zda nekde mezera naopak nechybi
 
 which can be interpreted as:
 \begin{itemize}
@@ -406,10 +456,14 @@ which can be interpreted as:
 		  Least square method calls it design matrix. 
 \end{itemize}
 
+%%% ML: prvni veta zni divne...
+
 If matrix \ematr{A} is 
 non singular matrix  and vector \evect{b} is non zero vector, then there exists exactly one solution 
 for vector of parameters  \evect{X} to satisfy the equation. Non singular matrix is always square matrix, 
 which has all column vectors and row vectors linearly independent. 
+
+%%% ML: zvyraznit jednotlive polozky (?), napr. {\em gross error}
 
 Basically every measurement is burden with some error. The errors can be devided into these main categories:  
 \begin{itemize}
@@ -420,6 +474,8 @@ kind of error.
 eliminated by choosing right measurement method, calibration of instrument or taking it into account in  mathematic model.
 \item random error - this error is unavoidable because it is impossible to know perfectly all factors which has impact 
 on a measurement. The random errors follows normal distribution which is represented with probability density function of this shape:
+
+%%% ML: TODO
 
 TODO picture
 
@@ -443,7 +499,7 @@ where \escal{const} is arbitrary chosen number which is used for calculation of 
 and $\escal{\sigma_{i}}$ is standard deviation of the instrument used for the measurement.
 \end{itemize}
 
-The overdetermined systems are solved in many fields which deals with measurements, where the precision matters (e. g. 
+The overdetermined systems are solved in many fields which deals with measurements, where the precision matters (e.g. 
 surveying, photogrammetry etc.).
 As consequence of overdetermination, the design matrix \ematr{A} becomes rectangular with more rows than columns 
 and therefore the solution does not exist for this linear equations system \eqref{eq:linear_eq}.
@@ -466,7 +522,7 @@ overdetermined system.
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.2]{figures/squares.png}
-    \caption{In this chase least squares method finds such a line,
+    \caption{In this case least squares method finds such a line,
     which minimizes sum of squares areas. }
     \label{fig:squares}
 \end{figure}
@@ -489,9 +545,9 @@ The minimized equation can be rewritten as:
 \end{equation} 
 
 According to calculus notation least squares method searches for global minimum of the square difference function. 
-The global minimum of the function can be obtained using partial derivative of parameters in cost function.
+The global minimum of the function can be obtained using partial derivative of parameters in the cost function.
 In this case derivatives are simple because it is supposed that cost functions are linear, therefore 
-its square forms  second degree polynomial e. g. parabola in \eucl{2}, paraboloid in \eucl{3} etc. All these functions has
+its square forms  second degree polynomial e.g. parabola in \eucl{2}, paraboloid in \eucl{3} etc. All these functions has
 only one point, where all partial derivatives are equal to zero, regardless dimension of the function. It is 
 exactly the global minimum, which the least squares method searches for!
 
@@ -514,12 +570,12 @@ The least square determines values of parameters vector \evect{X}, which can be 
 
 which is essential equation of the least squares method. The equation can be solved simply by means of linear algebra.
 
-The equation supposes that all measurements have same weigh (accuracy). The least squares method can be extended to support weights.
+The equation supposes that all measurements have same weight (accuracy). The least squares method can be extended to support weights.
 Weight matrix \ematr{P} contains measurements weights on the diagonal with off-diagonal being zero elements if
 the measurements are not correlated.
-Weigh matrix row of individual weight determines a measurement in design matrix \ematr{A} where the weight belongs.
+Weight matrix row of individual weight determines a measurement in design matrix \ematr{A} where the weight belongs.
 
-The equation, which is minimized by least squares is extended by weigh matrix:
+The equation, which is minimized by least squares is extended by weight matrix:
 \begin{equation}
 \evect{v}^{T}  \ematr{P} \evect{v} = min
 \end{equation}
@@ -532,14 +588,14 @@ therefore the least square equation is altered into this form:
 
 \subsubsection{Non-linear least squares}
 \label{sec:non_least}
-So far it was supposed that cost function is linear thus global minimum can be found simply by means of linear algebra  \eqref{eq:least_sq}.
+So far it was supposed that the cost function is linear thus global minimum can be found simply by means of linear algebra  \eqref{eq:least_sq}.
 Unfortunately it is very common that the relationship between parameters and 
 measured values is not linear, hence it is needed to adapt linear least squares equations for non-linear
 cost functions.
 
 Unlike linear least squares, which square of difference \label{eq:least_be_part}
 is represented by function  (parabola, paraboloid...) with just one point where all
-partial derivatives are being zero, the non-linear cost function can have many such a points e. g. other local minimas. 
+partial derivatives are being zero, the non-linear cost function can have many such a points e.g. other local minimas. 
 
 This problem of non-linearity can be solved by linearization of non-linear equations.
 The main idea of linearization process is to approximate the cost function with first degree Taylor polynomial,
@@ -550,12 +606,12 @@ to solve non-linear problem.
     \centering
     \includegraphics[scale=0.2]{figures/taylor.png}
     \caption{Function $\efunc{f}_{i}$ is approximated by first degree Taylor polynom $\efunc{T} ^{\efunc{f}_{i}}$,
-    which forms line. $\Delta$ represents aproximation error.}
+    which forms line. Symbol $\Delta$ represents an aproximation error.}
     \label{fig:taylor}
 \end{figure}
 
 
-Approximation of cost function with a first degree Taylor polynomial can be written as:
+Approximation of the cost function with a first degree Taylor polynomial can be written as:
 \begin{equation}
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) = 
 	      \efunc{f}_{i}(\evect{X}_{0}) + 
@@ -563,12 +619,17 @@ Approximation of cost function with a first degree Taylor polynomial can be writ
 \ ... \ + \frac{\partial}{\partial {\escal{X}_{0_{n}}}} \efunc{f_{i}}(\evect{X}_{n}) (\evect{X} - \evect{X}_{0}) 
 \end{equation}
 
+%%% ML: pozor na konec stranky (projit az na konci pred finalnim
+%%% tiskem)
+
+%%% ML: nemel by to byt clen? "is a point"
+
 where:
 \begin{itemize}
-\item $\evect{X}_{0}$ is point where the Taylor polynomial touches function, which it approximates. E. g. first degree Taylor polynomial 
+\item $\evect{X}_{0}$ is point where the Taylor polynomial touches function, which it approximates. E.g. first degree Taylor polynomial 
       is line, which is tangent of function at point $X_{0}$ in \eucl{2}, tangent plane in \eucl{3} and  
       tangent hyperplane in  \eucl{n}.
-\item \evect{X} is point where a Taylor polynomial returns approximate value of function $\efunc{f}_{i}$
+\item \evect{X} is point where a Taylor polynomial returns approximate value of function $\efunc{f}_{i}$.
 \end{itemize}
 
 Least squares Taylor polynomial can be written as:
@@ -577,7 +638,7 @@ Least squares Taylor polynomial can be written as:
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) =  \efunc{f}_{i}(\evect{X}_{0}) + \escal{a}_{0} \escal{dx}_{0} \ ... \ + \escal{a}_{n} \escal{dx}_{n} 
 \end{equation} 
 
-in matrix form with formal substitution $\evect{L_{X_{0}}} = \efunc{f}_{i}(\evect{X}_{0})$:
+in the matrix form with formal substitution $\evect{L_{X_{0}}} = \efunc{f}_{i}(\evect{X}_{0})$:
 \begin{equation}
 \label{eq:expanded_taylor}
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) = \evect{L_{X_{0}}} + \ematr{A}\evect{dx}
@@ -613,16 +674,18 @@ similarly to linear least squares:
 \end{split}
 \end{equation}
 
-comparing the equation to the linear least squares equation \eqref{eq:least_sq},
+%%% ML: prize -> price (jiz opraveno)
+
+Comparing the equation to the linear least squares equation \eqref{eq:least_sq},
  it is slightly different. Instead of parameters vector \evect{X} there is used 
 parameters vector of differences \evect{dx} and measurement vector \evect{L} is analogous to vector \evect{l}. In this two minor 
 substitutions there are hidden major limitations of the non-linear least squares method, 
-where the prize for approximation is paid. 
+where the price for approximation is paid. 
 
-As it was already mentioned the Taylor polynomial requires some point $\evect{X_{0}}$, where it is tangent to 
+As it was already mentioned that the Taylor polynomial requires some point $\evect{X_{0}}$, where it is tangent to 
 approximated function.
 This approximation is good in close surroundings of point $\evect{X_{0}}$, however as the distance 
-grows the approximation error $\Delta$ may increase significantly, which can be clearly seen in Figure \ref{fig:taylor}.
+grows the approximation error $\Delta$ may increase significantly, which can be clearly seen in figure \ref{fig:taylor}.
 
 Therefore, unlike linear least square method, non-linear least squares requires initial 
 values of parameters \evect{X}. If the initial values are not accurate 
@@ -634,10 +697,10 @@ are needed to achieve optimal solution (global minimum).
 Unfortunately the non-linear least square method has another one, even more serious pitfall, which 
 does not guarantee that it will iterate towards global minimum at all!
 In this case, the found parameters \evect{X} are completely wrong because 
-it does not satisfies minimum squares difference condition \label{eq:min_cond}. If the initial values are 
-inaccurate, the least squares can iterate toward other points with zero derivation e. g. local minimas.  
+it does not satisfies minimum squares difference condition \eqref{eq:min_cond}. If the initial values are 
+inaccurate, the least squares can iterate toward other points with zero derivation (e.g. local minimas).  
 This is caused by run-off of non-linear functions, which has more points with zero derivative
-and therefore result depends on initial point given by $\evect{X_{0}}$  of non-linear least squares iteration.
+and therefore result depends on the initial point given by $\evect{X_{0}}$  of non-linear least squares iteration.
 
 
 \subsubsection{Least squares properties}
@@ -676,11 +739,13 @@ and a posteriori covariance matrix $\ematr{\Sigma}_{\hat{l}}$ of measurements ca
 \subsubsection{Free network least squares}
 \label{sec:free_net_least}
 
+%%% ML: "datum deficiency" by chtelo zvyraznit (\em) - pouze osobni nazor
+
 In geodesy, it can happen that columns of design matrix \ematr{A}
 are not linearly independent. This can be caused by missing information
 about coordinate system in the design matrix. This issue is called datum deficiency.
 Datum deficiency makes normal matrix $ \ematr{A}^{T} \ematr{P} \ematr{A}$ non invertible and therefore 
-least squares equation \ref{eq:non_least_sq} cannot be solved.
+least squares equation \eqref{eq:non_least_sq} cannot be solved.
 In order to avoid the datum deficiency issue it is needed to keep some parameters fixed, 
 which means that columns of the fixed parameters are excluded from design matrix\ematr{A}.
 
@@ -688,7 +753,7 @@ Photogrammetry deals with three dimensional spaces, which requires fixing of at 
 two points and another point with one coordinate to avoid datum deficiency problem, because
 three dimensional coordinate system is defined by three coordinates of shift vector, three rotation angles and scale factor. 
 
-If there is not enough fixed points, the network has to be adjusted as free network.
+If there are not enough fixed points, the network has to be adjusted as a free network.
 One of possible methods how to adjust free network is calculation of pseudo inverse matrix of the normal matrix instead of
 inversion. Another option is adding inner constraints to the design matrix.
 
