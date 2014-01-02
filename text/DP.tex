@@ -149,12 +149,12 @@ In recent decades tremendous development of information technology has fundament
 Photogrammetry has successfully taken advantages of this development, and nowadays 
 it is using methods, which allows to process data 
 in huge scales achieving high accuracy. Some of the currently used 
-methods has been known for several decades, however technology was not so advanced in order to be employed 
+methods have been known for several decades, however technology was not so advanced in order to be employed 
  in practice. 
 
-Information technology has caused blurring of borders between disciplines. 
+The information technology has caused blurring of borders between disciplines. 
 Photogrammetry has been affected by computer vision, which evolved independently until 2000's. After that it is possible 
-to see growing trend of combining knowledge from both fields. 
+to see a growing trend of combining knowledge from both sides.  
 
 %%% ML: seznam zkratek je lepsi generovat automaticky a stejne tak
 %%% pouzivat v textu, viz
@@ -162,17 +162,19 @@ to see growing trend of combining knowledge from both fields.
 %%% ted uz to ale nech tak jak to je, spis poznamka az budes psat
 %%% nejaky podobny text priste ;-)
 
-Both photogrammetry and computer vision are dealing with information recorded in photo. Computer vision 
-methods are employed in robotics, dealing with determination of robot position and retrieving structure 
-of environment which surrounds the robot.
-Photogrammetry is used to produce digital terrain models (DTM), precise structure of objects or orthophotos. 
+Photogrammetry and computer vision are dealing with information recorded in photo. Computer vision 
+methods are employed in robotics, dealing with determination of a robot position and retrieving structure 
+of environment, which surrounds the robot.
+Photogrammetry is used to produce digital terrain models (DTM), a precise structure of objects or orthophotos. 
+
 
 %%% ML: veta "Nowadays, thanks to current state of the art software,
 %%% ..." zni divne...
+%%% ST: prepracovano
 
 The core of photogrammetry is quickly moving  from  hardware towards software. In past it was necessary to have special 
-expensive equipment to perform photogrammetric measurement. Nowadays, thanks to current state of the art software, 
- it is possible to use higher level digital cameras to perform precise photogrammetric measurements. 
+expensive equipment to perform photogrammetric measurement. Nowadays,
+ state of the art software allows to use higher level digital cameras to perform precise photogrammetric measurements. 
  Currently it is even possible to process data from optically inaccurate low level cameras.
  The inaccuracy is compensated by processing big number of photos bringing redundancy, 
  which positively affects precision of retrieved information.
@@ -182,55 +184,54 @@ become used by much wider audience.
 
 %%% ML: Geographical -> Geographic (jiz opraveno)
 
-Geographic information system (GIS) is software which is used for storing and processing information,
-with spatial component. For instance  GIS is employed on backed of map portals (e.g. Google Maps) therefore nearly 
+Geographic information system (GIS) is a software which is used for storing and processing information,
+with spatial component. For instance  GIS is employed on backed of map portals (e. g. Google Maps) therefore nearly 
 everybody uses its products nowadays. 
 The GIS systems are also used for analyzing spatial phenomenons, which
-are utilized by decision makers (politicians, managers), to get in-depth knowledge about the 
+are utilized by some decision makers (politicians, managers), to get in-depth knowledge about the 
 phenomenon they are dealing with.
 
 %%% ML: slovu 'blackbox' by mozna slusely uvozovky
 
 %%% ML: e. g. -> e.g. --- viz http://en.wiktionary.org/wiki/e.g. (jiz opraveno)
 
-With growing importance of software there comes a question of licenses. There are two 
-main branches: proprietary software and free software. Most of proprietary software is not available in 
-form of source code. The license of proprietary software allows to use it under certain terms and usually user 
-has to buy it. Proprietary software works like blackbox, because user has no chance to investigate the source 
-code and realize what is going on inside it. Therefore user can only believe to software provider
+With the growing importance of software there comes a question of licenses. There are two 
+main branches: proprietary software and free software. Most of the proprietary software is not available in 
+a form of source code. A license of proprietary software allows to use it under certain terms and usually user 
+has to buy it. The proprietary software works like a blackbox, because user has no chance to investigate the source 
+code and realize what is going on inside of it. Therefore user can only believe to a software provider
 that it is really doing what the provider advertises. 
-For instance it can be problem when some data are analyzed
-because the user loses control 
-over the data in processing chains which uses proprietary software in some steps.
-This also posses very serious security threads, because the software can do some hidden activity against user
-e.g. obtaining personal data or tracking user activity.
+For instance it can be problem when some data are analyzed in processing chains, which uses proprietary software in some steps,
+because the user loses a control.
+It also posses very serious security threads, because the software can do a hidden activity against user
+e. g. obtaining personal data or tracking user activity.
 
 %%% ML: "a active communities" - to by melo byt bez clenu (mluvis v
 %%% mnoznem cisle) bych rekl (v kazdem pripade by tam melo byt 'an')
 
-Despite the fact that current complexity of software is so huge,
-that single human is not capable to really understand every piece of software, which uses,
+Despite the fact that a current complexity of a software is so huge,
+that a single human is not capable to really understand every piece of a software, which uses,
 free software does not posses disadvantages of proprietary softwares.
-Transparency of the free software makes its source code subject to public control 
-carried out by community of developers which are gathered around the project.
-All popular free software projects have such a active communities, therefore it is
-very unlikely that same malicious code would be included into the project.
-Moreover if such a case would happen, it would not take a long time until such a change 
+A transparency of a free software makes its source code subject to public control 
+carried out by a community of developers which are gathered around the project.
+All popular free software projects have active communities, therefore it is
+very unlikely that a malicious code would be included into the project.
+Moreover if such a case would happen, it would not take a long time until the change 
 would be spotted by someone from the community.
 
 GRASS GIS  (Geographic Resources Analysis Support System) is one of the free GIS software. 
-Besides many other features, GRASS is capable to create orthophoto from aerial photos.
+Besides many other features, GRASS is capable to create orthopohoto from aerial photos.
 GRASS orthorectification processing chain was implemented in 1990s.
 The processing chain was focused on  processing of photos taken by rigorous 
 photogrammetric aerial missions performed by manned aircrafts, which was 
 major method of obtaining orthophotos in those days. 
 
-Nowadays there is a strong demand for  providing simple and general solution 
+Nowadays, there is a strong demand for  providing simple and general solution 
 which is able to produce orthophoto, structure of objects or 
-DTM. Current processing chain is not able to meet up such a demand.
- The thesis tries to analyze current state of orthorectificaion in GRASS,
+DTM. The current processing chain is not able to meet up such a demand.
+ The thesis tries to analyze the current state of orthorectificaion in GRASS,
 explore and implement methods of photogrammetry and computer vision in order 
-to create such a solution. 
+to create such a solution.
 
 \section{Theoretical part}
 
