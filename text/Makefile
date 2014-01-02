@@ -3,10 +3,10 @@ FILE=BP
 all: $(FILE).pdf
 
 $(FILE).pdf: *.tex Makefile
-	make pdf
-	# @while grep Rerun $(FILE).log >/dev/null 2>&1 ; do \
-	# 	make pdf; \
-	# done
+	@echo "Rerun to get" > $(FILE).log
+	@while grep "Rerun to get" $(FILE).log >/dev/null 2>&1 ; do \
+	make pdf; \
+	done
 
 pdf:
 	pdflatex $(FILE).tex
