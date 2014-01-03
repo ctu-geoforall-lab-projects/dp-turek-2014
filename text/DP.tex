@@ -1393,24 +1393,24 @@ by matrix can be divided into three main steps.
 
 At first, the photo point of the first image is transformed into the first camera coordinate system. Result of the transformation is a
 point in the infinity, which describes ray represented by photo point. 
-After that the ray is projected into second camera coordinate system. This is done by so called essential matrix:
+After that the ray is projected to the second camera coordinate system. This is done by so called essential matrix:
 
 \begin{equation}
 	 \ematr{E}  = [\evect{t}]_{\times} \ematr{R}
 \end{equation}
 
 
-As the last step, the ray is transformed into photo system of the second photo as epipolar line.
+As the last step, the ray is transformed into photo system of the second photo as an epipolar line.
 
 
 It implies that with known exterior orientation it is possible to define essential matrix. 
 Moreover if interior orientation of cameras of both photos are known it is possible to determine fundamental matrix,
-which describes relation of a two photos.
+which describes relation of two photos.
 
 \subsubsection{Triangulation of points}
 \label{eq:triang}
 
-Triangulation methods deals with retrieval of object point coordinates
+Triangulation method deals with retrieval of the object point coordinates
 from corresponding points in photos. 
 If measurements would be precise, object point 
 would lie on intersection of two rays which is clearly visible on 
@@ -1448,28 +1448,37 @@ The linearized collinearity equations can be written as:
 \end{split}
 \end{equation}
  
+%%% ML: prvni veta zni divne, min. chybi "implement *it*"
+
 It is easy to implement and 
 there is no need to know approximate values. 
 Main drawback of this method is that DLT model does not respect pinhole camera model, thus
-minimized parameters in vector \evect{a} do not follow rigorous camera geometry which 
+minimized parameters in the vector \evect{a} do not follow rigorous camera geometry which 
 may result in inaccurate retrieval of object coordinates.
 
+%%% ML: chtelo by zvyraznit "optimal solution"
+
 The more complicated method is called the optimal solution. 
-It is based on enforcing epipolar constraint.  Cost function 
+It is based on enforcing epipolar constraint.  The cost function 
 minimizes sum of distance of photo points to epipolar lines, which are created 
-by projecting corresponding photo points form other images.
+by projecting corresponding photo points from other images.
 
 The cost function is not linear however it's derivative leads into 6 degree polynomial thus 
 it has 6 roots. Correct solution can be selected from roots by assumption that it represents global minimum. 
 
-This method is considered by computer vision community as most accurate \cite[p. 315]{Hartley2004}.  
+This method is considered by computer vision community as the most accurate \cite[p. 315]{Hartley2004}.  
 
 \subsubsection{Retrieving of relative orientation from essential matrix}
 \label{sec:ess_eo}
 
+%%% ML: Rotation *matrix* ? (opraveno, dal v textu pouzivas)
 
-Rotation \ematr{R} and vector \evect{t} can be retrieved from essential matrix using 
+%%% ML: Singular Values Decom. (velkymi pismeny?)
+
+Rotation matrix \ematr{R} and shift vector \evect{t} can be retrieved from the essential matrix using 
 singular values decomposition (SVD):
+
+%%% ML: tahle rovnice vypada divne...
 
 \begin{equation}
 \begin{split}
@@ -1497,8 +1506,8 @@ As a consequence of the  ambiguity it gives four relative orientations:
 \end{equation}
 
 
-The correct solution can be found   by assumption that all object points has to be in front
-of both photo planes.
+The correct solution can be found   by assumption that all object points has to be in the front
+of the both photo planes.
 
 \begin{figure}[h]
     \centering
@@ -1508,12 +1517,14 @@ of both photo planes.
 \end{figure}
 
 
-\subsubsection{Merging of relative orientations}
+\subsubsection{Merging relative orientations}
 \label{sec:ess_chain}
 
-If two relative orientations are merged together, as first step, it is necessary to calculate scale of the one orientation
-to the other because the systems are defined up to scale.
-The scale can be calculated from corresponding distances in both coordinate system. 
+%%% ML: posledni veta odstavce potrebuje korekce
+
+If two relative orientations are merged together, as first step, it is necessary to calculate a scale of the one orientation
+to the other because the systems are defined up to the scale.
+The scale can be calculated from corresponding distances in the both coordinate systems. 
 It can be used distances of 
 object points and object coordinates of projective center of camera, which are present in both relative orientations.
 
@@ -1526,29 +1537,35 @@ The scale can be computed by this equation:
 where:
 \begin{itemize}
 \item \term{ro1} denotes relative orientation where relative  orientation \term{ro2} will be transformed,
-\item \evect{X} is object point,
-\item \evect{C} is projective center of the shared photo, which belongs to both relative orientations.
+\item \evect{X} is an object point,
+\item \evect{C} is a projective center of the shared photo, which belongs to both relative orientations.
 \end{itemize}
 
-The equation gets simplified if the relative orientation coordinate system coincide to the camera system of the shared photo, thus 
-coordinates of the shared camera projective center is zero in both systems: 
+%%% ML: "coincides to" ?
+
+The equation gets simplified if the relative orientation coordinate system coincides to the camera system of the shared photo, thus 
+coordinates of the shared camera projective center is zero in the both coordinate systems: 
 \begin{equation}
 \escal{s}^{ro2-1} = \frac{\mathbf(\evect{X}_{ro1})}
 	                 {\mathbf(\evect{X}_{ro2})}
 \end{equation}
 
+%%% ML: Usually ?
+
 Commonly there are processed bundles of photos capturing a scene. Relative orientation pairs of photos capture only fragments of the scene, 
 therefore the information of scene is scattered.  
 In order to interpret the scene as whole it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
 For sake of simplicity, the common relative system is defined by arbitrary relative orientation of a pair and other 
-relative orientations are subsequently transformed into the common system. 
+relative orientations are subsequently transformed into the common coordinate system. 
 
-Group of photos, which can be transformed into common system, is composed of the relative orientation photo pairs
+%%% ML: transformed into?
+
+Group of photos, which can be transformed into the common system, is composed of the relative orientation photo pairs
 which comprise connected component of undirected graph, where nodes represents  photos and edges denotes relative orientations. 
 In other words, it is possible to transform relative orientation into the common relative coordinate system only if there 
-exist continuous chain of relative orientations where every two neighborhood relative orientations in the chain shares one photo.
+exists a continuous chain of the relative orientations where every two neighborhood relative orientations in the chain shares one photo.
 
-The transformation of relative orientations from 1 to n, with common system defined by relative orientation 1 can be written as: 
+The transformation of relative orientations from 1 to $n$, with common system defined by relative orientation 1 can be written as: 
 \begin{equation}
 \label{eq:comm_rel}
 \begin{split}
@@ -1560,7 +1577,7 @@ The transformation of relative orientations from 1 to n, with common system defi
 \end{equation}
 
 
-The equations applies for chain of relative orientation, where the shared camera in first relative orientation has 
+The equations apply for the chain of the relative orientation, where the shared camera in first relative orientation has 
 projection matrix defined by $[\ematr{R}|\evect{t}]$ and matrix of the transformed second relative orientation is 
 defined as $[\ematr{I}|\ematr{O}]$.
 
@@ -1571,21 +1588,23 @@ Helmert transformation equation can be written as:
 \begin{equation}
 \ematr{X}_{t} = \evect{t} + \escal{s}\ematr{R}\evect{X} \\
 \end{equation}
-where \ematr{R} is rotation matrix, \escal{s} is scale scalar and  \evect{t} is translation vector.
+where \ematr{R} is a rotation matrix, \escal{s} is a scale scalar and  \evect{t} is a translation vector.
 The transformation is defined by seven parameters (three translation coordinates, three rotation angles and scale).
 In order to get these parameters which defines relation of two coordinate system it is needed to know at least two corresponding points and  another one with 
-at least one known coordinate in both systems. 
+at least one known coordinate in the both coordinate systems. 
+
+%%% ML: "There exists" zni divne
 
 Helmert transformation parameters can be retrieved from corresponding points by several methods. It can be determined
-iterativaly by non-linear least square methods. There exist also closed form method, which is based on SVD decomposition
+iterativaly by non-linear least square methods. There exists also closed form method, which is based on SVD decomposition
 \cite{sjoberg2013closed}.
 
 
 \subsection{Bundle block adjustment}
 
-Bundle block adjustment (BBA) is method, which uses the least squares technique (\ref{sec:least}) to refine scene parameters. 
+Bundle block adjustment (BBA) is a method, which uses the least squares technique (\ref{sec:least}) to refine scene parameters. 
 The main advantage of BBA is that the method takes into account whole scene and therefore it utilizes 
-maximum information for adjustment of scene parameters, which leads to more accurate results.
+maximum information for adjustment of scene parameters, which leads to the more accurate results.
 The principle of BBA has been known for very long time since 1950s,
 however the method has been employed in practical applications since 1990's, because the performance of computers had not been 
 sufficient enough before. 
@@ -1598,7 +1617,7 @@ sufficient enough before.
     \label{fig:rel_or_amb}
 \end{figure}
 
-Cost functions of BBA least squares method are photogrammetric collinearity equations \eqref{eq:col_eqs}.
+The cost functions of BBA least squares method are photogrammetric collinearity equations \eqref{eq:col_eqs}.
 The least squares method tries to find vector of adjusted parameters \evect{X} to minimize
 sum  of square differences between coordinates of measured photo points and photo points calculated 
 from collinearity equations.
@@ -1606,7 +1625,7 @@ from collinearity equations.
 Unfortunately, collinearity equations are non linear, hence the non-linear least square method \ref{sec:non_least} must be employed, which 
 needs to be provided  with sufficiently accurate initial values in order to find values of parameters which satisfies minimization criterion.
 
-Thanks to the least squares method BBA is very flexible in terms of selection of parameters to be adjusted. 
+Thanks to the least squares method, BBA is very flexible in terms of selection of the parameters to be adjusted. 
 It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters. 
 
 Following example describes BBA in practice.
@@ -1627,7 +1646,7 @@ Object coordinates of GCPs are known with high accuracy, therefore they are not 
 If the tie point is identified on a photo it yields two measurements (x, y collinearity equations), 
 therefore it is needed to identify the tie point at least on two photos to get more measurements 
 than unknowns. This makes perfectly sense because it is not possible to determine object point coordinates from one photo,
-because it can lie wherever on the ray (See Figure \ref{fig:obj_intersec}).
+because it can lie wherever on the ray (see Figure \ref{fig:obj_intersec}).
 
 Unlike tie points, GCPs does not bring any new adjusted parameters, which 
 allows to use the GCP visible only in single photo. In this case, the object coordinates 
@@ -1635,9 +1654,9 @@ are known, thus there is no ray ambiguity.
 
 Lets suppose that it is adjusted exterior orientations and object coordinates of tie points.  
 Every photo yields six parameters of exterior orientation (three projective center coordinates and three orientation angles) 
-which gives 6 * 3 = 18 parameters. 
+which gives 6 $\times$ 3 = 18 parameters. 
 
-Tie points gives 5 * 3 = 15 adjusted parameters of object coordiantes. 
+Tie points give 5 $\times$ 3 = 15 adjusted parameters of the object coordinates. 
 Only 5 tie points are used in BBA because the tie point visible in just one photo must be skipped.
 GCPs do not give any adjusted parameters since coordinates are known.
 
@@ -1652,9 +1671,11 @@ Thanks to 9 redundant measurements it is possible to add some of the interior pa
 On the other hand the redundancy of measurement improves accuracy of results, which is the main point of the least square method,
 therefore it should be avoided to have nearly same number of measurements and adjusted parameters.
 
+%%% ML: TODO
 
 TODO rewrite, picture
-In first least squares iteration, initial values of adjusted parameters are put into parameters vector $\evect{X}$. 
+
+In the first least squares iteration, the initial values of adjusted parameters are put into parameters vector $\evect{X}$. 
 Vector $\evect{L}_{X0}$ can be computed applying the parameter vector $\evect{X}$ on collinearity
 equations. In order to calculate all collinearity equations and its derivatives it is also needed to 
 use values of not adjusted parameters which are not presented in the parameters vector.
@@ -1663,28 +1684,29 @@ Design matrix $\ematr{A}$ is comprised of values of  collinearity equations part
 given by parameters vector $\evect{X}$. Columns of the design matrix represents partial derivatives 
 respects to corresponding parameter  in  $\evect{X}$  (mumber of column equals to position of parameter in  $\evect{X}$ ).
 Analog logic applies for design matrix row and position in $\evect{L}$ or $\evect{L}_{X0}$ vectors.
-In the example, design matrix has 44 rows and 33 columns $\ematr{A}$.
+In the example, design matrix $\ematr{A}$ has 44 rows and 33 columns.
 
 
 %Let say that first two rows (x, y) in design matrix represents some photo point of GCP.
 %It follows that first two positions in vector  $\evect{L}$ represents measured x, y photo coordiantes.
 %First two values of vector $\evect{L}_{X0}$ are computed  
 
-
-All needed information is available to perform first iteration of non linear least square 
-method \label{sec:non_least}. As result of iteration refined values of vector  $\evect{X}$
+All needed information is available to perform the first iteration of non linear least square 
+method \ref{sec:non_least}. As result of iteration refined values of vector  $\evect{X}$
 are obtained. If another iteration is needed to by performed same process is repeated 
 with adjusted vector $\evect{X}$.
 
 \subsection{Orthorectification}
 
-The orthorectificaion is process, which transforms photo from perspective projection into orthogonal projection (See Figure \ref{fig:ortho}). 
+%%% ML: "same density" - spise rovnomerna, pravidelna
+
+The orthorectificaion is a process which transforms photo from perspective projection into orthogonal projection (see Figure \ref{fig:ortho}). 
 \label{sec:single_ortho}
-There are two main methods for producing of orthophoto. The first method is able to retrieve orthophoto 
+There are two main methods for producing orthophoto. The first method is able to retrieve orthophoto 
 from single photo. It requires exterior, interior orientations of the photo and shape of relief. 
 Shape of relief is usually provided in form of digital terrain model (DTM), which 
-can be given in raster or vector form. Raster DTM describes relief with same density defined by resolution of the raster.
-Vector DTM is comprised by continuous surface made of triangular irregular network (TIN). 
+can be given in the raster or vector form. Raster-based DTM describes relief with the same density defined by resolution of the raster.
+Vector-based DTM is comprised by continuous surface made of triangular irregular network (TIN). 
 At the beginning of the orthorectificaiton, empty raster is allocated, which represents orthophoto.
 It covers intersection of photo scene and area of the DTM.
 
@@ -1695,20 +1717,22 @@ Because the transformed point is represented by floating point, value which is g
 to the pixel in orthophoto is deteremined by interpolation of surrounding pixels of the transformed 
 point into the photo. There can be many variation in used interpolation methods, selection of points 
 for transformation etc. 
-but main principle is still the same, which is based on back projection of object point into 
+But the main principle is still the same, it is based on back projection of object point into 
 the photo to obtain values for orthophoto.
 
-The other method can be considered a extension of the first one because initially it generates DTM then it recovers orthophoto 
-according to same principle as the first method. The principle of the method is based on triangulation of object point
+%%% ML: fix broken \ref{sec:triang}
+
+The other method can be considered an extension of the first one because initially it generates DTM then it recovers orthophoto 
+according to the same principle as the first method. The principle of the method is based on triangulation of object point
 from photo points, which requires to be known interior and extrerior orientation of photos. The reconstructed point 
 must be visible at least on two photos in order to solve the ray ambiguity. It follows that it requires more than 
 one photo in contrast to the first method.
 Object coordinate system 
 can be defined arbitrarily, because there is no needed to define relationship to input DTM as the first method requires.
-In stead of this DTM is created in any system directly by the method,
+Instead of this DTM is created in any coordinate system directly by the method,
 hence orthophoto and DTM can be generated without any GCP. 
 Approximate object points  are calculated by triangulation 
-methods \ref{sec:triang} and than refined by BBA. 
+methods \ref{sec:triang} and than refined by the BBA. 
 
 The DTM is created from retrieved object coordinates. There 
 are plenty of methods for DTM creation from points. Raster DTM can be created by various interpolation methods, 
@@ -1716,9 +1740,9 @@ which predicts value of raster according to surrounding points. Commonly used me
 vector DTM (TIN) is Delaunay triangulation, which creates surface comprised of triangle network, corners of which are located 
 on object points. The triangulation finds such a configuration of triangles, that no object 
 point is inside the circumcircle of any triangle.
-In case of processing big number of points Finite element method 
+In case of processing big number of points. Finite element method 
 should be used instead of Delaunay triangulation, because it is computationally more efficient.
-Unlike Delaunay triangulation, which creates surface including all object points, Finite element method
+Unlike Delaunay triangulation, which creates surface including all object points, finite element method
 is based on principle of dividing triangles into smaller ones. 
 The triangle is split until it sufficiently approximates surrounding object points. 
 This method is able to create DTM from millions of points.
