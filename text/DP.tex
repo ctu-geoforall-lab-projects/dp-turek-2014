@@ -175,7 +175,7 @@ Photogrammetry is used to produce digital terrain models (DTM), a precise struct
 The core of photogrammetry is quickly moving  from  hardware towards software. In past it was necessary to have special 
 expensive equipment to perform photogrammetric measurement. Nowadays,
  state of the art software allows to use higher level digital cameras to perform precise photogrammetric measurements. 
- Currently it is even possible to process data from optically inaccurate low level cameras.
+  It is even possible to process data from optically inaccurate low level cameras.
  The inaccuracy is compensated by processing big number of photos bringing redundancy, 
  which positively affects precision of retrieved information.
  
@@ -185,8 +185,8 @@ become used by much wider audience.
 %%% ML: Geographical -> Geographic (jiz opraveno)
 
 Geographic information system (GIS) is a software which is used for storing and processing information,
-with spatial component. For instance  GIS is employed on backed of map portals (e. g. Google Maps) therefore nearly 
-everybody uses its products nowadays. 
+with spatial component. For instance,  GIS is employed on backed of map portals (e.g. Google Maps) therefore nearly 
+everybody uses its products. 
 The GIS systems are also used for analyzing spatial phenomenons, which
 are utilized by some decision makers (politicians, managers), to get in-depth knowledge about the 
 phenomenon they are dealing with.
@@ -204,7 +204,7 @@ that it is really doing what the provider advertises.
 For instance it can be problem when some data are analyzed in processing chains, which uses proprietary software in some steps,
 because the user loses a control.
 It also posses very serious security threads, because the software can do a hidden activity against user
-e. g. obtaining personal data or tracking user activity.
+e.g. obtaining personal data or tracking user activity.
 
 %%% ML: "a active communities" - to by melo byt bez clenu (mluvis v
 %%% mnoznem cisle) bych rekl (v kazdem pripade by tam melo byt 'an')
@@ -1631,7 +1631,8 @@ It is possible to select various combinations of interior, exterior orientations
 Following example describes BBA in practice.
 Lets suppose that initial values of adjusted parameters are known with sufficient accuracy in order to the least squares
 method eventually iterate to global minimum.
-Lets say that there is a scene, which is captured by three photos.
+Lets say that there is a scene, which is captured by three photos by same camera.
+The cameras interior orientaion is known, therefore it is not adjusted in BBA.
 There are identified three tie points and two ground control points in all three photos.
 Tie point is identified only on photos with missing information about its object coordinates.  
 Unlike tie point, object coordinates of ground control point (GCP) are known.
@@ -1672,29 +1673,59 @@ On the other hand the redundancy of measurement improves accuracy of results, wh
 therefore it should be avoided to have nearly same number of measurements and adjusted parameters.
 
 %%% ML: TODO
-
 TODO rewrite, picture
 
-In the first least squares iteration, the initial values of adjusted parameters are put into parameters vector $\evect{X}$. 
-Vector $\evect{L}_{X0}$ can be computed applying the parameter vector $\evect{X}$ on collinearity
-equations. In order to calculate all collinearity equations and its derivatives it is also needed to 
-use values of not adjusted parameters which are not presented in the parameters vector.
-Measured photo points are represented by vector $\evect{L}$.
-Design matrix $\ematr{A}$ is comprised of values of  collinearity equations partial derivations respect to adjusted parameters
-given by parameters vector $\evect{X}$. Columns of the design matrix represents partial derivatives 
-respects to corresponding parameter  in  $\evect{X}$  (mumber of column equals to position of parameter in  $\evect{X}$ ).
-Analog logic applies for design matrix row and position in $\evect{L}$ or $\evect{L}_{X0}$ vectors.
-In the example, design matrix $\ematr{A}$ has 44 rows and 33 columns.
+\begin{figure}[h]
+    %\centering
+    \hspace*{-1.0in}
+   \includegraphics[scale=0.47]{figures/bba_system.png}
+    \caption{Schematic picture of least squares elements for the example.}
+    \label{fig:bba_system}
+\end{figure}
 
 
-%Let say that first two rows (x, y) in design matrix represents some photo point of GCP.
-%It follows that first two positions in vector  $\evect{L}$ represents measured x, y photo coordiantes.
-%First two values of vector $\evect{L}_{X0}$ are computed  
+
+In the first least squares iteration, the initial values of adjusted parameters are put into parameters vector $\evect{X}$,
+which represents tangent point of Taylor polynomial to costs functions.  The other non-adjusted 
+parameters are given into $\evect{N}$ vector of knowns. In the example, non-adjusted parameters are object coordinates
+of GCPs and interior orientation. 
+Measured photo coordinates are given
+into vector of measurements $\evect{L}$.
+
+Design matrix $\evect{A}$ is calculated from 
+derivatives of collinearity equations substituting values from vectors $\evect{X}$ and $\evect{N}$.
+
+The vectors  $\evect{L}$ and  $\evect{X}$ give structure to design matrix $\evect{A}$ and
+vector of $\evect{L}_{X0}$.
+Order of partial derivatives of design matrix $\evect{A}$  is determined by adjusted parameters position in 
+parameters vector $\evect{X}$. E.g. the first column of the example design matrix is filled with derivatives respect 
+to variable representing the  X object coordinate of the first photo projective center. Variables of derived collinearity equations
+depends on row. For instance, the first two rows represents partial derivative of collinearity functions 
+including variables of the first point object coordinates  and first photo exterior orientation.  First row represents  
+derivation of x collinearity equation, because in corresponding position of the measurements vector $\evect{L}$, there is 
+x photo coordinate of the tie point 1. The second row of the desing matrix is composed of 
+partial derivative of y equation comprised of the same variables. 
+Variables of collinearity equation change in the other rows. For instance, the last row corresponds to the 
+y photo coordinate of the GCP 2. The partial derivation of the first column is equal 
+to zero, because in collinearity equation the variable X object coordinate of the first photo projective center was replaced 
+by X of the third photo projective center. Also it should be noted, that in the last row, there is no derivation 
+respect to point object coordinates, because the row represents GCP. Object coordiantes of GCPs do not 
+belong to the adjusted parameters, thus design matrix do not contain column, which represents partial 
+derivatives respect to the GCP object coordinates.
+
+
+Position in a vector $\evect{L}_{X0}$ is connected in the same way to a vector $\evect{L}$ as rows of design matrix.
+Value of position is calculated by collinearity equations using corresponding variables.
+
+
+
+The relations nicely illustrates a pivot role of design matrix which links parameters vector $\evect{X}$ 
+with measurements vectors $\evect{L}$ and $\evect{L}_{X0}$.
 
 All needed information is available to perform the first iteration of non linear least square 
 method \ref{sec:non_least}. As result of iteration refined values of vector  $\evect{X}$
-are obtained. If another iteration is needed to by performed same process is repeated 
-with adjusted vector $\evect{X}$.
+are obtained. Another iteration can be  performed by same procedure  with adjusted vector $\evect{X}$
+.
 
 \subsection{Orthorectification}
 
