@@ -1756,55 +1756,67 @@ This method is able to create DTM from millions of points.
 
 After obtaining of DTM, orthophoto can be created using same principle, which was described in the first method. 
 
+%%% ML: kapitola by mela zacinat na nove strane
+
 \section{Analytical part}
 
 \subsection{General solution of UAV bundle block adjustment}
 
+%%% ML: "sattelite navigation" je hodne zkracene, spise bych uvedl GNSS
+
+%%% ML: ZADNA REFERENCE V TEXTU ??? obecneji receno v textu je vubec
+%%% malo referenci na literaturu, zkus to projit a nejake pridat
 
 In 1990s Global Positioning System (GPS) become first globally operational satellite navigation.
 GPS allows 
 to locate position of GPS unit with accuracy ranging  from  millimeters to decimeters depending 
-on used technique and other conditions. 
-GPS greatly simplified obtaining of initial values of exterior orientation in photogrammetric aerial mapping missions.
+on the used technique and other conditions. 
+GPS greatly simplified obtaining of initial values of the exterior orientation in photogrammetric aerial mapping missions.
 GPS unit together with 
-inertial measurement unit (IMU), which measures its orientations in object space,
-provides all needed parameters of exterior orientation with sufficient accuracy. In order to be information useful it is need to determine 
+inertial measurement unit (IMU), which measures its orientations in the object space,
+provides all needed parameters of the exterior orientation with sufficient accuracy. In order to be information useful it is need to determine 
 leverage arm offset, which describes shift of GPS unit to the perspective center and bore sight offset
 which describes orientation of camera coordinate system towards IMU coordinate system. These two
 quantities are determined in calibration process. The measured values from GPS and IMU units has to
 be corrected by the two quantities to represent true exterior orientation of camera coordinate system. The corrected values 
-can be refined by BBA if Collinearity equations are extended to include the corrections.
+can be refined by BBA if collinearity equations are extended to include the corrections.
 
 Before GPS was introduced, aerial photogrammetry made some a priori assumptions about the camera position,
-which simplified the collinearity equation in order to get initial values of exterior orientation. 
+which simplified the collinearity equation in order to get initial values of the exterior orientation. 
 For instance it can be assumed that the aerial photo is vertical if orientation deviates from true vertical
 direction up to 2-3 degrees. Using this assumption collinearity equations can be linearized and 
 approximate values can be computed easily from GCPs.
 
+%%% ML: budget ... high - zni divne ...
+
 Photogrammetric aerial mapping missions are prepared and carried out by experts using 
 professional equipment which is properly calibrated.
-As a consequence, budget of such a missions
+As a consequence, budget of such missions
 is high. These facts prevents further spreading of rigorous aerial photogrammetry methods.
 
-Nowadays nearly everybody has camera in his pocket, thus there is big demand 
+Nowadays nearly everybody has camera in his or her pocket, thus there is a big demand 
 to provide solution which is very simple from the user point of view because 
-vast majority of users has limited or no knowledge of photogrammetry or computer vision. 
+vast majority of the users have limited or no knowledge of photogrammetry or computer vision. 
 Together with spread of UAV, the mapping missions can be performed with much lower 
 cost compared to rigorous aerial photogrametry mission, which used to employ manned aircraft.
 
+%%% ML: do textu bych vice zaclenil reference na teoritickou cast
+
 It follows the main requirement 
-on solution, which needs to be simple and cheap enough,
+of solution, which needs to be simple and cheap enough,
 in order to be adopted by
-ordinary users, who do not want 
+ordinary users who do not want 
 to spend money for other devices or spend time studying complicated methods. 
 The users just 
 want to take a group of photos of the scene and get the job done by the software.
 The final solution should be flexible to process both terrestrial and aerial photos
-giving both orhophoto and structure / DTM as output. 
+giving both orhophoto and structure / DTM as an output. 
 No limitation on camera orientation should be enforced, because it should be possible 
 to process photos acquired from camera held by hand or mounted on UAV.
 Because of instability of UAVs flight track and human hand, the photos 
 must be considered as oblique. 
+
+%%% ML: posledni veta: download -> share ?
 
 In order to meet the requirement of simplicity, user should just need  
  camera to obtain structure of the scene. Orhophoto creation would also need to employ of UAV
@@ -1813,11 +1825,14 @@ No other hardware device should be needed.
 All other steps should be done 
 using free software, which can everybody freely download and use. 
 
+
+%%% ML: v textu pouzivas velmi casto konstrukce s where/who/which
+
 The solution should be flexible enough to process additional data, which may be known about a scene, 
-e. g. GCPs, positions of cameras etc. The additional data can
+e.g. GCPs, positions of cameras etc. The additional data can
  increase accuracy of results and computational time  
  decreasing number of  BBA iterations needed for finding global minimum. This is very important 
- for professional photogrammetric measurements, where accuracy is very important.
+ for professional photogrammetric measurements where accuracy is very important.
 
 As consequence of these constraints, the minimum required input can be just photos
 of the scene and other information, which can be derived from photos of calibration scene.
@@ -1841,19 +1856,28 @@ As input it needs tie points and interior orientation of camera, which are given
  
 \subsubsection{Camera calibration}
 
-Camera calibration is process, which deals with determination of interior orientation parameters including distortion.
+%%% ML: druha veta by chtela prespat
+
+Camera calibration is a process which deals with determination of the interior orientation parameters including distortion.
 There exists many different methods of camera calibration.
+
+%%% ML: one family zni divne
+
+%%% ML: which *have* psal bych bez carky, i tak ta veta zni moc 'cesky' :-)
 
 One family of calibration methods are based on photos capturing calibration object.
 The calibration object includes calibration points, which relative position to each other is  precisely determined.  
 
 The methods can be further divided according to dimension of the object:
+
+%%% ML: osobne bych zvyraznil jednotlive polozky ({\em })
+
 \begin{itemize}
-\item 3D reference object based calibration - This method allows to reach very good accuracy of determined 
+\item 3D reference object based calibration -- This method allows to reach very good accuracy of determined 
 interior orientation parameters. One of common calibration objects is comprised of three or two
 perpendicular planes, which are covered by calibration points. Drawback of 3D calibration 
 is that accurate construction of the calibration object is complicated.
-\item 2D plane based calibration - This calibration method is less accurate compared to 3D calibration. 
+\item 2D plane based calibration -- This calibration method is less accurate compared to 3D calibration. 
 The accuracy can be improved by acquiring more photos of the calibration object.
 On the other hand calibration object can be printed on a sheet of paper, which is much 
 easier compared to construction of 3D calibration object.
@@ -1866,7 +1890,7 @@ Usually focal length and chip size are publicly available by manufacturer. The p
 can be computed dividing chip size by two, because it is supposed that it lies close to 
 the middle of the photo.
 It is more convenient to use 
-pixels as units of interior orientation, therefore focal length and principal point coordinates can be 
+pixels as units of the interior orientation, therefore focal length and principal point coordinates can be 
 converted from millimeters units into pixels using photo resolution. 
 Interior orientation provided based on manufacturer information should not be interpreted as very accurate, therefore 
 it has  to be refined by camera calibration.
@@ -1874,6 +1898,8 @@ Including interior orientation as parameters of BBA
 can lead into over-parametrization which may result in inaccurate results.
 In case of self-calibration it is recommended to take acquire convergent photos from many different directions and position in order
 to avoid correlation of adjusted parameters. 
+
+%%% ML: during WHAT?
 
 In order to keep interior orientation parameters stable the camera during should have fixed same zoom level,
 because interior orientation parameters are very sensitive  to zoom changes \cite{labe2004geometric}.
@@ -1902,9 +1928,9 @@ in the chain.
 If there is no a priori information about photo order, the easiest way is to use brute force 
 checking all photo pairs combinations to find correspondence.
 However it become unsolvable problem with higher number photos, because 
-of high number of combination which needs to be checked. In order to avoid this, visibility map \cite{barazzetti2010extraction} can be build up. 
+of high number of combination which needs to be checked. In order to avoid this, a visibility map \cite{barazzetti2010extraction} can be build up. 
 The visibility map is graph with photos as nodes. The graph edges connects photos if there is
-correspondence between them.  It is possible to use information from GPS and IMU units for creation of visibility map.
+correspondence between them.  It is possible to use information from GPS and IMU units for creation of the visibility map.
 
 Another speed up can be done decreasing resolution of photos 
 for first search of tie points. First search of photos only identifies correspondence.
@@ -1915,11 +1941,13 @@ In second step tie points extraction is done on full resolution but only with co
 The next step is to utilize all known information (interior orientation and extracted 
 photo coordinates of tie points) to get missing initial values of parameters for BBA. 
 
-Because collinearity equations \ref{eq:col_eqs} are the cost functions of BBA,
+Because collinearity equations \eqref{eq:col_eqs} are the cost functions of BBA,
 extracted photo coordinates represents measurement,
 the parameters of interior orientation, thus only information, 
 which is missing, are parameters of exterior orientation and object coordinates of 
 tie points. 
+
+%%% ML: casto v textu opakujes konstrukci "there exist", zni divne
 
 There exist many methods how to obtain initial values of exterior orientations. The methods 
 differ in information which they require for input, computation time and accuracy. 
@@ -1928,20 +1956,24 @@ using just photo coordinates of tie points and interior orientation of camera. T
 should be general in terms of capability to process oblique photos and robustness to 
 various object points configuration.
 
-One group of methods requires knowledge of object point coordinates to retrieve exterior
+One group of methods require knowledge of the object point coordinates to retrieve the exterior
 orientation. 
 The requirement of object coordinates would have negative impact on processing 
 chain because, it would require manually identify such a points, thus 
 such a methods should be avoided. 
+
+%%% ML: family of zni divne
 
 Another group of methods is family of closed form computer vision algorithms,
 which are able to determine relative orientation (essential matrix) from photo coordinates 
 of the tie points. The algorithms are based on epipolar geometry using essential matrix 
 properties to find the solution. 
 
+%%% ML: opet "there exist", 
+
 The closed form algorithms are given the names 
 according to required number of identified tie points in two photos.
-There exist eight, seven, six and five point algorithms. The five point algorithm seems to perform best in most
+There exists eight, seven, six and five point algorithms. The five point algorithm seems to perform best in the most
 of cases \cite{stewenius2006recent} and it is not sensitive on planar points configuration as others.
 
 Only case, when the five point algorithm \cite{nister2004efficient} underperforms 
@@ -1968,7 +2000,7 @@ which well approximates inliers.
 
 In case of the epipolar algorithms family, RANSAC selects random tie points in every iteration.
 The number of selected tie points is chosen according to minimum number, which the epipolar algorithm requires.
-The epipolar algorithm is launched with the selected points as input. 
+The epipolar algorithm is launched with the selected points as an input. 
 Quality of returned essential matrix by epipolar algorithm is assessed by 
 computing epipolar distances of tie points. There is specified some threshold of the distance, which is used 
 for decision whether the measurement is inlier or outlier. The other threshold, which has to be specified 
@@ -1993,6 +2025,8 @@ an common relative coordinate system.
 Relative orientation systems are subsequently transformed into the common relative system \ref{sec:ess_chain}. 
 
 \subsubsection{Transformation into world coordinate system}
+
+%%% ML: konec odstavce - "world coordinate systems e.g. maps" ???
 Difference between world coordinate system and common relative system is that the common relative system 
 is defined by arbitrary selected relative orientation. World coordinate system definition is standardized.
 Thanks to the standardized definition it is connected to all other commonly used  world systems through 
@@ -2000,21 +2034,23 @@ defined transformations to these systems.
 GCP object coordinate are mostly expressed in some world coordinate system, in order to be 
 information of precise GCsP coordinates usable in BBA it is needed to transform common relative 
 system into the world system of GCPs. Since the scene is transformed into world coordinate system,
-it can also be combined with other data which are express in some world coordinate systems e. g.
+it can also be combined with other data which are expressed in some world coordinate systems e.g.
 maps. Moreover availability of precisely determined GCP can significantly improve results of BBA.  
+
+%%% ML: broken referece
 
 This transformation is called Helmert  transformation which comprises from 
 three main steps: rotation, scaling and translation \ref{seq:helmert}.
 
-In order to be transformation of the common system into the world system be possible, it is needed 
+In order to be transformation of the common system into the world coordinate system be possible, it is needed 
 to have at least 3 GCPS, with known initial coordinates in the common relative space. 
  
-This step is optional, it is possible to perform bundle block adjustment in the common system. In this 
+This step is optional, it is possible to perform bundle block adjustment in the common coordinate system. In this 
 case it is needed to perform BBA of free network \label{sec:free_net_least}. 
 
-\subsubsection{Bundle block adjusmnet}
+\subsubsection{Bundle block adjustment}
 
-All initial values of parameters in collinear equations are obtained and transformed into common system therefore 
+All initial values of parameters in collinear equations are obtained and transformed into common coordinate system therefore 
 BBA can be performed.
 
 Main reason for employing BBA is to improve accuracy of results.
@@ -2024,9 +2060,11 @@ into account during retrieval of initial values. The object points coordinates a
 just from two photos and only redundancy which can appear there is when point is part of more 
 photo pairs, which relative orientation was computed. 
 
+%%% ML: Commonly -> Usually?
+
 Unlike initial values retrieval, BBA utilizes this redundancy rigorously, therefore 
 it can significantly improve accuracy of the adjusted parameters.
-Commonly initial values of parameters contains certain amount of outliers, caused by instabilities in previous steps of processing chain.
+Commonly the initial values of parameters contains certain amount of outliers, caused by instabilities in previous steps of the processing chain.
 The BBA can also significantly improve accuracy of such a parameters.
 Moreover if the point is wrongly identified in a photo, such a point can be recognized and its 
 negative effect can be eliminated.
@@ -2038,7 +2076,7 @@ it is needed to use free network least squares \label{sec:free_net_least} to cop
 \subsection{GRASS GIS Orthorectification Workflow}
 
 GRASS is among few open source GIS software which supports orthorectification
-\cite{rocchini2012robust}.Orthorectificaion is done by 
+\cite{rocchini2012robust}.Orthorectificaion is done 
 by i.ortho.photo \cite{i.ortho.photo} module.
 The module is comprised of submodules, which represents individual steps of 
 GRASS orthorectification workflow.
@@ -2046,21 +2084,21 @@ GRASS orthorectification workflow.
 
 The module was developed in 1990s,  
 when analog photos were mostly processed. Therefore it supports 
- transformation of scanned photo using fiducial marks from coordinate system of scanned image into 
+ transformation of the scanned photo using fiducial marks from coordinate system of scanned image into 
  photo coordinate system. The fiducial marks are used for calculation of 
- affine transformation coefficients form known photo coordinates 
+ affine transformation coefficients from known photo coordinates 
  and corresponding scanned image coordinates, which are identified manually. 
  This is done by i.photo.2image submodule, which allows to identify the fiducial 
  marks in scanned image coordinates system and assign known photo coordinates.
   In case of digital photo processing, imaginary fiducial marks has to be defined, which
-can be located e. g. in the middle of photo sides.  
+can be located e.g. in the middle of photo sides.  
   
 
 The interior orientation parameters of camera are supposed to be known and can 
 be managed by i.photo.camera submodule.
 The data model is not taking distortion 
 coefficients into account. 
-The next step is retrieval of exterior orientation parameters by i.photo.2target submodule.  
+The next step is retrieval of the exterior orientation parameters by i.photo.2target submodule.  
 The retrieval 
 of exterior orientation is based on non-linear least squares iteration. Unlike BBA,
 the photos are adjusted separately, therefore only GCPs can be used,
@@ -2070,14 +2108,14 @@ searched. The three GCPs are just theoretical minimum, therefore it is needed to
 for getting reasonably accurate results. Exterior orientation 
 can be included into input using i.photo.init submodule in order to be used as initial values for least squares iteration,
 otherwise it is supposed that images are vertical, therefore two of three rotation
-angles are set to 0 and the last angle is computed as difference of a GCPs centroid  slope
-in photo system and object system taking into account only x, y coordinates.
+angles are set to 0 and the last angle is computed as difference of a~GCPs centroid  slope
+in photo coordinate system and object coordinate system taking into account only x, y coordinates.
 Projection center object coordinates are given equal to the centroid coordinates.
 
 In the last step, the orthorectified photo is computed by i.ortho.rectify submodule. GRASS uses single photo orthorectification
-method \label{sec:single_ortho}, which requires known DTM in order to deal with height differences. 
+method \ref{sec:single_ortho}, which requires known DTM in order to deal with height differences. 
 
-The main disadvantaged of GRASS orthorectification method are:
+The main disadvantages of GRASS orthorectification method are:
 \begin{itemize}
 \item It orthorectifies photos separately, thus unlike BBA, it ignores significant part of information,
  which can improve accuracy and robustness of final orthophoto. 
@@ -2104,7 +2142,7 @@ On the other hand the current GRASS orthorectificaiton workflow can be successfu
 of aerial photos from photogrammetric missions.
 
 Currently i.ortho.photo module works in GRASS 6 which includes stable version 6.4.3.
-GRASS 7, which is development version, does not fully support all orthorectification features 
+GRASS 7, which is a development version, does not fully support all orthorectification features 
 as a consequence of change of rendering architecture.
 Therefore new front end for the 
 orthorectification has to be developed in order to make it fully operational 
@@ -2116,11 +2154,13 @@ in GRASS 7.
 
 \subsubsection{OpenCV}
 
-OpenCV is open source computer vision and machine learning library released under BSD licence.
-The library contains thousands of algorithms, which are mainly focused real time image processing.
+%%% ML: zadna reference, odkaz?
+
+OpenCV is an open source computer vision and machine learning library released under BSD licence.
+The library contains thousands of algorithms which are mainly focused real time image processing.
 Originally it was developed by Intel. Currently OpenCV is supported by non-profit organization OpenCV.org.
 
-The library is written in C++ including interfaces to other programming languages as C, Python, Java etc. 
+The library is written in C++ programming language including interfaces to other programming languages as C, Python, Java etc. 
 
 The OpenCV library contains very useful algorithms which deals with retrieving structure from group 
 of photos. It includes algorithms which can determine exterior orientation 
@@ -2133,8 +2173,8 @@ There are also implemented feature matching algorithms, which can be used for ti
 
 \subsubsection{Python}
 
-Python is open source programming language which has been developed since 1991. 
-The python code is easily readable and therefore it is often picked as first programming
+Python is a programming language which has been developed since 1991. 
+The Python code is easily readable and therefore it is often picked as first programming
 language to learn. Python is employed in wide range software from simple scripts to complex systems.
 It is high level programming language compared to languages as C++ or C, therefore 
 the development process is usually significantly faster. On the other hand 
@@ -2146,22 +2186,26 @@ be written in other faster programming languages and then the parts can be calle
 from Python. This is very powerful combination, which allows to speed up development 
 process preserving speed of application.
 
+%%% ML: opet "there exist"
+
 Thanks to the its popularity Python world is very rich. There exist
 thousands of open source libraries, which make life of programmer much easier. Even 
 if library is not implemented in Python it is possible to generate Pythonic 
 interface using some of available open source tools (e. g. SWIG), which automatically
 generates the interface. Even if the library does not have Python interface it 
-is possible to use the tools as e. g. ctypes or Cython to call libraries functions directly from Python.
+is possible to use the tools as e.g. ctypes or Cython to call libraries functions directly from Python.
 
 \paragraph{NumPy}
+
+%%% ML: 2x which, podobne vety by chtelo prepsat bez "which" 
 
 NumPy is open source Python library, which supports multidimensional arrays and many operations, which can be
 performed with this arrays including linear algebra operations. Killer feature of NumPy is its speed,
 which allows to write very effective code with just few lines. Many operations which NumPy do can be 
-also rewritten by Python code using  for loops. However if NumPy function is called,
+also rewritten by Python code using  {\tt for} loops. However if NumPy function is called,
 computation is perform by highly optimized C code, which makes big difference if arrays contain 
 lot of elements. Sometimes it is difficult for beginner to figure out the way how 
-to write problem using NumPy avoiding for loops. However as a user gets experienced 
+to write problem using NumPy avoiding loops. However as a user gets experienced 
 it become easy to do it. 
 
 NumPy is so widely used Python library that it has become one of fundamental libraries, thus many
@@ -2169,17 +2213,24 @@ other libraries and application has already rely on NumPy requiring its installa
 
 \paragraph{SimPy}
 
-Simpy is another Python library which is focused on process-based discrete-event simulation.
+SimPy is another Python library which is focused on process-based discrete-event simulation.
 Among many other features it supports symbolic expression. This symbolic expression can be useful
-e. g. for computation of derivation of an function. The result of derivation is symbolic expression which can 
+e.g. for computation of derivation of function. The result of derivation is symbolic expression which can 
 be than used for retrieving numeric values. 
 
 SimPy is used for generation of partial derivatives of collinearity equation. Thanks to the SimPy 
 it is easy to add new parameters into collinearity equations as distortion or leverage arm offset,
 because it is just needed to extend collinearity equations and the source code of partial derivatives 
-is generated automatically by Simpy. 
+is generated automatically by SimPy. 
 
-\subsubsection{GRASS Programming  environment}
+\subsubsection{GRASS programming  environment}
+
+%%% ML: opet "which", dokonce 2x tyhle konstrukce je nutne prepsat
+
+%%% ML: v prvni odstavci by se hodila reference na kapitolu o GRASS,
+%%% hlavne kdyz mluvis o "modulech"
+
+%%% ML: na konci odstavce -  "when the module is run" (running) ?
 
 Architecture of GRASS 7 is composed of core libraries and modules. There is a general GIS library, which 
 deals with basic setup of GRASS environment, which includes management of
@@ -2187,16 +2238,16 @@ GRASS variables and environment variables. These variables are very important, b
 but it comprises of many small software packages called modules. When the module is run, essential information 
 about GRASS session (current location, mapset etc.) is passed through these variables. 
 
-Another main core libraries are dealing with different GIS data e. g. raster, vector or imagery library etc. 
-All core libraries are written in C. In recent years support of Python programming language has been significantly 
-improved. The main motivation was to make development of GRASS accessible for wider number 
-of people, because Python is very simple and popular programming language. In most cases using 
-C for development of module is overkill, which cost developer much more time 
-with no significant gains compared to writing it Python. Nowadays the Python is supported very well in GRASS.
+Another main core libraries are dealing with different GIS data e.g. raster, vector or imagery library etc. 
+All core libraries are written in C. In the recent years support of Python programming language has been significantly 
+improved in GRASS. The main motivation was to make development of GRASS accessible for wider number 
+of people, because Python is very simple and popular programming language. In the most cases using 
+C programming language for development of module is overkill, which cost developer much more time 
+with no significant gains compared to writing it in Python. Nowadays Python is supported very well in GRASS.
 GRASS C libraries functions can be accessed from Python through ctypes interface, which is automatically generated during compilation
 for all GRASS libraries.  
 There also exists 
-PyGrass API, which allows calling C functionality from Python taking full advantages of Python beauty.
+PyGRASS API, which allows calling C functionality from Python taking full advantages of Python beauty.
 The last option is calling modules from Python. Unlike libraries GRASS module layer is more abstract, 
 therefore some specific functionality may be missing compared to the libraries. Calling of module
 compared to calling of library function is slower.
@@ -2214,10 +2265,10 @@ The implementation should fulfill these goals:
 \item Backward compatibility, which preserves already implemented functionality, which
 can be still useful in some cases. 
 \item Take advantage of modularity of i.ortho.photo module.
-If the workflow is comprised of modules/submodules with clearly defined interface, it is possible to implement
+If the workflow is comprised of modules/submodules with clearly defined interface. It is possible to implement
 several different algorithms for every step of orthorectificaion. The main advantage of this 
 approach is that workflow can be adapted to the specific needs, which allows to use 
-most suitable algorithms to achieve maximum accuracy.
+the most suitable algorithms to achieve maximum accuracy.
 \item There should be another more abstract module for the less advanced users, which do not have sufficient knowledge to create individual 
 worflow.
 The module is easy to use wrapping the more specific modules.
@@ -2236,20 +2287,20 @@ In order to meet the implementation requirements the whole processing chain can 
 of these GRASS low level modules:
 
 \begin{itemize}
-\item Camera calibration modules - Retrieves interior orientation, which is supposed to be known by 
+\item Camera calibration modules -- Retrieves interior orientation, which is supposed to be known by 
 next steps of the workflow, therefore this step can be represented be the calibraiton module.
-\item Point match modules - Identification of tie points in the acquired images.
-\item Intial values modules - These modules computes initial value of exterior orientation and 
+\item Point match modules -- Identification of tie points in the acquired images.
+\item Intial values modules -- These modules computes initial value of exterior orientation and 
 object coordinates of tie points, which are used in BBA. It uses information from the both
 previously mentioned modules.
-\item BBA modules - The module perform BBA based on data obtained by the other modules described in previous steps.
+\item BBA modules -- The module perform BBA based on data obtained by the other modules described in previous steps.
 \end{itemize}
 
 
 \subsubsection{Camera calibration module}
 
 The calibration module i.ortho.cam.calibrate is simple module written in Python, which calls
-function from OpenCV calib3d module. The module is based on calibration from 2D patern, which can 
+function from OpenCV calib3d module. The module is based on cali\-bration from 2D pattern, which can 
 be easily printed. The most important input parameter defines directory with images of 2D pattern, 
 taken by the camera. In order to obtain good results of camera calibration, at least 10 convergent images 
 from different positions all around the pattern should be taken \cite{camera_calibration2013opencv}.
@@ -2261,7 +2312,7 @@ Currently OpenCV supports these three patterns:
 \item Symmetric pattern of circles
 \end{itemize}
 
-Generally the circle patterns achieves higher accuracy \cite{camera_calibration2013opencv}.
+Generally speaking the circle patterns achieves higher accuracy \cite{camera_calibration2013opencv}.
 
 The identification of pattern points (centers of circles or corners of chessboard squares) 
 are done by OpenCV functions, which are able to identify the points on photo of the pattern 
@@ -2285,6 +2336,10 @@ is performed.
 The method is in-depth described 
 in \cite{zhang2000flexible}.
 
+%%% ML: i.ortho.camre module ? camera?
+
+%%% ML: posledni veta - where X which dohromady
+
 The computed interior orientation is saved into GRASS GIS camera file, which is used by other GRASS GIS 
 orthorectificaiton modules. The module modifies the camera file via i.ortho.camre module.
 The GRASS GIS camera data model was extended to support radial and tangetial distortion coefficients, which 
@@ -2292,17 +2347,19 @@ have serious effect especially in cheap cameras, where optic system is not so pr
 
 \subsubsection{Bundle block adjustment data model}
  
+%%% ML: Phoo - 2x which
+
 Both the initial values and BBA modules basically handles  same data, thus 
 the data model can be designed in similar way. There can be 
-identified three essential classes, which are shared by both modules :
+identified three essential classes, which are shared by both modules:
 \begin{itemize}
-\item Camera - the camera class has to store information about interior orientation 
+\item Camera -- the camera class has to store information about interior orientation 
 parameters including distortion. Camera class should contain references of the photos
 classes, which were acquired by the camera.
-\item Photo - members of photo class are references to the points, which were identified 
+\item Photo -- members of photo class are references to the points, which were identified 
 	    in the photo and camera which take the photo,
-\item Point - the point class denotes representation of same object point in different images (tie points).
- If the point is GCP it includes also information about it's object coordinates. 
+\item Point -- the point class denotes representation of same object point in different images (tie points).
+ If the point is GCP it includes also information about its object coordinates. 
 \end{itemize}
 
 
@@ -2311,16 +2368,26 @@ Also it sufficiently expresses  structure of the data and relations of the data 
 
 \subsubsection{Initial values module - i.ortho.initial}
 
-The i.ortho.initial module retrieves initial values of photos exterior orientation and initial tie points object coordinates. If at least 3 gcps are 
-present in an input, relative coordinate system is transformed into world coordinate system of the gcp by applying Helmert transformaiton. 
+%%% ML: pridal odkaz na Helmetovu trans v textu
+
+The i.ortho.initial module retrieves initial values of photos exterior orientation and initial tie points object coordinates. If at least 3 GCPs are 
+present in an input, relative coordinate system is transformed into world coordinate system of the GCP by applying Helmert transformation. 
+
+%%% ML: i.cam.calibrate, jinde v textu mluvis o i.ortho.cam.calibrate, nejlepsi by bylo asi i.ortho.camera.calibrate
 
 The module input is: 
 \begin{itemize}
-\item Interior orientations of cameras e. g. computed by i.cam.calibrate
+\item Interior orientations of cameras e.g. computed by i.cam.calibrate
 \item Tie points photo coordinates 
 \end{itemize}
 
-The module builds internally graph like structure, where nodes represents photo and edges holds information 
+%%% ML: prvni veta: 2x which...
+
+%%% ML: "which returns the essential matrix" to bych uplne vynechal
+
+%%% ML: broken \ref{ess_eo}
+
+The module builds internally graph-like structure, where nodes represents photo and edges holds information 
 about number of corresponding tie points, which are identified on two photos which edge links together.
 Then the relative orientation of photo pairs is performed. The photos are oriented in order defined by going through the graph. 
 Reference pair of photos which is taken for the first relative orientation, is comprised by the photos with the highest number of the corresponding tie points.
@@ -2330,13 +2397,13 @@ part at least in one relative orientation, and the second photo, which is newly 
 pair is performed by  the five point algorithm, which has been recently added into development version of OpenCV as function findEssentialMat \cite{calib_manual2013opencv},
 which returns the essential matrix. Exterior orientation is retrieved \ref{ess_eo} from the essential matrix by Rodrigues \cite{calib_manual2013opencv} 
 function. Because the exterior orientation is defined by relative coordinate system of the two cameras, it is needed to be transformed into 
-the common relative coordinate system. The common system is defined by the relative orientation coordinate system of the reference pair, with highest 
+the common relative coordinate system. The common coordinate system is defined by the relative orientation coordinate system of the reference pair, with highest 
 number of tie points.
-Every other relative orientation system is connected to the common system by process of merging of relative orientations see \ref{sec:ess_chain}.
+Every other relative orientation system is connected to the common system by process of merging of relative orientations, see \ref{sec:ess_chain}.
 
 The last optional step of the module is transformation of the relative coordinate system into the word coordinate system. Helmert 
 transformation coefficients \ref{sec:helmert} are retrieved by code from v.rectify module \cite{v.rectify}, 
-V.rectify module is used e. g. for transformation of Lidar point clouds.
+This module is used e.g. for transformation of Lidar point clouds.
 The code, which computes the coefficients
 was moved from the v.rectify module into the GRASS GIS imagery library in order to be accessible also by other modules as i.ortho.initial
 module, which uses ctypes interface to call it.
@@ -2348,13 +2415,13 @@ orientation parameters and image coordinates all needed information is obtained 
 \subsubsection{Bundle block adjustment module - i.bba}
 
 The bundle block adjustment module performs non-linear least squares iteration, which 
-uses collinearity equations as cost functions. 
+uses collinearity equations as the cost functions. 
 The module input represents all parameters of collinearity equations:
 \begin{itemize}
-\item Tie points photo coordinates e. g. identified manually or automatically by points matching algorithms
-\item Interior orientations of cameras e. g. computed by i.cam.calibrate
-\item Exterior orientations of cameras e. g. initial values can computed by i.ortho.initial
-\item Tie points object photo coordinates e. g. initial values can computed by i.ortho.initial
+\item tie points photo coordinates -- e.g. identified manually or automatically by points matching algorithms,
+\item interior orientations of cameras -- e.g. computed by i.cam.calibrate,
+\item exterior orientations of cameras -- e.g. initial values can computed by i.ortho.initial,
+\item tie points object photo coordinates -- e.g. initial values can computed by i.ortho.initial.
 \end{itemize}
 
 The module performs non-linear least square iteration until correction of the parameters from the adjustment are smaller than
@@ -2362,8 +2429,10 @@ defined threshold. The module is able to perform non-linear least squares as fre
 as knowns (at least three) and thus solve it in classical way. 
 
 The output of the module is the adjustment protocol. In the protocol, there
-is described every iteration of the bba including correction for all adjusted parameters and standard deviations computed from 
+is described every iteration of the BBA including correction for all adjusted parameters and standard deviations computed from 
 covariance matrix of the adjustment. 
+
+%%% ML: nova kapitola - zacatek stranky
 
 \section{Test case}
 
@@ -2371,13 +2440,15 @@ The processing chain was developed and tested on data, which were kindly provide
 information about scene included:
 
 \begin{itemize}
-\item Tie points identified on the photos
-\item Position of cameras (leverage arm offset + gps coordinates)
-\item GCPs
-\item Interior orientation of camera, which acquired the photos of the scene
+\item tie points identified on the photos,
+\item position of cameras (leverage arm offset + gps coordinates),
+\item GCPs,
+\item interior orientation of camera, which acquired the photos of the scene.
 \end{itemize}
 
 Every parameters also included its standard deviation. 
+
+%%% ML: prvni veta - 2x which
 
 Also there was included protocol of BBA from Bingo-F software \cite{bingo2013gip}, which reveals 
 information about processing steps which the software uses to retrieve structure of the scene.
@@ -2390,19 +2461,19 @@ regarded as reference for obtained data from the developed processing chain.
 
 Generally Bingo-F processing is very similar to the developed  processing chain, which is  
 described in-depth in previous chapters. First step is the relative orientations of pairs, then the pairs are merged into common relative 
-coordinates system. After that helmert transformation is performed into world coordinate system and as a last step BBA is performed.
+coordinates system. After that Helmert transformation is performed into world coordinate system and as a last step BBA is performed.
 
 Unlike the developed processing chain,  the Bingo-F software also take into account information about position of cameras. 
 Because the developed processing chain should be general as much as possible it was decided that in first version  the processing chain would ignore this 
 information because according to the set up goals the final solution should require only photo coordinates of tie points and interior 
-orientation of cameras. Anyway in future it is possible to extend the processing chain to work also with such additional information to improve accuracy 
+orientation of cameras. Anyway in the future it is possible to extend the processing chain to work also with such additional information to improve accuracy 
 of the results. 
 
 Also the Bingo-F is capable to identify and rule out blunders in every step of processing chain and thus it is more robust.
 These blunders check are noticeable from adjustment protocols in these steps:
 \begin{itemize}
-\item Interior and exterior orientations of photos
-\item Object coordinates of tie points and gcps
+\item interior and exterior orientations of photos,
+\item object coordinates of tie points and gcps.
 \end{itemize}
 
 
@@ -2411,10 +2482,10 @@ Bingo-F is highly optimized therefore it allows to solve scenes with thousands o
 
 Output  protocols of Bingo-F adjustment contains: 
 \begin{itemize}
-\item Relative orientation - It seems that Bingo-F asses reprojection error, which is computed 
+\item Relative orientation -- It seems that Bingo-F asses reprojection error, which is computed 
 as difference of measured photo coordinates of a tie point and reprojected object coordinate of the tie point computed during relative orientaion.
-\item Merging to common relative system -  There is performed so called "Pre-adjustment" of some points. It is probably some type of freee network 
-BBA. There exists also blunder check in computation of scale. There is checked difference of object coordinates of points 
+\item Merging to common relative system -- There is performed so called "Pre-adjustment" of some points. It is probably some type of free network 
+BBA. There exists also blunder check in computation of scale. There is checked difference of the object coordinates of points 
 which were used for computation of scale. The difference is computed between tie points defined in both common relative system 
 and relative orientation system of merged pair after being transformed into the common relative system.
 If standard deviation of object points coordinates is higher than certain threshold, then 
@@ -2424,17 +2495,19 @@ The process is repeated  until  the threshold of standard deviation is satisfied
 and standard deviation of parameters is utilized. Blunder detection mechanism rules out points, which 
 has standard deviation higher than certain threshold. Setting standard deviation threshold  is common way how to identify 
 blunders. It comes out of the normal distribution characteristics, because probability that measurement occurs with value 
- higher than 3 standard deviations is extremely small, therefore such a measurements are considered as blunders in practice.
+ higher than 3 standard deviations is extremely small, therefore such measurements are considered as blunders in practice.
 \end{itemize}
 
-The scene was adjusted as free network adjusting interior orientation parameters (focal length, principal point coordinates),
+The scene was adjusted as a free network adjusting interior orientation parameters (focal length, principal point coordinates),
 exterior orientations of photos and object coordinates of all points. It was also adjusted lever-arm offset which describes 
 shift of GPS unit from projection center.  Lever-arm offset allows Bingo-F to use information of photo positions from GPS unit,
 which is shifted by this offset.  
 
 Final reconstructed  scene from Bingo-F results is shown in this plot:
 
-\includegraphics[scale=0.5]{figures/bingo_result.png}
+%%% ML: pridal bych popisek
+
+\includegraphics[scale=0.4]{figures/bingo_result.png}
 
 Unlike many other real scenes which can be comprised by hundreds of photos and thousands of tie points,   
 there are just a few tie points (64) and photos (45) taken by same camera. Also the photos capture same points thus there 
@@ -2443,10 +2516,12 @@ is lot of redundancy. Solving the scene with such redundant scene should improve
 In the rest of the chapter there will be presented results of subsequent steps, which are performed in processing chain and compared 
 to the Bingo-F results.
 
-The first step is relative orientation of pairs. The relative orientations of the pairs were done by OpenCV 5 point algorithm.
+The first step is relative orientation of pairs. The relative orientations of the pairs were done by OpenCV five point algorithm.
 The algorithm was successful on most of the pairs, however there are some pairs were algorithm does not work well.
 
 Example of the algorithm success can be showed in this plot:
+
+%%% ML: opet chybi popisek
 
 \includegraphics[scale=0.4]{figures/rel_or_576_598.png}
 
@@ -2456,6 +2531,8 @@ that both scenes are very similar.
 
 On the other hand, there exists  few cases, with unsuccessful relative orientation.  
 One of such a cases is relative orientation of photos pair 553 and 591:  
+
+%%% ML: popisek, viz veta vyse
 
 \includegraphics[scale=0.4]{figures/rel_or_553_591.png}
 
@@ -2467,11 +2544,11 @@ If the threshold parameter is changed in 0.1 mm, the result of relative orientat
 On the other hand another relative orientations go wrong. Therefore with statically set threshold parameter, there are always 
 few evidently wrong relative orientations in this scene. Thanks to the configuration of the scene, where lot of photos are 
 covering same points, it is  not serious problem, because the point is determined in most relative orientations  with 
-much better accuracy, thus it is possible to exclude this outliers. This could be serious problem e. g. if the photos 
+much better accuracy, thus it is possible to exclude this outliers. This could be serious problem e.g. if the photos 
 of scene would cover long chain where redundancy is much more lower.   
-In this case one wrong relative orientation could thread whole result of bba. If error would appear in the middle 
+In this case one wrong relative orientation could thread whole result of BBA. If error would appear in the middle 
 of the chain it would  be propagated up in one half of the chain which transformation depends on the wrongly
-determined pair, which is apparent from equations in \label{eq:comm_rel}. 
+determined pair, which is apparent from equations in \eqref{eq:comm_rel}. 
 In the test case there are not so many critical pairs, which has to be determined correctly to avoid spoiling the transformation 
 of the others dependent pairs. Fortunately the reference pair, which defines common relative system, is very stable and also 
 the other  core pairs on which depends lot of other pairs are stable. 
@@ -2489,15 +2566,17 @@ big outliers caused by few wrong relative orientations in the set. If there is m
 which are close to the correct value and the rest are big outliers (luckily the test case is the case), median gives reasonable results over average,
 which is much more sensitive to the effect of the big outliers. 
 
+%%% ML: veta nize + obrazek - pridal titulek
+
 This plot shows situation before computing median of all corresponding object coordinates:
 
-\includegraphics[scale=0.55]{figures/before_median.png}
+\includegraphics[scale=0.45]{figures/before_median.png}
 
-Plotted points with same color represents same the corresponding coordinates computed by different relative orientation. It can be noticed that 
-the points of same color tend to make clusters, however there are some big outliers, which effect is eliminated by applying
+Plotted points with the same color represent corresponding coordinates computed by different relative orientation. It can be noticed that 
+the points of the same color tend to make clusters, however there are some big outliers, which effect is eliminated by applying
 median on the points.
 
-The next step is helmert transformation of the common relative system into the world coordinate system using available GCPs.
+The next step is Helmert transformation of the common relative system into the world coordinate system using available GCPs.
 The transformed scene can be finally compared to the results of Bingo-F adjustment.
 Average difference of exterior orientation 
 of camera is approximately around 0.5 meters with highest outlier in meters. The object points coordinates 
@@ -2505,7 +2584,9 @@ are little bit more accurate with average approximately 20 cm and highest outlie
 Angles differences are shown in this plot, where there are plotted axes of two camera coordinates systems, which represents 
 Bingo-F adjustment angles and the  initial angles. 
 
-\includegraphics[scale=0.4]{figures/angles_comaprison_relative_orinetaion.png}
+%%% ML: obrazek - chybi titulek
+
+\includegraphics[scale=0.35]{figures/angles_comaprison_relative_orinetaion.png}
 
 It is clear that there are a few orientations, which differs in tenths of degrees form the result. 
 
@@ -2514,12 +2595,14 @@ Despite the fact that there were few huge outliers in both parameters of cameras
 BBA after five iteration subsequently refines all scene parameter and reduces all cordinates 
 differences into the centimeters and angles into the tenths of degrees. 
 
+%%% ML: obrazek - chybi titulek
 
 This plot again shows differences of cameras coordinates system, which are no longer visible from this point of view
 unlike to the previous plot:
 
-\includegraphics[scale=0.4]{figures/result.png}
+\includegraphics[scale=0.35]{figures/result.png}
 
+%%% ML: nova kapitola - nova stranka
 
 \section{Future development}
 
