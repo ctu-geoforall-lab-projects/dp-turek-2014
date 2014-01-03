@@ -2609,27 +2609,31 @@ unlike to the previous plot:
 
 Basically the work which has been done in this thesis, can be considered as prove of concept,
 which shows path of future implementation of BBA in GRASS GIS. The developed 
-processing chain in current state cannot be considered as working solution.
+processing chain in the current state cannot be considered as a working solution.
+
+%%% ML: ropbust at all -> robust not enough
 
 Currently  the processing chain was just tested 
  on one scene, where it gives reasonable results. However 
-author is sure that in other more complicated scenes it would not work successfully because 
+the author is sure that in other more complicated scenes it would not work successfully because 
 the solution is not robust at all.
 
 In order to improve robustness of the processing chain this suggestions should be considered:
 \begin{itemize}
-\item Relative orientations - there is no check, whether relative orientation accuracy is successful or not. There 
+\item Relative orientations -- there is no check, whether relative orientation accuracy is successful or not. There 
 should be implemented some mechanism, which asses quality of relative orientation (probably according to reprojection error of object points).
 Also it should be examined work of the five point algorithm with RANSAC loop on scenes with higher number of the tie points, where 
 the outliers elimination effect of RANSAC loop should be much stronger.
-\item  Merging of relative orientations - currently if there is one wrong relative orientation, with lot of depended relative orientations,
+\item  Merging of relative orientations -- currently if there is one wrong relative orientation, with lot of depended relative orientations,
 the error gets propagated up during transformation of depended orientations to the common relative coordinate system. 
-Effect of such a inaccurate pair could be 
+Effect of such an inaccurate pair could be 
 reduced by performing  temporary BBA, which can reduce the inaccuracies. Also the order of relative orientations in merging 
 into  should not 
 be chosen only by number of tie points but also taking into account quality of relative orientation.
 
-Calculation of scale lacks checks 
+Calculation of scale lacks checks.
+
+%%% ML: opet v textu nekolikrat "there exists"
 
 \item During final BBA, the weights are ignored using identity matrix. Good choice of weights during every least squares iteration 
 could be big leap towards robustness of the BBA. If the weights are selected properly, it is possible to eliminate of outliers 
@@ -2650,9 +2654,11 @@ The size of the matrix is directly connected to the number of adjusted parameter
 time of matrix inversion. The inversed matrix of BBA is sparse (most of elements are zeros).
 
 There exists many optimization methods exploiting this property. 
-It is also possible to speed up some parts of the code reimplementing them in C instead of currently used Python. However this should be done 
+It is also possible to speed up some parts of the code reimplementing them in C programming language instead of currently used Python. However this should be done 
 as last step when the part, which is going to be reimplemented in C is tested and works well. Otherwise it would be waste of time and energy, if reimplemented 
 code would not be eventually used. 
+
+%%% ML: spa ???, zadny odkaz, stacila by poznamka pod carou...
 
 Another option should which should  be considered is employing of some free software BBA libraries.
 Some of the free BBA libraries are:
@@ -2675,7 +2681,15 @@ there is no point in dealing with the interface, because it can change lot of ti
 
 \section{Conclusion}
 
+%%% ML: TODO
+
 \section{References}
+
+%%% ML: dvakrat se opakuje kapitola "References"
+
+%%% ML: literaturu je dobre rozdelit do dvou sekci - tistena/clanky a
+%%% online, ale klidne to nech jak je to ted
+
 \bibliography{DP}
 \bibliographystyle{plain}
 \bibentry{Hartley2004}
@@ -2734,5 +2748,6 @@ TODO
 \subsection{Adjustment protocol}
 \label{sec:adj_protocol}
 
+%%% ML: TODO
 
-\end{document}}
+\end{document}
