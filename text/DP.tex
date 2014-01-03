@@ -149,12 +149,12 @@ In recent decades tremendous development of information technology has fundament
 Photogrammetry has successfully taken advantages of this development, and nowadays 
 it is using methods, which allows to process data 
 in huge scales achieving high accuracy. Some of the currently used 
-methods has been known for several decades, however technology was not so advanced in order to be employed 
+methods have been known for several decades, however technology was not so advanced in order to be employed 
  in practice. 
 
-Information technology has caused blurring of borders between disciplines. 
+The information technology has caused blurring of borders between disciplines. 
 Photogrammetry has been affected by computer vision, which evolved independently until 2000's. After that it is possible 
-to see growing trend of combining knowledge from both fields. 
+to see a growing trend of combining knowledge from both sides.  
 
 %%% ML: seznam zkratek je lepsi generovat automaticky a stejne tak
 %%% pouzivat v textu, viz
@@ -162,17 +162,19 @@ to see growing trend of combining knowledge from both fields.
 %%% ted uz to ale nech tak jak to je, spis poznamka az budes psat
 %%% nejaky podobny text priste ;-)
 
-Both photogrammetry and computer vision are dealing with information recorded in photo. Computer vision 
-methods are employed in robotics, dealing with determination of robot position and retrieving structure 
-of environment which surrounds the robot.
-Photogrammetry is used to produce digital terrain models (DTM), precise structure of objects or orthophotos. 
+Photogrammetry and computer vision are dealing with information recorded in photo. Computer vision 
+methods are employed in robotics, dealing with determination of a robot position and retrieving structure 
+of environment, which surrounds the robot.
+Photogrammetry is used to produce digital terrain models (DTM), a precise structure of objects or orthophotos. 
+
 
 %%% ML: veta "Nowadays, thanks to current state of the art software,
 %%% ..." zni divne...
+%%% ST: prepracovano
 
 The core of photogrammetry is quickly moving  from  hardware towards software. In past it was necessary to have special 
-expensive equipment to perform photogrammetric measurement. Nowadays, thanks to current state of the art software, 
- it is possible to use higher level digital cameras to perform precise photogrammetric measurements. 
+expensive equipment to perform photogrammetric measurement. Nowadays,
+ state of the art software allows to use higher level digital cameras to perform precise photogrammetric measurements. 
  Currently it is even possible to process data from optically inaccurate low level cameras.
  The inaccuracy is compensated by processing big number of photos bringing redundancy, 
  which positively affects precision of retrieved information.
@@ -182,69 +184,69 @@ become used by much wider audience.
 
 %%% ML: Geographical -> Geographic (jiz opraveno)
 
-Geographic information system (GIS) is software which is used for storing and processing information,
-with spatial component. For instance  GIS is employed on backed of map portals (e.g. Google Maps) therefore nearly 
+Geographic information system (GIS) is a software which is used for storing and processing information,
+with spatial component. For instance  GIS is employed on backed of map portals (e. g. Google Maps) therefore nearly 
 everybody uses its products nowadays. 
 The GIS systems are also used for analyzing spatial phenomenons, which
-are utilized by decision makers (politicians, managers), to get in-depth knowledge about the 
+are utilized by some decision makers (politicians, managers), to get in-depth knowledge about the 
 phenomenon they are dealing with.
 
 %%% ML: slovu 'blackbox' by mozna slusely uvozovky
 
 %%% ML: e. g. -> e.g. --- viz http://en.wiktionary.org/wiki/e.g. (jiz opraveno)
 
-With growing importance of software there comes a question of licenses. There are two 
-main branches: proprietary software and free software. Most of proprietary software is not available in 
-form of source code. The license of proprietary software allows to use it under certain terms and usually user 
-has to buy it. Proprietary software works like blackbox, because user has no chance to investigate the source 
-code and realize what is going on inside it. Therefore user can only believe to software provider
+With the growing importance of software there comes a question of licenses. There are two 
+main branches: proprietary software and free software. Most of the proprietary software is not available in 
+a form of source code. A license of proprietary software allows to use it under certain terms and usually user 
+has to buy it. The proprietary software works like a blackbox, because user has no chance to investigate the source 
+code and realize what is going on inside of it. Therefore user can only believe to a software provider
 that it is really doing what the provider advertises. 
-For instance it can be problem when some data are analyzed
-because the user loses control 
-over the data in processing chains which uses proprietary software in some steps.
-This also posses very serious security threads, because the software can do some hidden activity against user
-e.g. obtaining personal data or tracking user activity.
+For instance it can be problem when some data are analyzed in processing chains, which uses proprietary software in some steps,
+because the user loses a control.
+It also posses very serious security threads, because the software can do a hidden activity against user
+e. g. obtaining personal data or tracking user activity.
 
 %%% ML: "a active communities" - to by melo byt bez clenu (mluvis v
 %%% mnoznem cisle) bych rekl (v kazdem pripade by tam melo byt 'an')
 
-Despite the fact that current complexity of software is so huge,
-that single human is not capable to really understand every piece of software, which uses,
+Despite the fact that a current complexity of a software is so huge,
+that a single human is not capable to really understand every piece of a software, which uses,
 free software does not posses disadvantages of proprietary softwares.
-Transparency of the free software makes its source code subject to public control 
-carried out by community of developers which are gathered around the project.
-All popular free software projects have such a active communities, therefore it is
-very unlikely that same malicious code would be included into the project.
-Moreover if such a case would happen, it would not take a long time until such a change 
+A transparency of a free software makes its source code subject to public control 
+carried out by a community of developers which are gathered around the project.
+All popular free software projects have active communities, therefore it is
+very unlikely that a malicious code would be included into the project.
+Moreover if such a case would happen, it would not take a long time until the change 
 would be spotted by someone from the community.
 
 GRASS GIS  (Geographic Resources Analysis Support System) is one of the free GIS software. 
-Besides many other features, GRASS is capable to create orthophoto from aerial photos.
+Besides many other features, GRASS is capable to create orthopohoto from aerial photos.
 GRASS orthorectification processing chain was implemented in 1990s.
 The processing chain was focused on  processing of photos taken by rigorous 
 photogrammetric aerial missions performed by manned aircrafts, which was 
 major method of obtaining orthophotos in those days. 
 
-Nowadays there is a strong demand for  providing simple and general solution 
+Nowadays, there is a strong demand for  providing simple and general solution 
 which is able to produce orthophoto, structure of objects or 
-DTM. Current processing chain is not able to meet up such a demand.
- The thesis tries to analyze current state of orthorectificaion in GRASS,
+DTM. The current processing chain is not able to meet up such a demand.
+ The thesis tries to analyze the current state of orthorectificaion in GRASS,
 explore and implement methods of photogrammetry and computer vision in order 
-to create such a solution. 
+to create such a solution.
 
 \section{Theoretical part}
 
 %%% ML: tohle vypada jako chyba, kapitola "Theoretical part" je
 %%% prazdna, nemela byt "Essential principle" podkapitola (subsection)? 
+%%% ST: jj opraveno
 
-\section{Essential principle}
+\subsection{Essential principle}
 \label{sec:ess_princip}
 
-Both photogrammetry and computer vision are dealing with retrieving structure of scene from group of photos 
- recording it. Structure retrieval methods are based on pinhole camera model, which 
-describes relation of \term{object point} in 
+Photogrammetry and computer vision are dealing with  a retrieving structure of scene from group of photos 
+ recording it. The structure retrieval methods are based on pinhole camera model, which 
+describes a relation of \term{object point} in 
 3D camera coordinate system and projected 2D \term{photo point} in photo coordinate system.
-Parameters which characterizes pinhole camera model are called \term{interior orientation}.
+Parameters which characterize pinhole camera model are called \term{interior orientation}.
 
 \begin{figure}[h]
     \centering
@@ -254,11 +256,11 @@ Parameters which characterizes pinhole camera model are called \term{interior or
 
 
 
-\term{Image plane} is represented by digital camera image sensor, which  creates photo converting light into electronic signal.
-Then the signal is processed inside the camera giving output in form of photograph, which is stored in a digital format. 
-Image sensor is divided into cells, which measure intensity of fallen light on their surface. The pixel value in final 
-photograph is based on the measured intensity of cell or group of cells. Photo created by image sensor is inverted. This kind 
-of photo is called \term{negative} in analog photography.  Usually inversion is removed during processing inside 
+\term{Image plane} is represented by digital a camera image sensor, which  creates photo converting light into electronic signal.
+Then the signal is processed inside the camera giving output in a form of photograph, which is stored in a digital format. 
+The image sensor is divided into cells, which measure intensity of fallen light on their surface. The pixel value in final 
+photograph is based on the measured intensity of cell or group of cells. The photo created by image sensor is inverted. This kind 
+of photo is called \term{negative} in analog photography.  Usually the inversion is removed during processing inside a
 camera. The resulting non inverted photo is called \term{positive} in analog photography. 
 
 \begin{figure}[h]
@@ -271,30 +273,32 @@ camera. The resulting non inverted photo is called \term{positive} in analog pho
 % odstranit v definici znakem '%'
 
 All light \term{rays} going from the object points and falling on image sensor are going through the same point in pinhole camera model.
-The point is called \term{projective center}. The ray which is perpendicular to the image sensor plane is called principal ray and the point 
+The point is called \term{projective center}. The ray which is a perpendicular to the image sensor plane is called principal ray and the point 
 where the \term{principal ray} intersects the image sensor plane is called \term{principal point}.
 
-Pinhole camera model defines two coordinate systems. 2D  \term{photo coordinate system} is coincident
-with plane of positive.
-Coordinates of photo point are expressed in this system. Another one is 3D \term{camera coordinate system}
+The pinhole camera model defines two coordinate systems. 2D  \term{photo coordinate system} is coincident
+with the plane of positive.
+The coordinates of photo point are expressed in this system. Another one is 3D \term{camera coordinate system}
 where the object point is located. The system originates in projective center, Z coordinate 
- is coincident with projective ray and X, Y axes being in parallel to x, y axes of photo system.
+ is coincident with projective ray and X, Y axes being a parallel to x, y axes of the photo system.
 
  
 As a consequence of dimensional reduction caused by 
 3D scene projection onto 2D plane, some information is lost.
-If 3D coordinates of point are known it is able to reproject it on the image sensor plane. However because 
+If 3D coordinates of point are known, it is possible to reproject it on the image sensor plane. Because 
 of the dimensional reduction,  only the ray can be reconstructed from the 2D photo point,
 3D coordinates of the point cannot be determined.
- 
-In order to solve the ambiguity of object point position on the ray another information is needed.  
+
+In order to solve the ambiguity of object point position on the ray another, information is needed.  
 %%% ML: "a additional" asi bez clenu, jinak je spravne 'an'
-Such a additional information can provide another photo from different position, which contains same point. 
+%%% ST: opraveno
+The additional information can provide another photo from different position, which contains same point. 
 If positions of photos 
- are known (this is called \term{exterior orientation}), it is possible 
+ are known (this is called\term{ exterior orientation}), it is possible 
 to reconstruct 3D coordinates of the point, because it lies on the intersection of the photo rays.
 
 %%% ML: predpokladam, ze obrazky bez uvedene reference jsou puvodni
+%%% ST: Jj ale nekere jsou na zaklade inspirace z predlohy
 
 \begin{figure}[h]
     \centering
@@ -303,14 +307,14 @@ to reconstruct 3D coordinates of the point, because it lies on the intersection 
     \label{fig:obj_intersec}
 \end{figure}
 
-Real positions of points and exterior orientation of cameras are expressed in object coordinate system. 
-Exterior orientation describes relation between object coordinate system and camera coordinate system. 
-Relation between point in object 
+The real positions of points and exterior orientation of cameras are expressed in object coordinate system. 
+The exterior orientation describes relation between object coordinate system and camera coordinate system. 
+The relation between point in object 
 space and point in photo space can be expressed by combining interior and exterior orientation together.
 
-In this thesis, there are introduced and used such a methods leading to retrieval of the scene structure from the 
-the set of photos, which are based on such a simple principle of ray intersection! Computer vision calls it structure from motion 
-and photogrammetry uses it for creation of orthophoto, DTM or structure of object.
+In this thesis, there are introduced and used  some methods leading to retrieval of the scene structure from the 
+the set of photos, which are based on the simple principle of ray intersection! Computer vision calls it structure from motion 
+and photogrammetry uses it for the creation of orthophoto, DTM or structure of object.
 
 %%% ML: spravnejsi by bylo napsat DMT v kombinaci s ortofotem (drap
 %%% over)
@@ -323,13 +327,14 @@ and photogrammetry uses it for creation of orthophoto, DTM or structure of objec
 
 %%% ML: misto Mapy.cz bych asi uvedl mezinarodni projekt anebo v
 %%% poznamce pod carou vysvetlit co je Mapy.cz
+%%% ST: zmeneno na bing
 
 Orthophoto is created in 
 orthorectification process, which is transformation from perspective projection into orthogonal projection.
-Unlike non-orthorectified pohotography the orthophotos can be merged together into seamless map. Recently 
-orthophoto has been widely used by map services like Google Maps or Mapy.cz. Ortho\-rectified photo 
-has same scale in all parts, therefore it is possible to measure true distances as in the map. During orthorectification process distortion 
-caused by tilt of camera (if photo is not vertical) together with elevation differences are removed.
+Unlike pohotography, orthophotos can be merged together into seamless map. Recently 
+orthophoto has been widely used by some map services e.g. Google Maps or Bing Maps. Orthophoto 
+has same scale in all parts, therefore it is possible to measure true distances as in a map. During orthorectificaion, distortion 
+caused by tilt of camera (if photo is not vertical) and elevation differences are removed.
 
 %%% ML: pokud je popisek obrazku moc dlouhy, tak by mel byt pro sekci
 %%% 'seznam obrazku' zkracen \caption[kratky]{dlouhy}
@@ -337,9 +342,9 @@ caused by tilt of camera (if photo is not vertical) together with elevation diff
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.2]{figures/orthophoto.png}
-    \caption{On the left picture there is showed effect of elevation differences 
-    which arises from perspective projection of pinhole camera model. 
-    On the right picture there is depicted orthogonal projection of orthophoto.}
+    \caption{In the left picture there is showed effect of elevation differences 
+    which arises from perspective projection of the pinhole camera model. 
+    In the right picture there is depicted orthogonal projection of orthophoto.}
     \label{fig:ortho}
 \end{figure}
 
@@ -349,30 +354,32 @@ caused by tilt of camera (if photo is not vertical) together with elevation diff
 %%% ML: hodila by se reference na GNU GPL a mozna i na webove stranky
 %%% projektu GRASS
 
-GRASS (Geographic Resources Analysis Support System) GIS is open source GIS software cabable of processing raster, vector and imagery data. 
+GRASS (Geographic Resources Analysis Support System) GIS is an open source GIS software cabable of processing raster, vector and imagery data. 
 GRASS belongs among one of 
-the longest active software project. The development of GRASS began by U.S. Army CERL  laboratory
-in first half of 1980s. In 1990s U.S. Army gradually ceased developing GRASS GIS. Luckily it was decided to 
-release source code as public domain, therefore the development could be taken over by volunteers. In the 1999 license 
-of GRASS was changed into GNU GPL v2. Currently GRASS GIS is developed by the GRASS Development 
-Team, which is comprised of developers spread world wide. 
+the longest active software projects. The development of GRASS began by U.S. Army CERL  laboratory
+in the first half of 1980s. In 1990s U.S.Army gradually ceased developing GRASS GIS. Luckily, it was decided to 
+release a source code as a public domain, therefore the development could be taken over by volunteers.  License 
+of GRASS was changed into GNU GPL v2 in the 1999. GRASS is developed by GRASS development 
+team, which is comprised of developers spread world wide. 
 
 %%% ML: reference na QGIS a ArcGIS nebo jako poznamka pod carou (?)
 
 %%% ML: "a new users", bez clenu nebo "the new users" (?)
+%%% ST: opraveno
 
-Individual functionalities of GRASS are implemented in form of small software packages called "modules", which 
+Individual functionalities of GRASS are implemented in a form of small software packages called modules, which 
 can be combined to solve complex tasks.
 Unlike other GIS systems as QGIS or ArcGIS, it takes 
-more time for a new users to start understand the GRASS philosophy. GRASS developers 
-have been aware of this problem, therefore they decided to develop graphical user interface, which 
+more time for a new user to start understand the GRASS philosophy. The developers 
+have been aware of this problem, therefore they decided to develop a graphical user interface, which 
 has evolved dynamically.
 
 %%% ML: "so called" GIS database (?)
+%%% ST: ok
 
-Data in GRASS are stored in GIS Database. GIS Database is composed of locations. Every location 
-defines its projection and all data, which belongs to the location, must be reprojected to 
-the projection of location. The location comprises from mapsets, which are used for organization 
+Data in GRASS are stored in so called GIS Database. It is composed of locations. Every location 
+defines its projection, thus all data, which belongs to the location, must be reprojected to the 
+projection. The location comprises from mapsets, which are used for organization 
 of data into consistent units. 
 
 %%% ML: pro citelnost textu by mozna bylo dobre slova location, mapset
@@ -383,14 +390,16 @@ of data into consistent units.
 %%% ML: nektere moduly pro praci s vektorovymi daty maji prepinar pro
 %%% akcepovani regionu, ale zde bych to neuvadel, neni to pro praci
 %%% dulezite
+%%% ST: pridan by default
 
 %%% ML: extend -> extent (jiz opraveno, snad jsem nic neprehlednul)
 
-Another important element of GRASS is computational region. Region stores information about geographical
-extent, which is defined by four values (north, south, east, west) of bounding box and 
+Another important element of GRASS is a computational region. It stores information about a geographical
+extent, which is defined by four values (north, south, east, west) of a bounding box and 
 two values, which defines south-north and west-east resolution. Properly set region is 
-very important for raster data processing, because nearly all except import modules provides computation 
-on currently set region. Vector data are processed in whole extent regardless region.
+very important for raster data processing, because nearly all provides computation 
+on currently set region. Only exception are import modules, which ignores it by default.
+Vector data are processed in whole extend regardless region by default.
 
 \subsection{UAV}
 
@@ -398,23 +407,22 @@ on currently set region. Vector data are processed in whole extent regardless re
 %%% vojenske ucely je nejvice viditelne u U.S. Army, ta Izraelska je
 %%% snad pouziva jeste vic, to jenom na okraj
 
-Unmanned aerial vehicle (UAV also known as drone) is aircraft without human pilot. Recently UAVs are ingloriously known for
+An unmanned aerial vehicle (UAV also known as drone) is aircraft without human pilot.  UAVs have been ingloriously known for
 their heavy military employment especially by USA in Afghanistan and Pakistan. These military drones are equipped with state of the art 
-technology and their construction is similarly complex as small aircraft.  
+technology and their construction is similarly complex as a small aircraft.  
 The number of military UAVs is quickly raising and nowadays USA trains more UAV operators than fighter plane pilots.
 
 %%% ML: prize -> price (jiz opraveno)
 
-There is also exponentially growing sector of civil drones, which is very broad category ranging
-from big military like size drones to small ones in size of few decimeters. There are several types of drones e.g. airplanes,
+There has been also exponentially growing sector of civil drones, which is very broad category ranging
+from big military like drones to small ones in size of few decimeters. There are several types of drones e. g. airplanes,
 helicopters, multicopters, paraglides, airships, balloons and others. 
-Very promising category of drones are multirotor drones (e.g. hexacopters or octocopters), because they have simple construction and 
-even ordinary users are able to learn control them very quickly. Together with steeply decreasing prises of octocopters it can be expected 
+The promising category of drones are multirotor drones (e. g. hexacopters or octocopters), because they have simple construction and 
+even ordinary users are able to learn control them very quickly. Together with steeply decreasing prises of octocopters it can be expectedm 
 that this kind of drone will become commonly used for many civil purposes.
 
-In photogrammetry cheap UAVs can be successfully employed in mapping missions for creation of DTM/structure retrieval and orthophoto.
-Main advantage of the UAV mission are cost savings compared to mission which is performed by manned aircraft.
-
+In photogrammetry, cheap civil UAVs can be successfully employed in mapping missions for creation of DTM/structure retrieval and orthophoto.
+The main advantage of the UAV mission is cost saving compared to mission which is performed by manned aircraft.
 
 \begin{figure}[h]
     \centering
@@ -457,22 +465,23 @@ which can be interpreted as:
 \end{itemize}
 
 %%% ML: prvni veta zni divne...
+%%% ST: sta lepsi
 
-If matrix \ematr{A} is 
-non singular matrix  and vector \evect{b} is non zero vector, then there exists exactly one solution 
-for vector of parameters  \evect{X} to satisfy the equation. Non singular matrix is always square matrix, 
+There is exactly one solution 
+of vector of parameters  \evect{X} to satisfy the equation if matrix \ematr{A} is 
+non singular matrix  and vector \evect{b} is not zero vector. Non singular matrix is always square matrix, 
 which has all column vectors and row vectors linearly independent. 
 
 %%% ML: zvyraznit jednotlive polozky (?), napr. {\em gross error}
 
-Basically every measurement is burden with some error. The errors can be devided into these main categories:  
+Basically every measurement is burden with some error. The errors can be divided into these main categories:  
 \begin{itemize}
-\item gross error - error caused by human factor or fault of instrument. If many measurements are repeated
+\item gross error - it is caused by human factor or fault of instrument. If many measurements are repeated
 usually it is possible to identify measurements with this errors because they are big outliers from the other measurements, which are not affected with this 
 kind of error.
-\item systematic error - this error always has same effect (value) on measurement.  Usually effect of this error can be 
+\item systematic error - it always has same effect (value) on measurement.  Usually effect of this error can be 
 eliminated by choosing right measurement method, calibration of instrument or taking it into account in  mathematic model.
-\item random error - this error is unavoidable because it is impossible to know perfectly all factors which has impact 
+\item random error - it is unavoidable because it is impossible to know perfectly all factors which has impact 
 on a measurement. The random errors follows normal distribution which is represented with probability density function of this shape:
 
 %%% ML: TODO
@@ -482,13 +491,15 @@ TODO picture
 
 The normal distribution is characterized by two parameters, which are standard deviation 
 $\escal{\sigma}$ and mean $\escal{\mu}$. 
-If measurements are burden only with random error the mean represents accurate value and standard deviation represents 
+If measurements are burden only with random error, the mean represents accurate value and standard deviation represents 
 dispersion level of measurements. 
 Theoretically  if measurements of some parameter would be repeated infinite times and the measurements would be influenced only by random errors,
 accurate values could be computed as mean.
-It follows that it is possible to get closer to the accurate value by repeating of measuremnts, which 
-leads into solving overdetermined systems. Another important implication is that if same number of measurement is perfromed by more accurate 
-instrument, the mean of measurements is statistically closer to the accurate value than the mean of measurements perform with less precise instrument.
+It follows that it is possible to get closer to the accurate value by repeating of measurements, which 
+leads into solving overdetermined systems. Another important implication 
+is that the mean of measurements is statistically closer to the accurate value than the mean of measurements performed
+with a less precise instrument in case of same number of measurement is performed by a more accurate 
+instrument.
 Measurements of different accuracies, can be combined together by weighted mean
 with weight of measurement $\escal{p}_{i}$ defined as:
 \begin{equation}
@@ -589,7 +600,7 @@ therefore the least square equation is altered into this form:
 \subsubsection{Non-linear least squares}
 \label{sec:non_least}
 So far it was supposed that the cost function is linear thus global minimum can be found simply by means of linear algebra  \eqref{eq:least_sq}.
-Unfortunately it is very common that the relationship between parameters and 
+Unfortunately it is common that the relationship between parameters and 
 measured values is not linear, hence it is needed to adapt linear least squares equations for non-linear
 cost functions.
 
@@ -597,7 +608,7 @@ Unlike linear least squares, which square of difference \label{eq:least_be_part}
 is represented by function  (parabola, paraboloid...) with just one point where all
 partial derivatives are being zero, the non-linear cost function can have many such a points e.g. other local minimas. 
 
-This problem of non-linearity can be solved by linearization of non-linear equations.
+The problem of non-linearity can be solved by linearization of non-linear equations.
 The main idea of linearization process is to approximate the cost function with first degree Taylor polynomial,
 which is linear and therefore it is possible to use linear least square equation \eqref{eq:least_sq} 
 to solve non-linear problem. 
@@ -678,7 +689,7 @@ similarly to linear least squares:
 
 Comparing the equation to the linear least squares equation \eqref{eq:least_sq},
  it is slightly different. Instead of parameters vector \evect{X} there is used 
-parameters vector of differences \evect{dx} and measurement vector \evect{L} is analogous to vector \evect{l}. In this two minor 
+parameters vector of differences \evect{dx} Measurement vector \evect{L} is analogous to vector \evect{l}. In this two minor 
 substitutions there are hidden major limitations of the non-linear least squares method, 
 where the price for approximation is paid. 
 
@@ -711,7 +722,7 @@ vector \evect{dx}  has the lowest variance and it is unbiased. If density functi
 distributed then values obtained from cost functions using  computed parameters lies in maximum of the density
 function. In other words they posses maximum likehood.
 
-The weight matrix is calculated form covariance matrix in similar way as weights in weighted mean \eqref{eq:wmean}:
+The weight matrix is calculated from covariance matrix in similar way as weights in weighted mean \eqref{eq:wmean}:
 \begin{equation}
 \ematr{P} = \frac{\escal{const}}{\escal{\Sigma}_{i}^{2}}
 \end{equation} 
@@ -742,10 +753,10 @@ and a posteriori covariance matrix $\ematr{\Sigma}_{\hat{l}}$ of measurements ca
 %%% ML: "datum deficiency" by chtelo zvyraznit (\em) - pouze osobni nazor
 
 In geodesy, it can happen that columns of design matrix \ematr{A}
-are not linearly independent. This can be caused by missing information
+are not linearly independent. It can be caused by missing information
 about coordinate system in the design matrix. This issue is called datum deficiency.
 Datum deficiency makes normal matrix $ \ematr{A}^{T} \ematr{P} \ematr{A}$ non invertible and therefore 
-least squares equation \eqref{eq:non_least_sq} cannot be solved.
+least squares equation \eqref{eq:non_least_sq} can not be solved.
 In order to avoid the datum deficiency issue it is needed to keep some parameters fixed, 
 which means that columns of the fixed parameters are excluded from design matrix\ematr{A}.
 
@@ -1157,9 +1168,16 @@ same photo point coordinates.
 %%% ML: prvni veta odstavce zni divne
 
 %%% ML: na konci vety by mela byt reference na obrazek
+%%% ST: snad o neco lepsi
 
-In this chapter, there is introduced theory, which describes mutual relation of two photos. 
-The core of the relation arises from epipolar geometry.
+In the chapter, there is mathematically derived relation of two photos,
+The core of the two photos geometry arises from epipolar geometry.
+The relation describes transformation from a photo coordinate system of a first photo to 
+a photo coordinate system of a second photo and vice versa.
+
+%%% ML: prvni veta zni taky divne 
+If same object point is identified on both photos,  
+epipolar plane $\pi$ goes through the photo points and the object point. 
 
 \begin{figure}[h]
     \centering
@@ -1168,10 +1186,7 @@ The core of the relation arises from epipolar geometry.
     \label{fig:epipolae}
 \end{figure}
 
-%%% ML: prvni veta zni taky divne 
-
-If same object point is identified on two photos then there exists epipolar plane $\pi$.
-The epipolar plane contains:
+The epipolar plane contains following elements:
 
 %%% ML: v textu pouzivas dva styly - prvni zacina velkym pismenem a
 %%% teckou; druhy malym pismenem (nekdy konci carkou nebo bez carky),
@@ -1182,7 +1197,7 @@ The epipolar plane contains:
 
 \begin{itemize}
 \item Two rays which connects object point, with photo points and camera centers of both photos.
-\item Baseline \escal{b}, which connects projection centers of images.
+\item Baseline \escal{b}, which connects projection centers of the photos.
 \item Epipoles (\escal{e}, \escal{e'}). Epipole lies on intersection of poto plane with baseline.
 \item Epipolar lines  $(\escal{l}_{e}, \escal{l'}_{e})$. Epipolar line is in photo plane going through epipole and photo point.
 \end{itemize}
@@ -1190,44 +1205,49 @@ The epipolar plane contains:
 %%% ML: "which comes form epipolar geomatry" -> "which comes from
 %%% epipolar geometry", ale i tak zni divne
 
-\noindent Other relations, which comes form epipolar geomatry are:
+\noindent It follows these relations:
 
 \begin{itemize}
-\item All epipolar lines of  photo intersect in epipole. If images are merely translate with no diffrence in orientaion, 
+\item All epipolar lines of  photo intersect in a epipole. If the photos are merely translate with no diffrence in orientaion, 
 the epipoles are in infinity.
 \item Photo point forms epipolar line in the other photo. It allows to reduce space of possible occurrence of the point 
       from \eucl{2}, \eucl{1} of epipolar line, without any other information about the point e.g. object space coordinates. 
 \end{itemize}
 
-Rest of this section deals with algebraic deriving of the most important relations of two photos geometry. 
-
 %%% ML: projection? first photo system? - to bude tou pozdni hodinou ;-)
 
 %%% ML: Reverse the transformation, bez "the", rectangular shape (3 x 4) ???
 
-Camera matrix \ematr{P} represents projection from object system to first photo system.
+Camera matrix \ematr{P} \eqref{eq:p_abbr} represents projective transformation from object system to the first photo system.
 Reverse the transformation can not be done with inverse matrix because of the rectangular shape (3x4) of 
 camera matrix \ematr{P}. Instead of matrix inversion,  pseudo inverse matrix $\ematr{P}^{+}$ must be 
 calculated to reverse the transformation. Pseudo inverse matrix has this property: $\ematr{P}\ematr{P}^{+} = \ematr{I}$.
-Transformed photo point
+
+
+Point $\\ehvect{x}$ in the first photo system 
+can be transformed into  
+to the second photo system $\\ehvect{x'}$
+by:
 
 \begin{equation}
 \ehvect{x'} =  \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
+where \ematr{P} and \ematr{P'} are camera matrices of the first and the second photo.
 %%% ML: "One variant, how a line can be defined, is by direction and
 %%% point." divne receno, TODO for me: projit tuto kapitolu jeste jednou...
 
-is a point in the infinity, which represents direction of ray.
-If this point is projected into second photo by camera matrix $\ematr{P'}$ resulting point in infinity 
-represents direction of epipolar line $\escal{l'}_{e}$. One variant, how a line can be defined, is by direction 
+
+The transformed point $\ehvect{x'}$ lies in infinity 
+representing direction of a epipolar line $\escal{l'}_{e}$. It is possible to express line by direction 
 and point. In order to define epipolar line $\escal{l'}_{e}$ missing point can be obtained from 
-projection of first camera projective center $\evect{C}$ into the second photo, where it represent
+projection of the first camera projective center $\evect{C}$ into the second photo system, where it represent
 epipole:
 
 \begin{equation}
 \ehvect{e'} =  \ematr{P'}\ehvect{C} \\
 \end{equation}
+
 
 %According to  \eqref{eq:hline} line can be given as:
 
@@ -1237,13 +1257,13 @@ epipole:
 
 %%% ML: using?
 
-Epipolar line is given using \eqref{eq:def_hline_pts} by:
+Epipolar line is given \eqref{eq:def_hline_pts} by:
 
 \begin{equation}
 \ehvect{l'_{e}} =  \ehvect{e'} \times \ehvect{x'} = (\ematr{P'}\ehvect{C}) \times \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-Cross product of two vectors \evect{a} and \evect{b} can be likewise written as a multiplication of the matrix and vector:
+Cross product of two vectors \evect{a} and \evect{b} can be also written as a multiplication of a matrix and a vector:
 
 \begin{equation}
 \evect{a}  \times \evect{b}  = 
@@ -1257,33 +1277,36 @@ Cross product of two vectors \evect{a} and \evect{b} can be likewise written as 
 
 %%% ML: Using ... gives (to nezni moc anglicky)
 
-Using matrix notation of cross product gives:
+Epipolar line equation can be rewritten by the matrix notation of cross product as:
 \begin{equation}
 \ehvect{l'_{e}}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
 %%% ML: tento odstavec by chtel prepsat...
 
-It is apparent from this equation, that the matrix, which transforms photo points in the first photo into 
-epipolar lines of the other photo and hence denoting relation of two images is defined as:
+
+It is apparent from the equation, that matrix denoting relation of two photos, is defined as:
 
 \begin{equation}
 \ematr{F}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}
 \end{equation}
+
+It transforms photo points of the first photo system into 
+epipolar lines of the second photo.
 
 %%% ML: zvyraznit "fundamental matrix" (?)
 
 Matrix \ematr{F} is called a fundamental matrix. 
 
 Fundamental matrix can be expanded by \eqref{eq:p_abbr}, which
-allows to derive another important matrix of two view geometry, which is called essential matrix \ematr{E}.
+allows to derive another important matrix of two view geometry called essential matrix \ematr{E}.
 
-Lets suppose that camera matrix of first photo is defined in this way:
+Lets suppose that camera matrix of the first photo is defined in this way:
 \begin{equation}
 \label{eq:rel_or_cam1}
 \ematr{P}  = \ematr{K} \ematr{[}I|0\ematr{]}
 \end{equation}
-It means that camera coordinate system coincides with object space coordinate 
+It means that the camera coordinate system coincides with  the object space coordinate 
 system.
 
 It's pseudo inverse matrix is:
@@ -1324,13 +1347,12 @@ Epipole is given as:
 \end{split}
 \end{equation}
 
-
-This relationship of two cameras is also called \term{relative orientation}, because rotation matrix \ematr{R} and vector \evect{t}
+The relationship of two cameras is also called \term{relative orientation}, because rotation matrix \ematr{R} and vector \evect{t}
 denotes position and orientation of the second camera to the first one. In order to express cameras exterior orientations in world coordinate 
 system or merge it with another relative orientations it is needed to perform further transformations of the relative 
 exterior orientations, for more information see chapters \ref{sec:ess_chain} and \ref{sec:helmert}.
 
-Taking into account the relative orientation the fundamental matrix equation can be rewritten as:
+The fundamental matrix equation can be rewritten taking into account the relative orientation as:
 \begin{equation}
 \label{eg:funeq}
 \begin{split}
@@ -1357,7 +1379,7 @@ This formula applies for any non-singular matrix \ematr{K} and vector \evect{t}:
 [\evect{e}']_{\times} \ematr{K'} = \ematr{K}'^{-T}[\ematr{K}'^{-1}\evect{e}']_{\times}
 \end{equation}
 
-Using the formula to \eqref{eg:funeq}, it is given:  
+The fundamental matrix equation can be further rewritten using the formula:  
 \begin{equation}
 \begin{split}
 \ematr{F}  &= [\ehvect{e}']_{\times} \ematr{K}' \ematr{R} \ematr{K}^{-1} \\
@@ -1368,15 +1390,17 @@ Using the formula to \eqref{eg:funeq}, it is given:
 
 This equation reveals very important fact about fundamental matrix, which says that the transformation performed 
 by matrix can be divided into three main steps.
+
 At first, the photo point of the first image is transformed into the first camera coordinate system. Result of the transformation is a
 point in the infinity, which describes ray represented by photo point. 
 After that the ray is projected into second camera coordinate system. This is done by so called essential matrix:
+
 \begin{equation}
 	 \ematr{E}  = [\evect{t}]_{\times} \ematr{R}
 \end{equation}
 
 
-As the last step, the ray is projected into the second photo as epipolar line.
+As the last step, the ray is transformed into photo system of the second photo as epipolar line.
 
 
 It implies that with known exterior orientation it is possible to define essential matrix. 
@@ -1386,13 +1410,15 @@ which describes relation of a two photos.
 \subsubsection{Triangulation of points}
 \label{eq:triang}
 
+Triangulation methods deals with retrieval of object point coordinates
+from corresponding points in photos. 
 If measurements would be precise, object point 
 would lie on intersection of two rays which is clearly visible on 
  Figure \ref{fig:obj_intersec}. Unfortunately the rays are never determined so precisely to intersect.
-Triangulation methods deals with the imprecision.  
+ Several methods deals with the imperfections.
 
 Direct linear transformation (DLT) method  is based 
-on lineralization of collinearity equations \eqref{eq:col_eqs}
+on linerarization of collinearity equations \eqref{eq:col_eqs}
 employing least square method on it.
 
 The linearized collinearity equations can be written as:  
@@ -1424,7 +1450,7 @@ The linearized collinearity equations can be written as:
  
 It is easy to implement and 
 there is no need to know approximate values. 
-Main drawback of this method is that DLT model does not respects pinhole camera model, thus
+Main drawback of this method is that DLT model does not respect pinhole camera model, thus
 minimized parameters in vector \evect{a} do not follow rigorous camera geometry which 
 may result in inaccurate retrieval of object coordinates.
 
@@ -1434,8 +1460,7 @@ minimizes sum of distance of photo points to epipolar lines, which are created
 by projecting corresponding photo points form other images.
 
 The cost function is not linear however it's derivative leads into 6 degree polynomial thus 
-it has 6 roots. The root, which represents correct solution gives smallest values of cost functions, 
-because it represents global minimum. 
+it has 6 roots. Correct solution can be selected from roots by assumption that it represents global minimum. 
 
 This method is considered by computer vision community as most accurate \cite[p. 315]{Hartley2004}.  
 
@@ -1498,9 +1523,15 @@ The scale can be computed by this equation:
 	                {\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}}
 \end{equation}
 
-where \term{ro1} denotes destination relative orientation of transformation and \term{ro2} is the transformed relative orientation. 
+where:
+\begin{itemize}
+\item \term{ro1} denotes relative orientation where relative  orientation \term{ro2} will be transformed,
+\item \evect{X} is object point,
+\item \evect{C} is projective center of the shared photo, which belongs to both relative orientations.
+\end{itemize}
 
-The equation gets simplified if the relative orientation coordinate system  corresponds to the shared camera system: 
+The equation gets simplified if the relative orientation coordinate system coincide to the camera system of the shared photo, thus 
+coordinates of the shared camera projective center is zero in both systems: 
 \begin{equation}
 \escal{s}^{ro2-1} = \frac{\mathbf(\evect{X}_{ro1})}
 	                 {\mathbf(\evect{X}_{ro2})}
@@ -1509,11 +1540,11 @@ The equation gets simplified if the relative orientation coordinate system  corr
 Commonly there are processed bundles of photos capturing a scene. Relative orientation pairs of photos capture only fragments of the scene, 
 therefore the information of scene is scattered.  
 In order to interpret the scene as whole it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
-For sake of simplicity, the common relative system is defined by arbitrary relative orientation of pair and other 
+For sake of simplicity, the common relative system is defined by arbitrary relative orientation of a pair and other 
 relative orientations are subsequently transformed into the common system. 
 
-Group of photos, which can be transformed into common system, is composed of the relative orientations pairs
-which comprise connected component of undirected graph where nodes represents  photos and edges denotes  relative orientations. 
+Group of photos, which can be transformed into common system, is composed of the relative orientation photo pairs
+which comprise connected component of undirected graph, where nodes represents  photos and edges denotes relative orientations. 
 In other words, it is possible to transform relative orientation into the common relative coordinate system only if there 
 exist continuous chain of relative orientations where every two neighborhood relative orientations in the chain shares one photo.
 
@@ -1530,8 +1561,8 @@ The transformation of relative orientations from 1 to n, with common system defi
 
 
 The equations applies for chain of relative orientation, where the shared camera in first relative orientation has 
-projection matrix defined by $[\ematr{R}|\evect{t}]$ matrix and the merging second relative orientation is 
-defined $[\ematr{I}|\ematr{O}]$.
+projection matrix defined by $[\ematr{R}|\evect{t}]$ and matrix of the transformed second relative orientation is 
+defined as $[\ematr{I}|\ematr{O}]$.
 
 \subsubsection{Helmert transformation}
 \label{sec:helmert}
@@ -1568,22 +1599,22 @@ sufficient enough before.
 \end{figure}
 
 Cost functions of BBA least squares method are photogrammetric collinearity equations \eqref{eq:col_eqs}.
-The least squares method tries to find such a vector of adjusted parameters \evect{X} to minimize
-sum  of square differences between measured photo points coordinates and photo points coordinates calculated 
-from collinearity equations using adjusted parameters \evect{X}.
+The least squares method tries to find vector of adjusted parameters \evect{X} to minimize
+sum  of square differences between coordinates of measured photo points and photo points calculated 
+from collinearity equations.
 
-Unfortunately collinearity equations are non linear, hence the non-linear least square method \ref{sec:non_least} must be employed, which 
-needs to be provided  whith sufficiently accurate initial values in order to find values of parameters which satisfies minimization criterion.
+Unfortunately, collinearity equations are non linear, hence the non-linear least square method \ref{sec:non_least} must be employed, which 
+needs to be provided  with sufficiently accurate initial values in order to find values of parameters which satisfies minimization criterion.
 
 Thanks to the least squares method BBA is very flexible in terms of selection of parameters to be adjusted. 
 It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters. 
 
 Following example describes BBA in practice.
-Lets suppose that inital values of adjusted parameters are known with sufficient accuracy in order to the least squares
-method eventually iterate to global minimu.
+Lets suppose that initial values of adjusted parameters are known with sufficient accuracy in order to the least squares
+method eventually iterate to global minimum.
 Lets say that there is a scene, which is captured by three photos.
 There are identified three tie points and two ground control points in all three photos.
-Tie point is kind of point, which is identified only on photos with missing information about its object coordinates.  
+Tie point is identified only on photos with missing information about its object coordinates.  
 Unlike tie point, object coordinates of ground control point (GCP) are known.
 Additional two tie points and one GCP are identified in two photos.
 Also another one ground control point and one tie point are identified 
@@ -1607,8 +1638,8 @@ Every photo yields six parameters of exterior orientation (three projective cent
 which gives 6 * 3 = 18 parameters. 
 
 Tie points gives 5 * 3 = 15 adjusted parameters of object coordiantes. 
-Only 5 tie points are used in BBA because the tie point visible in just one photo is skipped because of the ray ambiguity.
-GCPs does not gives any adjusted parameters since coordinates are known.
+Only 5 tie points are used in BBA because the tie point visible in just one photo must be skipped.
+GCPs do not give any adjusted parameters since coordinates are known.
 
 Every tie point and GCP, visible on three photos gives 6 measurements (two collinearity equations for every photo point),
 which gives totally 30 measurement.
@@ -1621,6 +1652,8 @@ Thanks to 9 redundant measurements it is possible to add some of the interior pa
 On the other hand the redundancy of measurement improves accuracy of results, which is the main point of the least square method,
 therefore it should be avoided to have nearly same number of measurements and adjusted parameters.
 
+
+TODO rewrite, picture
 In first least squares iteration, initial values of adjusted parameters are put into parameters vector $\evect{X}$. 
 Vector $\evect{L}_{X0}$ can be computed applying the parameter vector $\evect{X}$ on collinearity
 equations. In order to calculate all collinearity equations and its derivatives it is also needed to 
@@ -1640,7 +1673,7 @@ In the example, design matrix has 44 rows and 33 columns $\ematr{A}$.
 
 All needed information is available to perform first iteration of non linear least square 
 method \label{sec:non_least}. As result of iteration refined values of vector  $\evect{X}$
-are obtained. If another iteration is needed to performed same process is repeated 
+are obtained. If another iteration is needed to by performed same process is repeated 
 with adjusted vector $\evect{X}$.
 
 \subsection{Orthorectification}
@@ -1652,28 +1685,28 @@ from single photo. It requires exterior, interior orientations of the photo and 
 Shape of relief is usually provided in form of digital terrain model (DTM), which 
 can be given in raster or vector form. Raster DTM describes relief with same density defined by resolution of the raster.
 Vector DTM is comprised by continuous surface made of triangular irregular network (TIN). 
-At the beginning of the orthorectificaiton empty raster is allocated, which represents orthophoto.
+At the beginning of the orthorectificaiton, empty raster is allocated, which represents orthophoto.
 It covers intersection of photo scene and area of the DTM.
 
 In the next step, empty orthophoto is filled by values. 
-At first all points representing centers of pixels are given Z coordinates from DTM. 
+All points representing centers of pixels are given Z coordinates from DTM. 
 Then the points are transformed into the photo coordinate system using collinearity equations.
 Because the transformed point is represented by floating point, value which is given 
 to the pixel in orthophoto is deteremined by interpolation of surrounding pixels of the transformed 
 point into the photo. There can be many variation in used interpolation methods, selection of points 
 for transformation etc. 
-but main principle is still the same which is based on back projection of object point into 
+but main principle is still the same, which is based on back projection of object point into 
 the photo to obtain values for orthophoto.
 
-The other method can be considered a extension of the first one because initially it generates DTM than it recovers orthophoto 
+The other method can be considered a extension of the first one because initially it generates DTM then it recovers orthophoto 
 according to same principle as the first method. The principle of the method is based on triangulation of object point
 from photo points, which requires to be known interior and extrerior orientation of photos. The reconstructed point 
 must be visible at least on two photos in order to solve the ray ambiguity. It follows that it requires more than 
 one photo in contrast to the first method.
 Object coordinate system 
 can be defined arbitrarily, because there is no needed to define relationship to input DTM as the first method requires.
-In stead of this DTM is created in any system directly by the method.
-Hence,  orthophoto and DTM can be generated without any GCP. 
+In stead of this DTM is created in any system directly by the method,
+hence orthophoto and DTM can be generated without any GCP. 
 Approximate object points  are calculated by triangulation 
 methods \ref{sec:triang} and than refined by BBA. 
 
@@ -1686,8 +1719,8 @@ point is inside the circumcircle of any triangle.
 In case of processing big number of points Finite element method 
 should be used instead of Delaunay triangulation, because it is computationally more efficient.
 Unlike Delaunay triangulation, which creates surface including all object points, Finite element method
-is based on principle of dividing trangle into smaller triangles. 
-The triangel is splot to smaller ones until it sufficiently aproximates surrounding object points. 
+is based on principle of dividing triangles into smaller ones. 
+The triangle is split until it sufficiently approximates surrounding object points. 
 This method is able to create DTM from millions of points.
 
 \begin{figure}[h]
@@ -2485,7 +2518,7 @@ the outliers elimination effect of RANSAC loop should be much stronger.
 \item  Merging of relative orientations - currently if there is one wrong relative orientation, with lot of depended relative orientations,
 the error gets propagated up during transformation of depended orientations to the common relative coordinate system. 
 Effect of such a inaccurate pair could be 
-reduced by performing  temporary BBA, which can fix these some of big inaccuracies. Also the order of relative orientations in merging 
+reduced by performing  temporary BBA, which can reduce the inaccuracies. Also the order of relative orientations in merging 
 into  should not 
 be chosen only by number of tie points but also taking into account quality of relative orientation.
 
@@ -2504,8 +2537,9 @@ Another big room for improvement is computational speed of the processing chain.
 The most critical part which costs most of computational time is BBA.
 One least squares  iteration of BBA takes approximately 5 seconds in the test case, which can be 
 considered as very small scene compared to commonly the solved
-scenes with hundreds of photos and thousands of points. The bottleneck of BBA iteration is computation of inverse/pseudo inverse, where big matrices 
-must be solved. The size of the matrix is directly connected to the number of adjusted parameters. There exists  lot of methods which reduce computational 
+scenes with hundreds of photos and thousands of points. The bottleneck of BBA iteration is computation of inverse/pseudo inverse of normal matrix, 
+where big matrices must be solved. 
+The size of the matrix is directly connected to the number of adjusted parameters. There exists  lot of methods which reduce computational 
 time of matrix inversion. The inversed matrix of BBA is sparse (most of elements are zeros).
 
 There exists many optimization methods exploiting this property. 
