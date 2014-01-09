@@ -78,35 +78,35 @@ right=25mm
 }
 
 \newcommand{\ematr}[1]{
-{\bf #1}
+{\bf #1}%
 }
 
 \newcommand{\evect}[1]{
-{\bf #1}
+{\bf #1}%
 }
 
 \newcommand{\ehvect}[1]{
-{\bf \widetilde{#1}}
+{\bf \widetilde{#1}}%
 }
 
 \newcommand{\escal}[1]{
-{\it #1}
+{\it #1}%
 }
 
 \newcommand{\eucl}[1]{
-{\bf R\textsuperscript{#1}}
+{\bf R\textsuperscript{#1}}%
 }
 \newcommand{\proj}[1]{
-{\bf P\textsuperscript{#1}}
+{\bf P\textsuperscript{#1}}%
 }
 
 \newcommand{\efunc}[1]{
-{\it #1}
+{\it #1}%
 }
 
 
 \newcommand{\src}[1]{
-{\it #1}
+{\it #1}%
 }
 
 \newcommand{\term}[1]{
@@ -153,14 +153,14 @@ right=25mm
 
 In recent decades tremendous development of information technology has fundamentally changed many disciplines.
 
-Photogrammetry has successfully taken advantages of this development and nowadays 
-it is using methods, which allows to process data 
+Photogrammetry has successfully taken advantages of this development. Nowadays,
+it uses methods, which allows to process data 
 in huge scales achieving high accuracy. Some of the currently used 
-methods have been known for several decades, however technology was not so advanced in order to be employed 
+methods have been known for several decades however technology was not so advanced in order to be employed 
  in practice. 
 
 The information technology has caused blurring of borders between disciplines. 
-Photogrammetry has been affected by computer vision, which evolved independently until 2000's. After that it is possible 
+Photogrammetry has been affected by computer vision, which evolved independently until 2000's. After that, it is possible 
 to see a growing trend of combining knowledge from both sides.  
 
 %%% ML: seznam zkratek je lepsi generovat automaticky a stejne tak
@@ -169,10 +169,10 @@ to see a growing trend of combining knowledge from both sides.
 %%% ted uz to ale nech tak jak to je, spis poznamka az budes psat
 %%% nejaky podobny text priste ;-)
 
-Photogrammetry and computer vision are dealing with information recorded in photo. Computer vision 
-methods are employed in robotics, dealing with determination of a robot position and retrieving structure 
-of environment, which surrounds the robot.
-Photogrammetry is used to produce digital terrain models (DTM), a precise structure of objects or orthophotos. 
+Photogrammetry and computer vision are dealing with information recorded in a photo. Computer vision 
+methods are employed in robotics dealing with determination of a robot position and retrieving a structure 
+of an environment which surrounds the robot.
+Photogrammetry is used to produce a digital terrain models (DTM), a precise structure of objects or orthophotos. 
 
 
 %%% ML: veta "Nowadays, thanks to current state of the art software,
@@ -200,62 +200,79 @@ to get in-depth knowledge about a
 phenomenon they are dealing with.
 
 %%% ML: slovu 'blackbox' by mozna slusely uvozovky
+%%% ST: ok 
 
 %%% ML: e. g. -> e.g. --- viz http://en.wiktionary.org/wiki/e.g. (jiz opraveno)
 
 With the growing importance of software there comes a question of licenses. There are two 
 main branches: proprietary software and free software. Most of the proprietary software is not available in 
 a form of source code. A license of proprietary software allows to use it under certain terms and usually user 
-has to buy it. The proprietary software works like a blackbox, because user has no chance to investigate the source 
+has to buy it. The proprietary software works like a "blackbox", because user has no chance to investigate the source 
 code and realize what is going on inside of it \cite{rocchini2012let}. Therefore user can only believe to a software provider
 that it is really doing what the provider advertises. 
-For instance it can be problem when some data are analyzed in processing chains using proprietary software in some steps,
-because the user loses a control over its data.
-It also posses very serious security threads, because the software can do a hidden activity against user
+For instance, it can be problem when some data are analyzed in processing chains using proprietary software in some steps,
+because the user loses a control over data.
+It also posses very serious security threads because the software can do a hidden activity against user
 e.g. obtaining personal data or tracking user activity.
 
 %%% ML: "a active communities" - to by melo byt bez clenu (mluvis v
 %%% mnoznem cisle) bych rekl (v kazdem pripade by tam melo byt 'an')
 
-Despite the fact that a current complexity of a software is so huge,
-that a single human is not capable to really understand every piece of a software which uses,
+Despite the fact that a current complexity of a software is so huge
+that a single human is not capable to really understand every piece of a software, which uses,
 free software does not posses disadvantages of proprietary softwares.
 A transparency of a free software makes its source code subject to public control 
 carried out by a community of developers gathered around the project.
-All popular free software projects have active communities, therefore it is
+All popular free software projects have active communities therefore it is
 very unlikely that a malicious code would be included into the project.
-Moreover if such a case would happen, it would not take a long time until the change 
+Moreover if such a case happened, it would not take a long time until the change 
 would be spotted by someone from the community.
 
 GRASS GIS  (Geographic Resources Analysis Support System) \cite{neteler2012grass}
 is one of the free GIS software. 
-Besides many other features, GRASS is capable to create orthopohoto from aerial photos.
+Besides many other features, GRASS is capable to create orthophoto from aerial photos.
 GRASS orthorectification processing chain was implemented in 1990s.
-The processing chain was focused on  processing of photos taken by rigorous 
+It is focused on  processing of photos taken by rigorous 
 photogrammetric aerial missions performed by manned aircrafts, which was 
 major method of obtaining orthophotos in those days. 
 
 Nowadays, there is a strong demand for  providing simple and general solution 
  able to produce orthophoto, structure of objects or 
 DTM. The current processing chain is not able to meet up such a demand.
- The thesis analyzes the current state of orthorectificaion in GRASS,
+ The thesis analyzes the current state of orthorectification in GRASS,
 explores and implements methods of photogrammetry and computer vision in order 
 to create such a solution.
 
 \section{Theoretical part}
 
+This chapter covers several methodological subtopics
+\begin{itemize}
+\item essential principles of photogrammetry
+\item the software framework in which the software has been developed within 
+\item mathematical background of least squares methods as used in photogrammetry
+\item short introductions to photogrammetry and computer vision
+\item an overview of bundle block adjustment (BBA) and orthorectification
+\end{itemize} 
+
+Main goal of the chapter is to introduce reader into methods used by photogrammetry and computer vision
+to retrieve DTM, orthophoto or structure of a captured scene by group of photos. 
+The chapter is focused especially on 
+explanation of BBA method achieving the highest accuracy of retrieved products from photos.  
+It also includes description of all needed steps to obtain data required for performing BBA. 
+Least square methods are covered by the chapter because they  constitute core of BBA.
+
 %%% ML: tohle vypada jako chyba, kapitola "Theoretical part" je
 %%% prazdna, nemela byt "Essential principle" podkapitola (subsection)? 
 %%% ST: jj opraveno
 
-\subsection{Essential principle}
+\subsection{Essential principles}
 \label{sec:ess_princip}
 
 Photogrammetry and computer vision are dealing with  a retrieving structure of scene from group of photos 
- recording it. The structure retrieval methods are based on pinhole camera model, which 
-describes a relation of \term{object point} in 
+ capturing it. The structure retrieval methods are based on pinhole camera model 
+describing a relation of \term{object point} in 
 3D camera coordinate system and projected 2D \term{photo point} in photo coordinate system.
-Parameters which characterize pinhole camera model are called \term{interior orientation}.
+Parameters characterizing pinhole camera model are called \term{interior orientation}.
 
 \begin{figure}[h]
     \centering
@@ -264,10 +281,9 @@ Parameters which characterize pinhole camera model are called \term{interior ori
 \end{figure}
 
 
-
-\term{Image plane} is represented by digital a camera image sensor, which  creates photo converting light into electronic signal.
-Then the signal is processed inside the camera giving output in a form of photograph, which is stored in a digital format. 
-The image sensor is divided into cells, which measure intensity of fallen light on their surface. The pixel value in final 
+\term{Image plane} is represented by a digital camera image sensor, which  creates photo converting light into electronic signal.
+Then the signal is processed inside a camera giving output in a form of photograph stored in a digital format. 
+The image sensor is divided into cells measuring intensity of fallen light on their surface. The pixel value in final 
 photograph is based on the measured intensity of cell or group of cells. The photo created by image sensor is inverted. This kind 
 of photo is called \term{negative} in analog photography.  Usually the inversion is removed during processing inside a
 camera. The resulting non inverted photo is called \term{positive} in analog photography. 
@@ -281,7 +297,7 @@ camera. The resulting non inverted photo is called \term{positive} in analog pho
 % ML: \term{} na konci vety vytvari NEZADOUCI MEZERU, to se da
 % odstranit v definici znakem '%'
 
-All light \term{rays} going from the object points and falling on image sensor are going through the same point in pinhole camera model.
+All light \term{rays} going from object points and falling on an image sensor are going through a same point in pinhole camera model.
 The point is called \term{projective center}. The ray which is a perpendicular to the image sensor plane is called principal ray and the point 
 where the \term{principal ray} intersects the image sensor plane is called \term{principal point}.
 
@@ -289,19 +305,19 @@ The pinhole camera model defines two coordinate systems. 2D  \term{photo coordin
 with the plane of positive.
 The coordinates of photo point are expressed in this system. Another one is 3D \term{camera coordinate system}
 where the object point is located. The system originates in projective center, Z coordinate 
- is coincident with projective ray and X, Y axes being a parallel to x, y axes of the photo system.
+ is coincident with projective ray and X, Y axes are parallel to x, y axes of a photo system.
 
  
 As a consequence of dimensional reduction caused by 
 3D scene projection onto 2D plane, some information is lost.
 If 3D coordinates of point are known, it is possible to reproject it on the image sensor plane. Because 
-of the dimensional reduction,  only the ray can be reconstructed from the 2D photo point,
-3D coordinates of the point cannot be determined.
+of the dimensional reduction, only a ray can be reconstructed from a 2D photo point,
+3D coordinates of a point can not be determined.
 
-In order to solve the ambiguity of object point position on the ray another, information is needed.  
+In order to solve the ambiguity of object point position on the ray, additional information is needed.  
 %%% ML: "a additional" asi bez clenu, jinak je spravne 'an'
 %%% ST: opraveno
-The additional information can provide another photo from different position, which contains same point. 
+It can be provided by another photo from different position capturing same point. 
 If positions of photos 
  are known (this is called\term{ exterior orientation}), it is possible 
 to reconstruct 3D coordinates of the point, because it lies on the intersection of the photo rays.
@@ -316,13 +332,13 @@ to reconstruct 3D coordinates of the point, because it lies on the intersection 
     \label{fig:obj_intersec}
 \end{figure}
 
-The real positions of points and exterior orientation of cameras are expressed in object coordinate system. 
+Real positions of points and exterior orientation of cameras are expressed in \term{object coordinate system}. 
 The exterior orientation describes relation between object coordinate system and camera coordinate system. 
 The relation between point in object 
 space and point in photo space can be expressed by combining interior and exterior orientation together.
 
-In this thesis, there are introduced and used  some methods leading to retrieval of the scene structure from the 
-the set of photos, which are based on the simple principle of ray intersection! Computer vision calls it structure from motion 
+In the thesis, there are introduced and used methods leading to retrieval of the scene structure from the 
+the set of photos, which are based on the simple principle of intersection of rays! Computer vision calls it structure from motion 
 and photogrammetry uses it for the creation of orthophoto, DTM or structure of object.
 
 %%% ML: spravnejsi by bylo napsat DMT v kombinaci s ortofotem (drap
@@ -341,9 +357,10 @@ and photogrammetry uses it for the creation of orthophoto, DTM or structure of o
 
 Orthophoto is created in 
 orthorectification process, which is transformation from perspective projection into orthogonal projection.
-Unlike pohotography, orthophotos can be merged together into seamless map. Recently 
+Unlike photographs, orthophotos can be merged together into seamless map. Recently 
 orthophoto has been widely used by some map services e.g. Google Maps or Bing Maps. Orthophoto 
-has same scale in all parts, therefore it is possible to measure true distances as in a map. During orthorectificaion, distortion 
+has same scale in all parts, therefore it is possible to measure true distances as in a map. 
+During orthorectification, distortion 
 caused by tilt of camera (if photo is not vertical) and elevation differences are removed.
 
 %%% ML: pokud je popisek obrazku moc dlouhy, tak by mel byt pro sekci
@@ -354,7 +371,7 @@ caused by tilt of camera (if photo is not vertical) and elevation differences ar
     \centering
     \includegraphics[scale=0.2]{figures/orthophoto.png}
     \caption{In the left picture there is showed effect of elevation differences 
-    which arises from perspective projection of the pinhole camera model. 
+    arising from perspective projection of the pinhole camera model. 
     In the right picture there is depicted orthogonal projection of orthophoto.}
     \label{fig:ortho}
 \end{figure}
@@ -364,10 +381,13 @@ caused by tilt of camera (if photo is not vertical) and elevation differences ar
 \label{sec:GRASS_intro}
 %%% ML: hodila by se reference na GNU GPL a mozna i na webove stranky
 %%% projektu GRASS
+%%% ST: pridal jsem web grassu, GNU GPL je zminena jen tak na okraj...
 
-GRASS (Geographic Resources Analysis Support System) GIS is an open source GIS software capable of processing raster, vector and imagery data. 
+GRASS (Geographic Resources Analysis Support System) \footnote{http://grass.osgeo.org/} 
+GIS is an open source GIS software 
+capable of processing raster, vector and imagery data. 
 GRASS belongs among one of 
-the longest active software projects. The development of GRASS began by U.S. Army CERL  laboratory
+the longest active software projects. Development of GRASS was begun by U.S. Army CERL  laboratory
 in the first half of 1980s. In 1990s U.S.Army gradually ceased developing GRASS GIS. Luckily, it was decided to 
 release a source code as a public domain, therefore the development could be taken over by volunteers.  License 
 of GRASS was changed into GNU GPL v2 in the 1999. GRASS is developed by GRASS development 
@@ -383,16 +403,16 @@ team, which is comprised of developers spread world wide.
 Individual functionalities of GRASS are implemented in a form of small software packages called modules, which 
 can be combined to solve complex tasks.
 Unlike other GIS systems as QGIS or ArcGIS, it takes 
-more time for a new user to start understand the GRASS philosophy. The developers 
-have been aware of this problem, therefore they decided to develop a graphical user interface, which 
+more time for a new user to start understand the GRASS philosophy.  Developers 
+have been aware of this problem therefore they decided to develop a graphical user interface, which 
 has evolved dynamically.
 
 %%% ML: "so called" GIS database (?)
 %%% ST: ok
 
-Data in GRASS are stored in so called  \term{GIS Database} composed of \term{locations}. Every location 
-defines its projection, thus all data belonging to the location must be reprojected to the 
-projection. The location comprises from \term{mapsets} used for organization 
+Data in GRASS are stored in so called  \term{GIS database} composed of \term{locations}. Every location 
+defines its projection thus all data belonging to the location must be reprojected to it. 
+The location comprises from \term{mapsets} used for organization 
 of data into consistent units. 
 
 %%% ML: pro citelnost textu by mozna bylo dobre slova location, mapset
@@ -408,10 +428,10 @@ of data into consistent units.
 %%% ML: extend -> extent (jiz opraveno, snad jsem nic neprehlednul)
 
 Another important element of GRASS is a computational region. It stores information about a geographical
-extent, which is defined by four values (north, south, east, west) of a bounding box and 
-two values, which defines south-north and west-east resolution. Properly set region is 
-very important for raster data processing, because nearly all provides computation 
-on currently set region. Only exception are import modules, which ignores it by default.
+extent defined by four values (north, south, east, west) of a bounding box and 
+another two values representing south-north and west-east resolution. Properly set region is 
+very important for raster data processing because nearly all raster modules performs computation 
+on currently set region. Only exception are import modules ignoring it by default.
 
 
 \subsection{UAV}
@@ -421,21 +441,24 @@ on currently set region. Only exception are import modules, which ignores it by 
 %%% snad pouziva jeste vic, to jenom na okraj
 
 An unmanned aerial vehicle (UAV also known as drone) is aircraft without human pilot.  UAVs have been ingloriously known for
-their heavy military employment especially by USA in Afghanistan and Pakistan. These military drones are equipped with state of the art 
+ heavy military employment especially by USA in Afghanistan and Pakistan. These military drones are equipped with state of the art 
 technology and their construction is similarly complex as a small aircraft.  
 The number of military UAVs is quickly raising and nowadays USA trains more UAV operators than fighter plane pilots.
 
 %%% ML: prize -> price (jiz opraveno)
 
-There has been also exponentially growing sector of civil drones, which is very broad category ranging
-from big military like drones to small ones in size of few decimeters. There are several types of drones e. g. airplanes,
+Besides military UAVs,  sector of civil drones is exponentially growing. It is very broad category ranging
+from big military like drones to small ones in size of few decimeters. There are several types of drones e.g. airplanes,
 helicopters, multicopters, paraglides, airships, balloons and others. 
 The promising category of drones are multirotor drones (e. g. hexacopters or octocopters), because they have simple construction and 
-even ordinary users are able to learn control them very quickly. Together with steeply decreasing prises of octocopters it can be expectedm 
+even ordinary users are able to learn control them very quickly. Because of steeply falling prises of octocopters, it can be expected 
 that this kind of drone will become commonly used for many civil purposes.
 
-In photogrammetry, cheap civil UAVs can be successfully employed in mapping missions for creation of DTM/structure retrieval and orthophoto.
-The main advantage of the UAV mission is cost saving compared to mission which is performed by manned aircraft.
+In photogrammetry, cheap civil UAVs can be successfully employed in mapping missions for creation of DTM/structure or orthophoto.
+The main advantage of a UAV mapping mission is cost saving compared to a mission performed by manned aircraft.
+In order to obtain photos of desired area, camera is mounted on UAV. During the UAV flight, photos of the mapped 
+area are taken with sufficient overlap (usually at least 60 percent). The overlap of photos is used for identification 
+of corresponding photo points whose 3D object coordinates are obtained by intersection of rays (see \label{sec:ess_princip}). 
 
 \begin{figure}[h]
     \centering
@@ -471,8 +494,8 @@ In linear algebra, commonly solved equation is:
 which can be interpreted as:
 \begin{itemize}
 \item \evect{L} - vector of measurements
-\item \evect{X} - vector of parameters, which values are searched to solve the system
-\item \ematr{A} - it is matrix of the linear cost function  coefficients,  where row represents one measurement 
+\item \evect{X} - vector of unknown parameters, whose values are searched to solve the system
+\item \ematr{A} - it is matrix of a linear cost function  coefficients,  where row represents one measurement 
 		  and column represents one parameter of cost function. Linear cost function $\efunc{f_{i}(\evect{X})}$
 		  represents relationship between measurements \evect{L} and searched parameters \evect{X}. 
 		  Least square method calls it design matrix. 
@@ -487,16 +510,18 @@ non singular matrix  and vector \evect{b} is not zero vector. Non singular matri
 which has all column vectors and row vectors linearly independent. 
 
 %%% ML: zvyraznit jednotlive polozky (?), napr. {\em gross error}
+%%% ST: zvyrazneno 
 
 Basically every measurement is burden with some error. The errors can be divided into these main categories:  
 \begin{itemize}
 \item \term{gross error} - it is caused by human factor or fault of instrument. If many measurements are repeated
-usually it is possible to identify measurements with this errors because they are big outliers from the other measurements, which are not affected with this 
+usually it is possible to identify measurements influenced by this error because 
+they are big outliers from the other measurements unaffected by this 
 kind of error.
 \item \term{systematic error} - it always has same effect (value) on measurement.  Usually effect of this error can be 
 eliminated by choosing right measurement method, calibration of instrument or taking it into account in  mathematic model.
 \item \term{random error} - it is unavoidable because it is impossible to know perfectly all factors which has impact 
-on a measurement. The random errors follows normal distribution which is represented with probability density function of this shape:
+on a measurement. The random errors follows normal distribution represented by probability density function of this shape:
 
 %%% ML: TODO
 %%% ST: obrazek pridan
@@ -511,56 +536,54 @@ $\escal{\sigma}$ and mean $\escal{\mu}$ \cite{inductiveload2008selection}}
 
 
 
-The normal distribution is characterized by two parameters, which are standard deviation 
+The normal distribution is characterized by two parameters which are standard deviation 
 $\escal{\sigma}$ and mean $\escal{\mu}$. 
 If measurements are burden only with random error, the mean represents accurate value and standard deviation represents 
 dispersion level of measurements. 
 Theoretically  if measurements of some parameter would be repeated infinite times and the measurements would be influenced only by random errors,
 accurate values could be computed as mean.
-It follows that it is possible to get closer to the accurate value by repeating of measurements, which 
-leads into solving overdetermined systems. Another important implication 
-is that the mean of measurements is statistically closer to the accurate value than the mean of measurements performed
-with a less precise instrument in case of same number of measurement is performed by a more accurate 
-instrument.
+It follows that it is possible to get closer to the accurate value by repetition of measurements
+leading into solving overdetermined systems. Another important implication 
+is that the mean of measurements performed by a more accurate 
+instrument is statistically closer to the accurate value than the mean of same number of measurement performed
+by a less precise instrument.
 Measurements of different accuracies, can be combined together by weighted mean
 with weight of measurement $\escal{p}_{i}$ defined as:
 \begin{equation}
 \label{eq:wmean}
 \escal{p}_{i} = \frac{\escal{const}}{\escal{\sigma}_{i}^{2}}
 \end{equation} 
-where \escal{const} is arbitrary chosen number which is used for calculation of all weights 
+where \escal{const} is arbitrary chosen number used for calculation of all weights 
 and $\escal{\sigma_{i}}$ is standard deviation of the instrument used for the measurement.
 \end{itemize}
 
-The overdetermined systems are solved in many fields which deals with measurements, where the precision matters (e.g. 
+The overdetermined systems are solved in many fields dealing with measurements whose precision matters (e.g. 
 surveying, photogrammetry etc.).
 As consequence of overdetermination, the design matrix \ematr{A} becomes rectangular with more rows than columns 
 and therefore the solution does not exist for this linear equations system \eqref{eq:linear_eq}.
-Only if the measurements would be perfect it would be possible to find such a parameters vector \evect{X}, to 
-solve the system of linear equations \eqref{eq:linear_eq}. 
+Only if the measurements were perfect it would be possible to find such a parameters vector \evect{X} to 
+solve a system of linear equations \eqref{eq:linear_eq}. 
 
-Due to measurement imperfections it is not possible to find such a parameters of vector \evect{X} to make difference \evect{v} between measured values and 
-result of cost function using the parameters equal to zero.
+Due to measurement imperfections it is not possible to find such a parameters of vector \evect{X} to make difference
+\evect{v} between measured values and result of cost function using the parameters equal to zero:
 
 \begin{equation}
 \label{eq:least_v}
 \evect{v} = \evect{L} - \ematr{A}\evect{X}
 \end{equation} 
 
-
-
-Hence it is needed to define another condition, which allows to find optimal solution of the 
+Hence it is needed to define another condition allowing to find optimal solution of the 
 overdetermined system.
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.2]{figures/squares.png}
-    \caption{In this case least squares method finds such a line,
-    which minimizes sum of squares areas. }
+    \caption{In this case least squares method finds a line,
+    which minimizes sum of areas of squares. }
     \label{fig:squares}
 \end{figure}
 
-The least square method finds such a values of parameters vector \evect{X}, which 
+The least squares method finds values of parameters vector \evect{X}, which 
 follows condition of minimum sum of square differences \evect{v}: 
 
 \begin{equation}
@@ -577,11 +600,11 @@ The minimized equation can be rewritten as:
 \end{split}
 \end{equation} 
 
-According to calculus notation least squares method searches for global minimum of the square difference function. 
+According to calculus notation, the least squares method searches for global minimum of the square difference function. 
 The global minimum of the function can be obtained using partial derivative of parameters in the cost function.
 In this case derivatives are simple because it is supposed that cost functions are linear, therefore 
 its square forms  second degree polynomial e.g. parabola in \eucl{2}, paraboloid in \eucl{3} etc. All these functions has
-only one point, where all partial derivatives are equal to zero, regardless dimension of the function. It is 
+only one point where all partial derivatives are equal to zero regardless dimension of the function. It is 
 exactly the global minimum, which the least squares method searches for!
 
 The partial derivative of minimized function can be written as \cite{mathematicalfrederico}:
@@ -601,19 +624,18 @@ The least square determines values of parameters vector \evect{X}, which can be 
 \evect{X} = (\ematr{A}^{T} \ematr{A})^{-1} \ematr{A}^{T} \ematr{L}
 \end{equation}
 
-which is essential equation of the least squares method. The equation can be solved simply by means of linear algebra.
+It is essential equation of the least squares method. The equation can be solved simply by means of linear algebra.
 
 The equation supposes that all measurements have same weight (accuracy). The least squares method can be extended to support weights.
 Weight matrix \ematr{P} contains measurements weights on the diagonal with off-diagonal being zero elements if
 the measurements are not correlated.
-Weight matrix row of individual weight determines a measurement in design matrix \ematr{A} where the weight belongs.
 
 The equation, which is minimized by least squares is extended by weight matrix:
 \begin{equation}
 \evect{v}^{T}  \ematr{P} \evect{v} = min
 \end{equation}
 
-therefore the least square equation is altered into this form:
+Therefore the essential least square equation is altered into this form:
 \begin{equation}
 \label{eq:least_sq}
 \evect{X} = (\ematr{A}^{T} \ematr{P} \ematr{A})^{-1} \ematr{A}^{T} \ematr{P} \ematr{L}
@@ -626,25 +648,25 @@ Unfortunately it is common that the relationship between parameters and
 measured values is not linear, hence it is needed to adapt linear least squares equations for non-linear
 cost functions.
 
-Unlike linear least squares, which square of difference \label{eq:least_be_part}
+Unlike linear least squares which square of difference \label{eq:least_be_part}
 is represented by function  (parabola, paraboloid...) with just one point where all
 partial derivatives are being zero, the non-linear cost function can have many such a points e.g. other local minimas. 
 
 The problem of non-linearity can be solved by linearization of non-linear equations.
 The main idea of linearization process is to approximate the cost function with first degree Taylor polynomial,
-which is linear and therefore it is possible to use linear least square equation \eqref{eq:least_sq} 
+which is linear. Therefore it is possible to use linear least square equation \eqref{eq:least_sq} 
 to solve non-linear problem. 
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.2]{figures/taylor.png}
-    \caption{Function $\efunc{f}_{i}$ is approximated by first degree Taylor polynom $\efunc{T} ^{\efunc{f}_{i}}$,
-    which forms line. Symbol $\Delta$ represents an approximation error.}
+    \caption{Function $\efunc{f}_{i}$ is approximated by first degree Taylor polynomial $\efunc{T} ^{\efunc{f}_{i}}$,
+     forming line in \eucl{2}. Symbol $\Delta$ represents an approximation error.}
     \label{fig:taylor}
 \end{figure}
 
 
-Approximation of the cost function with a first degree Taylor polynomial can be written as \cite{cadaprednaskove}:
+Approximation of the cost function by a first degree Taylor polynomial can be written as \cite{cadaprednaskove}:
 \begin{equation}
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) = 
 	      \efunc{f}_{i}(\evect{X}_{0}) + 
@@ -660,8 +682,9 @@ Approximation of the cost function with a first degree Taylor polynomial can be 
 
 where:
 \begin{itemize}
-\item $\evect{X}_{0}$ is a point where a Taylor polynomial touches approximated function. E.g. first degree Taylor polynomial 
-      is a line, which is a tangent of function at a point $X_{0}$ in \eucl{2}, a tangent plane in \eucl{3} and  
+\item $\evect{X}_{0}$ is a point where a Taylor polynomial touches approximated function. 
+      For instance first degree Taylor polynomial 
+      is a line which is a tangent of function at a point $X_{0}$ in \eucl{2}, a tangent plane in \eucl{3} and  
       a tangent hyperplane in  \eucl{n}.
 \item \evect{X} is a point where a Taylor polynomial returns approximate value of function $\efunc{f}_{i}$.
 \end{itemize}
@@ -672,12 +695,13 @@ Least squares Taylor polynomial can be written as:
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) =  \efunc{f}_{i}(\evect{X}_{0}) + \escal{a}_{0} \escal{dx}_{0} \ ... \ + \escal{a}_{n} \escal{dx}_{n} 
 \end{equation} 
 
-in the matrix form with formal substitution $\evect{L_{X_{0}}} = \efunc{f}_{i}(\evect{X}_{0})$:
+rewritten into matrix form with formal substitution $\evect{L_{X_{0}}} = \efunc{f}_{i}(\evect{X}_{0})$:
 \begin{equation}
 \label{eq:expanded_taylor}
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) = \evect{L_{X_{0}}} + \ematr{A}\evect{dx}
 \end{equation} 
 
+It should be noted that design matrix \ematr{A} contain partial derivatives of cost functions. 
 And analogous equation to \eqref{eq:least_v} can be derived:
 \begin{equation}
 \evect{v} = \evect{L} - \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X})
@@ -710,16 +734,16 @@ similarly to linear least squares:
 
 %%% ML: prize -> price (jiz opraveno)
 
-Comparing the equation to the linear least squares equation \eqref{eq:least_sq},
- it is slightly different. Instead of parameters vector \evect{X} there is used 
-parameters vector of differences \evect{dx} Measurement vector \evect{L} is analogous to vector \evect{l}. In this two minor 
-substitutions there are hidden major limitations of the non-linear least squares method, 
+The equation is slightly different compared to the linear least squares equation \eqref{eq:least_sq}
+ Instead of parameters vector \evect{X} there is used 
+parameters vector of differences \evect{dx}. Measurement vector \evect{L} is analogous to vector \evect{l}. In this two minor 
+substitutions there are hidden major limitations of the non-linear least squares method 
 where the price for approximation is paid. 
 
 As it was already mentioned that the Taylor polynomial requires some point $\evect{X_{0}}$, where it is tangent to 
 approximated function.
 This approximation is good in close surroundings of point $\evect{X_{0}}$, however as the distance 
-grows the approximation error $\Delta$ may increase significantly, which can be clearly seen in figure \ref{fig:taylor}.
+grows the approximation error $\Delta$ may increase significantly, which can be clearly seen in Figure \ref{fig:taylor}.
 
 Therefore, unlike linear least square method, non-linear least squares requires initial 
 values of parameters \evect{X}. If the initial values are not accurate 
@@ -732,14 +756,17 @@ Unfortunately the non-linear least square method has another one, even more seri
 does not guarantee that it will iterate towards global minimum at all!
 In this case, the found parameters \evect{X} are completely wrong because 
 it does not satisfies minimum squares difference condition \eqref{eq:min_cond}. If the initial values are 
-inaccurate, the least squares can iterate toward other points with zero derivation (e.g. local minims).  
-This is caused by run-off of non-linear functions, which has more points with zero derivative
-and therefore result depends on the initial point given by $\evect{X_{0}}$  of non-linear least squares iteration.
+inaccurate, the method can iterate toward other points with zero derivation (e.g. local minimums).  
+This is caused by run-off of minimized function, which can have more points with zero derivative
+unlike the minimized function by linear least squares method.
+
+Therefore success of non-linear least squares method depends on the initial values of parameters vector $\evect{X}$!
 
 \subsubsection{Least squares properties}
 
-It was proved \cite{mervart2007adjustment} that above derived least square method is solution of Gauss-Markoff model, which 
-says if measurements \evect{L} are random with known covariance matrix $\ematr{\Sigma}_{l}$  and vector of parameters \evect{X} is non-random, then
+It was proved \cite{mervart2007adjustment} that above derived least square method is solution of Gauss-Markoff model, which says
+if measurements \evect{L} are random with known covariance matrix $\ematr{\Sigma}_{l}$  
+and vector of parameters \evect{X} is non-random, then
 vector \evect{dx}  has the lowest variance and it is unbiased. If density functions of measurements are normally 
 distributed then values obtained from cost functions using  computed parameters lies in maximum of the density
 function. In other words they posses maximum likelihood.
@@ -749,7 +776,7 @@ The weight matrix is calculated from covariance matrix in similar way as weights
 \ematr{P} = \frac{\escal{const}}{\escal{\Sigma}_{i}^{2}}
 \end{equation} 
 
-\escal{const} is chosen arbitrary. It can be selected as unit a priori weight standard deviation $\sigma_{0}$. 
+\escal{const} is chosen arbitrary. It can be selected as a priori standard deviation of unit weight $\sigma_{0}$. 
 
 
 Unbiased unit weight standard deviation $\hat{\sigma}_{0}$ can be also estimated a posteriori as:
@@ -772,22 +799,23 @@ and a posteriori covariance matrix $\ematr{\Sigma}_{\hat{l}}$ of measurements ca
 \subsubsection{Iteration termination}
 
 Non-linear least squares are iterative method, thus it is needed define 
-some criteria allowing to asses that global minimum was reached. 
+some criteria allowing to assess that global minimum was reached. 
 
-A criterion \cite{mikhail1976observations} can be 
+The criterion \cite{mikhail1976observations} can be 
 based on assessment of parameters corrections \evect{dx}. 
-For instance it can be chosen threshold of maximum value
+For instance, it can be chosen threshold of maximum absolute value
 of correction. If the threshold is not satisfied another 
 iteration is performed. 
 
 Another criterion is maximum number of iteration.
-The criterion is important in cases, when the least squares 
+The criterion is important in cases, when the least squares method
 is unable to converge to some point resulting 
 in satisfaction of the previous criterion.
 
 Thus, this criterion prevents from falling into infinite loop.
 The threshold can not be chosen too small in order to
-lest squares has enough iteration to converge to solution. 
+lest squares has enough iteration to converge to
+global minimum. 
 
 
 \subsubsection{Free network least squares}
@@ -807,26 +835,24 @@ least squares equation \eqref{eq:non_least_sq} can not be solved.
 In order to avoid the datum deficiency issue it is needed to keep some parameters fixed,
 which means that columns of the fixed parameters are excluded from design matrix\ematr{A}.
 
-Photogrammetry deals with three dimensional spaces requiring at least  
+Photogrammetry deals with three dimensional space requiring at least  
 two points to be fixed with another point with one coordinate to avoid datum deficiency problem, because
 three dimensional coordinate system is defined by three coordinates of shift vector, three rotation angles and scale factor. 
 
 If there are not enough fixed points, a network has to be adjusted as a free network.
 One of possible methods how to adjust a free network is calculation of pseudo inverse matrix of the normal matrix instead of
-inversion. Another option is adding inner constraints to the design matrix.
-
-
+inverse. Another option is adding inner constraints to the design matrix.
 
 \subsection{Short introduction to photogrammetry}
 
 Essential information, which must be known to obtain any photogrammetric
  product (e.g. orthophoto or DTM) from group of photos is their interior orientation and exterior orientation.
-Exterior and interior orientation together describes relation between an object point and
-its corresponding photo point.
+Exterior and interior orientation together describes relation between an 3D object point and
+its corresponding 2D photo point.
 
 \subsubsection{Interior orientation}
 
-Interior orientation describes relation between measured 2D photo coordinates 
+Interior orientation describes relation between photo coordinate system 
 and corresponding 3D camera-related coordinate system which is based on pinhole camera model described in chapter \ref{sec:ess_princip}.
 
 Photogrammetric camera coordinate system has origin in projective point,
@@ -843,16 +869,16 @@ $x$, $y$ axes are selected in way to be the camera system right handed.
 Interior orientation parameters describing pinhole camera model are:
 \begin{itemize}
   \item Focal length \escal{f} - A distance of projective center from principal point.
-  \item Principal point coordinates $(\escal{x}^{ph}_{pp}, \escal{y}^{ph}_{pp})$ - In ideal case photo system position of principal point would be exactly in the middle 
+  \item Principal point coordinates $(\escal{x}^{ph}_{pp}, \escal{y}^{ph}_{pp})$ - In ideal case position of principal point would be exactly in the middle 
 	of the photo.  However in most cases there is some shift of principal point from the photo center due to
 	camera construction inaccuracies.
 \end{itemize}
 
-Camera optical system is imperfect, therefore it deviate from the ideal pinhole model which 
- causes distortion of photo.
+Camera optical system is imperfect therefore it deviates from the ideal pinhole model which 
+ causes distortion of a photo.
 The effect of distortion can be reduced by applying distortion corrections. Commonly 
 used model for distortion correction is Browns model \cite{brown1966distortion}.
-The model defines following two types of distortion:
+The model defines following types of distortion:
 \begin{itemize}
   \item \term{Radial distortion} - it depends on distance from principal point. Cause of the distortion is spherical shape of the 
   lens in camera optical system.
@@ -900,7 +926,7 @@ triangles similarity:
 \subsubsection{Exterior orientation}
 \label{sec:eo}
 
-After transformation of 2D photo points into 3D camera coordinate system it is needed to transform it into object space,
+After transformation of 2D photo points into 3D camera coordinate system it is needed to transform it into object space
 because usually an object coordinate system is not coincident with camera coordinate system. 
 Object space coordinate system must be Cartesian otherwise it must be transformed into Cartesian one before applying equations 
 derived bellow. 
@@ -2084,20 +2110,18 @@ on photo pairs with identified correspondence from the previous step.
 The next step is to utilize all known information (interior orientation and extracted 
 photo coordinates of tie points) to get missing initial values of parameters for BBA. 
 
-Collinearity equations \eqref{eq:col_eqs} are the cost functions of BBA,
-only missing information, 
+Collinearity equations \eqref{eq:col_eqs} are the cost functions of BBA, thus only missing information 
+to calculate them 
 are parameters of exterior orientation and object coordinates of 
 tie points because 
-extracted photo coordinates represent measurements in BBA and
-a parameters of interior orientation are obtained by a camera calibration procedure,
-
+parameters of interior orientation are obtained by a camera calibration procedure.
 
 %%% ML: casto v textu opakujes konstrukci "there exist", zni divne
 %%% ST: prepsano
 
 Many methods deal with obtaining of initial values of exterior orientation. They 
 differ in information which they require for input, computation time and accuracy. 
-In order to fulfill the set up requirements a selected method should be able to retrieve exterior orientation 
+In order to fulfill the set up requirements chosen method should be able to retrieve exterior orientation 
 using just photo coordinates of tie points and interior orientation of camera. The method 
 should be general in terms of capability to process oblique photos and robustness to 
 various object points configuration.
@@ -2105,8 +2129,8 @@ various object points configuration.
 Methods can be divided into following groups according a required information:
 \begin{itemize}
 \item Methods requiring knowledge of the object point coordinates to retrieve an exterior
-orientation. The requirement of object coordinates would have negative impact on processing 
-chain because, it would require manually identify the points, thus 
+orientation. The requirement would have negative impact on processing 
+chain because it would require manual identification of the object coordinates,
 this group of methods should be avoided. 
 \item Group of  methods based on making assumption about the configuration of cameras \label{sec:assum}.  
 \item Methods based on epipolar geometry using essential matrix properties to 
@@ -2122,8 +2146,7 @@ algorithms seems to be the best choice. Unlike the second group of algorithms,
 they are general to be capable of processing oblique photos. The epipolar algorithms
 does not require a priori information about object point coordinates thus, unlike
 to the first group of methods,
-there is no need to manually identify GCP in every photo or to provide  
-DTM as an input in order to get GCP automatically.
+they do not require knowledge of object coordinates of photo points.
 
 %%% ML: family of zni divne
 %%% ST: grpup
