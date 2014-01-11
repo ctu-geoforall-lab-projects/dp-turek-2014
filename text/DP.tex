@@ -179,19 +179,22 @@ Photogrammetry is used to produce a digital terrain models (DTM), precise struct
 %%% ..." zni divne...
 %%% ST: prepracovano
 
-The core of photogrammetry is quickly moving  from  hardware towards software. In past, it was necessary to use special 
+The core of photogrammetry is quickly moving  from  hardware towards software. In the past, it was necessary to use special 
 expensive equipment to perform photogrammetric measurement. Nowadays,
  state of the art software allows to use higher level digital cameras to perform precise photogrammetric measurements. 
   It is even possible to process data from optically inaccurate low level cameras.
  The inaccuracy is compensated by processing big number of photos bringing redundancy 
  which positively affects precision of a retrieved information.
  
+ %%% -> ML: "photogrammetry has not longer been domain" zni to divne,
+ %%% zkus to jeste prepsat
+
 As a consequence of these changes, photogrammetry has not longer been domain of few professionals but it has 
 become used by much wider audience. 
 
 %%% ML: Geographical -> Geographic (jiz opraveno)
 
-Geographic information system (GIS) is a software used for storing and processing information
+Geographic Information System (GIS) is a software used for storing and processing information
 with spatial component. For instance,  GIS is employed on backed of map portals (e.g. Google Maps) therefore nearly 
 everybody uses its products. 
 GIS is also used  for analyses of a spatial phenomenons.
@@ -206,10 +209,10 @@ phenomenon they are dealing with.
 %%% ST: ok 
 
 With the growing importance of a software, there comes a question of licenses. There are two 
-main branches: a proprietary software and free software. Most of a proprietary software is not available in 
-a form of source code. A license of proprietary software allows to use it under certain terms and usually user 
+main branches: a proprietary software and free software. Most of the proprietary software is not available in 
+a form of the source code. A license of proprietary software allows to use it under certain terms and usually user 
 has to buy it. The proprietary software works like a "blackbox" because user has no chance to investigate its source 
-code and realize what is going on inside of it \cite{rocchini2012let}. Therefore, user can only believe to a software provider
+code and realize what is going on inside of it \cite{rocchini2012let}. Therefore, the user can only believe to a software provider
 that it is really doing what the provider advertises. 
 For instance, it can be problem when some data are analyzed in processing chains using proprietary software in some steps
 because the user loses control over the data.
@@ -221,26 +224,26 @@ e.g. obtaining personal data or tracking the user activity.
 
 Despite the fact that a current complexity of a software is so huge
 that a single human is not capable to really understand every piece of a software which he or she uses,
-free software does not posses disadvantages of proprietary softwares.
+free software does not posses disadvantages of the proprietary software.
 Transparency of a free software makes its source code subject to public control 
 carried out by a community of developers gathered around a project.
 All popular free software projects have active communities therefore it is
-very unlikely that a malicious code would be included into the project.
+very unlikely that a~malicious code would be included into the project.
 Moreover if such a case happened, it would not take a long time until the change 
 would be spotted by someone from the community.
 
 GRASS GIS  (Geographic Resources Analysis Support System) \cite{neteler2012grass}
-is one of the free GIS software. 
-Besides many other features, GRASS is capable to create orthophoto from aerial photos.
+is one of the free GIS software packages. 
+Besides many other features, GRASS is capable to create an orthophoto from aerial photos.
 GRASS orthorectification processing chain was implemented in 1990s.
-It is focused on  processing of photos taken by rigorous 
+It is focused on the processing of the photos taken by rigorous 
 photogrammetric aerial missions performed by manned aircrafts which was 
 major method of obtaining orthophotos in those days. 
 
 Nowadays, there is a strong demand for  providing simple and general solution 
  able to produce orthophoto, structure of objects or 
 DTM. The current processing chain is not able to meet up such a demand.
- The thesis analyzes the current state of orthorectification in GRASS,
+ This thesis analyzes the current state of orthorectification in GRASS,
 explores and implements methods of photogrammetry and computer vision in order 
 to create such a solution.
 
