@@ -887,7 +887,7 @@ inverse. Another option is adding inner constraints to the least squares system.
 \subsection{Short introduction to photogrammetry}
 
 Essential information which must be known to obtain any photogrammetric
- product (e.g. orthophoto or DTM) from group of photos is their interior orientation and exterior orientation.
+ product (e.g. orthophoto or DTM) from group of the photos is their interior orientation and exterior orientation.
 Exterior and interior orientation together describe relation between a 3D object point and
 corresponding 2D photo point.
 
@@ -897,7 +897,7 @@ Interior orientation describes relation between photo coordinate system
 and corresponding 3D camera-related coordinate system which is based on pinhole camera model described in the chapter \ref{sec:ess_princip}.
 
 Photogrammetric camera coordinate system has origin in projective point,
-$z$ axis heading out of the scene  and $x$, $y$ axes being parallel to photo plane. Directions of 
+$z$ axis heading out of the scene  and $x$, $y$ axes being parallel to the photo plane. Directions of 
 $x$, $y$ axes are selected in way to be the camera system right handed.
 
 \begin{figure}[h]
@@ -905,28 +905,28 @@ $x$, $y$ axes are selected in way to be the camera system right handed.
     \includegraphics[scale=0.3]{figures/photogrammetric_model.png}
     \caption{Photogrammetric camera coordinate system in arbitrary object coordinate system.
     Rotation matrix \ematr{R} and vector \ematr{C} of projective center object coordinates represent 
-    exterior orientation. \escal{x}, \escal{y}, \escal{z} represents axes of photogrammetric camera system and 
-     \escal{X}, \escal{Y}, \escal{Z} are axes of an arbitrary object system.}
+    an exterior orientation. The \escal{x}, \escal{y}, \escal{z} represents axes of photogrammetric camera system and 
+     \escal{X}, \escal{Y}, \escal{Z} are axes of the arbitrary object system.}
     \label{fig:ph_model}
 \end{figure}
 
-Interior orientation parameters describing pinhole camera model are:
+\noindent The interior orientation parameters describing pinhole camera model are:
 \begin{itemize}
-  \item Focal length \escal{f} - A distance of projective center from principal point.
-  \item Principal point coordinates $(\escal{x}^{ph}_{pp}, \escal{y}^{ph}_{pp})$ - In ideal case position of principal point would be exactly in the middle 
-	of a photo.  In most cases, there is some shift of principal point from a photo center due to
+  \item Focal length \escal{f} -- a distance of projective center from the principal point,
+  \item Principal point coordinates $(\escal{x}^{ph}_{pp}, \escal{y}^{ph}_{pp})$ -- in ideal case position of the principal point would be exactly in the middle 
+	of a photo.  In most cases, there is some shift of the principal point from the photo center due to
 	camera construction inaccuracies.
 \end{itemize}
 
 Camera optical system is imperfect therefore it deviates from the ideal pinhole model which 
  causes distortion of a photo.
 The effect of distortion can be reduced by applying distortion corrections. Commonly 
-used model for distortion is Browns model \cite{brown1966distortion}.
+used model for distortion is the Browns model \cite{brown1966distortion}.
 The model defines following types of distortion:
 \begin{itemize}
-  \item \term{Radial distortion} - it depends on distance from principal point. Cause of the distortion is spherical shape of the 
+  \item \term{Radial distortion} -- it depends on distance from the principal point. Cause of the distortion is spherical shape of the 
   lens in camera optical system.
-  \item \term{Tangential distortion} - it is perpendicular to direction of radial distortion. It is caused by 
+  \item \term{Tangential distortion} -- it is perpendicular to direction of radial distortion. It is caused by 
        imperfect alignment of lenses in camera optical system.
 \end{itemize}
 
@@ -943,7 +943,7 @@ Mathematically the Brown model is expressed by these equations:
 \end{split}
 \end{equation}
 
-where:
+\noindent where:
 
 %%% ML: jednotlive polozky se vetsinou oddeluji carkou a posledni
 %%% konci teckou (zde opraveno, nevim jak jinde v textu)
@@ -970,16 +970,17 @@ similarity of triangles:
 \subsubsection{Exterior orientation}
 \label{sec:eo}
 
-After transformation of 2D photo points into 3D camera coordinate system, it is needed to transform it into object space
-because usually an object coordinate system is not coincident with camera coordinate system (see Figure \ref{fig:ph_model}). 
+After transformation of 2D photo points into 3D camera coordinate system, it is needed to transform it into the object space
+because usually the object coordinate system is not coincident with camera coordinate system (see Figure \ref{fig:ph_model}). 
 Object space coordinate system must be Cartesian otherwise it must be transformed into Cartesian one before applying equations 
 derived bellow. 
 
 %%% ML: rekl bych, ze se Euler angle pise s velkym pismenem, objevuje
 %%% se dal v textu, chtelo by to opravit i tam
 %%% ST: opraveno v celem textu
+%%% -> ML: OK
 
-Exterior orientation is defined by position of camera projective center in object space and orientation of the camera coordinate system in the object space.
+Exterior orientation is defined by position of camera projective center in the object space and the orientation of the camera coordinate system in the object space.
 Photogrammetry uses representation of orientation by Euler angles and rotation matrix.
 The Euler angles are group of three angles, which describes three subsequent rotations
  around axes of 3D coordinate system. 
@@ -992,6 +993,8 @@ The three Euler rotations can be mathematically expressed as multiplication of t
 rotation matrices:
 
 %%% ML: chtelo by vyresit cislovani teto rovnice, ktere vychazi na novy radek
+
+%%% -> ML: rovnice prekaji stranku, zmensil jsem pismo, snad OK
 
  \begin{equation}
  \begin{split}
@@ -1013,7 +1016,7 @@ rotation matrices:
 	      sin(\varphi) & 0 & cos(\varphi)      
 	      \end{pmatrix} \\
 	  &=  
-	      \small
+	      \scriptsize
 	      \begin{pmatrix}
 	      cos(\escal{\kappa}) cos(\escal{\varphi}) + sin(\escal{\kappa}) sin(\escal{\omega}) sin(\escal{\varphi}) & 
 	      sin(\escal{\kappa}) cos(\escal{\omega})  & 
@@ -1046,7 +1049,7 @@ BLUH angles can be retrieved from rotation matrix by following equitations:
 Arctangent should be calculated with the function giving final angle into proper quadrant, according to sings of numerator 
 and denominator. Usually, this functions is called \term{atan2}. 
 
-Pitfall of Euler angles is when value of second Euler angle is 90 or 270 degrees,  
+Pitfall of the Euler angles is when value of the second Euler angle is 90 or 270 degrees,  
 then Euler angles representation is singular, which is called gimbal lock. 
 If values  of Euler angles are close to the gimbal lock, it could cause serious numerical instabilities.
 
@@ -1079,7 +1082,7 @@ in a photo system can be expressed as (rotation matrix definition is from \eqref
 \end{split}
 \end{equation}
 
-These two equations are called collinearity equations, where
+\noindent These two equations are called collinearity equations, where
 \begin{itemize}
   \item $\escal{x}^{ph}$ and $\escal{y}^{ph}$ are photo points (equation are expressed in simple form without taking distortion into account),
   \item $\evect{X}^{obj}$, $\evect{Y}^{obj}$, $\evect{Z}^{obj}$ are the point coordinates in the object system,
