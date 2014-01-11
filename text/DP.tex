@@ -1168,7 +1168,7 @@ Similarly a line in \eucl{2}  can be derived as cross product of two points in h
 \subsubsection{Basic formula of computer vision}
 
 Computer vision uses this equation to describe relationship between
-object point and photo point:
+object point (X, Y, Z) and corresponding photo point (x, y):
 
 \begin{equation}
 \begin{pmatrix}
@@ -1193,7 +1193,7 @@ object point and photo point:
 \end{pmatrix}
 \end{equation}
 
-In essence the equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry.
+In essence, the equation is equivalent to collinearity equations \eqref{eq:col_eqs} which are used in photogrammetry.
 The two models differs only in definition of camera coordinate system.
 Unlike photogrammetric camera system (Figure \ref{fig:ph_model}), computer vision defines $z$ axis in the opposite direction heading into scene \cite[p. 156]{Hartley2004}.
 Both systems are right handed.
@@ -1201,7 +1201,7 @@ Otherwise the basic formula embodies exactly same transformations as collinearit
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.3]{figures/photogrammetric_model.png}
+    \includegraphics[scale=0.3]{figures/cv_object.png}
     \caption{Computer vision camera coordinate system in arbitrary object coordinate system.}
     \label{fig:cv_model}
 \end{figure}
@@ -1216,38 +1216,28 @@ The equation can be abbreviated as:
 where:
 
 \begin{itemize}
-\item \ematr{K} is calibration matrix which contains interior orientation parameters
-\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix\ematr{R} and translation vector $\evect{t}$, 
-	      which transforms point from object coordinate system 
+\item \ematr{K} is calibration matrix which contains interior orientation parameters,
+\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix\ematr{R} and vector $\evect{t}$.
+	      They transform point from object coordinate system 
 	      to camera coordinate system. 
 	      The vector $\evect{t}$ can  be transformed by:
 	      \begin{equation}
 	      \ehvect{C} = - \ematr{R}^{T}\evect{t}
 	      \end{equation}
-	      giving coordinates of camera projective center in object system. 
+	      giving coordinates of camera projective center in object space. 
 	      The rotation matrix \ematr{R} and projective 
 	      center object coordinates $\evect{C}$
-	      represents exterior orientation of the camera.   
-\item $\ehvect{X}$ is euclidean object space coordinates extended into homogeneous form,
-\item $\ehvect{x}$ photo space homogeneous coordinates extended into homogeneous form.
+	      represent exterior orientation of the camera.   
+\item $\ehvect{X}$  homogeneous coordinates of an object point,
+\item $\ehvect{x}$  homogeneous coordinates of transformed photo point.
 \end{itemize}
 
-Whole projection can be merged into single matrix \ematr{P}, which is called camera matrix:
+Whole projection can be merged into single matrix \ematr{P} called camera matrix:
 
 \begin{equation}
 \label{eq:p_abbr}
 \ehvect{x} =  \ematr{P} \ehvect{X} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
 \end{equation}
-
-Camera matrix \ematr{P} defines reprojection up to scale $\escal{\lambda}$, thus every camera matrix multiplied by scale gives same photo points:
-
-\begin{equation}
-\ehvect{x}=\lambda\ehvect{P}\ehvect{X}
- \end{equation}
-
-The equation can be interpreted as representation of ray going through the photo point and projective center. 
-The object point can be everywhere on this ray (depending on $\lambda$ parameter value) getting always 
-same photo point coordinates.
 
 \subsubsection{Two photos geometry}
 \label{sec:epipolar_gem}
@@ -1284,16 +1274,16 @@ An epipolar plane contains following elements:
 
 \begin{itemize}
 \item Two rays connecting object point with photo points and camera centers of both photos.
-\item Baseline \escal{b} connecting projection centers of the photos.
+\item Baseline \escal{b} connecting projection centers (\evect{C}, \evect{C'}) of the photos.
 \item Epipoles (\escal{e}, \escal{e'}) lying on an intersection of a photo plane with a baseline.
-\item Epipolar lines  $(\escal{l}_{e}, \escal{l'}_{e})$. Epipolar line is in photo plane going through epipole and photo point.
+\item Epipolar lines  $(\escal{l}_{e}, \escal{l'}_{e})$ going through epipole and photo point. It belongs into a photo plane.
 \end{itemize}
 
 %%% ML: "which comes form epipolar geomatry" -> "which comes from
 %%% epipolar geometry", ale i tak zni divne
 %%% ST:prepsano
 
-\noindent Following relations arises from epipolar geometry:
+\noindent Following relations arise from epipolar geometry:
 \begin{itemize}
 \item All epipolar lines of  photo intersect in a epipole. If the photos are merely translate with no difference in orientation, 
  epipoles lie in infinity.
@@ -1330,7 +1320,7 @@ where \ematr{P} and \ematr{P'} are camera matrices of the first and the second p
 The transformed point $\ehvect{x'}$ lies at infinity 
 representing direction of a epipolar line $\escal{l'}_{e}$. A line can be define by a direction 
 and a point. In order to define epipolar line $\escal{l'}_{e}$ missing point can be obtained from 
-projection of the first camera projective center $\evect{C}$ into the second photo system, where it represent
+projection of the first camera projective center $\evect{C}$ into the second photo system where it represent
 epipole:
 
 \begin{equation}
@@ -1380,16 +1370,14 @@ It is apparent from the equation that matrix denoting relation of two photos is 
 \ematr{F}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}
 \end{equation}
 
+Matrix \ematr{F} is called a \term{fundamental matrix}. 
 It transforms photo points of the first photo system into 
 epipolar lines of the second photo.
+Fundamental matrix can be expanded by \eqref{eq:p_abbr}
+allows to derive another important matrix of two view geometry called \term{fessential matrix} \ematr{E}.
 
 %%% ML: zvyraznit "fundamental matrix" (?)
 %%% ST: zvyrazneno
-
-Matrix \ematr{F} is called a \term{fundamental matrix}. 
-
-Fundamental matrix can be expanded by \eqref{eq:p_abbr}
-allows to derive another important matrix of two view geometry called \term{fessential matrix} \ematr{E}.
 
 Lets suppose that camera matrix of the first photo is defined in this way:
 \begin{equation}
@@ -1408,7 +1396,7 @@ It's pseudo inverse matrix is:
 \end{pmatrix}
 \end{equation}
 
-homogeneous object projective center coordinates are:
+Homogeneous object projective center coordinates are:
 \begin{equation}
 \ehvect{C} =
 \begin{pmatrix}
@@ -1439,7 +1427,7 @@ Epipole of the second on the second photo is given as:
 
 The relationship of two cameras is also called \term{relative orientation}, because rotation matrix \ematr{R} and vector \evect{t}
 denotes position and orientation of the second camera to the first one. In order to express cameras exterior orientations in world coordinate 
-system or merge it with another relative orientations it is needed to perform further transformations of the relative 
+system or merge it with another relative orientations, it is needed to perform further transformations of the relative 
 exterior orientations, for more information see chapters \ref{sec:ess_chain} and \ref{sec:helmert}.
 
 The fundamental matrix equation can be rewritten taking into account the relative orientation as:
