@@ -364,6 +364,7 @@ and photogrammetry uses it for the creation of orthophoto, DTM or structure of o
 %%% ML: misto Mapy.cz bych asi uvedl mezinarodni projekt anebo v
 %%% poznamce pod carou vysvetlit co je Mapy.cz
 %%% ST: zmeneno na bing
+%%% -> ML: OK
 
 Orthophoto is created in 
 orthorectification process which means a transformation from perspective projection into orthogonal projection.
@@ -376,6 +377,10 @@ caused by tilt of camera (if photo is not vertical) and elevation differences ar
 %%% ML: pokud je popisek obrazku moc dlouhy, tak by mel byt pro sekci
 %%% 'seznam obrazku' zkracen \caption[kratky]{dlouhy}
 %%% ST ma smysl vubec mit sekci seznam obrazku, nenapada me to duvod k cemu je to uzitecne
+
+%%% -> ML: vetsinou se prikalada spolecene se seznamem tabulek (obcas
+%%% se hodi pro prehled), ted to ale nech tak jak to je, tedy pouze se
+%%% seznamem
 
 \begin{figure}[h]
     \centering
@@ -392,13 +397,15 @@ caused by tilt of camera (if photo is not vertical) and elevation differences ar
 %%% ML: hodila by se reference na GNU GPL a mozna i na webove stranky
 %%% projektu GRASS
 %%% ST: pridal jsem web grassu, GNU GPL je zminena jen tak na okraj...
+%%% -> ML: OK
+%%% -> ML: pouze na okraj - nemas vysvetlenu zkratku CERL (nevadi, tlaci nas cas)
 
-GRASS (Geographic Resources Analysis Support System) \footnote{http://grass.osgeo.org/} 
+GRASS (Geographic Resources Analysis Support System) \footnote{\url{http://grass.osgeo.org}} 
 GIS is a free GIS software 
 capable of processing raster, vector and imagery data. 
 GRASS belongs among one of 
-the longest active software projects. Development of GRASS was begun by U.S. Army CERL  laboratory
-in the first half of 1980s. In 1990s, U.S.Army gradually ceased developing GRASS. Luckily, 
+the longest active software projects. Development of GRASS was begun by the U.S. Army CERL  laboratory
+in the first half of 1980s. In 1990s, U.S. Army gradually ceased developing GRASS. Luckily, 
 the development could be taken over by volunteers because
 it had been decided to release its source code as public domain.  License 
 of GRASS was changed into GNU GPL v2 in 1999. GRASS is developed by the GRASS Development 
@@ -407,9 +414,12 @@ Team comprised of developers spread world wide.
 %%% ML: reference na QGIS a ArcGIS nebo jako poznamka pod carou (?)
 %%% ST: uvadet je vubec? je to poznamemanano na okraj, a adresu si kazdy najde v googlu, 
 %%% podle mne poznaka pod carou jen zabira misto
-
+%%% -> ML: OK
 %%% ML: "a new users", bez clenu nebo "the new users" (?)
 %%% ST: opraveno
+
+%%% -> ML: nerozumim uplne co znamena "graphical user interface which
+%%% has evolved dynamically", ale to nevadi
 
 Individual functionalities of GRASS are implemented in form of small software packages called modules which 
 can be combined together to solve complex tasks.
@@ -424,7 +434,7 @@ has evolved dynamically.
 Data in GRASS are stored in so called  \term{GIS database} composed of \term{locations}. Every location 
 defines its projection thus all data belonging to the location must be reprojected to it. 
 The location comprises \term{mapsets} used for organization 
-of data into consistent units. 
+of the data into consistent units. 
 
 %%% ML: pro citelnost textu by mozna bylo dobre slova location, mapset
 %%% ci comp. region pri prvnim pouziti zvyraznit ({\em }) - osobni
@@ -435,10 +445,10 @@ of data into consistent units.
 %%% akcepovani regionu, ale zde bych to neuvadel, neni to pro praci
 %%% dulezite
 %%% ST: smazano
-
+%%% -> ML: OK
 %%% ML: extend -> extent (jiz opraveno, snad jsem nic neprehlednul)
 
-Another important element of GRASS is a computational region. It stores information about a geographical
+Another important element of GRASS is a \term{computational region}. The region stores information about a geographical
 extent defined by four values (north, south, east, west) of a bounding box and 
 another two values representing south-north and west-east resolution. Properly set region is 
 very important for raster data processing because nearly all raster modules performs computation 
@@ -447,7 +457,7 @@ on currently set region. Only exception are import raster modules ignoring it by
 
 \subsection{UAV}
 \label{sec:UAV_intro}
-%%% ML: myslim, ze se nejvic UAV vyrabi v Izraely, pouziti pro
+%%% ML: myslim, ze se nejvic UAV vyrabi v Izraeli, pouziti pro
 %%% vojenske ucely je nejvice viditelne u U.S. Army, ta Izraelska je
 %%% snad pouziva jeste vic, to jenom na okraj
 
@@ -461,11 +471,11 @@ A number of military UAVs is quickly raising and nowadays USA trains more UAV op
 Besides military UAVs, the sector of civil drones is exponentially growing. It is very broad category ranging
 from big military like drones to small ones in size of a few decimeters. There are several types of drones e.g. airplanes,
 helicopters, multicopters, paraglides, airships, balloons and others. 
-The promising category of drones are multirotor drones (e. g. hexacopters or octocopters) because they have simple construction and 
-even ordinary users are able to learn control them very quickly. Because of steeply falling prices of octocopters, it can be expected 
+The promising category of drones are multirotor drones (e.g. hexacopters or octocopters) because they have simple construction and 
+even ordinary users are able to learn control them very quickly. Because of steeply falling prices of the octocopters, it can be expected 
 that this kind of drone will become commonly used for many civil purposes.
 
-In photogrammetry, cheap civil UAVs can be successfully employed in mapping missions for creation of DTM/structure or orthophoto.
+In photogrammetry, cheap civil UAVs can be successfully employed in the mapping missions for creation of DTM/structure or orthophoto.
 The main advantage of a UAV mapping mission is cost saving compared to a mission performed by manned aircraft.
 In order to obtain photos of desired area, camera is mounted on UAV. During the UAV flight, photos of the mapped 
 area are taken with sufficient overlap (usually at least 60 percent). The overlap of photos is used for identification 
@@ -474,13 +484,14 @@ of corresponding photo points whose 3D object coordinates are obtained by inters
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.8]{figures/octocopter.jpg}
-    \caption{Octocopter \cite{boe2013octocopter}}
+    \caption{An octocopter \cite{boe2013octocopter}}
     \label{fig:sample_figure}
 \end{figure}
 
 %%% ML: pred finalnim tiskem zkontrolovat rozumne pozicovani obrazku a
 %%% hlavne zacatek kapitoli na konci stranky, da se vyresit zvetseni
 %%% mezery (\vskip) anebo vynucenim konce stranky (\newline)
+%%% -> ML: OK
 
 \subsection{Least squares}
 \label{sec:least}
@@ -488,6 +499,7 @@ of corresponding photo points whose 3D object coordinates are obtained by inters
 %%% ML: v kapitole nejsou uvedeny ZADNE reference, nepredpokladam, ze
 %%% jsi ji psal z patra bez pouziiti zadne literatury...
 %%% ST: pridal jsem 6 referenci 
+%%% -> ML: OK
 
 In linear algebra, commonly solved equation is:
 
@@ -502,38 +514,43 @@ In linear algebra, commonly solved equation is:
 %%% problem budou trpet i dalsi prikazy, chtelo by je opravit
 %%% (%) a zkontrolovat, zda nekde mezera naopak nechybi
 
-It can be interpreted as:
+%%% -> ML: OK (jiz opraveno vcetne mezery pred terminem)
+
+\noindent It can be interpreted as:
 \begin{itemize}
-\item \evect{L} - vector of measurements,
-\item \evect{X} - vector of unknown parameters whose values are searched to solve \eqref{eq:linear_eq},
-\item \ematr{A} - it is a matrix of a linear cost functions coefficients  where row represents one measurement
+\item \evect{L} - a vector of measurements,
+\item \evect{X} - a vector of unknown parameters whose values are searched to solve \eqref{eq:linear_eq},
+\item \ematr{A} - a matrix of a linear cost functions coefficients  where row represents one measurement
 		  and column represents one parameter of cost function. Linear cost functions $\efunc{f_{i}(\evect{X})}$
 		  represent relationship between measurements \evect{L} and searched parameters \evect{X}. 
-		  Least square method calls it \term{design matrix}. 
+		  Least square method calls it a \term{design matrix}. 
 \end{itemize}
 
 %%% ML: prvni veta zni divne...
 %%% ST: snad lepsi
 
+%%% -> ML: OK
+
 There is exactly one solution 
 of vector of parameters  \evect{X} to satisfy the equation if matrix \ematr{A} is 
-non singular matrix  and vector \evect{b} is not zero vector. Non singular matrix is always square matrix
+non singular matrix  and vector \evect{b} is not a zero vector. Non singular matrix is always square matrix
 which has all column vectors and row vectors linearly independent. 
 
 %%% ML: zvyraznit jednotlive polozky (?), napr. {\em gross error}
 %%% ST: zvyrazneno 
+%%% -> ML: OK
 
 Basically, every measurement is burden with some error. Errors can be divided into these main categories:  
 \begin{itemize}
-\item \term{gross error} - it is caused by human factor or fault of instrument. If measurement is repeated,
+\item \term{gross error} - it is caused by human factor or fault of the instrument. If the measurement is repeated,
 usually, it is possible to identify measurements influenced by this error because 
 they are big outliers from the other measurements unaffected by this 
 kind of error.
-\item \term{systematic error} - if measurement is repeated by same instrument,
-it has same effect (value) on measurement.  Usually effect of this error can be 
-eliminated by choosing right measurement method, calibration of instrument or taking it into account in  mathematic model.
-\item \term{random error} - it is unavoidable because it is impossible to know perfectly all factors which has impact 
-on a measurement. The random errors follow normal distribution represented by probability density function of this shape:
+\item \term{systematic error} - if measurement is repeated by the same instrument,
+it has same effect (value) on the measurement.  Usually effect of this error can be 
+eliminated by choosing right measurement method, calibration of the instrument or taking it into account in a mathematic model.
+\item \term{random error} - this error is unavoidable because it is impossible to know perfectly all factors which has impact 
+on a measurement. The random errors follow normal distribution represented by probability density function of this shape.
 
 %%% ML: TODO
 %%% ST: obrazek pridan
@@ -546,16 +563,18 @@ $\escal{\sigma}$ and mean $\escal{\mu}$ \cite{inductiveload2008selection}}
     \label{fig:norm_dist}
 \end{figure}
 
-The normal distribution is characterized by two parameters which are standard deviation 
-$\escal{\sigma}$ and mean $\escal{\mu}$. 
+%%% -> ML: zde jsem pridal par clenu, snad k lepsimu...
+
+The normal distribution is characterized by two parameters which are \term{standard deviation}
+$\escal{\sigma}$ and \term{mean} $\escal{\mu}$. 
 If measurements are burden only with random error, the mean represents accurate value and standard deviation represents 
 dispersion level of measurements. 
-Theoretically,  if measurements of some parameter would be repeated infinite times and the measurements would be influenced only by random errors,
-accurate values could be computed as mean.
+Theoretically,  if the measurements of some parameter would be repeated infinite times and the measurements would be influenced only by random errors,
+accurate values could be computed as a~mean.
 It follows that it is possible to get closer to the accurate value by repetition of measurements
 leading into solving overdetermined systems. Another important implication 
-is that the mean of measurements performed by a more accurate 
-instrument is statistically closer to the accurate value than the mean of same number of measurements performed
+is that the mean of the measurements performed by a more accurate 
+instrument is statistically closer to the accurate value than the mean of same number of the measurements performed
 by a less precise instrument.
 Measurements of different accuracies can be combined together by weighted mean
 with weight of measurement $\escal{p}_{i}$ defined as:
@@ -571,12 +590,17 @@ The overdetermined systems are solved in many fields where final accuracy of det
 quantities by measurement (e.g. 
 surveying, photogrammetry etc.) matters.
 
+%%% -> ML: zde jsem odstranil jednu z referenci (\eqref{eq:linear_eq})
+
 As the consequence of overdetermination, the design matrix \ematr{A} becomes rectangular with more rows than columns 
 and therefore the solution for linear equations system \eqref{eq:linear_eq} does not exist.
 Only if the measurements were perfect it would be possible to find such parameters vector \evect{X} to 
-solve a system of linear equations \eqref{eq:linear_eq}. 
+solve the system of the linear equations. 
 
-Due to measurement imperfections, it is not possible to find such a parameters of vector \evect{X} to make difference
+%%% -> ML: tady mluvis o 'cost functions' ale v predchozim textu nemas
+%%% vysvetlono o co jde
+
+Due to measurement imperfections, it is not possible to find such parameters of vector \evect{X} to make difference
 \evect{v} between measured values and results of cost functions using  parameters vector equal to zero:
 
 \begin{equation}
@@ -589,7 +613,7 @@ overdetermined system.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.2]{figures/squares.png}
+    \includegraphics[scale=0.27]{figures/squares.png}
     \caption{In this case least squares method finds a line
     which minimizes sum of areas of squares. }
     \label{fig:squares}
@@ -631,7 +655,7 @@ The global minimum can be find by giving this equation equal to zero:
 -2\ematr{A}^{T} \evect{L} + -2\ematr{A}^{T}\ematr{A} \evect{X} = 0 
 \end{equation} 
 
-The least square determines values of parameters vector \evect{X} which can be expressed from previous equation:
+The least square determines values of parameters vector \evect{X} which can be expressed from the previous equation:
 \begin{equation}
 \evect{X} = (\ematr{A}^{T} \ematr{A})^{-1} \ematr{A}^{T} \ematr{L}
 \end{equation}
@@ -642,7 +666,7 @@ The equation supposes that all measurements have same weight (accuracy). The lea
 Weight matrix \ematr{P} contains weights of measurements on the diagonal with off-diagonal being zero elements if
 the measurements are not correlated.
 
-The equation minimized by least squares is extended by weight matrix into following form:
+The equation minimized by least squares is extended by the weight matrix into following form:
 \begin{equation}
 \evect{v}^{T}  \ematr{P} \evect{v} = min
 \end{equation}
@@ -692,13 +716,13 @@ Approximation of the cost function by a first degree Taylor polynomial can be wr
 %%% ML: nemel by to byt clen? "is a point"
 %%% ST: jj mel
 
-Where:
+\noindent where:
 \begin{itemize}
-\item $\evect{X}_{0}$ is a point where a Taylor polynomial touches approximated function. 
+\item $\evect{X}_{0}$ is a point where the Taylor polynomial touches approximated function. 
       For instance, first degree Taylor polynomial 
-      is a line which is a tangent of function at a point $X_{0}$ in \eucl{2}, tangent plane in \eucl{3} and  
+      is a line which is a tangent of function at the point $X_{0}$ in \eucl{2}, tangent plane in \eucl{3} and  
        tangent hyperplane in  \eucl{n}.
-\item \evect{X} is a point where a Taylor polynomial returns approximate value of cost function $\efunc{f}_{i}$.
+\item \evect{X} is a point where the Taylor polynomial returns approximate value of the cost function $\efunc{f}_{i}$.
 \end{itemize}
 
 Least squares Taylor polynomial can be written as:
@@ -707,13 +731,13 @@ Least squares Taylor polynomial can be written as:
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) =  \efunc{f}_{i}(\evect{X}_{0}) + \escal{a}_{0} \escal{dx}_{0} \ ... \ + \escal{a}_{n} \escal{dx}_{n} 
 \end{equation} 
 
-It can be rewritten into matrix form with formal substitution $\evect{L_{X_{0}}} = \efunc{f}_{i}(\evect{X}_{0})$:
+It can be rewritten into a matrix form with formal substitution $\evect{L_{X_{0}}} = \efunc{f}_{i}(\evect{X}_{0})$:
 \begin{equation}
 \label{eq:expanded_taylor}
 \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X}) = \evect{L_{X_{0}}} + \ematr{A}\evect{dx}
 \end{equation} 
 
-It should be noted that design matrix \ematr{A} contains partial derivatives of cost functions. 
+It should be noted that the design matrix \ematr{A} contains partial derivatives of cost functions. 
 Analogous equation to \eqref{eq:least_v} can be derived:
 \begin{equation}
 \evect{v} = \evect{L} - \efunc{T} ^{\efunc{f}_{i}, \evect{X}_{0}}_{1} (\evect{X})
@@ -727,13 +751,13 @@ Taylor polynomial member can be expanded by \eqref{eq:expanded_taylor}:
 \end{split}
 \end{equation}
 
-If the differences vector from previous equation is substituted into least squares minimization criterion:
+If the differences vector from the previous equation is substituted into least squares minimization criterion:
 \begin{equation}
 \label{eq:min_cond}
 \evect{v}^{T}  \ematr{P} \evect{v} = min
 \end{equation}
 
-the essential equation for non linear least squares can be derived 
+The essential equation for non linear least squares can be derived 
 similarly to linear least squares:
 
 \begin{equation}
@@ -746,22 +770,26 @@ similarly to linear least squares:
 
 %%% ML: prize -> price (jiz opraveno)
 
-The equation is slightly different compared to the linear least squares equation \eqref{eq:least_sq}
- Instead of parameters vector \evect{X}, result of the equation is 
+The equation is slightly different compared to the linear least squares equation \eqref{eq:least_sq}.
+ Instead of the parameters vector \evect{X}, result of the equation is 
  correction vector  of parameters \evect{dx}. Measurement vector \evect{L} is analogous to vector \evect{l}. In this two minor 
 substitutions, there are hidden major limitations of the non-linear least squares method 
 where the price for the approximation is paid. 
 
+%%% -> ML: "the Taylor polynomial requires some point $\evect{X_{0}}$
+%%% where it is tangent to approximated function." tohle zni divne
+%%% formulovano
+
 As it was already mentioned, the Taylor polynomial requires some point $\evect{X_{0}}$ where it is tangent to 
 approximated function.
-This approximation is good in close surroundings of point $\evect{X_{0}}$, however, as the distance 
+This approximation is good in close surroundings of the point $\evect{X_{0}}$, however, as the distance 
 grows, the approximation error $\Delta$ may increase significantly which can be clearly seen in Figure \ref{fig:taylor}.
 
 Therefore, unlike linear least square method, non-linear least squares requires initial 
 values of parameters \evect{X}. If the initial values are not accurate 
 enough, it is possible to iteratively run linear least squares subsequently.
-In new iteration, adjusted parameters vector \evect{X}
-from previous iteration is used to eventually approach global minimum of the cost function. 
+In the new iteration, adjusted parameters vector \evect{X}
+from the previous iteration is used to eventually approach global minimum of the cost function. 
 Therefore the closeness of the initial point $\evect{X_{0}}$ to global minimum affects how many iterations (speed of convergence)
 are needed to achieve optimal solution (global minimum).
 
@@ -781,7 +809,7 @@ It was proved \cite{mervart2007adjustment} that above derived least square metho
 If measurements \evect{L} are random with known covariance matrix $\ematr{\Sigma}_{l}$  
 and vector of unknown parameters \evect{X} is non-random then
 vector \evect{dx}  has the lowest variance and it is unbiased. If density functions of measurements are normally 
-distributed (see Figure \ref{fig:norm_dist}) then values obtained from cost functions using  computed parameters lies in maximum of the density
+distributed (see Figure \ref{fig:norm_dist}) then values obtained from the cost functions using  computed parameters lies in maximum of the density
 function. In other words, they posses maximum likelihood.
 
 The weight matrix is calculated from covariance matrix in similar way as weights in weighted mean \eqref{eq:wmean}:
@@ -827,7 +855,7 @@ in impossibility to satisfy the previous criterion.
 
 Thus, this criterion prevents from falling into infinite loop.
 The threshold can not be chosen too small in order to
-lest squares method has enough iteration to converge to
+least squares method has enough iteration to converge to
 global minimum. 
 
 
@@ -840,13 +868,13 @@ global minimum.
 In geodesy, it can happen that columns of design matrix \ematr{A}
 are not linearly independent. It can be caused by \term{datum deficiency} \cite{deakin2006rank}. 
 The datum deficiency is missing information
-about  coordinate system of network in a design matrix \cite{strang1997linear}.
+about  coordinate system of the network in the design matrix \cite{strang1997linear}.
 It makes \term{normal matrix} $ \ematr{A}^{T} \ematr{P} \ematr{A}$ non invertible because 
 of linearly dependent columns of design matrix. 
 Thus,
-least squares equation \eqref{eq:non_least_sq} can not be solved.
+the least squares equation \eqref{eq:non_least_sq} can not be solved.
 In order to avoid the datum deficiency issue, it is needed to keep some parameters fixed
-which means that columns of the fixed parameters are excluded from design matrix\ematr{A}.
+which means that columns of the fixed parameters are excluded from design matrix \ematr{A}.
 
 Photogrammetry deals with three dimensional space requiring at least  
 two points to be fixed with another point with one coordinate to avoid datum deficiency problem because
