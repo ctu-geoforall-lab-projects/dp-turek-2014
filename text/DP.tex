@@ -77,39 +77,39 @@ right=25mm
 \markboth{\uppercase{#1}}{}
 }
 
-\newcommand{\ematr}[1]{
+\newcommand{\ematr}[1]{%
 {\bf #1}%
 }
 
-\newcommand{\evect}[1]{
+\newcommand{\evect}[1]{%
 {\bf #1}%
 }
 
-\newcommand{\ehvect}[1]{
+\newcommand{\ehvect}[1]{%
 {\bf \widetilde{#1}}%
 }
 
-\newcommand{\escal}[1]{
+\newcommand{\escal}[1]{%
 {\it #1}%
 }
 
-\newcommand{\eucl}[1]{
+\newcommand{\eucl}[1]{%
 {\bf R\textsuperscript{#1}}%
 }
-\newcommand{\proj}[1]{
+\newcommand{\proj}[1]{%
 {\bf P\textsuperscript{#1}}%
 }
 
-\newcommand{\efunc}[1]{
+\newcommand{\efunc}[1]{%
 {\it #1}%
 }
 
 
-\newcommand{\src}[1]{
+\newcommand{\src}[1]{%
 {\it #1}%
 }
 
-\newcommand{\term}[1]{
+\newcommand{\term}[1]{%
 {\it #1}%
 }
 
@@ -187,7 +187,7 @@ expensive equipment to perform photogrammetric measurement. Nowadays,
  which positively affects precision of a retrieved information.
  
  %%% -> ML: "photogrammetry has not longer been domain" zni to divne,
- %%% zkus to jeste prepsat
+ %%% zkus to jeste PREPSAT
 
 As a consequence of these changes, photogrammetry has not longer been domain of few professionals but it has 
 become used by much wider audience. 
@@ -221,6 +221,8 @@ e.g. obtaining personal data or tracking the user activity.
 
 %%% ML: "a active communities" - to by melo byt bez clenu (mluvis v
 %%% mnoznem cisle) bych rekl (v kazdem pripade by tam melo byt 'an')
+
+%%% -> ML: OK
 
 Despite the fact that a current complexity of a software is so huge
 that a single human is not capable to really understand every piece of a software which he or she uses,
@@ -259,7 +261,7 @@ This chapter covers several methodological subtopics:
 \end{itemize} 
 
 The purpose of this chapter is to introduce reader to methods used by photogrammetry and computer vision
-to retrieve DTM, orthophoto or structure of a captured scene by group of photos. 
+to retrieve DTM, orthophoto or structure of a~captured scene by group of photos. 
 The chapter is focused especially on 
 explanation of BBA method achieving the highest accuracy of retrieved products from photos.  
 It also includes description of all needed steps to obtain data required for performing BBA. 
@@ -272,15 +274,15 @@ Least square methods are covered by the chapter because they constitute the core
 \subsection{Essential principles}
 \label{sec:ess_princip}
 
-Photogrammetry and computer vision are dealing with  a retrieving structure of a scene from a group of photos 
+Photogrammetry and computer vision are dealing with  a retrieving structure of a~scene from a group of photos 
  capturing it. The structure retrieval methods are based on pinhole camera model 
 describing a relation of \term{object point} in 
-3D camera coordinate system and projected 2D \term{photo point} in photo coordinate system.
+3D came\-ra coordinate system and projected 2D \term{photo point} in photo coordinate system.
 Parameters characterizing pinhole camera model are called \term{interior orientation}.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.3]{figures/pinhole_camera.png}
+    \includegraphics[scale=0.27]{figures/pinhole_camera.png}
     \caption{Pinhole camera model}
 \end{figure}
 
@@ -289,8 +291,7 @@ Parameters characterizing pinhole camera model are called \term{interior orienta
 Then the signal is processed inside a camera giving output in a form of photograph stored in a digital format. 
 The image sensor is divided into cells measuring intensity of fallen light on their surface. A pixel value in final 
 photograph is based on the measured intensity of cell or group of cells. The photo created by image sensor is inverted. This kind 
-of photo is called \term{negative} in analog photography.  Usually the inversion is removed during processing inside a
-camera. The resulting non inverted photo is called \term{positive} in analog photography. 
+of photo is called \term{negative} in analog photography.  Usually the inversion is removed during processing inside a~camera. The resulting non inverted photo is called \term{positive} in analog photography. 
 
 \begin{figure}[h]
     \centering
@@ -301,7 +302,9 @@ camera. The resulting non inverted photo is called \term{positive} in analog pho
 % ML: \term{} na konci vety vytvari NEZADOUCI MEZERU, to se da
 % odstranit v definici znakem '%'
 
-All light \term{rays} going from object points and falling on an image sensor are going through the same point in pinhole camera model.
+%%% -> ML: OK (jiz opraveno)
+
+All light \term{rays} going from object points and falling on an image sensor are going through the same point in the pinhole camera model.
 The point is called \term{projective center}. The ray which is a perpendicular to the image sensor plane is called \term{principal ray} and the point 
 where the principal ray intersects the image sensor plane is called \term{principal point}.
 
@@ -321,6 +324,7 @@ of the dimensional reduction, only a ray can be reconstructed from a 2D photo po
 In order to solve the ambiguity of object point position on the ray, additional information is needed.  
 %%% ML: "a additional" asi bez clenu, jinak je spravne 'an'
 %%% ST: opraveno
+%%% -> ML: OK
 It can be provided by another photo from different position capturing same point. 
 If positions of photos 
  are known (this is called\term{ exterior orientation}), it is possible 
@@ -328,6 +332,7 @@ to reconstruct 3D coordinates of the point because it lies on the intersection o
 
 %%% ML: predpokladam, ze obrazky bez uvedene reference jsou puvodni
 %%% ST: Jj ale nekere jsou na zaklade inspirace z predlohy
+%%% -> ML: v tomto pripade je vhodne uvest predlohu jako zdroj s poznamkou 'upraveno'
 
 \begin{figure}[h]
     \centering
@@ -336,23 +341,24 @@ to reconstruct 3D coordinates of the point because it lies on the intersection o
     \label{fig:obj_intersec}
 \end{figure}
 
-Real positions of points and exterior orientation of cameras are expressed in \term{object coordinate system}. 
+Real positions of the points and exterior orientation of cameras are expressed in \term{object coordinate system}. 
 The exterior orientation describes relation between object coordinate system and camera coordinate system. 
-The relation between point in object 
-space and point in photo space can be expressed by combining interior and exterior orientation together.
+The relation between point in the object 
+space and point in the photo space can be expressed by combining interior and exterior orientation together.
 
-In the thesis, there are introduced and used methods leading to retrieval of a scene structure from the 
-the set of photos which are based on such a simple principle of the ray intersection! Computer vision calls it structure from motion 
+In this thesis are introduced and used methods leading to retrieval of a scene structure from 
+the set of photos which are based on such a simple principle of the ray intersection! Computer vision calls it \term{structure from motion}
 and photogrammetry uses it for the creation of orthophoto, DTM or structure of object.
 
 %%% ML: spravnejsi by bylo napsat DMT v kombinaci s ortofotem (drap
 %%% over)
 %%% ST: napsano
+%%% -> ML: OK
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.3]{figures/dtm.jpg}
-    \caption{Digital terrain model overlaid with orthophoto. \cite{kbosak2010bezmiechowa}.}
+    \caption{Digital terrain model overlaid with orthophoto \cite{kbosak2010bezmiechowa}.}
 \end{figure}
 
 %%% ML: misto Mapy.cz bych asi uvedl mezinarodni projekt anebo v
@@ -360,10 +366,10 @@ and photogrammetry uses it for the creation of orthophoto, DTM or structure of o
 %%% ST: zmeneno na bing
 
 Orthophoto is created in 
-orthorectification process which is transformation from perspective projection into orthogonal projection.
+orthorectification process which means a transformation from perspective projection into orthogonal projection.
 Unlike photographs, orthophotos can be merged together into seamless map. Recently, 
 orthophoto has been widely used by some map services e.g. Google Maps or Bing Maps. Orthophoto 
-has same scale in all parts therefore it is possible to measure true distances as in a map. 
+has same scale in all parts therefore it is possible to measure true distances as in a~map. 
 During orthorectification, distortion 
 caused by tilt of camera (if photo is not vertical) and elevation differences are removed.
 
@@ -374,9 +380,9 @@ caused by tilt of camera (if photo is not vertical) and elevation differences ar
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.2]{figures/orthophoto.png}
-    \caption{In the left picture, there is clearly visible effect of elevation differences 
+    \caption{On the left side, there is clearly visible effect of elevation differences 
     caused by perspective projection of pinhole camera model. 
-    In the right picture, there is depicted orthogonal projection of orthophoto. (based on \cite{pavelka2004foto20}[p. 151])}
+    In the right side, there is depicted orthogonal projection of orthophoto (based on \cite{pavelka2004foto20}[p. 151])}
     \label{fig:ortho}
 \end{figure}
 
