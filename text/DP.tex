@@ -2315,7 +2315,7 @@ object coordinates of tie points and exterior orientations are given in individu
 of relative orientations of photo pairs.
 
 Therefore it is needed to transform all features from the individual systems into 
-a common relative coordinate system by subsequent transformation described in \ref{sec:ess_chain}. 
+a common relative coordinate system by subsequent transformation described in~\ref{sec:ess_chain}. 
 
 \subsubsection{Transformation into world coordinate system}
 
@@ -2372,7 +2372,7 @@ it is needed to use free network least squares (\ref{sec:free_net_least}) to cop
 
 \subsection{GRASS GIS orthorectification workflow}
 
-GRASS \ref{sec:GRASS_intro} belongs among few open source GIS software supporting orthorectification
+GRASS (\ref{sec:GRASS_intro}) belongs among few open source GIS software supporting orthorectification
 \cite{rocchini2012robust}.Orthorectification is performed 
 by i.ortho.photo \cite{i.ortho.photo}, \cite{neteler2008open}[p.253 - p.267] module.
 The module is comprised of submodules representing individual steps of 
@@ -2398,7 +2398,7 @@ The retrieval
 of exterior orientation is based on non-linear least squares iteration. Unlike BBA,
 the photos are adjusted separately therefore only GCPs can be used
 because it is not possible to determine object coordinates of tie point from single photo.
-At least three ground control points has to be available since six exterior parameters are 
+At least three ground control points (GCPs) has to be available since six exterior parameters are 
 determined. Three available GCPs are just theoretical minimum. In practice, it is needed to provide at least 12 GCPs
 to get reasonably accurate results. Exterior orientation 
 can be included into input using i.photo.init submodule in order to be used as initial values for least squares iteration.
@@ -2408,7 +2408,7 @@ in photo coordinate system to the slope in object coordinate system taking into 
 Projective center object coordinates are given equal to the centroid coordinates.
 
 As the last step, the orthorectified photo is computed by i.ortho.rectify submodule. GRASS uses single photo orthorectification
-method \ref{sec:ortho} requiring known DTM in order to deal with elevation differences. 
+method (see \ref{sec:ortho}) requiring known DTM in order to deal with elevation differences. 
 
 The main disadvantages of GRASS orthorectification processing chain are:
 \begin{itemize}
@@ -2426,7 +2426,7 @@ one photo covers tens of meters of terrain in such a case.
 On the other hand, the reproach is not valid in context of the current GRASS workflow because it requires DTM, which allows 
 to obtain enough GCPs.
 \item Moreover the workflow does not contain any submodule for retrieval of initial exterior orientation except
- the case of vertical photo.   If the photo 
+ the case of the vertical photo.   If the photo 
 is not vertical, it is needed to know at least approximate exterior orientation 
 in order to the least squares iterate towards global minimum.
 \end{itemize}
@@ -2441,7 +2441,7 @@ Development version of GRASS (7) does not fully support all orthorectification f
 as a consequence of rendering architecture change.
 Hence, new front end of the
 orthorectification has to be developed in order to make it fully operational 
-in GRASS 7. 
+in GRASS~7. 
 
 \section{Implementation}
 
