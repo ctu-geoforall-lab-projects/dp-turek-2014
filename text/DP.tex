@@ -2783,6 +2783,19 @@ covariance matrix calculated from adjustment.
 The processing chain has been developed and tested on data kindly provided by Martin Řehák. 
 The photos from testing data capture following scene:
 
+\noindent The available information about scene includes:
+
+\begin{itemize}
+\item points identified on the photos (approx. 1000 representing 64 object points),
+\item position of photos (45) (lever arm offset + object coordinates from GPS unit),
+\item GCPs (7),
+\item interior orientation of a camera capturing all photos of the scene.
+The camera is first generation of Sony NEX-5 with ultra wide pancake 16 mm lens.
+Width of the captured photos was 4592 and height 3056.
+The camera contains image sensor with approximate size 25.1 × 16.7 mm.
+\end{itemize}
+Every parameter also include its standard deviation. 
+
 \begin{center}
  \begin{figure}[!h]
     %\centering
@@ -2792,24 +2805,11 @@ The photos from testing data capture following scene:
 \end{figure}
 \end{center}
 
-
-The available information about scene includes:
-
-\begin{itemize}
-\item points identified on the photos (approx. 1000 representing 64 object points),
-\item position of photos (45) (lever arm offset + object coordinates from GPS unit) 
-\item GCPs (7),
-\item interior orientation of a camera capturing all photos of the scene.
-The camera is first generation of Sony NEX-5 with ultra wide pancake 16 mm lens.
-Width of the captured photos was 4592 and height 3056.
-The camera contains image sensor with approximate size 25.1 × 16.7 mm.
-\end{itemize}
-Every parameter also include its standard deviation. 
-
 %%% ML: prvni veta - 2x which
 %%% ST: prepsano 
+%%% -> ML: OK
 
-The data contain also protocol of processing done by Bingo-F software \cite{bingo2013gip} revealing 
+The data contains also protocol of processing done by Bingo-F software \cite{bingo2013gip} revealing 
 information about steps performed by the software to retrieve structure of the scene.
 Information from the protocol was very helpful for me because 
 it gave me first hint about the steps of the processing chain.
@@ -2819,7 +2819,7 @@ It is miles ahead compared to the developed processing chain in the thesis there
 regarded as reference for obtained data.
 
 Generally, Bingo-F processing chain is very similar to the developed  one  
-described in-depth in the previous chapters. First step is the relative orientation of pairs then the pairs are transformed into common relative 
+described in-depth in the previous chapters. The first step is the relative orientation of pairs then the pairs are transformed into common relative 
 coordinates system. After that, Helmert transformation is performed into world coordinate system. BBA is performed as the last step.
 
 Unlike the developed processing chain, the Bingo-F software takes into account information about position of cameras included in the data. 
@@ -2831,9 +2831,9 @@ of the results.
 The Bingo-F processing chain is very robust,
 capable of identification and ruling out of blunders in individual steps of its processing chain.
 
-Bingo-f protocols reveals following information about performed steps: 
+Bingo-F protocols reveals following information about performed steps: 
 \begin{itemize}
-\item Relative orientation -- Algorithm used for calculation of relative orientation is not possible to find out from the protocol.  
+\item Relative orientation -- algorithm used for calculation of relative orientation is not possible to find out from the protocol.  
 \item Transformation to common relative system -- Bingo-F performs so called "Pre-adjustment" of some points. It is probably some type of free network 
 BBA. Also during computation of scale, blunder check is preformed inspecting a difference of the object coordinates of points 
 used for computation of scale. The difference is calculated between point in common relative system 
@@ -2849,13 +2849,13 @@ standard deviation higher than certain threshold. Setting of standard deviation 
 blunders. It arises from characteristics of normal distribution because probability that measurement occurs with value 
  higher than e.g. 3 standard deviations is extremely small therefore this measurements are considered as blunders in practice.
  
- Another interesting step during Bingo-F BBA is check whether additional parameters improve accuracy. 
+ Another interesting step during Bingo-F BBA is a check whether additional parameters improve accuracy. 
  In the first iteration, there are included two additional parameters. After 
  the iteration is performed, it is concluded that the additional parameters have no significance thus 
- they are excluded from further iterations. It is probably related to self-calibration 
+ they are excluded from further iterations. It is probably related to the self-calibration 
  method. Self-calibration can improve accuracy dealing with systematic error mostly caused by 
  distortion. However the presence of the additional parameters may worse overall accuracy in some cases thus 
-  the check is performed (more info e.g. in \cite{precision1980grunn}).
+  the check is performed (more info e.g. in~\cite{precision1980grunn}).
 \end{itemize}
 
 Bingo-F is highly optimized therefore it allows to solve scenes with thousands of tie points.
@@ -2865,10 +2865,10 @@ The offset describes
 shift of GPS unit from projective center.  
 It allows Bingo-F to use information of photo positions from GPS unit shifted by the offset.  
 
-Reconstructed  scene from Bingo-F results is shown in this plot:
+Reconstructed  scene from Bingo-F results is shown in Figure \ref{fig:bingo_result}.
 
 %%% ML: pridal bych popisek
-
+%%% -> ML: OK
 \begin{center}
  \begin{figure}[!h]
     %\centering
@@ -2879,9 +2879,9 @@ Reconstructed  scene from Bingo-F results is shown in this plot:
 \end{center}
 
 Unlike many other scenes, comprised of hundreds of photos and thousands of points,   
-there are just a few points (64) and photos (45) taken by same camera. 
+there are just a few points (64) and photos (45) taken by the same camera. 
 The photos capture same points thus there 
-is lot of redundancy. Solving such a redundant scene should improve robustness of the BBA. 
+is lot of redundancy. Solving such a~redundant scene should improve robustness of the BBA. 
 
 In the rest of the chapter, there are presented results of subsequent steps being performed in processing chain and compared 
 to the Bingo-F results.
@@ -2889,9 +2889,15 @@ to the Bingo-F results.
 The first step is relative orientation of pairs. The relative orientation of pairs were performed by OpenCV five point algorithm.
 The algorithm was successful on most of the pairs, however, there are some cases when the algorithm does not work well.
 
-Example of the algorithm success is showed in this plot:
+Example of the algorithm success is showed in Figure \ref{fig:rel_or_ok}. The right plot shows the result of five point algorithm and the left plot depicts result of Bingo-F. Note that both 
+plots are expressed in different coordinate system, however, it is possible to assess them visually. It is clearly visible
+that both scenes are very similar.
+
+On the other hand, few relative orientations were unsuccessfully calculated.  
+One of such cases is relative orientation of photos pair 553 and 591 (Figure \ref{fig:rel_or_ok_553}).  
 
 %%% ML: opet chybi popisek
+%%% -> ML: OK
 
 \begin{center}
  \begin{figure}[!h]
@@ -2903,13 +2909,6 @@ Example of the algorithm success is showed in this plot:
 \end{figure}
 \end{center}
 
-The right plot shows the result of five point algorithm and the left plot depicts result of Bingo-F. Note that both 
-plots are expressed in different coordinate system, however, it is possible to assess them visually. It is clearly visible
-that both scenes are very similar.
-
-On the other hand, few relative orientations were unsuccessfully calculated.  
-One of such cases is relative orientation of photos pair 553 and 591:  
-
 %%% ML: popisek, viz veta vyse
 
 \begin{center}
@@ -2919,16 +2918,20 @@ One of such cases is relative orientation of photos pair 553 and 591:
     \caption{Unsuccessful relative orientation of photos 553 and 591. 
     In the left picture there 
     is Bingo-F result. The right picture represents the processing chain result.}
-    \label{fig:rel_or_ok}
+    \label{fig:rel_or_ok_553}
 \end{figure}
 \end{center}
 
+%%% -> ML: snaha zmensit zbytecne velke mezery, odkomentovat pokud se
+%%% text moc nepohne
+
+\vskip -5em 
+
 It is clearly visible that result of relative orientation is completely different from the Bingo-F final result.
-Most important factor, which affects success of the five point algorithm is threshold parameter of RANSAC defining 
+The most important factor, which affects success of the five point algorithm is threshold parameter of RANSAC defining 
 whether a point is considered as inlier or outlier.
 The above mentioned relative orientations were computed with RANSAC threshold parameters set to 0.001 mm.
-If the threshold parameter is changed into 0.1 mm, the result of relative orientation of pair 553 and 591 improves significantly,
-but another relative orientations go wrong. Therefore with statically set threshold parameter, there are always 
+If the threshold parameter is changed into 0.1 mm, the result of relative orientation of pair 553 and 591 improves significantly, but another relative orientations go wrong. Therefore with statically set threshold parameter, there are always 
 few evidently wrong relative orientations in the scene. Thanks to the configuration of the photos, where a lot of photos are 
 capturing same points, it is  not serious problem because the points are determined in most relative orientations  with 
 sufficient accuracy thus it is possible to exclude this outliers. It could be serious problem e.g. if a photos 
@@ -2946,7 +2949,7 @@ could be identification of more tie points. It could be done automatically by pa
 In the test case there 
 are 27 tie points in the reference pair gradually decreasing 6 points in the pair merged as last.
 
-During the transformation process, all object coordinates representing same point computed from different relative orientations are 
+During the transformation process, all object coordinates representing the same point computed from different relative orientations are 
 transformed into  the common relative system individually. Then the final coordinates of object points are determined as median
 of the corresponding transformed object coordinates. Median was chosen because it is more robust to the effect of 
 big outliers caused by few wrong relative orientations in the set. If there are more than 50 percent of coordinates 
@@ -2954,19 +2957,20 @@ close to the correct value and the rest are big outliers (luckily the test data 
 which is much more sensitive to the effect of big outliers. 
 
 %%% ML: veta nize + obrazek - pridal titulek
+%%% -> ML: opraveno
 
-This plot shows situation before computing median of all corresponding object coordinates:
+Figure \ref{fig:rel_or_points} shows situation before computing median of all corresponding object coordinates.
 
 \begin{center}
  \begin{figure}[!h]
     %\centering
-    \includegraphics[scale=0.5]{figures/before_median.png}
-    \caption{Corresponding object points determined from different relative orientations are represented by same color.}
+    \includegraphics[scale=0.4]{figures/before_median.png}
+    \caption{Corresponding object points determined from different relative orientations are represented by the same color.}
     \label{fig:rel_or_points}
 \end{figure}
 \end{center}
 
-Plotted points with same color represent corresponding coordinates computed by different relative orientation. It can be noticed that 
+Plotted points with the same color represent corresponding coordinates computed by different relative orientation. It can be noticed that 
 the points of the same color tend to make clusters. However, there are few big outliers whose effect is eliminated by applying
 median on the points.
 
@@ -2977,13 +2981,14 @@ The  biggest  outliers are approx. one meter away
 (see table \ref{table:ph_coords_conv}). Angles of exterior orientation differs  generally in average approx. one degree and 
 highest outliers reaches nearly 10 degrees of difference (see table \ref{table:ph_angles_conv}). 
 The object points coordinates 
-are bit closer to Bingo-F results with average approximately 0.08 cm and the highest outliers approx. 0.8 m (See table \ref{table:pt_coords_conv}). 
+are bit closer to Bingo-F results with average approximately 0.08 cm and the highest outliers approx. 0.8 m (see table \ref{table:pt_coords_conv}). 
 Angles differences are shown in following plot depicting axes of two camera coordinates systems. One of them represents 
 Bingo-F result and another represents
  calculated camera systems before BBA was performed. Both camera coordinates systems originates in calculated projective center coordinates
   before refinement by BBA.
     
 %%% ML: obrazek - chybi titulek
+%%% -> ML: OK
 
 \begin{center}
  \begin{figure}[!h]
@@ -3000,15 +3005,16 @@ As the last step BBA was applied beginning with these initial values.
 GCPs were taken as knowns.
 Despite the fact that there were few huge outliers in both parameters of cameras and points,
 BBA subsequently refines all scene parameter and reduces all coordinates 
-differences into the centimeters and angles into the tenths of degrees (See tables \ref{table:ph_coords_conv}),
+differences into the centimeters and angles into the tenths of degrees (see tables \ref{table:ph_coords_conv}),
 \ref{table:ph_angles_conv}), \ref{table:pt_coords_conv})). 
 The BBA iteration is stooped when maximum absolute value in vector of parameters corrections (given in meters and radians) is
 smaller than 0.0001.
 
 %%% ML: obrazek - chybi titulek
+%%% -> ML: OK
 
-Following plot shows that differences of cameras coordinates system is no longer being visible from same point of view
-unlike to the previous plot:
+Following figure \ref{fig:cam_diff} shows that differences of cameras coordinates system is no longer being visible from same point of view
+unlike to the previous plot.
 
 \begin{center}
  \begin{figure}[!h]
@@ -3019,8 +3025,10 @@ unlike to the previous plot:
 \end{figure}
 \end{center}
 
+%%% -> ML: v teto kapitole jsem zmenil "this plot" na Figure XX
+%%% (problem s plovoucimi obrazky)
 
-Whole scene retrieved by processing chain is shown in this plot:
+Whole scene retrieved by processing chain is shown in Figure \ref{fig:final_result}.
 
 \begin{center}
  \begin{figure}[!h]
@@ -3034,7 +3042,7 @@ Whole scene retrieved by processing chain is shown in this plot:
 %%% ML: nova kapitola - nova stranka
 
 Median of reprojection error is 1.35 pixel and 90th percentile is 3.34 pixels (see table \ref{table:rep_e_results}).
-The reprojection error is computed as difference of measured photo coordinates to 
+The reprojection error is computed as a difference of measured photo coordinates to 
 reprojected object coordinates of points. The statistics are calculated from absolute values of the differences. 
 
 The data contain seven GCPs. Five of them were used for calculation of  Helmert transformation coefficients
@@ -3055,7 +3063,7 @@ hand being closer to real values is  not bad sign at all.
 If the scene is adjusted as free network without GCPs being fixed and with 
 weight matrix given to identity, differences to Bingo-F results increase. 
 Mostly it affects exterior orientation.
-For instance, average difference in photo position increases from 4.8 cm to 8.4 cm, 
+For instance, average difference in photo position increases from 4.8 cm to 8.4 cm.
 
 
 \section{Future development}
