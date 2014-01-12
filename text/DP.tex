@@ -3074,7 +3074,7 @@ For instance, average difference in photo position increases from 4.8 cm to 8.4 
 \section{Future development}
 
 The work done in the thesis can be considered as prove of a concept
-outlining path of future evolution of current orthorectification workflow in GRASS. 
+outlining path of future evolution of the current orthorectification workflow in GRASS. 
 In the current state the developed 
 processing chain can not be considered as generally working solution.
 
@@ -3083,7 +3083,7 @@ processing chain can not be considered as generally working solution.
 The processing chain was just tested 
  on one scene where it gives reasonable results. On the other hand 
 I am sure that it would not work successfully in other, more complicated scenes because 
-it is not robust enough.
+the solution is not robust enough.
 
 In order to improve robustness of the processing chain, following suggestions should be considered:
 \begin{itemize}
@@ -3102,13 +3102,13 @@ reduced by performing  temporary BBA which can reduce the inaccuracies. Also an 
 be chosen only by number of tie points but also taking into account quality of relative orientation.
 Small errors can be serious issue likewise because they can
 sum up in long transformation chains. 
-\item Calculation of scale -- it is computed as median from individual scales \ref{sec:ess_chain}
+\item Calculation of scale -- it is computed as a median from individual scales (see \ref{sec:ess_chain})
 without any assessment for outliers. The blunder detection can be implemented in same way 
 as in Bingo-F taking into account object coordinates differences of corresponding points used 
 for calculation of individual scales.
 %%% ML: opet v textu nekolikrat "there exists"
 %%% ST: opraveno
-\item During final BBA, setting of weights is ignored giving weight matrix equal identity matrix. 
+\item During final BBA, setting of weights is ignored giving weight matrix equal to the identity matrix. 
 Good choice of weights during every least squares iteration 
 could be big leap towards robustness of the BBA and it could also increase accuracy. 
 Another way how to improve final accuracy of BBA is skipping photo points with
@@ -3126,18 +3126,19 @@ scenes with hundreds of photos and thousands of points. Bingo-F manages to go th
 The bottleneck of BBA iteration is computation of inverse/pseudo inverse of normal matrix.
 The size of the matrix is directly connected to a number of measured photo points.
 The inversed matrix of BBA is sparse (most of elements are zeros).
-It is possible to use many optimization methods exploiting this property e. g. matrix factorizations. 
+It is possible to use many optimization methods exploiting this property e.g. matrix factorizations. 
 Additional speeding up of the code can be achieved by reimplementation of some parts in C programming language 
 instead of currently used Python. However, it should be done 
-as last step when the part to be reimplemented is tested, optimized and works well. Otherwise, it would be waste of time and energy if the 
+as the last step when the part to be reimplemented is tested, optimized and works well. Otherwise, it would be waste of time and energy if the 
 code would not be eventually used. 
 
-%%% ML: spa ???, zadny odkaz, stacila by poznamka pod carou...
+%%% ML: spa ???, ZADNY ODKAZ, stacila by poznamka pod carou...
+%%% -> ML: OK
 
 Another option  for consideration is employing of some free software BBA libraries e.g:
 \begin{itemize}
-\item sba \footnotetext{http://users.ics.forth.gr/~lourakis/sba/}
-\item Simple Sparse Bundle Adjustment \footnotetext{http://www.inf.ethz.ch/personal/chzach/opensource.html}
+\item sba\footnote{\url{http://users.ics.forth.gr/~lourakis/sba/}} library or 
+\item Simple Sparse Bundle Adjustment \footnote{\url{http://www.inf.ethz.ch/personal/chzach/opensource.html}}.
 \end{itemize}
 
 Both libraries are highly optimized, based on Levenberg–Marquardt algorithm.
@@ -3145,9 +3146,9 @@ On the other hand it would require to add new dependency into GRASS.
 Adding new dependencies should be avoided because GRASS already relies on many software libraries
  making its installation difficult because of countless combinations libraries and its versions.
  Moreover it makes fixing of bugs more difficult since some of them
- depend only on certain version of  a library or on a combination of libraries. 
+ depend only on certain version of  a library or on a combination of the libraries. 
  
-The thesis outlines just rough architecture of final solution. At this early stage of development of 
+The thesis outlines just rough architecture of the final solution. At this early stage of development of the
 prototype
 there is no point in dealing with the interface, which can change lot of time during further development.
 It is still needed to define interface of the developed modules to make the modules work not only on the test data. 
@@ -3158,7 +3159,7 @@ Gauss–Newton  algorithms.
 
 It was set up as one of the main goals that the solution should be general in terms of photos orientation.
 The goal was not completely fulfilled because collinearity equations relies on parametrization of camera orientation by Euler angles.
-It may cause numerical instabilities in certain direction \ref{sec:eo} thus it must be changed into some other representation.
+It may cause numerical instabilities in certain direction (\ref{sec:eo}) thus it must be changed into some other representation.
 Unit quaternions seem to be best choice since they do not suffer form gimbal lock problem \cite{schmidt2001using}.
 
 \section{Conclusion}
