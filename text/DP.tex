@@ -1581,7 +1581,7 @@ Hence, if exterior orientation of a two photos is known, the
 essential matrix can be computed. The matrix can be calculated from exterior orientations 
 independently of specific object coordinates system since it takes into account the relative 
 position of two photos up to scale. Moreover, if calibration matrices 
-are know, it is possible to define relationship (without taking into account distortion) between 
+are known, it is possible to define a relationship (without taking into account distortion) between 
  the two photo systems by fundamental matrix.
 
 \subsubsection{Triangulation of points}
@@ -1728,7 +1728,7 @@ If two relative orientations are merged together, they must share one photo.
 As a first step, it is necessary to calculate a scale \cite{pietzsch2001robot}
 because relative orientation coordinate systems are independent of scale.
 The scale can be calculated from corresponding distances measurable in  both coordinate systems. 
-Distances between object point determined in both camera systems and object coordinates of projective center of shared photo 
+Distances between object point determined in both camera systems and object coordinates of the projective center of shared photo 
 can be used for calculation of scale:
 
 \begin{equation}
@@ -1736,18 +1736,18 @@ can be used for calculation of scale:
 	                {||\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}||}
 \end{equation}
 
-Where:
+\noindent where:
 \begin{itemize}
 \item \term{ro1}, \term{ro2} are relative orientation coordinate systems. 
-System \term{ro2} is transformed into system \term{ro1}. 
+System \term{ro2} is transformed into system \term{ro1},
 \item \evect{X} is an object point determined in both relative orientations,
-\item \evect{C} is a projective center of the shared photo.
+\item \evect{C} is a projective center of the shared photos.
 \end{itemize}
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.25]{figures/rel_or.png}
-    \caption{In the left picture there are relative orientations \term{ro1}, \term{ro2} before transformation 
+    \caption{In the left picture, there are relative orientations \term{ro1}, \term{ro2} before transformation 
     to a common system. 
     In the right picture, there is common system defined by \term{ro1} after transformation of \term{ro2}. 
     Note change of \term{ro2} scale after the transformation. (Based on \cite[p. 20]{pietzsch2001robot})}
@@ -1835,18 +1835,18 @@ The least squares method tries to find vector of adjusted parameters \evect{X} t
 sum  of square differences between coordinates of measured photo points and photo points calculated 
 from collinearity equations.
 
-Unfortunately, collinearity equations are non linear hence the non-linear least square method \ref{sec:non_least} must be employed, which 
+Unfortunately, collinearity equations are non linear hence the non-linear least square method (\ref{sec:non_least}) must be employed, which 
 needs to be provided  with sufficiently accurate initial values in order to find values of parameters satisfying minimization criterion.
 
 Thanks to the least squares method, BBA is very flexible in terms of selection of the parameters to be adjusted. 
 It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters. 
 
 Following example describes BBA in practice.
-Lets suppose that initial values of adjusted parameters are known with sufficient accuracy in order to the least squares
+Lets suppose that the initial values of adjusted parameters are known with sufficient accuracy in order to the least squares
 method eventually iterate to global minimum.
 Lets say that there is a scene captured by three photos.
-All the photos were taken by same camera.
-The cameras interior orientation is known accurately therefore it is not adjusted in BBA.
+All the photos were taken by the same camera.
+The camera's interior orientation is known accurately therefore it is not adjusted in BBA.
 There are identified three tie points and two ground control points in all three photos.
 Tie point is identified only in photos with missing information about its object coordinates.  
 Unlike tie point, object coordinates of ground control point (GCP) are known.
@@ -1864,7 +1864,7 @@ than unknowns. This makes perfectly sense because it is not possible to determin
 since it can lie wherever on the ray (see Figure \ref{fig:obj_intersec}).
 
 Unlike tie points, GCPs do not bring any new adjusted parameters 
-allowing to use the GCP visible only in single photo. In this case, the object coordinates 
+allowing to use the GCP visible only in a single photo. In this case, the object coordinates 
 are known thus there is no ray ambiguity. 
 
 Lets suppose that it is adjusted exterior orientations and object coordinates of tie points.  
@@ -1889,6 +1889,11 @@ therefore it should be avoided to have nearly same number of measurements and ad
 %%% ML: TODO
 %%% ST DONE
 
+%%% -> ML: osobne bych zmensil obrazek tak aby nepretekal, porad by
+%%% mel citelny, muzes si stranku zkusebne vytisknout, anebo obrazek
+%%% otocit o
+%%% 90% (porad to bude vypadat lepe, nez kdyz obrazek preteka)
+
 \begin{figure}[h]
     %\centering
     \hspace*{-1.0in}
@@ -1900,7 +1905,7 @@ therefore it should be avoided to have nearly same number of measurements and ad
 
 
 In the first least squares iteration, the initial values of adjusted parameters are put into parameters vector $\evect{X}$
- representing tangent point of Taylor polynomial to costs functions.  The other non-adjusted 
+ representing tangent point of Taylor polynomial to the costs functions.  The other non-adjusted 
 parameters are given into $\evect{N}$ vector of knowns. In the example, non-adjusted parameters are object coordinates
 of GCPs and interior orientation. 
 Measured photo coordinates are given
@@ -1909,7 +1914,7 @@ into vector of measurements $\evect{L}$.
 Design matrix $\evect{A}$ is calculated from 
 derivatives of collinearity equations substituting values from vectors $\evect{X}$ and $\evect{N}$.
 
-The vectors  $\evect{L}$ and  $\evect{X}$ give structure to design matrix $\evect{A}$ and
+The vectors  $\evect{L}$ and  $\evect{X}$ give structure to the design matrix $\evect{A}$ and
 vector of $\evect{L}_{X0}$.
 Order of partial derivatives of design matrix $\evect{A}$  is determined by adjusted parameters position in 
 parameters vector $\evect{X}$. E.g. the first column of the example design matrix is filled with derivatives respect 
@@ -1927,7 +1932,7 @@ respect to point object coordinates because the row represents GCP. Object coord
 belong to the adjusted parameters thus design matrix do not contain column representing partial 
 derivatives respect to the GCP object coordinates.
 
-Position in a vector $\evect{L}_{X0}$ is connected in the same way to a vector $\evect{L}$ as rows of design matrix.
+Position in a vector $\evect{L}_{X0}$ is connected in the same way to a vector $\evect{L}$ as rows of the design matrix.
 Value of position is calculated by collinearity equations using corresponding variables.
 
 The relations nicely illustrates a pivot role of design matrix which links parameters vector $\evect{X}$ 
@@ -1935,12 +1940,12 @@ with measurements vectors $\evect{L}$ and $\evect{L}_{X0}$.
 
 If rows in design matrix $\evect{A}$ or positions $\evect{L}$ and $\evect{L}_{X0}$ are switched,
 as consequence of the correspondence it is needed to switched them also in the other components. 
-Same applies for columns  of design matrix $\evect{A}$  and positions in parameters vector $\evect{X}$
+Same applies for columns  of design matrix $\evect{A}$  and positions in parameters vector $\evect{X}$.
 
 All needed information is available to perform a first iteration of non linear least square 
-method \ref{sec:non_least}. As result of iteration refined values of vector  $\evect{X}$
-are obtained. Another iteration can be  performed by same procedure  with adjusted parameters vector $\evect{X}$
-if termination criterion is not meet \ref{sec:term_crit}.
+method (\ref{sec:non_least}). As result of iteration refined values of vector  $\evect{X}$
+are obtained. Another iteration can be  performed by the same procedure  with adjusted parameters vector $\evect{X}$
+if termination criterion is not met (\ref{sec:term_crit}).
 
 \subsection{Orthorectification}
 \label{sec:ortho}
