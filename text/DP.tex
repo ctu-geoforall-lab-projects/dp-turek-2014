@@ -546,10 +546,10 @@ In linear algebra, commonly solved equation is:
 
 \noindent It can be interpreted as:
 \begin{itemize}
-\item \evect{L} - a vector of measurements,
-\item \evect{X} - a vector of unknown parameters whose values are searched to solve \eqref{eq:linear_eq},
+\item \evect{L} - a \term{vector of measurements},
+\item \evect{X} - a \term{vector of unknown parameters} whose values are searched to solve \eqref{eq:linear_eq},
 \item \ematr{A} - a matrix of a linear cost functions coefficients  where row represents one measurement
-		  and column represents one parameter of cost function. Linear cost functions $\efunc{f_{i}(\evect{X})}$
+		  and column represents one coefficient of \term{cost function}. Linear cost functions $\efunc{f_{i}(\evect{X})}$
 		  represent relationship between measurements \evect{L} and searched parameters \evect{X}. 
 		  Least square method calls it a \term{design matrix}. 
 \end{itemize}
@@ -592,6 +592,7 @@ $\escal{\sigma}$ and mean $\escal{\mu}$ \cite{inductiveload2008selection}}
 \end{figure}
 
 %%% -> ML: zde jsem pridal par clenu, snad k lepsimu...
+%%% -> SL: ok
 
 The normal distribution is characterized by two parameters which are \term{standard deviation}
 $\escal{\sigma}$ and \term{mean} $\escal{\mu}$. 
@@ -627,7 +628,7 @@ solve the system of the linear equations.
 
 %%% -> ML: tady mluvis o 'cost functions' ale v predchozim textu nemas
 %%% vysvetlono o co jde
-%%% -> ST: je vysvetlena v uvodu hned pod prvni rovnici 
+%%% -> ST: je vysvetlena v uvodu hned pod prvni rovnici, zvyraznil jsem ji pomoci \term
 
 Due to measurement imperfections, it is not possible to find such parameters of vector \evect{X} to make difference
 \evect{v} between measured values and results of cost functions using  parameters vector equal to zero:
@@ -1195,7 +1196,7 @@ Similarly a line in \eucl{2} is defined by equation:
 \escal{a}\escal{x} + \escal{b}\escal{y} + \escal{c} = 0
 \end{equation}
 
-Using homogeneous coordinates it can be also written as a vector:
+it can be also written as a vector using homogeneous coordinates:
 
 \begin{equation}
 \ehvect{l} =  (\escal{a}, \escal{b}, \escal{c})
@@ -1213,17 +1214,17 @@ or whether a point lies on a plane in \eucl{3}:
 \end{equation}
 
 
-In \eucl{3}, a line cannot be written so elegantly.
-One of options is to define it given by points $\ehvect{p}$ and $\ehvect{q}$ as:
-\begin{equation}
- \ehvect{l} = \escal{\mu}\ehvect{q} + \escal{\lambda}\ehvect{p}
-\end{equation}
-
-If the point is given as direction of the line $\ehvect{d} = (x, y, z, 0)$ (it is point in infinity), the equation get simplified to:
-\begin{equation}
-\label{eq:hline}
-\ehvect{l} = \ehvect{d} + \escal{\lambda}\ehvect{p}
-\end{equation}
+% In \eucl{3}, a line can not be written so elegantly.
+% One of options is to define it given by points $\ehvect{p}$ and $\ehvect{q}$ as:
+% \begin{equation}
+%  \ehvect{l} = \escal{\mu}\ehvect{q} + \escal{\lambda}\ehvect{p}
+% \end{equation}
+% 
+% If the point is given as direction of the line $\ehvect{d} = (x, y, z, 0)$ (it is point in infinity), the equation get simplified to:
+% \begin{equation}
+% \label{eq:hline}
+% \ehvect{l} = \ehvect{d} + \escal{\lambda}\ehvect{p}
+% \end{equation}
 
 Calculation of intersection of  lines ($\ehvect{l}, \ehvect{l}'$)  can be done in very simple way by cross product in \eucl{2}:
 
@@ -1232,7 +1233,7 @@ Calculation of intersection of  lines ($\ehvect{l}, \ehvect{l}'$)  can be done i
 \end{equation}
 
 Unlike Cartesian coordinates, homogeneous form allows to express intersection of parallel lines. 
-In this case the intersection point lies in infinity thus its scale is equal to 0.
+In such a case, the intersection point lies in infinity thus its scale is equal to 0.
 
 Similarly a line in \eucl{2}  can be derived as cross product of two points in the homogeneous form:
 
@@ -1370,8 +1371,8 @@ An epipolar plane contains following elements:
 
 \noindent Following relations arise from epipolar geometry:
 \begin{itemize}
-\item All epipolar lines of  photo intersect in a epipole. If the photos are merely translate with no difference in orientation, 
- epipoles lie in infinity.
+\item All epipolar lines of  photo intersect in a epipole. Epipoles lie in infinity
+if the photos are merely translated with no difference in orientation.
 \item A photo point forms epipolar line in the other photo. It allows to reduce space of possible occurrence of the point 
       from \eucl{2} to \eucl{1} of epipolar line without some other information about the point e.g. object space coordinates. 
 \end{itemize}
@@ -1458,9 +1459,9 @@ It is apparent from the equation that matrix denoting relation of two photos is 
 
 Matrix \ematr{F} is called a \term{fundamental matrix} \cite{Hartley2004}. 
 It transforms photo points of the first photo system into 
-epipolar lines of the second photo.
-Fundamental matrix can be expanded by \eqref{eq:p_abbr}
-allows to derive another important matrix of two view geometry called \term{fessential matrix} \ematr{E}.
+epipolar lines of the second photo system.
+Fundamental matrix can be expanded by \eqref{eq:p_abbr}.
+It allows to derive another important matrix of two view geometry called \term{essential matrix} \ematr{E}.
 
 %%% ML: zvyraznit "fundamental matrix" (?)
 %%% ST: zvyrazneno
@@ -1519,7 +1520,7 @@ system or merge it with another relative orientations, it is needed to perform f
 exterior orientations, for more information see chapters \ref{sec:ess_chain} and \ref{sec:helmert}.
 
 The fundamental matrix equation can be rewritten taking into account the relative orientation \eqref{eq:rel_or_inv_cam1},
-\eqref{eq:rel_or_inv_cam1} and \eqref{eq:c1}  as:
+ \eqref{eq:c1}, \eqref{eq:rel_or_cam2} and \eqref{eg:second_epipole}   as:
 
 \begin{equation}
 \label{eg:funeq}
@@ -1541,7 +1542,7 @@ _{\times}
 \end{split}
 \end{equation}
 
-Now there comes little bit more difficult part.
+Now, there comes little bit more difficult part.
 This formula applies for any non-singular matrix \ematr{M} and vector \evect{x} \cite[p. 582]{Hartley2004}:
 \begin{equation}
 \label{eg:furmula}
@@ -1559,7 +1560,7 @@ The fundamental matrix equation can be further rewritten using the formulas \eqr
 \end{equation}
 
 This equation reveals very important fact about fundamental matrix saying that a transformation performed 
-by matrix can be divided into three main steps.
+by matrix can be divided into a three main steps.
 
 In first step, photo coordinates of point are normalized.
 Normalized coordinates of the first photo are transformed 
@@ -1590,15 +1591,15 @@ are known, it is possible to define a relationship (without taking into account 
 Triangulation methods deal with retrieval of the object point coordinates
 from corresponding points in photos. 
 If measurements would be precise, object point 
-would lie on intersection of two rays which is clearly visible on 
+would lie on intersection of two rays which is clearly visible in 
  Figure \ref{fig:obj_intersec}. Unfortunately the rays are never determined so precisely to intersect.
  Several methods deals with the imperfections.
 
-Direct linear transformation (DLT) method  is based 
+One of them is direct linear transformation (DLT) method based 
 on linearization of collinearity equations \eqref{eq:col_eqs}
-employing least square method on it.
+employing least squares method on it.
 
-The simplified DLT collinearity equations can be written as \cite{pavelka2004foto10}[p. 130]:  
+The simplified DLT form of collinearity equations can be written as \cite[p. 130]{pavelka2004foto10}:  
 \begin{equation}
 \begin{split}
 &\escal{x}^{un} = \frac{\escal{a}_{1}(\evect{X}^{obj}) + 
@@ -1656,9 +1657,10 @@ occurs also in the right side of the equations.
 
 %%% ML: chtelo by zvyraznit "optimal solution"
 
-More complicated method is called the \term{optimal solution}. 
+More rigorous method is called the \term{optimal solution}. 
 It is based on enforcing epipolar constraint.  The cost function 
-minimizes sum of squares of distances between photo points to epipolar lines created 
+minimizes sum of squares of distances between photo points and epipolar lines.
+The lines are created 
 by transformation of corresponding photo points from another photos.
 
 The cost function is not linear, however, it's derivative leads into 6 degree polynomial thus 
@@ -1694,8 +1696,17 @@ singular values decomposition (SVD):
 \end{equation}
 
 where matrices \ematr{U} and \ematr{V} are two rotation matrices  obtained for SVD decomposition.
-The retrieved rotation \ematr{R} matrix and the shift vector \evect{t} are defined up to sign,
+The retrieved rotation \ematr{R} matrix and vector \evect{t} are defined up to sign,
 which causes four case ambiguity. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.25]{figures/eo_ambiguity.png}
+    \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
+    Note that only the upper left configuration satisfies condition that object point 
+    must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
+    \label{fig:rel_or_amb}
+\end{figure}
 
 As a consequence of the  ambiguity it gives four relative orientations: 
 \begin{equation}
@@ -1705,19 +1716,8 @@ As a consequence of the  ambiguity it gives four relative orientations:
 [\ematr{-R}|\evect{-t}],
 \end{equation}
 
-
 The correct solution can be found   by assumption that all object points has to be in the front
 of the both photo planes.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.25]{figures/eo_ambiguity.png}
-    \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
-    Note that only the upper left configuration satisfies condition that object point 
-    must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
-    \label{fig:rel_or_amb}
-\end{figure}
-
 
 \subsubsection{Merging relative orientations}
 \label{sec:ess_chain}
@@ -1762,14 +1762,14 @@ System \term{ro2} is transformed into system \term{ro1},
 
 Usually bundles of photos capturing a scene are processed. Photo pairs comprising relative orientation capture only fragments of a scene, 
 therefore the information of scene is scattered.  
-In order to interpret the scene as whole it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
+In order to interpret the scene as whole, it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
 For sake of simplicity, the common relative system is defined by relative orientation system of arbitrary pair called \term{reference pair}.
 Other relative orientations are subsequently transformed into the common coordinate system. 
 
 %%% ML: transformed into?
 %%% ST: prepsano
 
-All relative orientations which can be transformed into common system are
+All relative orientations which can be transformed into common system comprise
  connected component of undirected graph.  Nodes represents  photos and edges denotes relative orientations. 
 In other words, it is possible to transform relative orientation into the common relative coordinate system only, if there 
 is a continuous chain of the relative orientations from reference pair 
@@ -1779,16 +1779,16 @@ The transformation of relative orientations 1-$n$ into common system defined by 
 \begin{equation}
 \label{eq:comm_rel}
 \begin{split}
-&\ematr{P}_{1\_co} = [\ematr{I}|\evect{O}] \\
-&\ematr{P}_{2\_co} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] = [\ematr{R}^{ro1\_co}|\evect{t}^{ro1\_co}] \\
-&\ematr{P}_{3\_co} = [\ematr{R}^{ro2} \ematr{R}^{ro1\_co}|\ematr{R}^{ro2} \evect{t}^{ro1\_co} + \escal{s}^{ro2-1} \evect{t}^{ro2}] 
+&\ematr{P}^{1\_co} = [\ematr{I}|\evect{O}] \\
+&\ematr{P}^{2\_co} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] = [\ematr{R}^{ro1\_co}|\evect{t}^{ro1\_co}] \\
+&\ematr{P}^{3\_co} = [\ematr{R}^{ro2} \ematr{R}^{ro1\_co}|\ematr{R}^{ro2} \evect{t}^{ro1\_co} + \escal{s}^{ro2-1} \evect{t}^{ro2}] 
 =  [\ematr{R}^{ro3\_co} | \evect{t}^{ro3\_co}] \\
-&\ematr{P}_{n\_co} = [\ematr{R}^{ro(n)} \ematr{R}^{ro(n)(n-1)\_co}|\ematr{R}^{ro(n)} \evect{t}^{ro(n-1)\_co} + \escal{s}^{ro(n)-(n-1)} \evect{t}^{ro(n)}] 
+&\ematr{P}^{n\_co} = [\ematr{R}^{ro(n)} \ematr{R}^{ro(n)(n-1)\_co}|\ematr{R}^{ro(n)} \evect{t}^{ro(n-1)\_co} + \escal{s}^{ro(n)-(n-1)} \evect{t}^{ro(n)}] 
 =  [\ematr{R}^{ro(n)\_co} | \evect{t}^{ro(n)\_co}] 
 \end{split}
 \end{equation}
 
-The equations suppose that projection matrices in \escal{ro(n)} relative orientation system
+The equations suppose that camera matrices in \escal{ro(n)} relative orientation system
 are defined as $\ematr{P}_{n-1} = [\ematr{I}|\evect{O}]$ and $\ematr{P}_{n} = [\ematr{R}^{ro(n)}|\evect{t}^{ro(n)}]$.
 
 \subsubsection{Helmert transformation}
