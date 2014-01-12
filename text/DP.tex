@@ -834,7 +834,7 @@ unlike the minimized function by linear least squares method.
 Therefore, success of non-linear least squares method depends on the initial values of parameters vector $\evect{X}$!
 
 \subsubsection{Least squares properties}
-
+\label{sec:lsq_props}
 It was proved \cite{mervart2007adjustment} that above derived least square method is solution of Gauss-Markoff model which says:
 If measurements \evect{L} are random with known covariance matrix $\ematr{\Sigma}_{l}$  
 and vector of unknown parameters \evect{X} is non-random then
@@ -1582,7 +1582,7 @@ Hence, if exterior orientation of a two photos is known, the
 essential matrix can be computed. The matrix can be calculated from exterior orientations 
 independently of specific object coordinates system since it takes into account the relative 
 position of two photos up to scale. Moreover, if calibration matrices 
-are know, it is possible to define relationship (without taking into account distortion) between 
+are known, it is possible to define a relationship (without taking into account distortion) between 
  the two photo systems by fundamental matrix.
 
 \subsubsection{Triangulation of points}
@@ -1728,7 +1728,7 @@ If two relative orientations are merged together, they must share one photo.
 As a first step, it is necessary to calculate a scale \cite{pietzsch2001robot}
 because relative orientation coordinate systems are independent of scale.
 The scale can be calculated from corresponding distances measurable in  both coordinate systems. 
-Distances between object point determined in both camera systems and object coordinates of projective center of shared photo 
+Distances between object point determined in both camera systems and object coordinates of the projective center of shared photo 
 can be used for calculation of scale:
 
 \begin{equation}
@@ -1736,18 +1736,18 @@ can be used for calculation of scale:
 	                {||\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}||}
 \end{equation}
 
-Where:
+\noindent where:
 \begin{itemize}
 \item \term{ro1}, \term{ro2} are relative orientation coordinate systems. 
-System \term{ro2} is transformed into system \term{ro1}. 
+System \term{ro2} is transformed into system \term{ro1},
 \item \evect{X} is an object point determined in both relative orientations,
-\item \evect{C} is a projective center of the shared photo.
+\item \evect{C} is a projective center of the shared photos.
 \end{itemize}
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.25]{figures/rel_or.png}
-    \caption{In the left picture there are relative orientations \term{ro1}, \term{ro2} before transformation 
+    \caption{In the left picture, there are relative orientations \term{ro1}, \term{ro2} before transformation 
     to a common system. 
     In the right picture, there is common system defined by \term{ro1} after transformation of \term{ro2}. 
     Note change of \term{ro2} scale after the transformation. (Based on \cite[p. 20]{pietzsch2001robot})}
@@ -1835,18 +1835,18 @@ The least squares method tries to find vector of adjusted parameters \evect{X} t
 sum  of square differences between coordinates of measured photo points and photo points calculated 
 from collinearity equations.
 
-Unfortunately, collinearity equations are non linear hence the non-linear least square method \ref{sec:non_least} must be employed which 
+Unfortunately, collinearity equations are non linear hence the non-linear least square method (\ref{sec:non_least}) must be employed, which 
 needs to be provided  with sufficiently accurate initial values in order to find values of parameters satisfying minimization criterion.
 
 Thanks to the least squares method, BBA is very flexible in terms of selection of the parameters to be adjusted. 
 It is possible to select various combinations of interior, exterior orientations and object points coordinates parameters. 
 
 Following example describes BBA in practice.
-Lets suppose that initial values of adjusted parameters are known with sufficient accuracy in order to the least squares
+Lets suppose that the initial values of adjusted parameters are known with sufficient accuracy in order to the least squares
 method eventually iterate to global minimum.
 Lets say that there is a scene captured by three photos.
-All the photos were taken by same camera.
-Interior orientation of the camera is known accurately therefore it is not adjusted by BBA.
+All the photos were taken by the same camera.
+The camera's interior orientation is known accurately therefore it is not adjusted in BBA.
 There are identified three tie points and two ground control points in all three photos.
 Tie point is identified only in photos with missing information about its object coordinates.  
 Unlike tie point, object coordinates of ground control point (GCP) are known.
@@ -1889,6 +1889,11 @@ therefore it should be avoided to have nearly same number of measurements and ad
 %%% ML: TODO
 %%% ST DONE
 
+%%% -> ML: osobne bych zmensil obrazek tak aby nepretekal, porad by
+%%% mel citelny, muzes si stranku zkusebne vytisknout, anebo obrazek
+%%% otocit o
+%%% 90% (porad to bude vypadat lepe, nez kdyz obrazek preteka)
+
 \begin{figure}[h]
     %\centering
     \hspace*{-1.0in}
@@ -1898,9 +1903,8 @@ therefore it should be avoided to have nearly same number of measurements and ad
 \end{figure}
 
 
-
 In the first least squares iteration, the initial values of adjusted parameters are given into parameters vector $\evect{X}$
- representing tangent point of Taylor polynomial to costs functions.  The other non-adjusted 
+ representing tangent point of Taylor polynomials and costs functions.  The other non-adjusted 
 parameters are given into $\evect{N}$ vector of knowns. In the example, non-adjusted parameters are object coordinates
 of GCPs and interior orientation. 
 Measured photo coordinates are given
@@ -1909,24 +1913,29 @@ into vector of measurements $\evect{L}$.
 Design matrix $\evect{A}$ is calculated from 
 derivatives of collinearity equations substituting values from vectors $\evect{X}$ and $\evect{N}$.
 
+%%% -> ML: "GCP 2" ???
+%%% -> ST viz obrazek, pridal jsem odkaz na obrazek
+
 The vectors  $\evect{L}$ and  $\evect{X}$ give structure to design matrix $\evect{A}$ and
 vector $\evect{L}_{X0}$.
+
 Order of partial derivatives of design matrix $\evect{A}$  is determined by adjusted parameters position in 
 parameters vector $\evect{X}$. E.g. the first column of the example design matrix is filled with derivatives respect 
 to variable representing the  X object coordinate of the first photo projective center. Variables of derived collinearity equations
-depends on row. For instance, the first two rows represents partial derivative of collinearity functions 
+depends on the row. For instance, the first two rows represents partial derivative of collinearity functions 
 including variables of the first point object coordinates  and first photo exterior orientation.  First row represents  
 derivation of x collinearity equation because in corresponding position of the measurements vector $\evect{L}$, there is 
 x photo coordinate of the tie point 1. The second row of the design matrix is composed of 
 partial derivatives of y equation comprised of the same variables. 
 Variables of collinearity equation change in the other rows. For instance, the last row corresponds to the 
-y photo coordinate of the GCP 2. The partial derivation of the first column is equal 
+y photo coordinate of the GCP 2 (see Figure \ref{fig:bba_system}). The partial derivation of the first column is equal 
 to zero because the variable X of object coordinate of the first photo projective center was replaced 
 by X of the third photo projective center in collinearity equation. 
 It should be noted that in the last row, there are no derivations 
 respect to point object coordinates because the row represents GCP. Object coordinates of GCPs do not 
 belong to the adjusted parameters thus design matrix do not contain column representing partial 
 derivatives respect to the GCP object coordinates.
+
 
 Position in a vector $\evect{L}_{X0}$ is linked in the same way to a vector $\evect{L}$ as rows of design matrix.
 Value of position is calculated by collinearity equations using corresponding variables.
@@ -1938,13 +1947,13 @@ If rows in design matrix $\evect{A}$ or positions $\evect{L}$ and $\evect{L}_{X0
 as consequence of the correspondence it is needed to switched them also in the other components. 
 The same applies to columns  of design matrix $\evect{A}$  and positions in parameters vector $\evect{X}$
 
-The thesis does not deal with determination of weight matrix \ematr{P}. 
-Simplest way (there are much better methods) is to represent it as identity matrix. 
+The thesis does not deal in-depth with determination of weight matrix \ematr{P}. 
+Simplest method is to represent it as identity matrix. More rigorous method is described in \ref{sec:lsq_props}. 
+
 All needed information is available to perform a first iteration of non linear least square 
-method \ref{sec:non_least}. 
-As result of iteration refined values of vector  $\evect{X}$
-are obtained. Another iteration can be  performed by same procedure  with adjusted parameters vector $\evect{X}$
-if termination criterion is not meet \ref{sec:term_crit}.
+method (\ref{sec:non_least}).  Refined values of vector  $\evect{X}$ are obtained as result of an iteration. 
+Another iteration can be  performed by the same procedure  with adjusted parameters vector $\evect{X}$
+if termination criterion is not met (\ref{sec:term_crit}).
 
 \subsection{Orthorectification}
 \label{sec:ortho}
@@ -1953,18 +1962,18 @@ if termination criterion is not meet \ref{sec:term_crit}.
 %%% ST: opraveno uniform
 Orthorectification is a process transforming photo from perspective projection into orthogonal projection (see Figure \ref{fig:ortho}). 
 There are two main methods for producing orthophoto. The first method is able to retrieve orthophoto 
-from single photo. It requires exterior, interior orientations of the photo and a shape of relief. 
+from a single photo. It requires exterior, interior orientations of the photo and a shape of relief. 
 Shape of relief is usually provided in a form of digital terrain model (DTM). DTM 
-can be given in the raster or vector form. Raster-based DTM describes relief with a uniform density defined 
+can be given in the raster or vector form. Raster-based DTM describes relief with a~uniform density defined 
 by resolution of the raster.
 Vector-based DTM is comprised by continuous surface made of triangular irregular network (TIN). 
 At the beginning of orthorectification, empty raster is allocated representing an orthophoto.
 It covers intersection of a photo scene and area of a DTM.
 
-In the next step, empty orthophoto is filled by values. 
-All points representing centers of pixels are given Z coordinates from DTM 
+In the next step, the empty orthophoto is filled by values. 
+All points representing centers of pixels are given Z coordinates from DTM,
 then the points are transformed into the photo coordinate system using collinearity equations.
-Because a transformed point is represented by floating point, value given 
+Because a transformed point is represented by floating point, the value given 
 to the corresponding pixel in an orthophoto is determined by interpolation of surrounding pixels of the transformed 
 point into a photo.  Used interpolation methods, selection of points 
 for transformation etc. may vary, however, 
@@ -1974,17 +1983,17 @@ a photo to obtain values for an orthophoto.
 %%% ML: fix broken \ref{sec:triang}
 %%% ST: fixed
 
-The other method can be considered an extension of the first one because initially it generates DTM then it recovers orthophoto 
+The other method can be considered as an extension of the first one because initially it generates DTM then it recovers orthophoto 
 according to the same principle as the first method. It is based on triangulation of object point
 from photo points requiring interior and exterior orientation of photos to be known. The reconstructed point 
 must be visible at least on two photos in order to solve the ray ambiguity. It follows that it requires more than 
 one photo in contrast to the first method.
 Object coordinate system 
-can be defined arbitrarily because there is no needed to define relationship to input DTM as the first method requires.
+can be defined arbitrarily because there is no needed to define relationship to the input DTM as the first method requires.
 Instead of this, DTM is created in arbitrary coordinate system directly by the method,
 hence orthophoto and DTM can be generated without any GCP. 
 Approximate object points  are calculated by triangulation 
-methods \ref{sec:triang} then refined by the BBA. 
+methods (\ref{sec:triang}) then refined by the BBA. 
 
 The DTM is created from retrieved object coordinates. There 
 are plenty of methods for DTM creation from points. Raster DTM can be created by various interpolation methods 
@@ -2006,7 +2015,7 @@ This method is able to create DTM from millions of points.
     \label{fig:rel_or_amb}
 \end{figure}
 
-After obtaining of DTM, orthophoto can be created using same principle described in the first method. 
+After obtaining DTM, the orthophoto can be created using same principle described in the first method. 
 
 %%% ML: kapitola by mela zacinat na nove strane
 
