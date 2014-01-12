@@ -1914,12 +1914,14 @@ into vector of measurements $\evect{L}$.
 Design matrix $\evect{A}$ is calculated from 
 derivatives of collinearity equations substituting values from vectors $\evect{X}$ and $\evect{N}$.
 
+%%% -> ML: "GCP 2" ???
+
 The vectors  $\evect{L}$ and  $\evect{X}$ give structure to the design matrix $\evect{A}$ and
 vector of $\evect{L}_{X0}$.
 Order of partial derivatives of design matrix $\evect{A}$  is determined by adjusted parameters position in 
 parameters vector $\evect{X}$. E.g. the first column of the example design matrix is filled with derivatives respect 
 to variable representing the  X object coordinate of the first photo projective center. Variables of derived collinearity equations
-depends on row. For instance, the first two rows represents partial derivative of collinearity functions 
+depends on the row. For instance, the first two rows represents partial derivative of collinearity functions 
 including variables of the first point object coordinates  and first photo exterior orientation.  First row represents  
 derivation of x collinearity equation because in corresponding position of the measurements vector $\evect{L}$, there is 
 x photo coordinate of the tie point 1. The second row of the design matrix is composed of 
@@ -1954,18 +1956,18 @@ if termination criterion is not met (\ref{sec:term_crit}).
 %%% ST: opraveno uniform
 Orthorectification is a process transforming photo from perspective projection into orthogonal projection (see Figure \ref{fig:ortho}). 
 There are two main methods for producing orthophoto. The first method is able to retrieve orthophoto 
-from single photo. It requires exterior, interior orientations of the photo and a shape of relief. 
+from a single photo. It requires exterior, interior orientations of the photo and a shape of relief. 
 Shape of relief is usually provided in a form of digital terrain model (DTM). DTM 
-can be given in the raster or vector form. Raster-based DTM describes relief with a uniform density defined 
+can be given in the raster or vector form. Raster-based DTM describes relief with a~uniform density defined 
 by resolution of the raster.
 Vector-based DTM is comprised by continuous surface made of triangular irregular network (TIN). 
 At the beginning of orthorectification, empty raster is allocated representing an orthophoto.
 It covers intersection of a photo scene and area of a DTM.
 
-In the next step, empty orthophoto is filled by values. 
-All points representing centers of pixels are given Z coordinates from DTM 
+In the next step, the empty orthophoto is filled by values. 
+All points representing centers of pixels are given Z coordinates from DTM,
 then the points are transformed into the photo coordinate system using collinearity equations.
-Because a transformed point is represented by floating point, value given 
+Because a transformed point is represented by floating point, the value given 
 to the corresponding pixel in an orthophoto is determined by interpolation of surrounding pixels of the transformed 
 point into a photo.  Used interpolation methods, selection of points 
 for transformation etc. may vary, however, 
@@ -1975,17 +1977,17 @@ a photo to obtain values for an orthophoto.
 %%% ML: fix broken \ref{sec:triang}
 %%% ST: fixed
 
-The other method can be considered an extension of the first one because initially it generates DTM then it recovers orthophoto 
+The other method can be considered as an extension of the first one because initially it generates DTM then it recovers orthophoto 
 according to the same principle as the first method. It is based on triangulation of object point
 from photo points requiring interior and exterior orientation of photos to be known. The reconstructed point 
 must be visible at least on two photos in order to solve the ray ambiguity. It follows that it requires more than 
 one photo in contrast to the first method.
 Object coordinate system 
-can be defined arbitrarily because there is no needed to define relationship to input DTM as the first method requires.
+can be defined arbitrarily because there is no needed to define relationship to the input DTM as the first method requires.
 Instead of this, DTM is created in arbitrary coordinate system directly by the method,
 hence orthophoto and DTM can be generated without any GCP. 
 Approximate object points  are calculated by triangulation 
-methods \ref{sec:triang} then refined by the BBA. 
+methods (\ref{sec:triang}) then refined by the BBA. 
 
 The DTM is created from retrieved object coordinates. There 
 are plenty of methods for DTM creation from points. Raster DTM can be created by various interpolation methods 
@@ -2007,7 +2009,7 @@ This method is able to create DTM from millions of points.
     \label{fig:rel_or_amb}
 \end{figure}
 
-After obtaining of DTM, orthophoto can be created using same principle described in the first method. 
+After obtaining DTM, the orthophoto can be created using same principle described in the first method. 
 
 %%% ML: kapitola by mela zacinat na nove strane
 
