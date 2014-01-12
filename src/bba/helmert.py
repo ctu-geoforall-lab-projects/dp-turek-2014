@@ -3,7 +3,7 @@ import sys
 import numpy as np
 
 import grass.script as grass
-from relative_or import compute3Dpoints
+from relative_or_zal import compute3Dpoints
 
 try:
     from grass.lib.imagery import *

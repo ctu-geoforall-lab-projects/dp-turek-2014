@@ -1,33 +1,98 @@
 import os
 import sys
 import numpy as np
-import math
+from math import atan2, sin, cos, sqrt, pi
 from bba_derivs import x_derivs, y_derivs
-from sympy import *
 
 import scipy.misc as misc
 import scipy.sparse as sparse
 from  scipy.sparse.linalg import splu
 
+from protocols import CreateIterationProtocolMeasurements, CreateParametersIterationProtocol, reprojection_errors, \
+ GenerateLatexPhotosIterationTable, GenerateLatexPhotosAnglesIterationTable, GenerateLatexPointsIterationTable, CreateParametersLatex, CreatePhootoParametersLatex
+
 from collections import namedtuple
 from sympy.matrices import *
+import cv2
+
+def ComputeDiffs(pts, phs):
+    gcp_pts = []
+    ro_pts = []
+
+    pt_errs = []
+    no_coords = []
+    pt_errs = [] #np.ma.zeros((len(pts), 2))
+    #pt_errs.mask = np.ma.zeros((len(pts), 2))
+    for i_pt, pt in enumerate(pts.itervalues()):
+        o_pt, control = pt.GetGcp()
+        if  (o_pt is not None and not control):
+            continue
+
+        if pt.GetCoords() is not None and pt.GetResultCoords() is not None: 
+            pt_errs.append([pt.GetId(), abs(np.linalg.norm(pt.GetCoords() - pt.GetResultCoords()))])
+        #else:
+            #pt_errs.mask[i_pt, 1] = True
+         
+    pt_errs = np.array(pt_errs)
+
+    skip_pts = []
+    for err in pt_errs:
+        if err[1] > 0.3:
+            skip_pts.append(int(err[0]))
+
+    ph_errs = []
+    ph_angle_errs = []
+
+    for ph in phs.itervalues():
+        if ph.GetEO() is not None:
+            eo = ph.GetEO()
+            res_eo = ph.GetResultExtOr()
+            
+            a = np.array([[1,0,0],[0,1,0],[0,0,-1]])
+            angles = GetBLUHAngles(a.dot(eo[:,:3]))
+            #TODO
+
+
+            res_coords = res_eo[:,3]
+            res_angles = GetBLUHAngles(np.array(res_eo))
+
+            print (angles - res_angles) * 180 / pi
+
+            ph_errs.append([ph.GetId(), 
+                            abs(np.linalg.norm(eo[:,3] - res_coords))] )
+            ph_angle_errs.append(np.append(ph.GetId(), angles - res_angles))
+        else:
+            no_coords.append(ph.GetId())
+
+    ph_errs = np.array(ph_errs)
+
+    ph_angle_errs = np.array(ph_angle_errs)
+
+    skip_phs = []
+    for err in ph_errs:
+        if err[1] > 0.5:
+            skip_phs.append(int(err[0]))
+
+    #return skip_phs, skip_pts
+    return ph_errs, pt_errs, ph_angle_errs
+    #print np.average(ph_errs[:,2:], axis=1)
 
 def RotMatBLUH(ph, om, ka):
     rotm = np.zeros((3,3))
-    _rotMatBLUH(ph, om, ka, rotm)
+    _rotMatBLUH(ph, om, ka, rotm, sin, cos)
 
     return rotm
 
 def GetBLUHAngles(rm):
 
-    ka = math.atan2(rm[0, 1], rm[1, 1])
+    ka = atan2(rm[0, 1], rm[1, 1])
     #print ka * 180 / pi
-    ph = math.atan2(rm[2, 0], rm[2, 2])
-    om = math.atan2(-rm[2, 1], sqrt(rm[1, 1] * rm[1, 1] + rm[0, 1] * rm[0, 1]))
+    ph = atan2(rm[2, 0], rm[2, 2])
+    om = atan2(-rm[2, 1], sqrt(rm[1, 1] * rm[1, 1] + rm[0, 1] * rm[0, 1]))
 
     return np.array([ph, om, ka])
 
-def _rotMatBLUH(ph, om, ka, rotm):
+def _rotMatBLUH(ph, om, ka, rotm, sin, cos):
 
     so = sin(om)
     co = cos(om)
@@ -48,15 +113,31 @@ def _rotMatBLUH(ph, om, ka, rotm):
     rotm[1][2] =  sk * sp + ck * so * cp
     rotm[2][2] = co * cp
 
-def xp_col_eq(xi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r, **kwargs):
+def xp_col_eq(xi_c, yi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r, r1_dis, **kwargs):
+    x_und = _xp_col_eq(xi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r)
+    y_und = _yp_col_eq(yi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r)
+    return x_und
+    #dist_sq = x_und ** 2 +  y_und ** 2
+
+    #return x_und + x_und * dist_sq * r1_dis / 1000.0
+
+def yp_col_eq(xi_c, yi_c, f, xo_c, yo_c, zo_c, xo_pt, yo_pt, zo_pt, r, r1_dis, **kwargs):
+    x_und = _xp_col_eq(xi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r)
+    y_und = _yp_col_eq(yi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r)
+    return y_und
+    #dist_sq = x_und ** 2 +  y_und ** 2
+
+    #return y_und *(1 + dist_sq * r1_dis)
+
+def _xp_col_eq(xi_c, f, xo_c, yo_c, zo_c ,xo_pt, yo_pt, zo_pt, r, **kwargs):
     return xi_c - f * (r[0][0]*(xo_pt-xo_c) + r[0][1]*(yo_pt-yo_c) + r[0][2]*(zo_pt-zo_c)) / \
                       (r[2][0]*(xo_pt-xo_c) + r[2][1]*(yo_pt-yo_c) + r[2][2]*(zo_pt-zo_c)) 
 
-def yp_col_eq(yi_c, f, xo_c, yo_c, zo_c, xo_pt, yo_pt, zo_pt, r, **kwargs):
+def _yp_col_eq(yi_c, f, xo_c, yo_c, zo_c, xo_pt, yo_pt, zo_pt, r, **kwargs):
     return yi_c - f * (r[1][0]*(xo_pt-xo_c) + r[1][1]*(yo_pt-yo_c) + r[1][2]*(zo_pt-zo_c)) / \
                       (r[2][0]*(xo_pt-xo_c) + r[2][1]*(yo_pt-yo_c) + r[2][2]*(zo_pt-zo_c))
 
-def GetParamsVals(ph, pt):
+def GetParamsVals(ph, pt, free_net):
 
     params = {}
 
@@ -64,11 +145,19 @@ def GetParamsVals(ph, pt):
 
     cam_m, distor = cam.GetParams()
 
+    params['r1_dis'] = distor[0] 
     params['f'] = cam_m[0, 0]
-    params['xi_c'] = cam_m[0, 2]
+    params['xi_c'] =  cam_m[0, 2]
     params['yi_c'] = cam_m[1, 2]
 
     ph_eo = ph.GetEO()
+
+    #ph_p = ph.GetP()
+    #r = ph_p[:,:3]
+    #params['rvect'] = cv2.Rodrigues(r)[0]
+    #params['tvect'] = ph_p[:,3]
+    #params['distor'] = distor
+    #params['cam_m'] = cam_m
 
     o_c = ph_eo[:,3]
     eo_r = ph_eo[:,:3]
@@ -83,7 +172,7 @@ def GetParamsVals(ph, pt):
         params[ax] = o_c[i]
 
     o_pt, control = pt.GetGcp()
-    if o_pt is not None and not control:
+    if not free_net and (o_pt is not None and not control):
         params["gcp"] = True 
     else:
         params["gcp"] = False
@@ -97,8 +186,14 @@ def GetParamsVals(ph, pt):
 
     phpts = pt.GetPhotoPoints()
 
-    if len(phpts) < 2:
+    i = 0
+    for phpt in phpts.iterkeys():
+        if phpt.GetP() is not None:
+            i += 1
+
+    if i < 2:
         return None
+
 
     i_pt = phpts[ph]
     params['xi_pt'] = i_pt[0]
@@ -114,8 +209,7 @@ BbaIndexes = namedtuple('BbaIndexes', 'Lrows_idxs,'
                                       'cams_n, photos_n, tie_pts_n, '
                                       'image_points_n')
 
-def GetL(in_dt, skip_phs, skip_pts):
-
+def GetL(in_dt, skip_phs, skip_pts, free_net):
     cams = in_dt.GetCameras()
         
     L = []
@@ -167,9 +261,10 @@ def GetL(in_dt, skip_phs, skip_pts):
                 #if not i use_photos: 
                 pt_phs = pt.GetPhotoPoints().keys()
                 if len((set(pt_phs) & set(use_photos))) < 2:
-                    continue   
+                    continue
 
-                v = GetParamsVals(ph, pt)
+                v = GetParamsVals(ph, pt, free_net)
+
                 if v is not None:
                     if cam not in idxs_cams:
                         idxs_cams.append(cam) 
@@ -190,6 +285,10 @@ def GetL(in_dt, skip_phs, skip_pts):
 
                     r = RotMatBLUH(v['ph'], v['om'], v['ka'])
 
+                    #pt = np.array([[v['xo_pt'], v['yo_pt'], v['zo_pt']]])
+                    #ip = cv2.projectPoints(pt, v['rvect'], v['tvect'], v['cam_m'], v['distor'])[0]
+                    #L_XO.append(ip[0, 0,0])
+                    #L_XO.append(ip[0,0,1])
                     L_XO.append(xp_col_eq(r=r, **v))
                     L_XO.append(yp_col_eq(r=r, **v))
 
@@ -252,115 +351,62 @@ def AdjustData(Xa, bba_idxs, unk, apo):
 
 Unknowns = namedtuple('Unknowns', 'cam, ph, pt')
 
-def CreateIterationProtocol(i_num, cov, Xa, dx, e, bi, apo, prot_fd, unk, gcps):
-
-    prot_fd.write(_('\n\n\n\n*********************************************************************'))
-    prot_fd.write(_('\n\nIteration: %d\n\n' % (i_num + 1)))
-
-    prot_fd.write(_('Ground control point differences:\n'))
-
-    sigmas = np.sqrt(np.diagonal(cov))
-    prot_fd.write("%10s, %10s\n" % ("gcp id", "diff"))
-    for gcp in gcps.itervalues():
-        if gcp.GetCoords() is None or not gcp.GetGcp()[1]:
-            continue
-
-        dist = np.linalg.norm(gcp.GetGcp()[0] - gcp.GetCoords())
-        bingo_dist = np.linalg.norm(gcp.GetGcp()[0] - gcp.GetResultCoords())
-
-        prot_fd.write("%10d, %10.4f, %10.4f" % (gcp.GetId(), dist, bingo_dist))
-        prot_fd.write("\n")
-
-    prot_fd.write("\n\n")
-
-    cam_step = len(unk.cam)
-    ph_step = len(unk.ph)
-    pt_step = len(unk.pt)
-
-    def _printParamsLine(x, unk_l, x_col):
-
-        for i, un in enumerate(unk_l):
-            val = x[x_col + i]
-            if un in ['ph', 'om', 'ka']:
-                val = val * 180 / pi
-
-            prot_fd.write("%15.4f" % (val))
-
-    def _printParamCaptions(unk_l):
-            for i, un in enumerate(unk_l):
-                prot_fd.write("%15s" % (un))
-            prot_fd.write("\n\n")
-
-    def _printFeature(Xa, dx, sigmas, unk_l, x_col):
-        _printParamsLine(Xa, unk_l, x_col)
-        prot_fd.write("\n")
-        _printParamsLine(dx, unk_l, x_col)
-        prot_fd.write("\n")
-        _printParamsLine(sigmas, unk_l, x_col)
-        prot_fd.write("\n\n")
-
-    prot_fd.write(_('Interior orientaitons adjustment results\n'))
-
-    for cam_idx in range(bi.cams_n):
-        if cam_idx == 0:
-            _printParamCaptions(unk.cam)
-
-        cam = bi.idxs_phs[cam_idx]
-        prot_fd.write(_("Camera %d\n" % cam.GetId()))
-        cam_x_col = apo.cam_0col + cam_idx * cam_step
-
-        _printFeature(Xa, dx, sigmas, unk.cam, cam_x_col)
-
-    prot_fd.write(_('Exterior orientaitons adjustment results\n'))
-
-    for ph_idx in range(bi.photos_n):
-        if ph_idx == 0:
-            _printParamCaptions(unk.ph)
-
-        ph = bi.idxs_phs[ph_idx]
-        prot_fd.write(_("Photo %d\n" % ph.GetId()))
-        ph_x_col = apo.ph_0col + ph_idx * ph_step
-
-        _printFeature(Xa, dx, sigmas, unk.ph, ph_x_col)
-
-    prot_fd.write(_('Object points orientaitons adjustment results\n'))
-
-    for pt_idx in range(bi.tie_pts_n):
-        if pt_idx == 0:
-            _printParamCaptions(unk.pt)
-
-        pt = bi.idxs_pts[pt_idx]
-        prot_fd.write(_("Point %d\n" % pt.GetId()))
-        pt_x_col = apo.pt_0col + pt_idx * pt_step
-
-        _printFeature(Xa, dx, sigmas, unk.pt, pt_x_col)
-
-def RunBundleBlockAdjutment(in_dt,  skip_phs, skip_pts, protocol_path):
+def RunBundleBlockAdjutment(in_dt,  skip_phs, skip_pts, protocol_path, prot_mesurements_path):
 
     prot_fd = open(protocol_path, 'w')
+    prot_mesurements_fd = open(prot_mesurements_path, 'w')
+    
+    phs = in_dt.GetPhotos()
+    pts = in_dt.GetPoints()
 
     cam_unk = []
-    
     ph_unk = ['ph', 'om', 'ka', 'xo_c', 'yo_c', 'zo_c']
     pt_unk = ['xo_pt', 'yo_pt', 'zo_pt']
+    free_net = False
     unk =  Unknowns(cam_unk, ph_unk, pt_unk)
 
-    for i in range(15):
-    
-        if i == 8:
-            cam_unk = ['f', 'xi_c', 'yi_c']
-            unk =  Unknowns(cam_unk, ph_unk, pt_unk)
-        """
-        if i == 8:
-            ph_unk = []
-            pt_unk = []
-            cam_unk = ['f', 'xi_c', 'yi_c']
-            unk =  Unknowns(cam_unk, ph_unk, pt_unk)
-        """
-        cov, Xa, dx, e, bi, apo = RunBBAIteration(in_dt, skip_phs, skip_pts, unk)
-        CreateIterationProtocol(i, cov, Xa, dx, e, bi, apo, prot_fd, unk, in_dt.GetGcps())
 
+    ph_errs, pt_errs, ph_angles_errs = ComputeDiffs(in_dt.pts, in_dt.phs)
+
+    i = 0
+    while True:
+
+         #   cam_unk = ['f', 'xi_c', 'yi_c']
+         #   unk =  Unknowns(cam_unk, ph_unk, pt_unk)
+
+        #if i == 10:
+        #    free_net = True
+        #    ph_unk =  []
+        #    pt_unk = ['xo_pt', 'yo_pt', 'zo_pt']
+        #    cam_unk = ['f', 'xi_c', 'yi_c']
+        #    unk =  Unknowns(cam_unk, ph_unk, pt_unk)
+
+
+        Xa, dx, e_taylor, e_repro, bi, apo, l, cov_x, cov_l = RunBBAIteration(in_dt, skip_phs, skip_pts, unk, free_net)
+        CreateParametersIterationProtocol(i, cov_x, Xa, dx, bi, apo, prot_fd, unk, in_dt.GetGcps(), free_net, l)
+        CreateIterationProtocolMeasurements(i, cov_l, e_repro, bi, prot_mesurements_fd)
+
+        it_ph_errs, it_pt_errs, it_ph_angles_errs = ComputeDiffs(pts, phs)
+        it_ph_errs = np.expand_dims(it_ph_errs[:,1], axis=0)
+        it_pt_errs = np.expand_dims(it_pt_errs[:,1], axis=0)
+        it_ph_angles_errs = it_ph_angles_errs[:,1:]
+
+        ph_errs = np.ma.hstack((ph_errs, it_ph_errs.T)) 
+        pt_errs = np.ma.hstack((pt_errs, it_pt_errs.T))
+        ph_angles_errs = np.ma.hstack((ph_angles_errs, it_ph_angles_errs)) 
+
+        if np.max(np.absolute(dx))  < 0.0001:
+            break
+        i += 1
+    GenerateLatexPhotosIterationTable(ph_errs, "/home/ostepok/Desktop/itera.txt")
+    GenerateLatexPhotosAnglesIterationTable(ph_angles_errs, "/home/ostepok/Desktop/itera_angles.txt")
+    GenerateLatexPointsIterationTable(pt_errs, "/home/ostepok/Desktop/itera_points.txt")
+    CreateParametersLatex(i, cov_x, Xa, dx, bi, apo, "/home/ostepok/Desktop/itera_params.txt", unk, in_dt.GetGcps(), free_net, l)
+    CreatePhootoParametersLatex(i, cov_x, Xa, dx, bi, apo, "/home/ostepok/Desktop/itera_ph_params.txt", unk, in_dt.GetGcps(), free_net, l)
+    reprojection_errors(e_repro, "/home/ostepok/Desktop/itera_repro.txt")
     prot_fd.close()
+    prot_mesurements_fd.close()
+    return ph_errs, pt_errs
 
 AdjustedParametersOrder = namedtuple('AdjustedParameters', 'cam_0col, ph_0col, pt_0col, cols_n')
 def GetAdjParamsOrder(unk, bi):
@@ -372,12 +418,46 @@ def GetAdjParamsOrder(unk, bi):
 
     return cam_zero_col, ph_zero_col, pt_zero_col, col_n
 
-def RunBBAIteration(in_dt,  skip_phs, skip_pts, unk):
+def RunBBAIteration(in_dt,  skip_phs, skip_pts, unk, free_net):
 
-    L, L_XO, bi = GetL(in_dt, skip_phs, skip_pts)
+    L, L_XO, bi = GetL(in_dt, skip_phs, skip_pts, free_net)
+
+
     
     L_XO = np.array(L_XO)
     L = np.array(L)
+    #print "Gel"
+    ediff = L - L_XO
+    sorted_ediff = np.argsort(np.absolute(ediff))[::-1]
+
+    #print
+    #print "RunBBAIteration"
+    #print 
+    for idx in sorted_ediff[0:100]:
+        idxr = idx
+        if idx % 2:
+            idxr -= 1
+
+        idxr = idxr / 2
+        cam, ph, pt, v =  bi.Lrows_idxs[idxr]
+
+        #print "point"
+        #print pt.GetId()
+        #print "photo"
+        #print ph.GetId()
+        #print "value"
+        #print ediff[idx]
+        #print 
+    #print 
+    #print "median"
+    #print np.median(np.absolute(ediff))
+
+    #print "average"
+    #print np.average(np.absolute(ediff))
+        
+    #print "std"
+    #print np.sqrt(np.sum(ediff * ediff) / len(ediff))
+
 
     cam_step = len(unk.cam)
     ph_step = len(unk.ph)
@@ -387,6 +467,9 @@ def RunBBAIteration(in_dt,  skip_phs, skip_pts, unk):
 
     A = np.zeros((len(L), apo.cols_n))
     X0 = np.zeros((apo.cols_n))
+
+    print "A.shape"
+    print A.shape
 
     prev_cam = None
     prev_ph = None
@@ -446,7 +529,7 @@ def RunBBAIteration(in_dt,  skip_phs, skip_pts, unk):
     """
 
     l = L - L_XO
-    P = np.eye(A.shape[0])
+    P = np.eye(A.shape[0]) /  0.0015**2
 
     N = A.T.dot(P).dot(A)
     n = A.T.dot(P).dot(l)
@@ -459,11 +542,11 @@ def RunBBAIteration(in_dt,  skip_phs, skip_pts, unk):
 
     AdjustData(Xa, bi, unk, apo)
 
-    L1, L_XO1, bi = GetL(in_dt,  skip_phs, skip_pts)
-    e1 = L_XO1 - L
+    L1, L_XO1, bi = GetL(in_dt,  skip_phs, skip_pts, free_net)
+    e_repro = L_XO1 - L
 
-    print "e"
-    print e - e1
+    print "e diff"
+    print e - e_repro
 
     #for in photos_n * ph_step:
 
@@ -475,8 +558,14 @@ def RunBBAIteration(in_dt,  skip_phs, skip_pts, unk):
     np.savetxt('/home/ostepok/Desktop/res.csv', A, fmt='%.3e', delimiter=',')
     """
     r = A.shape[0] - A.shape[1]
-    sigma0_2 = e.T.dot(P).dot(e) / r
-    cov =  sigma0_2 * Ni
+    sigma0_2 = (e.T.dot(P).dot(e)) / r
+    print "sigma:"
+    print sqrt(sigma0_2)
+    cov_x =  sigma0_2 * Ni
+    cov_l= A.dot(cov_x).dot(A.T)
 
-    return cov, Xa, dx, e, bi, apo
+    L_XO1 = np.array(L_XO)
+    L1 = np.array(L)    
+    l = L1 - L_XO1
+    return Xa, dx, e, e_repro, bi, apo, l, cov_x, cov_l
 

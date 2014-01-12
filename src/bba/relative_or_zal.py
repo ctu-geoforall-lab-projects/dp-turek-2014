@@ -4,7 +4,7 @@ import numpy as np
 import scipy as sc
 
 
-from plots import PlotRelOrs, PlotAllRelOrs
+from plots import PlotRelOrs
 import grass.script as grass
 from tempfile import NamedTemporaryFile
 from subprocess import Popen, PIPE
@@ -14,7 +14,6 @@ from copy import deepcopy
 
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-
 
 
 class RelOr:
@@ -40,11 +39,9 @@ def AddRelOrToIndex(ph1_id, ph2_id, ro_id, ph_ids_to_ro_id):
         ph_ids_to_ro_id[ph1_id][ph2_id] = ro_id
 
 
-def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
+def RelativeOrientation(in_dt, cam_m, distor, rel_or_phs, protocol_path):
     ph_ids_to_ro_id = {}
     ros = []
-
-    cam_m, distor = in_dt.GetCameras().values()[0].GetParams()
 
     #rel_or_phs = [(598, 576), (597, 598)]  
     #rel_or_phs = [(576, 598), (597, 598)]  
@@ -56,13 +53,7 @@ def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
     phs = in_dt.GetPhotos()
     pts = in_dt.GetPoints()
 
-    ro_phs, phs_outer_envelope, phs_oriented =  GetFirstPair(in_dt)
-    
-    i_ro_id = 0
-    while True:
-    #for i_ro_id, ro_phs in enumerate(rel_or_phs):
-        ph1, ph2 = ro_phs
-
+    for i_ro_id, ro_phs in enumerate(rel_or_phs):
         tie_point_ids, tie_pts = in_dt.GetTiePoints(ro_phs)
         sps_pts, P, p1, p2 = computeRelativeOrientation(tie_pts, 
                                                         cam_m, 
@@ -99,8 +90,6 @@ def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
 
             for i_pt, pt_add_id in enumerate(ro.pt_ids):
                 pts[pt_add_id].AddRelOrCoords(i_ro_id, out_pts[i_pt])
-        
-        AddRelOrToIndex(ro_phs[0], ro_phs[1], i_ro_id, ph_ids_to_ro_id)
 
         apts =  {}
         for pid in ro.pt_ids:
@@ -111,22 +100,14 @@ def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
             aphs[phs[phid]] = phs[phid]
 
 
-        #if ro_phs == [553, 591]:
-        #print ph1.GetId()
-        #print ph2.GetId()
-        #print len(tie_point_ids)
-        #PlotRelOrs(apts, aphs, i_ro_id)
+        if ro_phs == [553, 591]:
+        #if ro_phs == [597, 585]: 
+        # or ro_phs == [576, 598]:
+            PlotRelOrs(apts, aphs, i_ro_id)
         
+        AddRelOrToIndex(ro_phs[0], ro_phs[1], i_ro_id, ph_ids_to_ro_id)
 
-        ret = NextPair(ros, ph_ids_to_ro_id, phs_outer_envelope, phs_oriented)
-        if not ret:
-            break
-        ro_phs = ret
- 
-        i_ro_id += 1
-
-    #PlotAllRelOrs(pts, phs)
-    #createRelOrProtocol(protocol_path, ros, cam_m, distor, in_dt)
+    createProtocol(protocol_path, ros, cam_m, distor, in_dt)
         
     computeMissingPoints(in_dt)
     return ros, ph_ids_to_ro_id
@@ -167,55 +148,6 @@ def computeMissingPoints(in_dt):
                 if found:
                     break
 
-def GetFirstPair(in_dt):
-
-    sorted_pairs = in_dt.GetPhotosConnectivity()
-    phs_pair = sorted_pairs[0][0]
-
-    ph1, ph2 = phs_pair
-    phs_outer_envelope = [ph1, ph2]
-    phs_oriented  = [ph1, ph2]
-    
-    return phs_pair, phs_outer_envelope, phs_oriented
-
-def NextPair(ros, ph_ids_to_ro_id, phs_outer_envelope, phs_oriented):
-
-    conn_ph_tie_pts_n = 0
-    conn_ph = None
-
-    for i_out_ph, out_ph in enumerate(phs_outer_envelope[:]):
-        neigh_phs = out_ph.GetNeighboroughPhotos()
-        
-        ph_in_envelope = False
-        
-        for ph, tie_pts_n in dict(neigh_phs).iteritems():
-            if ph in phs_oriented:
-                continue
-
-            ph_in_envelope = True
-            if tie_pts_n > conn_ph_tie_pts_n:
-                conn_ph = ph
-                env_ph = out_ph
-                conn_ph_tie_pts_n = tie_pts_n 
-
-
-        if not ph_in_envelope:
-            phs_outer_envelope.remove(out_ph)
-
-    if not conn_ph:
-        return None
-    """
-    print "seznam"
-    print conn_ph.GetId()
-    print env_ph.GetId()
-    """
-
-    phs_outer_envelope.append(conn_ph)
-    phs_oriented.append(conn_ph)
-
-    return (env_ph, conn_ph)
-
-
 def ConnectRelOr(phs, add_rel_or, conn_rel_or):
     def GetPivotPhoto(rel_or1, rel_or2):
         if rel_or1.ph1_id == rel_or2.ph1_id:
@@ -226,6 +158,25 @@ def ConnectRelOr(phs, add_rel_or, conn_rel_or):
             pivot_ph_id = rel_or1.ph2_id
 
         return pivot_ph_id
+
+    pivot_ph_id = GetPivotPhoto(add_rel_or, conn_rel_or)
+    pivot_ph = phs[pivot_ph_id]
+
+    pm_ro = add_rel_or.pm
+    ro_pt_ids = add_rel_or.pt_ids
+    t_ro = pm_ro[:, 3]
+    R_ro = pm_ro[:, :3]
+
+    #ro_pts = add_rel_or.sps_pts[:,:3]
+    if pivot_ph == add_rel_or.ph2_id:
+        #ro_pts = R_ro.dot(ro_pts) + t_ro
+        phpts1 = add_rel_or.tie_pts[:,:2]
+        phpts2 = add_rel_or.tie_pts[:,2:]
+        add_ph = phs[add_rel_or.ph1_id]
+    else:
+        phpts2 = add_rel_or.tie_pts[:,2:]
+        phpts1 = add_rel_or.tie_pts[:,:2]
+        add_ph = phs[add_rel_or.ph2_id]
 
     def computeScale(add_rel_or, conn_rel_or, phs):
 
@@ -271,21 +222,6 @@ def ConnectRelOr(phs, add_rel_or, conn_rel_or):
 
         return med
 
-    pivot_ph_id = GetPivotPhoto(add_rel_or, conn_rel_or)
-
-    pivot_ph = phs[pivot_ph_id]
-
-    pm_ro = add_rel_or.pm
-    ro_pt_ids = add_rel_or.pt_ids
-    t_ro = pm_ro[:, 3]
-    R_ro = pm_ro[:, :3]
-
-    #ro_pts = add_rel_or.sps_pts[:,:3]
-    if pivot_ph == add_rel_or.ph2_id:
-        add_ph = phs[add_rel_or.ph1_id]
-    else:
-        add_ph = phs[add_rel_or.ph2_id]
-
     eo_ph = pivot_ph.GetP()
     t_ph = eo_ph[:, 3]
     R_ph = eo_ph[:, :3]
@@ -307,7 +243,7 @@ def undistortPoints(pts, cam_m, distor):
     tp_u = cv2.undistortPoints(tp, cam_m, distor)
     return tp_u
 
-def createRelOrProtocol(protocol_path, ros, cam_m, distor, in_dt):
+def createProtocol(protocol_path, ros, cam_m, distor, in_dt):
     prot_fd = open(protocol_path, 'w')
 
 
@@ -572,4 +508,3 @@ def PointDepth(P, pth):
     print "ok"
     ems = _create5ptOutFile(em_fd);
     """
-
