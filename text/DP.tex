@@ -2034,13 +2034,15 @@ After obtaining DTM, the orthophoto can be created using same principle describe
 %%% ML: ZADNA REFERENCE V TEXTU ??? obecneji receno v textu je vubec
 %%% malo referenci na literaturu, zkus to projit a nejake pridat
 
-In 1990s Global Positioning System (GPS) become first globally operational navigation satellite system.
+%%% -> ML: OK
+
+In 1990s Global Positioning System (GPS) become first globally operational navigation satellite system (GNSS).
 GPS allows 
 to locate position of GPS unit with accuracy ranging  from  millimeters to decimeters depending 
 on used technique and other conditions. 
 In photogrammetry, GPS is often employed with inertial measurement unit (IMU), which measures its orientations in a object space.
-The units greatly simplifies obtaining of initial values of exterior orientation in photogrammetric aerial mapping missions.
-They provide all needed parameters of exterior orientation with sufficient accuracy for performing of BBA. 
+The units greatly simplifies obtaining of the initial values of exterior orientation in the photogrammetric aerial mapping missions.
+They provide all needed parameters of the exterior orientation with sufficient accuracy for performing of BBA. 
 In order to be information useful, it is need to determine 
 lever-arm offset describing shift of GPS unit to the perspective center and bore sight offset
 describing orientation of camera coordinate system towards IMU coordinate system \cite{perry2009synthesized}[p. 33]. These two
@@ -2050,12 +2052,13 @@ can be refined by BBA if collinearity equations are extended to include them.
 
 \label{sec:assum}
 Before operation of GPS, aerial photogrammetry had made some a priori assumptions about a camera position,
-which simplified the collinearity equation in order to get initial values of exterior orientation. 
+which simplified the collinearity equation in order to get the initial values of exterior orientation. 
 For instance, it can be assumed that the aerial photo is vertical if orientation deviates from true vertical
 direction up to 2-3 degrees. Applying the assumption to collinearity equations, they can be linearized and 
-approximate values can be computed easily from GCPs. \cite{pavelka2004foto20}[p. 52].
+approximate values can be computed easily from GCPs \cite{pavelka2004foto20}[p. 52].
 %%% ML: budget ... high - zni divne ...
 
+%%% -> ML: OK
 Photogrammetric aerial mapping mission is prepared and carried out by experts using 
 professional, properly calibrated equipment.
 As a consequence, cost of the missions
@@ -2064,7 +2067,7 @@ is high. These facts prevents from further spreading of rigorous aerial photogra
 Nowadays, nearly everybody has camera in his or her pocket thus there is a big demand 
 to provide very simple solution from the user point of view because 
 vast majority of the users have limited or no knowledge of photogrammetry and computer vision. 
- Recent rise of civil UAV \ref{sec:UAV_intro} sector has drastically reduced cost of mapping   
+ Recent rise of civil UAV (see \ref{sec:UAV_intro}) sector has drastically reduced cost of mapping   
   compared to rigorous aerial photogrametry mission employing manned aircraft.
 
 %%% ML: do textu bych vice zaclenil reference na teoritickou cast
@@ -2073,7 +2076,7 @@ It follows the main requirement
 of the solution to be simple and cheap enough
 in order to be adopted by
 ordinary users who do not want 
-to spend money for other devices or spend time studying complicated methods. 
+to spend money for other devices or to spend time studying complicated methods. 
 Ordinary users just 
 want to take a group of a photos of a scene and get the job done by a software.
 The final solution should be flexible to process both terrestrial and aerial photos
@@ -2101,7 +2104,7 @@ e.g. GCPs, positions of cameras etc. The additional data can
  decreasing number of  BBA iterations needed for finding global minimum. It is very important 
  for professional photogrammetric measurements where accuracy matters.
 
-As consequence of the general goals the minimum required input should be just photos
+As a consequence of the general goals the minimum required input should be just photos
 of the scene.
 It could be required to take photos of a calibration scene, however, 
 it must be easy to construct it. 
@@ -2112,16 +2115,16 @@ because if it would require a lot of time for an user to go through the processi
 Following processing chain  \cite{labe2006automatic} should fulfill above mentioned requirements for the solution:
 
 \begin{itemize}
-\item Camera calibration - determination of camera interior orientation.  One group of many techniques for calibration
-of camera are based on processing of photos of 2D calibration patterns. Whole process is very simple from the user point of view. It is needed 
+\item Camera calibration -- determination of camera interior orientation.  One group of many techniques for calibration
+of the camera are based on processing of photos of 2D calibration patterns. Whole process is very simple from the user point of view. It is needed 
 to print the pattern on sheet of paper and take photos of the pattern from different positions. The calibration 
 is done automatically. No additional user input except a photos of a pattern is needed.
-\item Tie point identification - it can be done fully automatically by pattern matching algorithms.
-\item Retrieval of initial values for BBA - it is fully automatic process without need of any manual user input.
+\item Tie point identification -- it can be done fully automatically by pattern matching algorithms.
+\item Retrieval of initial values for BBA -- it is fully automatic process without need of any manual user input.
 As input it needs tie points and interior orientation of camera given by previous two steps.
  Optional step of transformation into world coordinate system needs users assistance
- to provide GCPs \cite{heipke1997automation} in most cases.
-\item Bundle block adjustment - it is fully automatic integrating information from all three previous steps.
+ to provide GCPs \cite{heipke1997automation} in the most cases.
+\item Bundle block adjustment (BBA) -- it is fully automatic integrating information from all three previous steps.
 \end{itemize}
  
 \subsubsection{Camera calibration}
@@ -2129,12 +2132,15 @@ As input it needs tie points and interior orientation of camera given by previou
 %%% ML: druha veta by chtela prespat
 %%% ST: vypustena 
 
+%%% -> ML: OK
+
 Camera calibration is a process dealing with determination of the interior orientation parameters including distortion.
-Several methods can be used for camera calibration \cite{zhang2004calibration}. 
+Several methods can be used for camera calibration~\cite{zhang2004calibration}. 
 %%% ML: one family zni divne
 %%% ST: group
 %%% ML: which *have* psal bych bez carky, i tak ta veta zni moc 'cesky' :-)
 %%% ST: prepracovano
+%%% -> ML: OK
 One group of calibration methods are based on photos capturing calibration object covered with calibration points.
 Relative position of the points to each other is  precisely determined.  
 
@@ -2145,8 +2151,8 @@ The methods can be further divided according to dimension of a calibration objec
 
 \begin{itemize}
 \item \term{3D reference object based calibration} -- It allows to reach very good accuracy of determined 
-interior orientation parameters. One type of common calibration objects is comprised of three or two
-perpendicular planes covered by calibration points. Drawback of 3D calibration 
+interior orientation parameters. One type of the common calibration objects is comprised of three or two
+perpendicular planes covered by the calibration points. Drawback of 3D calibration 
 is that accurate construction of the calibration object is difficult.
 \item \term{2D plane based calibration} -- It is less accurate compared to 3D calibration. 
 The accuracy can be improved by taking more photos of a calibration object.
@@ -2155,7 +2161,7 @@ easier compared to construction of a 3D calibration object.
 \end{itemize}
 
 
-Another method is self-calibration, which finds values of the interior orientation parameters by BBA.
+Another method is a \term{self-calibration}, which finds values of the interior orientation parameters by BBA.
 However, at least initial values of focal length and principal point must be known.
 Usually focal length and chip size are publicly available by manufacturer. The principal point 
 can be computed dividing chip size by two, because it is supposed that it lies close to 
@@ -2167,7 +2173,7 @@ Interior orientation based on manufacturer information should not be interpreted
 it has  to be refined by camera calibration process.
 Including interior orientation as parameters of BBA
 can lead into over-parametrization which may lead to deterioration of resulting accuracy.
-In case of self-calibration it is recommended to take convergent photos from many different directions and positions in order
+In the case of self-calibration it is recommended to take convergent photos from many different directions and positions in order
 to avoid correlation of adjusted parameters. 
 
 %%% ML: during WHAT?
@@ -2185,7 +2191,7 @@ orientation.
 \subsubsection{Tie points identification}
 
 From a developer point of view, the simplest way of tie points identification is to force user to locate tie points on 
-the photos manually. However, a  user would have to waste a lot of time on such a 
+the photos manually. However, the  user would have to waste a lot of time on such a 
 dull task. Luckily, there are algorithms able to identify tie points on photos
 automatically. The state of the art algorithms are SIFT \cite{wiki:SIFT} and SURF \cite{wiki:SURF}.
 The algorithms allows to identify tie points in corresponding photos capturing same parts of a scene without need to provide any other information.
@@ -2194,7 +2200,7 @@ Unfortunately, both algorithms are patented in USA therefore their use should be
 Recently new BRISK \cite{leutenegger2011brisk} and FREAK \cite{alahi2012freak} algorithms
 have been developed. The algorithms do not posses a patent restriction. 
 
-Another issue of tie points matching is determination of corresponding photos. 
+Another issue of tie points matching is determination of the corresponding photos. 
 If photos are taken in a strip, it is easy because the corresponding photos are comprised from neighborhood photos 
 in a strip.
 If there is no a priori information about photo order, the easiest way is to use brute force 
@@ -2223,8 +2229,8 @@ parameters of interior orientation are obtained by a camera calibration procedur
 
 %%% ML: casto v textu opakujes konstrukci "there exist", zni divne
 %%% ST: prepsano
-
-Many methods deal with obtaining of initial values of exterior orientation. They 
+%%% -> ML: OK
+Many methods deal with obtaining of initial values of the exterior orientation. They 
 differ in information which they require for input, computation time and accuracy. 
 In order to fulfill the set up requirements chosen method should be able to retrieve exterior orientation 
 using just photo coordinates of tie points and interior orientation of camera. The method 
@@ -2233,19 +2239,19 @@ various object points configuration.
 
 Methods can be divided into following groups according required information:
 \begin{itemize}
-\item Methods requiring knowledge of object point coordinates to retrieve exterior
+\item Methods requiring knowledge of the object point coordinates to retrieve exterior
 orientation. The requirement would have negative impact on processing 
 chain because it would require manual identification of the object coordinates,
 thus this group of methods should be avoided. 
 \item Group of  methods based on making assumption about the configuration of cameras (e.g. see \ref{sec:assum}).  
-\item Methods based on epipolar geometry \ref{sec:epipolar_gem} using essential matrix properties to 
+\item Methods based on epipolar geometry (\ref{sec:epipolar_gem}) using essential matrix properties to 
 retrieve relative orientation.
 The epipolar methods are closed form computer vision algorithms
 able to determine relative orientation (essential matrix) from photo coordinates 
 of tie points coordinates normalized by camera calibration matrix. 
 \end{itemize}
 
-In order to meet set up requirements \ref{sec:solution}, the group of epipolar 
+In order to meet set up requirements noted in \ref{sec:solution}, the group of epipolar 
 algorithms seems to be the best choice. Unlike the second group of algorithms,
 they are general to be capable of processing oblique photos. Unlike
 to the first group of methods, the epipolar algorithms
@@ -2260,11 +2266,11 @@ do not require a priori information about object point coordinates.
 Individual epipolar algorithms are called 
 according to required number of identified tie points in two photos. Thus eight, seven, six and five point
 algorithms belongs the the group. 
-  The five point algorithm seems to perform best in most
+  The five point algorithm seems to perform best in the most
 cases \cite{stewenius2006recent} and it is not sensitive on planar points configuration as the others.
 
-Only case, when the five point algorithm \cite{nister2004efficient} underperforms 
-\cite{bruckner2008experimental} the others is forward motion of camera.
+Only one case, when the five point algorithm \cite{nister2004efficient} underperforms 
+\cite{bruckner2008experimental} the others is forward motion of the camera.
 This flaw can be eliminated by joint usage of eight and five point algorithms.
 
 Main disadvantage of the five point algorithm is that it can produce up to ten solution.
@@ -2285,7 +2291,7 @@ make it more robust for effect of the outliers.
 Principle of RANSAC is based on finding such a solution in group of measurements containing outliers 
 which well approximates inliers.  
 
-In group of epipolar algorithms, RANSAC selects random tie points in every iteration.
+In the group of epipolar algorithms, RANSAC selects random tie points in every iteration.
 The number of selected tie points is chosen according to minimum number which the epipolar algorithm requires.
 The epipolar algorithm is launched with the selected points as an input, giving essential matrix
 as output. 
@@ -2298,7 +2304,7 @@ the essential matrix is set as the best fitting and iteration continues. The ite
 reaching maximum number of iterations returning the best fitting essential matrix.
 
 After essential matrices are obtained, all needed information for calculation of initial object point coordinates
-is  available. The object points coordinates can be computed by triangulation methods described in \ref{sec:triang}.
+is  available. The object points coordinates can be computed by triangulation methods described in~\ref{sec:triang}.
 
 
 \subsubsection{Common relative coordinate system}
@@ -2315,38 +2321,39 @@ a common relative coordinate system by subsequent transformation described in \r
 
 %%% ML: konec odstavce - "world coordinate systems e.g. maps" ???
 %%% ST: presunuto
+%%% -> ML: OK
 
-The difference between world coordinate system and common relative system is that the common one 
+The difference between a world coordinate system and common relative system is that the common one 
 is defined by arbitrary selected relative orientation. World coordinate system definition is standardized.
 Thanks to the standardized definition, it is connected to all other commonly used  world systems through 
 defined transformations to these systems.
 GCP object coordinate are usually expressed in some world coordinate system. In order to be 
 information of precise GCP coordinates usable in BBA, it is needed to transform common relative 
 system into the world system of GCPs. When the scene is transformed into world coordinate system,
-it can also be combined with other data e.g.maps 
+it can also be combined with other data e.g. maps 
 which are expressed in some world coordinate systems. 
 Moreover availability of precisely determined GCP can significantly improve results of BBA.  
 
 %%% ML: broken referece
 
 The transformation is called Helmert transformation. It is comprises from 
-three main steps: rotation, scaling and translation \ref{sec:helmert}.
+three main steps: rotation, scaling and translation (see \ref{sec:helmert}).
 
-In order to be transformation of the common system into the world coordinate system possible, it is needed 
+In order to make transformation of the common system into the world coordinate system possible, it is needed 
 to have at least 3 GCPs, with known initial coordinates in the common relative system. 
 This step is optional because  BBA can be performed also in the common coordinate system. 
 
 \subsubsection{Bundle block adjustment}
 
-All initial values of parameters in collinear equations \eqref{eg:col_eqs} are obtained and transformed into common coordinate system, thus 
+All initial values of parameters in collinear equations \eqref{eq:col_eqs} are obtained and transformed into common coordinate system, thus 
 BBA can be performed.
 
-Main reason for employing BBA is to improve accuracy of results.
+The main reason for employing BBA is to improve accuracy of results.
 In order to obtain initial values it is merely used information from relative orientation of photo pairs.
-However, object points are usually visible from more than two photos. This redundancy is not fully taken 
+However, the object points are usually visible from more than two photos. This redundancy is not fully taken 
 into account during retrieval of initial values because object points are calculated just from two photos
 ignoring additional information from another photos where the point was also identified.
-Only non-rigorous redundancy  in relative orientation process is that same object point can 
+Only non-rigorous redundancy  in relative orientation process is that the same object point can 
 be calculated from multiple photo pairs of relative orientations.
 Single object coordinates of the point can be calculated after transformation into a common system.  
 
@@ -2359,9 +2366,9 @@ The BBA can also significantly improve accuracy of the few evidently wrongly det
 Moreover, if a photo point is wrongly identified in a photo, such a point can be recognized and its 
 negative effect can be eliminated.
 
-If at least three GCPs are known, the scene can be transformed into world coordinate system thus ordinary non-linear least square method \ref{sec:non_least} 
+If at least three GCPs are known, the scene can be transformed into world coordinate system thus ordinary non-linear least square method (\ref{sec:non_least}) 
 can be used otherwise
-it is needed to use free network least squares \ref{sec:free_net_least} to cope with datum deficiency. 
+it is needed to use free network least squares (\ref{sec:free_net_least}) to cope with datum deficiency. 
 
 \subsection{GRASS GIS orthorectification workflow}
 
