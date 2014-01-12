@@ -834,7 +834,7 @@ unlike the minimized function by linear least squares method.
 Therefore, success of non-linear least squares method depends on the initial values of parameters vector $\evect{X}$!
 
 \subsubsection{Least squares properties}
-
+\label{sec:lsq_props}
 It was proved \cite{mervart2007adjustment} that above derived least square method is solution of Gauss-Markoff model which says:
 If measurements \evect{L} are random with known covariance matrix $\ematr{\Sigma}_{l}$  
 and vector of unknown parameters \evect{X} is non-random then
@@ -1815,11 +1815,11 @@ For instance closed form method can be employed based on SVD decomposition
 
 \subsection{Bundle block adjustment}
 
-Bundle block adjustment (BBA) is a method, which uses the least squares technique (\ref{sec:least}) to refine scene parameters. 
+Bundle block adjustment (BBA) is a method which uses the least squares technique (\ref{sec:least}) to refine scene parameters. 
 The main advantage of BBA is that the it takes into account whole scene and therefore it utilizes 
 maximum information for adjustment of scene parameters which leads to the more accurate results.
 The principle of BBA has been known for very long time since 1950s,
-however, the method has been employed in practical applications since 1990's, because the performance of computers had not been 
+however, the method has been employed in practical applications since 1990's because the performance of computers had not been 
 sufficient enough before. 
 
 
@@ -1864,12 +1864,12 @@ than unknowns. This makes perfectly sense because it is not possible to determin
 since it can lie wherever on the ray (see Figure \ref{fig:obj_intersec}).
 
 Unlike tie points, GCPs do not bring any new adjusted parameters 
-allowing to use the GCP visible only in a single photo. In this case, the object coordinates 
+allowing to utilize the GCP visible from single photo. In this case, the object coordinates 
 are known thus there is no ray ambiguity. 
 
 Lets suppose that it is adjusted exterior orientations and object coordinates of tie points.  
 Every photo yields six parameters of exterior orientation (three projective center coordinates and three orientation angles) 
- giving 6 $\times$ 3 = 18 parameters. 
+ giving 6 $\times$ 3 = 18 parameters by all three photos. 
 
 Tie points give 5 $\times$ 3 = 15 adjusted parameters of the object coordinates. 
 Only 5 tie points are used in BBA because the tie point visible in just one photo must be skipped.
@@ -1877,12 +1877,12 @@ GCPs do not give any adjusted parameters since coordinates are known.
 
 Every tie point and GCP visible on three photos give 6 measurements (two collinearity equations for every photo point)
 totally giving 30 measurement.
-Points visible from two photos give 4 measurements totally yielding 12 measurements.
+Points visible from two photos give 4 measurements yielding 12 measurements totally.
 GCP visible from single photo gives additional 2 measurements.
 
 Overall score is 33 adjusted parameters and 44 measurements.
 
-Thanks to 9 redundant measurements it is possible to add some of the interior parameters into adjustment.  
+Thanks to 9 redundant measurements, it is possible to add some of the interior parameters into adjustment.  
 On the other hand the redundancy of measurement improves accuracy of results which is the main point of the least square method
 therefore it should be avoided to have nearly same number of measurements and adjusted parameters.
 
@@ -1903,9 +1903,8 @@ therefore it should be avoided to have nearly same number of measurements and ad
 \end{figure}
 
 
-
-In the first least squares iteration, the initial values of adjusted parameters are put into parameters vector $\evect{X}$
- representing tangent point of Taylor polynomial to the costs functions.  The other non-adjusted 
+In the first least squares iteration, the initial values of adjusted parameters are given into parameters vector $\evect{X}$
+ representing tangent point of Taylor polynomials and costs functions.  The other non-adjusted 
 parameters are given into $\evect{N}$ vector of knowns. In the example, non-adjusted parameters are object coordinates
 of GCPs and interior orientation. 
 Measured photo coordinates are given
@@ -1915,9 +1914,11 @@ Design matrix $\evect{A}$ is calculated from
 derivatives of collinearity equations substituting values from vectors $\evect{X}$ and $\evect{N}$.
 
 %%% -> ML: "GCP 2" ???
+%%% -> ST viz obrazek, pridal jsem odkaz na obrazek
 
-The vectors  $\evect{L}$ and  $\evect{X}$ give structure to the design matrix $\evect{A}$ and
-vector of $\evect{L}_{X0}$.
+The vectors  $\evect{L}$ and  $\evect{X}$ give structure to design matrix $\evect{A}$ and
+vector $\evect{L}_{X0}$.
+
 Order of partial derivatives of design matrix $\evect{A}$  is determined by adjusted parameters position in 
 parameters vector $\evect{X}$. E.g. the first column of the example design matrix is filled with derivatives respect 
 to variable representing the  X object coordinate of the first photo projective center. Variables of derived collinearity equations
@@ -1927,14 +1928,16 @@ derivation of x collinearity equation because in corresponding position of the m
 x photo coordinate of the tie point 1. The second row of the design matrix is composed of 
 partial derivatives of y equation comprised of the same variables. 
 Variables of collinearity equation change in the other rows. For instance, the last row corresponds to the 
-y photo coordinate of the GCP 2. The partial derivation of the first column is equal 
-to zero because the variable X object coordinate of the first photo projective center was replaced 
-by X of the third photo projective center in collinearity equation. Also it should be noted that in the last row, there is no derivation 
+y photo coordinate of the GCP 2 (see Figure \ref{fig:bba_system}). The partial derivation of the first column is equal 
+to zero because the variable X of object coordinate of the first photo projective center was replaced 
+by X of the third photo projective center in collinearity equation. 
+It should be noted that in the last row, there are no derivations 
 respect to point object coordinates because the row represents GCP. Object coordinates of GCPs do not 
 belong to the adjusted parameters thus design matrix do not contain column representing partial 
 derivatives respect to the GCP object coordinates.
 
-Position in a vector $\evect{L}_{X0}$ is connected in the same way to a vector $\evect{L}$ as rows of the design matrix.
+
+Position in a vector $\evect{L}_{X0}$ is linked in the same way to a vector $\evect{L}$ as rows of design matrix.
 Value of position is calculated by collinearity equations using corresponding variables.
 
 The relations nicely illustrates a pivot role of design matrix which links parameters vector $\evect{X}$ 
@@ -1942,11 +1945,14 @@ with measurements vectors $\evect{L}$ and $\evect{L}_{X0}$.
 
 If rows in design matrix $\evect{A}$ or positions $\evect{L}$ and $\evect{L}_{X0}$ are switched,
 as consequence of the correspondence it is needed to switched them also in the other components. 
-Same applies for columns  of design matrix $\evect{A}$  and positions in parameters vector $\evect{X}$.
+The same applies to columns  of design matrix $\evect{A}$  and positions in parameters vector $\evect{X}$
+
+The thesis does not deal in-depth with determination of weight matrix \ematr{P}. 
+Simplest method is to represent it as identity matrix. More rigorous method is described in \ref{sec:lsq_props}. 
 
 All needed information is available to perform a first iteration of non linear least square 
-method (\ref{sec:non_least}). As result of iteration refined values of vector  $\evect{X}$
-are obtained. Another iteration can be  performed by the same procedure  with adjusted parameters vector $\evect{X}$
+method (\ref{sec:non_least}).  Refined values of vector  $\evect{X}$ are obtained as result of an iteration. 
+Another iteration can be  performed by the same procedure  with adjusted parameters vector $\evect{X}$
 if termination criterion is not met (\ref{sec:term_crit}).
 
 \subsection{Orthorectification}
@@ -3587,7 +3593,7 @@ max. & 0.775 & 0.132 & 0.066 & 0.066 & 0.066 \\ \hline
 c | c | c | c | c | c | c | c | c | c | c | c |} 
 \caption{Final results of exterior orientation (projective center object coordinates $X$, $Y$, $Z$  and Euler angles $\varphi$, $\omega$, $\kappa$)
 including standard deviations $\sigma$ calculated from adjustment. 
-Angles are expressed in degrees and coordinates in  meters (same applies for corresponding $\sigma$).}
+Angles are expressed in degrees and coordinates in  meters (the same applies to corresponding $\sigma$).}
 \label{table:eo_results}
 \\\hline
 $Ph. no.$ & $\varphi$ & $\sigma_{\varphi}$ & $\omega$ & $\sigma_{\omega}$ & $\kappa$ & $\sigma_{\kappa}$  & $X$ & $\sigma_{X}$  & $Y$ & $\sigma_{Y}$ & $Z$ & $\sigma_{Z}$  \\ \hline 
@@ -3661,7 +3667,7 @@ $Ph. no.$ & $\varphi$ & $\sigma_{\varphi}$ & $\omega$ & $\sigma_{\omega}$ & $\ka
 c | c | c | c | c | c | c | c | c | c | c | c |} 
 \caption{Final results of adjusted points coordinates $X$, $Y$, $Z$.
 including standard deviations $\sigma$ calculated from adjustment. 
-Coordinates are expressed in meters (same applies for corresponding $\sigma$).}
+Coordinates are expressed in meters (the same applies to corresponding $\sigma$).}
 \label{table:pt_results}
 \\\hline
 $Ph. no.$ & $X$ & $\sigma_{X}$  & $Y$ & $\sigma_{Y}$ & $Z$ & $\sigma_{Z}$  \\ \hline 
