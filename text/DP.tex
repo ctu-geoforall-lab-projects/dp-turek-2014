@@ -21,6 +21,7 @@
 %\PassOptionsToPackage{hyphens}{url}
 \usepackage{lscape}
 \usepackage{rotating}
+\usepackage[toc,page]{appendix}
 
 \usepackage{longtable}
 \usepackage{bibentry}
@@ -275,6 +276,7 @@ DTM. The current processing chain is not able to meet up such a demand.
 explores and implements methods of photogrammetry and computer vision in order 
 to create such a solution.
 
+\newpage
 \section{Theoretical part}
 
 This chapter covers several methodological subtopics:
@@ -1895,6 +1897,7 @@ therefore it should be avoided to have nearly same number of measurements and ad
 %%% otocit o
 %%% 90% (porad to bude vypadat lepe, nez kdyz obrazek preteka)
 %%% otocen
+%%% ST: DONE
 
 %\begin{landscape}
 \begin{figure}[!h]
@@ -2023,7 +2026,7 @@ This method is able to create DTM from millions of points.
 After obtaining DTM, the orthophoto can be created using same principle described in the first method. 
 
 %%% ML: kapitola by mela zacinat na nove strane
-
+\newpage
 \section{Analytical part}
 
 \subsection{General solution of UAV bundle block adjustment}
@@ -2444,6 +2447,7 @@ Hence, new front end of the
 orthorectification has to be developed in order to make it fully operational 
 in GRASS~7. 
 
+\newpage
 \section{Implementation}
 
 \subsection{Used technologies}
@@ -2783,7 +2787,7 @@ is described every iteration of the BBA including correction for all adjusted pa
 covariance matrix calculated from adjustment. 
 
 %%% ML: nova kapitola - zacatek stranky
-
+\newpage
 \section{Test case}
 \label{sec:test_case}
 
@@ -3072,7 +3076,7 @@ weight matrix given to identity, differences to Bingo-F results increase.
 Mostly it affects exterior orientation.
 For instance, average difference in photo position increases from 4.8 cm to 8.4 cm.
 
-
+\newpage
 \section{Future development}
 
 The work done in the thesis can be considered as prove of a concept
@@ -3164,6 +3168,7 @@ The goal was not completely fulfilled because collinearity equations relies on p
 It may cause numerical instabilities in certain direction (\ref{sec:eo}) thus it must be changed into some other representation.
 Unit quaternions seem to be best choice since they do not suffer form gimbal lock problem \cite{schmidt2001using}.
 
+\newpage
 \section{Conclusion}
 
 The path leading into the final solution presented in the thesis has not been straightforward.
@@ -3197,9 +3202,6 @@ by everybody because it is easy to recognize whether the retrieved structure res
   chain achieved similar accuracy as Bingo-F. However, the solution can be considered just as prove of concept 
   running only on one test case. It is far away from being employed in practice. 
 
-
-\section{References}
-
 %%% ML: dvakrat se opakuje kapitola "References"
 
 %%% -> ML: TOHLE je potreba jeste vyresit
@@ -3209,7 +3211,7 @@ by everybody because it is easy to recognize whether the retrieved structure res
 
 %%% -> ML: PROJDI jeste styly, nekde chybi polozky, napriklad hned
 %%% prvni dve reference vypadaji divne
-
+\newpage
 \bibliography{DP}
 \bibliographystyle{plain}
 \bibentry{Hartley2004}
@@ -3302,9 +3304,10 @@ by everybody because it is easy to recognize whether the retrieved structure res
 
 %%% -> ML: idealne je priloha cislovana mimo hlavni cislovani, jako
 %%% A.1 a pod
+\begin{appendices}
 
-\section{Appendix}
-\subsection{Adjustment protocol}
+
+\section{Adjustment protocol}
 \label{sec:adj_protocol}
 
 The following protocol presents results of the developed processing chain
@@ -3355,7 +3358,7 @@ perc. 10  & 0.24 \\ \hline
 \end{longtable}
 \end{center}
 
-\subsubsection{Convergence of parameters}
+\subsection{Convergence of parameters}
 
 \begin{center} 
 %\rowcolors{1}{Gray}{white} 
@@ -3608,7 +3611,7 @@ max. & 0.775 & 0.132 & 0.066 & 0.066 & 0.066 \\ \hline
 \end{center}
 
 \begin{landscape}
-\subsubsection{Results}
+\subsection{Results}
 \begin{center} 
 %\rowcolors{1}{Gray}{white} 
 %\resizebox{10}{10}
@@ -3770,5 +3773,7 @@ $Ph. no.$ & $X$ & $\sigma_{X}$  & $Y$ & $\sigma_{Y}$ & $Z$ & $\sigma_{Z}$  \\ \h
 \hline 
 \end{longtable}
 \end{center}
+
+\end{appendices}
 
 \end{document}
