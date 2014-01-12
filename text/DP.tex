@@ -2358,16 +2358,17 @@ be calculated from multiple photo pairs of relative orientations.
 Single object coordinates of the point can be calculated after transformation into a common system.  
 
 %%% ML: Commonly -> Usually?
+%%% ST: done 
 
 Unlike initial values retrieval, BBA utilizes redundancy rigorously therefore 
 it can significantly improve accuracy of the adjusted parameters.
-Commonly, the initial values of parameters contains certain amount of outliers caused by instabilities of previous steps of the processing chain.
+Usually, the initial values of parameters contains certain amount of outliers caused by instabilities of previous steps of the processing chain.
 The BBA can also significantly improve accuracy of the few evidently wrongly determined parameters.
 Moreover, if a photo point is wrongly identified in a photo, such a point can be recognized and its 
 negative effect can be eliminated.
 
 If at least three GCPs are known, the scene can be transformed into world coordinate system thus ordinary non-linear least square method (\ref{sec:non_least}) 
-can be used otherwise
+can be used. Otherwise,
 it is needed to use free network least squares (\ref{sec:free_net_least}) to cope with datum deficiency. 
 
 \subsection{GRASS GIS orthorectification workflow}
@@ -2529,6 +2530,7 @@ is generated automatically by the library.
 
 %%% ML: v prvni odstavci by se hodila reference na kapitolu o GRASS,
 %%% hlavne kdyz mluvis o "modulech"
+%%% ST: pridana
 
 %%% ML: na konci odstavce -  "when the module is run" (running) ?
 %%% ST: launched
