@@ -123,21 +123,35 @@ right=25mm
 
 \begin{abstract}
 
+
 \bigskip
 
-\klicslova{Klíčová slova}{GIS, GRASS}
+\klicslova{Keywords}{photogrammetry, computer vision, orthophoto, structure from motion, bundle block adjustment, least squares method, GIS, GRASS}
+
+The aim of the thesis is implementation of bundle block adjustment method (BBA) focused on processing of  UAV data into GRASS GIS. 
+The thesis explains necessary fundamentals to understand aspects of BBA. After that, GRASS  orthorectification processing chain 
+is analyzed as well as available computer vision and photogrammetric methods related to BBA.
+Modification of GRASS orthorectification processing chain was designed based on the analyses  and subsequently
+prototype of processing chain was developed.
+
+The developed processing chain was tested on data comprising of small set of photos.
+The data were also processed in state of the art Bingo-F software.
+After analysis of the results, it was concluded that accuracy of  the processing chain is comparable to Bingo-F software on the test data. 
 
 \end{abstract}
 
-\selectlanguage{english}
 \begin{abstract}
+\selectlanguage{czech}
+
+
 
 \bigskip
 
-\klicslova{Keywords}{GIS, GRASS}
+
+\klicslova{Klíčová slova}{fotogrammetrie, počítačové vidění, ortofoto, structure from motion, metoda svazkového vyrovnání bloku, metoda nejmenších čtverců, GIS, GRASS}
+\selectlanguage{english}
 
 \end{abstract}
-\selectlanguage{english}
 
 
 \newpage
@@ -188,9 +202,10 @@ expensive equipment to perform photogrammetric measurement. Nowadays,
  
  %%% -> ML: "photogrammetry has not longer been domain" zni to divne,
  %%% zkus to jeste PREPSAT
-
-As a consequence of these changes, photogrammetry has not longer been domain of few professionals but it has 
-become used by much wider audience. 
+ %%% ST: prepsano
+ 
+As a consequence of these changes, photogrammetry has 
+become used by much wider audience than a few professionals as it was in the past. 
 
 %%% ML: Geographical -> Geographic (jiz opraveno)
 
@@ -333,6 +348,7 @@ to reconstruct 3D coordinates of the point because it lies on the intersection o
 %%% ML: predpokladam, ze obrazky bez uvedene reference jsou puvodni
 %%% ST: Jj ale nekere jsou na zaklade inspirace z predlohy
 %%% -> ML: v tomto pripade je vhodne uvest predlohu jako zdroj s poznamkou 'upraveno'
+%%% -> ST: uvadim based on 
 
 \begin{figure}[h]
     \centering
@@ -399,12 +415,13 @@ caused by tilt of camera (if photo is not vertical) and elevation differences ar
 %%% ST: pridal jsem web grassu, GNU GPL je zminena jen tak na okraj...
 %%% -> ML: OK
 %%% -> ML: pouze na okraj - nemas vysvetlenu zkratku CERL (nevadi, tlaci nas cas)
+%%% -> ST: pridana
 
 GRASS (Geographic Resources Analysis Support System) \footnote{\url{http://grass.osgeo.org}} 
 GIS is a free GIS software 
 capable of processing raster, vector and imagery data. 
 GRASS belongs among one of 
-the longest active software projects. Development of GRASS was begun by the U.S. Army CERL  laboratory
+the longest active software projects. Development of GRASS was begun by the U.S. Army CERL laboratory (Construction Engineering Research Lab)
 in the first half of 1980s. In 1990s, U.S. Army gradually ceased developing GRASS. Luckily, 
 the development could be taken over by volunteers because
 it had been decided to release its source code as public domain.  License 
@@ -420,13 +437,14 @@ Team comprised of developers spread world wide.
 
 %%% -> ML: nerozumim uplne co znamena "graphical user interface which
 %%% has evolved dynamically", ale to nevadi
+%%% -> ST: prepsano
 
 Individual functionalities of GRASS are implemented in form of small software packages called modules which 
 can be combined together to solve complex tasks.
 Unlike other GIS systems as QGIS or ArcGIS, it takes 
 more time for a new user to start understand the GRASS philosophy.  Developers 
-have been aware of this problem therefore they decided to develop a graphical user interface which 
-has evolved dynamically.
+have been aware of this problem therefore they decided to develop a graphical user interface
+making GRASS more friendly for beginners.
 
 %%% ML: "so called" GIS database (?)
 %%% ST: ok
@@ -599,6 +617,7 @@ solve the system of the linear equations.
 
 %%% -> ML: tady mluvis o 'cost functions' ale v predchozim textu nemas
 %%% vysvetlono o co jde
+%%% -> ST: je vysvetlena v uvodu hned pod prvni rovnici 
 
 Due to measurement imperfections, it is not possible to find such parameters of vector \evect{X} to make difference
 \evect{v} between measured values and results of cost functions using  parameters vector equal to zero:
@@ -779,9 +798,9 @@ where the price for the approximation is paid.
 %%% -> ML: "the Taylor polynomial requires some point $\evect{X_{0}}$
 %%% where it is tangent to approximated function." tohle zni divne
 %%% formulovano
+%%% ST prepsano
 
-As it was already mentioned, the Taylor polynomial requires some point $\evect{X_{0}}$ where it is tangent to 
-approximated function.
+As it was already mentioned, the Taylor polynomial is tangent of approximated at point $\evect{X_{0}}$.
 This approximation is good in close surroundings of the point $\evect{X_{0}}$, however, as the distance 
 grows, the approximation error $\Delta$ may increase significantly which can be clearly seen in Figure \ref{fig:taylor}.
 
@@ -1379,7 +1398,7 @@ Epipolar line is given \eqref{eq:def_hline_pts} by:
 \ehvect{l'_{e}} =  \ehvect{e'} \times \ehvect{x'} = (\ematr{P'}\ehvect{C}) \times \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
-Cross product of two vectors \evect{a} and \evect{b} can be also written as a multiplication of a matrix and a vector:
+Cross product of two vectors \evect{a} and \evect{b} can be also written as multiplication of a matrix and a vector:
 
 \begin{equation}
 \evect{a}  \times \evect{b}  = 
@@ -1407,7 +1426,7 @@ It is apparent from the equation that matrix denoting relation of two photos is 
 \ematr{F}  = [\ehvect{e}']_{\times} \ematr{P'}\ematr{P}^{+}
 \end{equation}
 
-Matrix \ematr{F} is called a \term{fundamental matrix}. 
+Matrix \ematr{F} is called a \term{fundamental matrix} \cite{Hartley2004}. 
 It transforms photo points of the first photo system into 
 epipolar lines of the second photo.
 Fundamental matrix can be expanded by \eqref{eq:p_abbr}
@@ -1418,14 +1437,14 @@ allows to derive another important matrix of two view geometry called \term{fess
 
 Lets suppose that camera matrix of the first photo is defined in this way:
 \begin{equation}
-\label{eq:rel_or_cam1}
 \ematr{P}  = \ematr{K} \ematr{[}I|0\ematr{]}
 \end{equation}
-It means that the camera coordinate system coincides with  the object space coordinate 
+It means that the first camera coordinate system coincides with  the object space coordinate 
 system.
 
-It's pseudo inverse matrix is:
+Its pseudo inverse matrix is:
 \begin{equation}
+\label{eq:rel_or_inv_cam1}
 \ematr{P}^{+} =
 \begin{pmatrix}
    \ematr{K}^{-1} \\
@@ -1435,6 +1454,7 @@ It's pseudo inverse matrix is:
 
 Homogeneous object projective center coordinates are:
 \begin{equation}
+\label{eq:c1}
 \ehvect{C} =
 \begin{pmatrix}
    \evect{0} \\
@@ -1445,11 +1465,11 @@ Homogeneous object projective center coordinates are:
 The second camera matrix is defined in this way:
 \begin{equation}
 \label{eq:rel_or_cam2}
-\ematr{P}'  = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]}
+\ematr{P}'  = \ematr{K}' \ematr{[}\ematr{R}|\evect{t}\ematr{]}
 \end{equation}
 
 
-Epipole of the second on the second photo is given as:
+Epipole of the second photo is given as:
 \begin{equation}
 \begin{split}
 \label{eg:second_epipole}
@@ -1463,11 +1483,14 @@ Epipole of the second on the second photo is given as:
 \end{equation}
 
 The relationship of two cameras is also called \term{relative orientation}, because rotation matrix \ematr{R} and vector \evect{t}
-denotes position and orientation of the second camera to the first one. In order to express cameras exterior orientations in world coordinate 
+represents orientation and position of the second camera to the first one. This relationship is defined up to scale.
+In order to express cameras exterior orientations in a world coordinate 
 system or merge it with another relative orientations, it is needed to perform further transformations of the relative 
 exterior orientations, for more information see chapters \ref{sec:ess_chain} and \ref{sec:helmert}.
 
-The fundamental matrix equation can be rewritten taking into account the relative orientation as:
+The fundamental matrix equation can be rewritten taking into account the relative orientation \eqref{eq:rel_or_inv_cam1},
+\eqref{eq:rel_or_inv_cam1} and \eqref{eq:c1}  as:
+
 \begin{equation}
 \label{eg:funeq}
 \begin{split}
@@ -1489,15 +1512,17 @@ _{\times}
 \end{equation}
 
 Now there comes little bit more difficult part.
-This formula applies for any non-singular matrix \ematr{K} and vector \evect{t}:
+This formula applies for any non-singular matrix \ematr{M} and vector \evect{x} \cite[p. 582]{Hartley2004}:
 \begin{equation}
-[\evect{e}']_{\times} \ematr{K'} = \ematr{K}'^{-T}[\ematr{K}'^{-1}\evect{e}']_{\times}
+\label{eg:furmula}
+[\evect{x}]_{\times} \ematr{M} = \ematr{M}^{-T}[\ematr{M}^{-1}\evect{x}]_{\times}
 \end{equation}
 
-The fundamental matrix equation can be further rewritten using the formula:  
+The fundamental matrix equation can be further rewritten using the formulas \eqref{eg:furmula} and \eqref{eg:second_epipole}:  
 \begin{equation}
 \begin{split}
 \ematr{F}  &= [\ehvect{e}']_{\times} \ematr{K}' \ematr{R} \ematr{K}^{-1} \\
+	  &= \ematr{K}'^{-T} [\ematr{K}'^{-1} \ehvect{e}']_{\times} \ematr{R} \ematr{K}^{-1} \\
 	   &= \ematr{K}'^{-T} [\ematr{K}'^{-1} \ematr{K}' \evect{t}]_{\times} \ematr{R} \ematr{K}^{-1} \\
 	   &= \ematr{K}'^{-T} [\evect{t}]_{\times} \ematr{R} \ematr{K}^{-1}
 \end{split}
@@ -1506,35 +1531,33 @@ The fundamental matrix equation can be further rewritten using the formula:
 This equation reveals very important fact about fundamental matrix saying that a transformation performed 
 by matrix can be divided into three main steps.
 
-At first, the photo point of the first photo is transformed into the first camera coordinate system  by  inverse of the 
-first photo calibration matrix. 
+In first step, photo coordinates of point are normalized.
+Normalized coordinates of the first photo are transformed 
+into normalized coordinates of the second photo by essential matrix:
 
-Result of the transformation is a
-point in the infinity describing direction of ray of the first photo represented by the photo point. 
-After that the ray is projected to the second camera coordinate system
-This is done by essential matrix:
 \begin{equation}
 	 \ematr{E}  = [\evect{t}]_{\times} \ematr{R}
 \end{equation}
 
-As the last step, the ray is transformed into photo system of the second photo as an epipolar line
-by $\ematr{K}'^{-T}$ containing calibration matrix $\ematr{K}'$ of the second photo camera.
+Eventually, the coordinates are transformed into photo system of the second photo
+representing epipolar line.     
 
 It follows that the essential matrix incorporates a relative orientation of two photos.
-Essential matrix is subset of whole information encoded in fundamental matrix including
-additional information about interior orientations of cameras capturing the a photos.  
+Essential matrix is subset of whole information encoded in fundamental matrix.
+Fundamental matrix includes
+additional information about interior orientations of cameras which took the photos.  
 
-Hence if exterior orientation of a two photos is known in same system the
-essential matrix can be computed. The matrix can be calculated from exterior 
-orientations expressed in any Cartesian system since it takes into account the relative 
-position of the photos up to scale. Moreover if calibration matrices 
-are know it is possible to fully define relationship between 
-to the two photos system by fundamental matrix.
+Hence, if exterior orientation of a two photos is known, the
+essential matrix can be computed. The matrix can be calculated from exterior orientations 
+independently of specific object coordinates system since it takes into account the relative 
+position of two photos up to scale. Moreover, if calibration matrices 
+are know, it is possible to define relationship (without taking into account distortion) between 
+ the two photo systems by fundamental matrix.
 
 \subsubsection{Triangulation of points}
 \label{sec:triang}
 
-Triangulation method deals with retrieval of the object point coordinates
+Triangulation methods deal with retrieval of the object point coordinates
 from corresponding points in photos. 
 If measurements would be precise, object point 
 would lie on intersection of two rays which is clearly visible on 
@@ -1571,7 +1594,7 @@ The simplified DLT collinearity equations can be written as \cite{pavelka2004fot
 \end{split}
 \end{equation}
  
-Written in linear form used as cost function in adjustment:
+It can be expressed in linear form:
 
 \begin{equation}
 \begin{split}
@@ -1594,8 +1617,8 @@ Written in linear form used as cost function in adjustment:
  
 %%% ML: prvni veta zni divne, min. chybi "implement *it*"
 
-It does not require to know approximate values because of linearity. 
-Main drawback of this method is that DLT model does not respect pinhole camera model, thus
+Because of linearity, it does not require to know approximate values. 
+Main drawback of this method is that DLT model does not respect pinhole camera model thus
 minimized parameters in the vector \evect{a} do not follow rigorous camera geometry which 
 may result in inaccurate retrieval of object coordinates. Another problem of the method 
 is that it is not fully linear because variables $\escal{x}^{ph}$ and $\escal{y}^{ph}$
@@ -1605,8 +1628,8 @@ occurs also in the right side of the equations.
 
 More complicated method is called the \term{optimal solution}. 
 It is based on enforcing epipolar constraint.  The cost function 
-minimizes sum of distance of photo points to epipolar lines created 
-by projecting corresponding photo points from another photos.
+minimizes sum of squares of distances between photo points to epipolar lines created 
+by transformation of corresponding photo points from another photos.
 
 The cost function is not linear, however, it's derivative leads into 6 degree polynomial thus 
 it has 6 roots. Correct solution can be selected from roots by assumption that it represents global minimum. 
@@ -1658,8 +1681,10 @@ of the both photo planes.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.12]{figures/eo_ambiguity.png}
-    \caption{Four possible relative orientations retrieved from an essential matrix.}
+    \includegraphics[scale=0.25]{figures/eo_ambiguity.png}
+    \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
+    Note that only the upper left configuration satisfies condition that object point 
+    must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
     \label{fig:rel_or_amb}
 \end{figure}
 
@@ -1669,89 +1694,87 @@ of the both photo planes.
 
 %%% ML: posledni veta odstavce potrebuje korekce
 
-If two relative orientations are merged together \cite{pietzsch2001robot}, as first step, it is necessary to calculate a scale of the one orientation
-to the other because relative systems are defined up to the scale.
-The scale can be calculated from corresponding distances in the both coordinate systems. 
-It can be used distances of 
-object points and object coordinates of projective center of camera, which are present in both relative orientations.
+If two relative orientations are merged together, they must share one photo.
+As a first step, it is necessary to calculate a scale \cite{pietzsch2001robot}
+because relative orientation coordinate systems are independent of scale.
+The scale can be calculated from corresponding distances measurable in  both coordinate systems. 
+Distances between object point determined in both camera systems and object coordinates of projective center of shared photo 
+can be used for calculation of scale:
 
-
-The scale can be computed by this equation:
 \begin{equation}
-\escal{s}_{ro2-1} = \frac{\mathbf{\evect{X}^{ro1}_{1} - \evect{C^{ro1}_{1}}}}
-	                {\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}}
+\escal{s}^{ro2-1} = \frac{||\mathbf{\evect{X}^{ro1}_{1} - \evect{C^{ro1}_{1}}}||}
+	                {||\mathbf{\evect{X}^{ro2}_{1} - \evect{C^{ro2}_{1}}}||}
 \end{equation}
 
-where:
+Where:
 \begin{itemize}
-\item \term{ro1} denotes relative orientation where relative  orientation \term{ro2} will be transformed,
-\item \evect{X} is an object point,
-\item \evect{C} is a projective center of the shared photo, which belongs to both relative orientations.
+\item \term{ro1}, \term{ro2} are relative orientation coordinate systems. 
+System \term{ro2} is transformed into system \term{ro1}. 
+\item \evect{X} is an object point determined in both relative orientations,
+\item \evect{C} is a projective center of the shared photo.
 \end{itemize}
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.25]{figures/rel_or.png}
-    \caption{Relative orientation \term{ro2} before transformation 
-    to a common system defined by \term{ro1} is in the left picture. 
-    In the right picture there is common system after transformation of  \term{ro2}.}
+    \caption{In the left picture there are relative orientations \term{ro1}, \term{ro2} before transformation 
+    to a common system. 
+    In the right picture, there is common system defined by \term{ro1} after transformation of \term{ro2}. 
+    Note change of \term{ro2} scale after the transformation. (Based on \cite[p. 20]{pietzsch2001robot})}
     \label{fig:rel_or_amb}
 \end{figure}
 
 %%% ML: "coincides to" ?
-%%% ST: snad je to lepsi is identical
-
-The equation gets simplified if the relative orientation coordinate system is identical  to the camera system of the shared photo, thus 
-coordinates of the shared camera projective center is zero in the both coordinate systems: 
-\begin{equation}
-\escal{s}^{ro2-1} = \frac{\evect{X}_{ro1}}
-	                 {\evect{X}_{ro2}}
-\end{equation}
+%%% ST: vynechano
 
 %%% ML: Usually ?
 %%% ST: jj
-Usually bundles of photos capturing a scene are processed. Relative orientation pairs of photos capture only fragments of the scene, 
+
+Usually bundles of photos capturing a scene are processed. Photo pairs comprising relative orientation capture only fragments of a scene, 
 therefore the information of scene is scattered.  
 In order to interpret the scene as whole it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
-For sake of simplicity, the common relative system is defined by arbitrary relative orientation of a pair and other 
-relative orientations are subsequently transformed into the common coordinate system. 
+For sake of simplicity, the common relative system is defined by relative orientation system of arbitrary pair called \term{reference pair}.
+Other relative orientations are subsequently transformed into the common coordinate system. 
 
 %%% ML: transformed into?
 %%% ST: prepsano
 
-A group of photos transformed into the common system is composed of the relative orientation photo pairs
- comprising connected component of undirected graph.  Nodes represents  photos and edges denotes relative orientations. 
-In other words, it is possible to transform relative orientation into the common relative coordinate system only if there 
-is a continuous chain of the relative orientations where every two neighborhood relative orientations in the chain share one photo.
+All relative orientations which can be transformed into common system are
+ connected component of undirected graph.  Nodes represents  photos and edges denotes relative orientations. 
+In other words, it is possible to transform relative orientation into the common relative coordinate system only, if there 
+is a continuous chain of the relative orientations from reference pair 
+to the transformed orientation, where every two neighborhood relative orientations in the chain share one photo.
 
-The transformation of relative orientations from 1 to $n$, with common system defined by relative orientation 1 can be written as: 
+The transformation of relative orientations 1-$n$ into common system defined by relative orientation 1 can be written as: 
 \begin{equation}
 \label{eq:comm_rel}
 \begin{split}
-&\ematr{P}_{1} = [\ematr{I}|\evect{O}] \\
-&\ematr{P}_{2} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] \\
-&\ematr{P}_{3} = [\ematr{R}^{ro1} \ematr{R}^{ro2}| \ematr{R}^{ro1} \evect{t}^{ro2} \escal{s}^{ro2-1}] \\
-&\ematr{P}_{n} = [\ematr{R}^{ron} \ematr{R}^{ro(n - 1)}| R^{ro(n - 1)} \evect{t}^{ron} {s}^{ron- (n-1)}] \\
+&\ematr{P}_{1\_co} = [\ematr{I}|\evect{O}] \\
+&\ematr{P}_{2\_co} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] = [\ematr{R}^{ro1\_co}|\evect{t}^{ro1\_co}] \\
+&\ematr{P}_{3\_co} = [\ematr{R}^{ro2} \ematr{R}^{ro1\_co}|\ematr{R}^{ro2} \evect{t}^{ro1\_co} + \escal{s}^{ro2-1} \evect{t}^{ro2}] 
+=  [\ematr{R}^{ro3\_co} | \evect{t}^{ro3\_co}] \\
+&\ematr{P}_{n\_co} = [\ematr{R}^{ro(n)} \ematr{R}^{ro(n)(n-1)\_co}|\ematr{R}^{ro(n)} \evect{t}^{ro(n-1)\_co} + \escal{s}^{ro(n)-(n-1)} \evect{t}^{ro(n)}] 
+=  [\ematr{R}^{ro(n)\_co} | \evect{t}^{ro(n)\_co}] 
 \end{split}
 \end{equation}
 
-
-The equations apply for the chain of the relative orientation, where the shared camera in first relative orientation has 
-projection matrix defined by $[\ematr{R}|\evect{t}]$ and matrix of the transformed second relative orientation is 
-defined as $[\ematr{I}|\ematr{O}]$.
+The equations suppose that projection matrices in \escal{ro(n)} relative orientation system
+are defined as $\ematr{P}_{n-1} = [\ematr{I}|\evect{O}]$ and $\ematr{P}_{n} = [\ematr{R}^{ro(n)}|\evect{t}^{ro(n)}]$.
 
 \subsubsection{Helmert transformation}
 \label{sec:helmert}
 
-Helmert transformation of a point $\evect{X}$ into a point $\ematr{X}_{t}$ equation can be written as:
+Helmert transformation can be written by equation:
 \begin{equation}
 \ematr{X}_{t} = \evect{t} + \escal{s}\ematr{R}\evect{X} \\
 \end{equation}
-where \ematr{R} is a rotation matrix, \escal{s} is a scale scalar and  \evect{t} is a translation vector.
-The transformation is defined by seven parameters (three translation coordinates, three rotation angles and scale)
-representing defines relation of two coordinate system.
+
+
+where \ematr{R} is a rotation matrix, \escal{s} is a scale scalar, \evect{t} is a translation vector and
+ $\evect{X}$ is transformed point into a point $\ematr{X}_{t}$.
+The transformation is defined by seven parameters (three translation coordinates, three rotation angles and scale).
 In order to get these parameters it is needed to know at least two corresponding points and  another one with 
-at least one known coordinate in the both coordinate systems. 
+at least one known coordinate in both coordinate systems. 
 
 %%% ML: "There exists" zni divne
 %%% ST: prepsano
