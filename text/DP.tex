@@ -2446,8 +2446,8 @@ in GRASS~7.
 
 %%% ML: zadna reference, odkaz?
 %%% ST: pridana
-
-OpenCV\footnote{http://opencv.org/} is an open source computer vision and machine learning library released under free BSD license.
+%%% -> ML: OK
+OpenCV\footnote{\url{http://opencv.org}} is an open source computer vision and machine learning library released under free BSD license.
 The library contains thousands of algorithms mainly focused on real time image processing.
 Originally, it was developed by Intel. Currently, OpenCV is supported by non-profit organization OpenCV.org.
 
@@ -2478,27 +2478,27 @@ process preserving speed of application.
 
 %%% ML: opet "there exist"
 %%% ST: eliminated!!!can not be considered as vertical
-
-Thanks to its popularity, Python world is very rich. 
+%%% -> ML: OK ;-)
+Thanks to its popularity, the Python world is very rich. 
 Thousands of Python open source libraries make life of programmer much easier. Even 
 if library is not implemented in Python, it is possible to automatically generate Pythonic 
 interface by some of available open source tools (e.g. SWIG). 
-Even if the library does not have Python interface it 
+And even if the library does not have Python interface it 
 is possible to use the tools as e.g. ctypes or Cython to call libraries functions directly from Python.
 
 \paragraph{NumPy}
 
 %%% ML: 2x which, podobne vety by chtelo prepsat bez "which" 
 %%% ST: prepsano
-
+%%% -> ML: OK
 NumPy is free software Python library supporting multidimensional arrays and many array operations
 including linear algebra operations. Killer feature of NumPy is its speed.
- It allows to write very effective code with just few lines. Many  NumPy operations can be
+ It allows to write very effective code with just a few lines. Many  NumPy operations can be
 also rewritten by Python code using  {\tt for} loops. If NumPy function is called, the difference is
  that computation is perform by highly optimized C code. It causes much faster performance compared 
 to Python code especially if arrays contain 
 a lot of elements. Sometimes, it is difficult for NumPy beginner to figure out the way how 
-to write problem avoiding loops. However, as a user gets experienced 
+to write problem avoiding loops. However, as the~user gets experienced 
 it become easy to do it. 
 
 NumPy is so widely used Python library that it has become one of fundamental libraries thus many
@@ -2521,6 +2521,7 @@ is generated automatically by the library.
 
 %%% ML: opet "which", dokonce 2x tyhle konstrukce je nutne prepsat
 %%% ST: snad fixed
+%%% -> ML: OK
 
 %%% ML: v prvni odstavci by se hodila reference na kapitolu o GRASS,
 %%% hlavne kdyz mluvis o "modulech"
@@ -2528,7 +2529,7 @@ is generated automatically by the library.
 %%% ML: na konci odstavce -  "when the module is run" (running) ?
 %%% ST: launched
 
-Architecture of GRASS \ref{sec:GRASS_intro} is composed of core libraries and modules. There is general GIS library 
+Architecture of GRASS (\ref{sec:GRASS_intro}) is composed of core libraries and modules. There is general GIS library 
 dealing with basic setup of GRASS environment. It includes management of
 GRASS variables and environment variables. These variables are very important because GRASS is not one monolithic software 
 but it is composed of many small software packages called modules. When a module is launched, essential information 
@@ -2562,7 +2563,7 @@ The implementation should fulfill these goals:
 \begin{itemize}
 \item Backward compatibility preserving current implementation of orthorectification.
 It has proved its qualities in processing of photos from rigorous aerial photogrammetric missions.
-\item Take advantage of modularity of i.ortho.photo module.
+\item Take advantage of modularity of \term{i.ortho.photo} module.
 If the workflow is comprised of modules/submodules with clearly defined interface, it is possible to implement
 several different algorithms for every step of orthorectification. The main advantage of this 
 approach is that workflow can be adapted to specific needs allowing to use 
@@ -2580,7 +2581,7 @@ allow to identify tie points and ground control points, visualize the results an
 
 If all the goals were fulfilled, GRASS would become unique, flexible, state of the art orthorectification 
 software available for free! It could be used by wide spectrum of users from amateurs to experts.
-Due to time limitation, the thesis deals only with basic implementation of functionality of some of the lowest level modules. 
+Due to time limitation, the thesis deals only with basic implementation of the functionality of some of the lowest level modules. 
 However, it is very important to have 
 the ultimate goal in mind to properly design the solution from initial steps in order to save time spend on refactoring in future
  due to bad design. Moreover, seeing the big picture allows to focus on crucial parts of whole processing chain.
@@ -2589,13 +2590,13 @@ In order to meet the implementation requirements, the whole processing chain can
 of following GRASS low level modules:
 
 \begin{itemize}
-\item Camera calibration module -- Retrieves interior orientation supposed to be known by 
+\item Camera calibration module -- retrieves interior orientation supposed to be known by 
 next steps of the workflow.
-\item Point match module -- Identification of tie points in photos.
-\item Intial values module -- It computes initial values of exterior orientation and 
+\item Point match module -- identification of tie points in photos.
+\item Initial values module -- computes initial values of exterior orientation and 
 object coordinates of tie points, which are used in BBA. It uses information from the both
 previously mentioned modules.
-\item BBA module -- The module performs BBA based on data obtained by the other modules.
+\item BBA module -- performs BBA based on data obtained by the other modules.
 The module gives refined parameters as output (e.g. adjusted exterior orientation and object points coordinates).   
 \end{itemize}
 
@@ -2608,7 +2609,7 @@ can be used as input into \term{i.ortho.rectify} submodule for generation of an 
 
 \subsubsection{Camera calibration module - i.ortho.cam.calibrate}
 
-The calibration module \term{i.ortho.cam.calibrate} is simple module written in Python. It calls
+The calibration module \term{i.ortho.cam.calibrate} is a simple module written in Python. It calls
 function from OpenCV \term{calib3d} module. The module is based on cali\-bration from 2D pattern, which can be easily printed. 
 The most important input parameter defines directory with photos capturing 2D pattern 
 taken by a calibrated camera. In order to obtain good results of camera calibration, at least 10 convergent images 
@@ -2616,9 +2617,9 @@ from different positions all around the pattern should be taken \cite{camera_cal
 
 OpenCV is able to work with following calibration patterns:
 \begin{itemize}
-\item Chessboard pattern 
-\item Asymmetric pattern of circles
-\item Symmetric pattern of circles
+\item chessboard pattern,
+\item asymmetric pattern of circles,
+\item symmetric pattern of circles.
 \end{itemize}
 
 Generally speaking, the circle patterns achieves higher accuracy \cite{camera_calibration2013opencv}.
@@ -2628,7 +2629,7 @@ are done by OpenCV functions which are able to identify the points
 without any other additional information except number of circles or squares per row and column
 of a captured pattern then the points coordinates are refined to achieve subpixel accuracy.
 
-Besides  captured photos and number of rows and columns in pattern
+Besides  captured photos and the number of rows and columns in the pattern
 no other information is needed to retrieve interior orientation of a camera.
 Object coordinates are defined
 arbitrary by the module according to pattern type and number of rows and columns of pattern marks.
@@ -2646,10 +2647,10 @@ in \cite{zhang2000flexible}.
 %%% ML: i.ortho.camre module ? camera?
 
 %%% ML: posledni veta - where X which dohromady
-
+%%% -> ML: OK
 The computed interior orientation is saved into GRASS camera file to be used by other GRASS 
 orthorectification modules. The module modifies camera file via \term{i.ortho.camera} module 
-( GRASS 7 equivalent to \term{i.photo.camera} in GRASS 6).
+(GRASS 7 equivalent to \term{i.photo.camera} in GRASS 6).
 The GRASS camera data model was extended to support radial and tangential distortion coefficients. 
 A distortion has serious effect especially in cheap cameras, due to imperfections of their optical system.
 
@@ -2657,15 +2658,16 @@ A distortion has serious effect especially in cheap cameras, due to imperfection
  
 %%% ML: Phoo - 2x which
 %%% ST: Snad je to lepsi
-Initial values module and BBA module basically handles  same data, thus 
-the data model can be designed in similar way. 
+%%% -> ML: OK
+The initial values module and the BBA module basically handles  same data, thus 
+the data model can be designed in the similar way. 
 Three common classes can be identified to be shared by both modules:
 \begin{itemize}
 \item Camera -- the class stores information about interior orientation 
 parameters including distortion. Camera class contains references to the photos
 classes taken by the camera.
 \item Photo -- members of photo class are references to the points identified 
-	    on the photo and camera which took the photo,
+	    on the photo and camera which took the photo.
 \item Point -- the class denotes representation of same object point in different photos (tie points).
  If the point is GCP it includes also information about its object coordinates. 
 \end{itemize}
@@ -2678,7 +2680,7 @@ to create child class of the abstract Point class with members storing all the c
 
 It must be noted that the implementation submitted with the thesis contains functionality of both modules
 implemented in single  \term{i.ortho.bba} module. 
-It does not matter in current stage of prototype, however, in the future, it should be split into two modules 
+It does not matter in the current stage of prototype, however, in the future, it should be split into two modules 
 in order to fulfill implementation goals.  
 
 \subsubsection{Initial values module - i.ortho.initial}
@@ -2689,15 +2691,15 @@ in order to fulfill implementation goals.
 The \term{i.ortho.initial} module retrieves initial values of photos exterior orientations and 
 initial object coordinates of tie points. If at least 3 GCPs are 
 available in an input, relative coordinate system
-is transformed into world coordinate system of the GCP by applying Helmert transformation \ref{sec:helmert}. 
+is transformed into world coordinate system of the GCP by applying Helmert transformation (\ref{sec:helmert}). 
 
 %%% ML: i.cam.calibrate, jinde v textu mluvis o i.ortho.cam.calibrate, nejlepsi by bylo asi i.ortho.camera.calibrate
 %%% ST: ok
 
 The module input is: 
 \begin{itemize}
-\item Interior orientations of cameras e.g. computed by \term{i.ortho.cam.calibrate}
-\item Photo coordinates of tie points 
+\item interior orientations of cameras e.g. computed by \term{i.ortho.cam.calibrate},
+\item photo coordinates of tie points.
 \end{itemize}
 
 %%% ML: prvni veta: 2x which...
@@ -2716,21 +2718,21 @@ The module builds internally graph-like structure where nodes represent photos a
 about number of corresponding tie points identified on both photos linked by an edge.
 Relative orientation of photo pairs is subsequently performed in order defined by going through the graph.
 Photo pair with the highest number of corresponding tie points is selected as reference pair. 
-The pair defines common relative system thus its relative orientation is calculated as first. 
+The pair defines common relative system thus its relative orientation is calculated as the first. 
 Every other relative orientation system is transformed to the common system 
-by process of transformation of relative orientations \ref{sec:ess_chain}.
-Next photo pair for transformation is chosen from subset of edges connecting nodes where one photo is 
+by process of transformation of relative orientations (\ref{sec:ess_chain}).
+The next photo pair for transformation is chosen from subset of edges connecting nodes where one photo is 
  already transformed into common system while another one is not. 
 The chosen pair belongs to an edge from the subset representing 
  the highest number of corresponding tie points among all edges in the subset.
 Relative orientation of the chosen pair is performed by  the five point algorithm. 
-It has been recently added into development version of OpenCV as function {\tt findEssentialMat}.
-The algorithm returns essential matrix \ref{sec:epipolar_gem}. 
-Exterior orientation is retrieved \ref{sec:ess_eo} from the essential matrix by {\tt recoverPose}  
+It has been recently added into development version of OpenCV as a function {\tt findEssentialMat}.
+The algorithm returns essential matrix (see \ref{sec:epipolar_gem}). 
+Exterior orientation is retrieved (\ref{sec:ess_eo}) from the essential matrix by {\tt recoverPose}  
 function. When relative orientation is known, photo coordinates of tie points visible from both photos of pair are refined by 
-{\tt correctMatches} function based on optimal solution \ref{sec:triang}.
+{\tt correctMatches} function based on optimal solution (\ref{sec:triang}).
 After that, the refined photo coordinates are used for calculation of object coordinates by {\tt triangulatePoints}
-function using DLT method \ref{sec:triang}. 
+function using DLT method described in \ref{sec:triang}. 
 As a last step object points and relative orientation are transformed into common
 system. The procedure is repeated until the subset of edges is not empty. 
 Manual of all OpenCV functions is available in \cite{calib_manual2013opencv}.
@@ -2739,13 +2741,13 @@ Manual of all OpenCV functions is available in \cite{calib_manual2013opencv}.
 
 The last step of the module is transformation of the relative coordinate system into a word coordinate system.
 Helmert 
-transformation coefficients are retrieved by code from v.rectify module \cite{v.rectify} using 
+transformation coefficients are retrieved by code from \term{v.rectify} module \cite{v.rectify} using 
 the closed form method \ref{sec:helmert},
-V.rectify module  is used e.g. for transformation of Lidar point clouds from an arbitrary coordinate system into 
+This module is used e.g. for transformation of Lidar point clouds from an arbitrary coordinate system into 
 a world coordinate system. 
-Part of v.rectify code calculating Helmert transformation coefficients
+Part of \term{v.rectify} code calculating Helmert transformation coefficients
 was moved from the module into the GRASS Imagery Library in order to be accessible also by other modules.
-I.ortho.initial uses ctypes interface to call it.
+The \term{i.ortho.initial} module uses ctypes interface to call it.
 Calculated Helmert transformation coefficients are applied on the exterior orientations of cameras and object coordinates of the tie points.
 The transformation is performed only if at least three GCP are available.
 
@@ -2765,9 +2767,9 @@ The module input represents all parameters of collinearity equations:
 \end{itemize}
 
 The module performs non-linear least square iteration until correction of the parameters are smaller than
-defined threshold. The module is able to perform non-linear least squares as free network \ref{sec:free_net_least}.
+defined threshold. The module is able to perform non-linear least squares as free network (\ref{sec:free_net_least}).
 Another option is to use at least three GCPs 
-as knowns and thus solve it in classical way \ref{sec:non_least}. 
+as knowns and thus solve it in classical way as described in \ref{sec:non_least}. 
 
 The output of the module is the adjustment protocol. In the protocol, there
 is described every iteration of the BBA including correction for all adjusted parameters and standard deviations computed from 
