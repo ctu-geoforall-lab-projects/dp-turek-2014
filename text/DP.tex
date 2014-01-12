@@ -3166,7 +3166,7 @@ Unit quaternions seem to be best choice since they do not suffer form gimbal loc
 
 The path leading into the final solution presented in the thesis has not been straightforward.
 In the name of the thesis there is stated that BBA would be 
-used only for refining of exterior orientation. When the name had to be chosen in the beginning of this semester, I though that 
+used only for refining of exterior orientation. When the name of the thesis had to be chosen in the beginning of this semester, I though that 
 it is not big deal. 
 I supposed enough GCPs will be 
 always available for every photo, interior orientation will be 
@@ -3187,7 +3187,7 @@ I was able to explain within a five minutes even to my friend with non-technical
 Another great thing about the topic is that the results can be assessed
 by everybody because it is easy to recognize whether the retrieved structure resembles captured scene or not. 
 
- The thesis analyzed current state of orthorectification in GRASS and roughly outlined the way of its modification,
+ The thesis analyzed the current state of orthorectification in GRASS and roughly outlined the way of its modification,
  in order to meet up current needs. 
   The developed solution was tested on data comprising of small set of photos capturing a scene.
   The data was also processed in state of the art Bingo-F software whose results were considered as reference.
@@ -3200,8 +3200,13 @@ by everybody because it is easy to recognize whether the retrieved structure res
 
 %%% ML: dvakrat se opakuje kapitola "References"
 
+%%% -> ML: TOHLE je potreba jeste vyresit
+
 %%% ML: literaturu je dobre rozdelit do dvou sekci - tistena/clanky a
 %%% online, ale klidne to nech jak je to ted
+
+%%% -> ML: PROJDI jeste styly, nekde chybi polozky, napriklad hned
+%%% prvni dve reference vypadaji divne
 
 \bibliography{DP}
 \bibliographystyle{plain}
@@ -3291,15 +3296,20 @@ by everybody because it is easy to recognize whether the retrieved structure res
 
 \bibentry{precision1980grunn}
 
+\newpage
+
+%%% -> ML: idealne je priloha cislovana mimo hlavni cislovani, jako
+%%% A.1 a pod
+
 \section{Appendix}
 \subsection{Adjustment protocol}
 \label{sec:adj_protocol}
 
-Following protocol presents results of the developed processing chain
+The following protocol presents results of the developed processing chain
 analyzed in chapter \ref{sec:test_case}.
 
 The results were  obtained from non-linear adjustment taking 5 GCPs as knowns.
-Two arbitrary GCPs were treated in same way as another tie points 
+Two arbitrary GCPs were treated in the same way as another tie points 
 in the set. The BBA was performed with identity weight matrix. 
 
 Distance between calculated GCP object coordinates  to
