@@ -25,9 +25,9 @@
 
 \usepackage{longtable}
 \usepackage{bibentry}
-\makeatletter\let\saved@bibitem\@bibitem\makeatother
+%\makeatletter\let\saved@bibitem\@bibitem\makeatother
 \usepackage[final,pdftex,colorlinks=false,breaklinks=true]{hyperref}
-\makeatletter\let\@bibitem\saved@bibitem\makeatother
+%\makeatletter\let\@bibitem\saved@bibitem\makeatother
 \usepackage[hyphenbreaks]{breakurl}
 
 \usepackage{color, colortbl}
@@ -1708,7 +1708,7 @@ which causes four case ambiguity.
     \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
     Note that only the upper left configuration satisfies condition that object point 
     must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
-    \label{fig:rel_or_amb}
+    \label{fig:eo_amv}
 \end{figure}
 
 As a consequence of the  ambiguity it gives four relative orientations: 
@@ -1754,7 +1754,7 @@ System \term{ro2} is transformed into system \term{ro1},
     to a common system. 
     In the right picture, there is common system defined by \term{ro1} after transformation of \term{ro2}. 
     Note change of \term{ro2} scale after the transformation. (Based on \cite[p. 20]{pietzsch2001robot})}
-    \label{fig:rel_or_amb}
+    \label{fig:eo_amb}
 \end{figure}
 
 %%% ML: "coincides to" ?
@@ -1830,7 +1830,7 @@ sufficient enough before.
     \centering
     \includegraphics[scale=0.3]{figures/bba.png}
     \caption{BBA takes into account scene as whole.}
-    \label{fig:rel_or_amb}
+    \label{fig:bba}
 \end{figure}
 
 The cost functions of BBA least squares method are photogrammetric collinearity equations \eqref{eq:col_eqs}.
@@ -2020,7 +2020,7 @@ This method is able to create DTM from millions of points.
     \centering
     \includegraphics[scale=0.2]{figures/finite_elements.png}
     \caption{TIN created by Finite element method.}
-    \label{fig:rel_or_amb}
+    \label{fig:fnt_elems}
 \end{figure}
 
 After obtaining DTM, the orthophoto can be created using same principle described in the first method. 
@@ -3220,6 +3220,8 @@ by everybody because it is easy to recognize whether the retrieved structure res
 
 \bibentry{wiki:SURF}
 
+\bibentry{wiki:RANSAC}
+
 \bibentry{leutenegger2011brisk}
 
 \bibentry{barazzetti2010extraction}
@@ -3299,6 +3301,8 @@ by everybody because it is easy to recognize whether the retrieved structure res
 \bibentry{heipke1997automation}
 
 \bibentry{precision1980grunn}
+
+\bibentry{alahi2012freak}
 
 \newpage
 
