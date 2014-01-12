@@ -546,10 +546,10 @@ In linear algebra, commonly solved equation is:
 
 \noindent It can be interpreted as:
 \begin{itemize}
-\item \evect{L} - a vector of measurements,
-\item \evect{X} - a vector of unknown parameters whose values are searched to solve \eqref{eq:linear_eq},
+\item \evect{L} - a \term{vector of measurements},
+\item \evect{X} - a \term{vector of unknown parameters} whose values are searched to solve \eqref{eq:linear_eq},
 \item \ematr{A} - a matrix of a linear cost functions coefficients  where row represents one measurement
-		  and column represents one parameter of cost function. Linear cost functions $\efunc{f_{i}(\evect{X})}$
+		  and column represents one coefficient of \term{cost function}. Linear cost functions $\efunc{f_{i}(\evect{X})}$
 		  represent relationship between measurements \evect{L} and searched parameters \evect{X}. 
 		  Least square method calls it a \term{design matrix}. 
 \end{itemize}
@@ -592,6 +592,7 @@ $\escal{\sigma}$ and mean $\escal{\mu}$ \cite{inductiveload2008selection}}
 \end{figure}
 
 %%% -> ML: zde jsem pridal par clenu, snad k lepsimu...
+%%% -> SL: ok
 
 The normal distribution is characterized by two parameters which are \term{standard deviation}
 $\escal{\sigma}$ and \term{mean} $\escal{\mu}$. 
@@ -627,7 +628,7 @@ solve the system of the linear equations.
 
 %%% -> ML: tady mluvis o 'cost functions' ale v predchozim textu nemas
 %%% vysvetlono o co jde
-%%% -> ST: je vysvetlena v uvodu hned pod prvni rovnici 
+%%% -> ST: je vysvetlena v uvodu hned pod prvni rovnici, zvyraznil jsem ji pomoci \term
 
 Due to measurement imperfections, it is not possible to find such parameters of vector \evect{X} to make difference
 \evect{v} between measured values and results of cost functions using  parameters vector equal to zero:
@@ -1195,7 +1196,7 @@ Similarly a line in \eucl{2} is defined by equation:
 \escal{a}\escal{x} + \escal{b}\escal{y} + \escal{c} = 0
 \end{equation}
 
-Using homogeneous coordinates it can be also written as a vector:
+it can be also written as a vector using homogeneous coordinates:
 
 \begin{equation}
 \ehvect{l} =  (\escal{a}, \escal{b}, \escal{c})
@@ -1213,17 +1214,17 @@ or whether a point lies on a plane in \eucl{3}:
 \end{equation}
 
 
-In \eucl{3}, a line cannot be written so elegantly.
-One of options is to define it given by points $\ehvect{p}$ and $\ehvect{q}$ as:
-\begin{equation}
- \ehvect{l} = \escal{\mu}\ehvect{q} + \escal{\lambda}\ehvect{p}
-\end{equation}
-
-If the point is given as direction of the line $\ehvect{d} = (x, y, z, 0)$ (it is point in infinity), the equation get simplified to:
-\begin{equation}
-\label{eq:hline}
-\ehvect{l} = \ehvect{d} + \escal{\lambda}\ehvect{p}
-\end{equation}
+% In \eucl{3}, a line can not be written so elegantly.
+% One of options is to define it given by points $\ehvect{p}$ and $\ehvect{q}$ as:
+% \begin{equation}
+%  \ehvect{l} = \escal{\mu}\ehvect{q} + \escal{\lambda}\ehvect{p}
+% \end{equation}
+% 
+% If the point is given as direction of the line $\ehvect{d} = (x, y, z, 0)$ (it is point in infinity), the equation get simplified to:
+% \begin{equation}
+% \label{eq:hline}
+% \ehvect{l} = \ehvect{d} + \escal{\lambda}\ehvect{p}
+% \end{equation}
 
 Calculation of intersection of  lines ($\ehvect{l}, \ehvect{l}'$)  can be done in very simple way by cross product in \eucl{2}:
 
@@ -1232,7 +1233,7 @@ Calculation of intersection of  lines ($\ehvect{l}, \ehvect{l}'$)  can be done i
 \end{equation}
 
 Unlike Cartesian coordinates, homogeneous form allows to express intersection of parallel lines. 
-In this case the intersection point lies in infinity thus its scale is equal to 0.
+In such a case, the intersection point lies in infinity thus its scale is equal to 0.
 
 Similarly a line in \eucl{2}  can be derived as cross product of two points in the homogeneous form:
 
@@ -1370,8 +1371,9 @@ An epipolar plane contains following elements:
 
 \noindent Following relations arise from epipolar geometry:
 \begin{itemize}
-\item All epipolar lines of  photo intersect in a epipole. If the photos are merely translate with no difference in orientation, 
- epipoles lie in infinity.
+\item All epipolar lines of  photo intersect in a epipole. Epipoles lie in infinity.
+If the photos are merely translate with no difference in orientation, 
+ 
 \item A photo point forms epipolar line in the other photo. It allows to reduce space of possible occurrence of the point 
       from \eucl{2} to \eucl{1} of epipolar line without some other information about the point e.g. object space coordinates. 
 \end{itemize}
