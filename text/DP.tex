@@ -20,6 +20,7 @@
 %\usepackage[hyphens]{url}
 %\PassOptionsToPackage{hyphens}{url}
 \usepackage{lscape}
+\usepackage{rotating}
 
 \usepackage{longtable}
 \usepackage{bibentry}
@@ -1893,14 +1894,18 @@ therefore it should be avoided to have nearly same number of measurements and ad
 %%% mel citelny, muzes si stranku zkusebne vytisknout, anebo obrazek
 %%% otocit o
 %%% 90% (porad to bude vypadat lepe, nez kdyz obrazek preteka)
+%%% otocen
 
-\begin{figure}[h]
+%\begin{landscape}
+\begin{figure}[!h]
     %\centering
-    \hspace*{-1.0in}
-   \includegraphics[scale=0.47]{figures/bba_system.png}
-    \caption{Schematic picture of least squares elements of the example.}
+    %\hspace*{-1.0in}
+   \includegraphics[scale=0.47,  angle=90]{figures/bba_system.png}
+    \caption{Schematic picture of least squares system of the example.}
     \label{fig:bba_system}
 \end{figure}
+%\end{landscape}
+
 
 
 In the first least squares iteration, the initial values of adjusted parameters are given into parameters vector $\evect{X}$
