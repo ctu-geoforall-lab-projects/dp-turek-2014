@@ -1123,6 +1123,8 @@ in a photo system can be expressed as (rotation matrix definition is from \eqref
 %%% the more" ?
 %%% ST: prepsano, asi by melo byt the more" ?
 
+%%% -> ML: rekl by ze jo
+
 Computer vision uses homogeneous coordinates allowing to mathematically express some relations
  in more elegant way than using coordinates in the more common Cartesian form. 
 
@@ -1140,12 +1142,14 @@ The transformation of homogeneous point into Cartesian coordinates is done by di
 \evect{x} = (\escal{x} / \escal{w}, \escal{y} / \escal{w}, \escal{z} / \escal{w})
 \end{equation}
 
-It is possible to express all Cartesian points plus points in infinity Using homogeneous coordinates,.
+It is possible to express all Cartesian points plus points in infinity using homogeneous coordinates.
 Infinite homogeneous point is written as: 
 
 \begin{equation}
 \ehvect{x} = (\escal{x}, \escal{y}, \escal{z}, \escal{0})
 \end{equation}
+
+%%% -> ML: zkus tuhle vetu prepsat...
 
 It is impossible to express by Cartesian coordinates with finite numbers:
 
@@ -1156,9 +1160,11 @@ It is impossible to express by Cartesian coordinates with finite numbers:
 %%% ML: TODO
 %%% ST: obrazek neni az tak dulezity, nebudu ho pridavat 
 
+%%% -> ML: jaky obrazek?
+
 Homogeneous coordinates form allows to 
 use simple vector linear algebra operations 
-to get useful information about plane in \eucl{3} and line in \eucl{2}.
+to get useful information about a plane in \eucl{3} and a line in \eucl{2}.
 
 Plane in \eucl{3} can be written as:
 
@@ -1166,7 +1172,7 @@ Plane in \eucl{3} can be written as:
 \escal{a}\escal{x} + \escal{b}\escal{y} + \escal{c}\escal{z} + \escal{d} = 0
 \end{equation}
 
-Homogeneous coordinates allows to expressed it as vector:
+Homogeneous coordinates allows to expressed it as a vector:
 
 \begin{equation}
 \ehvect{\pi} =  (\escal{a}, \escal{b}, \escal{c}, \escal{d})
@@ -1178,19 +1184,19 @@ Similarly a line in \eucl{2} is defined by equation:
 \escal{a}\escal{x} + \escal{b}\escal{y} + \escal{c} = 0
 \end{equation}
 
-Using homogeneous coordinates it can be also written as vector:
+Using homogeneous coordinates it can be also written as a vector:
 
 \begin{equation}
 \ehvect{l} =  (\escal{a}, \escal{b}, \escal{c})
 \end{equation}
 
-It is easy to find out whether point lies on line in \eucl{2}:
+It is easy to find out whether a point lies on a line in \eucl{2}:
 
 \begin{equation}
 \ehvect{x}^{T} \ehvect{l} = 0
 \end{equation}
 
-or whether a point lies on plane in \eucl{3}:
+or whether a point lies on a plane in \eucl{3}:
 \begin{equation}
 \ehvect{x}^{T} \ehvect{\pi} = 0
 \end{equation}
@@ -1217,7 +1223,7 @@ Calculation of intersection of  lines ($\ehvect{l}, \ehvect{l}'$)  can be done i
 Unlike Cartesian coordinates, homogeneous form allows to express intersection of parallel lines. 
 In this case the intersection point lies in infinity thus its scale is equal to 0.
 
-Similarly a line in \eucl{2}  can be derived as cross product of two points in homogeneous form:
+Similarly a line in \eucl{2}  can be derived as cross product of two points in the homogeneous form:
 
 \begin{equation}
 \ehvect{l} = \ehvect{x} \times \ehvect{x}'
@@ -1256,7 +1262,7 @@ In essence, the equation is equivalent to collinearity equations \eqref{eq:col_e
 The two models differs only in definition of camera coordinate system.
 Unlike photogrammetric camera system (Figure \ref{fig:ph_model}), computer vision defines $z$ axis in the opposite direction heading into scene \cite[p. 156]{Hartley2004}.
 Both systems are right handed.
-Otherwise the basic formula embodies exactly same transformations as collinearity equations written in different way.
+Otherwise the basic formula embodies exactly the same transformations as collinearity equations written in different way.
 
 \begin{figure}[h]
     \centering
@@ -1272,19 +1278,19 @@ The equation can be abbreviated as:
 \ehvect{x} = \ematr{K} \ematr{[}\ematr{R}|\evect{t}\ematr{]} \ehvect{X}
 \end{equation}
 
-where:
+\noindent where:
 
 \begin{itemize}
 \item \ematr{K} is calibration matrix which contains interior orientation parameters,
-\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix\ematr{R} and vector $\evect{t}$.
-	      They transform point from object coordinate system 
-	      to camera coordinate system. 
+\item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix \ematr{R} and vector $\evect{t}$.
+	      They transform a point from the object coordinate system 
+	      to the camera coordinate system. 
 	      The vector $\evect{t}$ can  be transformed by:
 	      \begin{equation}
 	      \ehvect{C} = - \ematr{R}^{T}\evect{t}
 	      \end{equation}
 	      giving coordinates of camera projective center in object space. 
-	      The rotation matrix \ematr{R} and projective 
+	      The rotation matrix \ematr{R} and the projective 
 	      center object coordinates $\evect{C}$
 	      represent exterior orientation of the camera.   
 \item $\ehvect{X}$  homogeneous coordinates of an object point,
@@ -1306,13 +1312,20 @@ Whole projection can be merged into single matrix \ematr{P} called camera matrix
 %%% ML: na konci vety by mela byt reference na obrazek
 %%% ST: snad o neco lepsi
 
-In the chapter, there is mathematically derived relation of two photos.
+%%% -> ML: OK
+
+%%% -> ML: osobne bych prvni vetu uplne vynechal
+
+In this chapter, there is mathematically derived relation of two photos.
 The core of the two photos geometry arises from epipolar geometry.
-The relation describes transformation from a photo coordinate system of a \term{first photo} to 
-a photo coordinate system of a \term{second photo} and vice versa.
+The relation describes transformation from a photo coordinate system of the \term{first photo} to 
+a photo coordinate system of the \term{second photo} and vice versa.
 
 %%% ML: prvni veta zni taky divne 
-If same object point is identified on both photos,  
+
+%%% -> ML: OK
+
+If the same object point is identified on both photos,  
 epipolar plane $\pi$ goes through the photo points and the object point. 
 
 \begin{figure}[h]
