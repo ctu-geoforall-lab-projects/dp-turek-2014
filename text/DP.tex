@@ -1371,9 +1371,8 @@ An epipolar plane contains following elements:
 
 \noindent Following relations arise from epipolar geometry:
 \begin{itemize}
-\item All epipolar lines of  photo intersect in a epipole. Epipoles lie in infinity.
-If the photos are merely translate with no difference in orientation, 
- 
+\item All epipolar lines of  photo intersect in a epipole. Epipoles lie in infinity
+if the photos are merely translated with no difference in orientation.
 \item A photo point forms epipolar line in the other photo. It allows to reduce space of possible occurrence of the point 
       from \eucl{2} to \eucl{1} of epipolar line without some other information about the point e.g. object space coordinates. 
 \end{itemize}
@@ -1460,9 +1459,9 @@ It is apparent from the equation that matrix denoting relation of two photos is 
 
 Matrix \ematr{F} is called a \term{fundamental matrix} \cite{Hartley2004}. 
 It transforms photo points of the first photo system into 
-epipolar lines of the second photo.
-Fundamental matrix can be expanded by \eqref{eq:p_abbr}
-allows to derive another important matrix of two view geometry called \term{fessential matrix} \ematr{E}.
+epipolar lines of the second photo system.
+Fundamental matrix can be expanded by \eqref{eq:p_abbr}.
+It allows to derive another important matrix of two view geometry called \term{essential matrix} \ematr{E}.
 
 %%% ML: zvyraznit "fundamental matrix" (?)
 %%% ST: zvyrazneno
@@ -1521,7 +1520,7 @@ system or merge it with another relative orientations, it is needed to perform f
 exterior orientations, for more information see chapters \ref{sec:ess_chain} and \ref{sec:helmert}.
 
 The fundamental matrix equation can be rewritten taking into account the relative orientation \eqref{eq:rel_or_inv_cam1},
-\eqref{eq:rel_or_inv_cam1} and \eqref{eq:c1}  as:
+ \eqref{eq:c1}, \eqref{eq:rel_or_cam2} and \eqref{eg:second_epipole}   as:
 
 \begin{equation}
 \label{eg:funeq}
@@ -1543,7 +1542,7 @@ _{\times}
 \end{split}
 \end{equation}
 
-Now there comes little bit more difficult part.
+Now, there comes little bit more difficult part.
 This formula applies for any non-singular matrix \ematr{M} and vector \evect{x} \cite[p. 582]{Hartley2004}:
 \begin{equation}
 \label{eg:furmula}
@@ -1561,7 +1560,7 @@ The fundamental matrix equation can be further rewritten using the formulas \eqr
 \end{equation}
 
 This equation reveals very important fact about fundamental matrix saying that a transformation performed 
-by matrix can be divided into three main steps.
+by matrix can be divided into a three main steps.
 
 In first step, photo coordinates of point are normalized.
 Normalized coordinates of the first photo are transformed 
@@ -1592,15 +1591,15 @@ are know, it is possible to define relationship (without taking into account dis
 Triangulation methods deal with retrieval of the object point coordinates
 from corresponding points in photos. 
 If measurements would be precise, object point 
-would lie on intersection of two rays which is clearly visible on 
+would lie on intersection of two rays which is clearly visible in 
  Figure \ref{fig:obj_intersec}. Unfortunately the rays are never determined so precisely to intersect.
  Several methods deals with the imperfections.
 
-Direct linear transformation (DLT) method  is based 
+One of them is direct linear transformation (DLT) method based 
 on linearization of collinearity equations \eqref{eq:col_eqs}
-employing least square method on it.
+employing least squares method on it.
 
-The simplified DLT collinearity equations can be written as \cite{pavelka2004foto10}[p. 130]:  
+The simplified DLT form of collinearity equations can be written as \cite[p. 130]{pavelka2004foto10}:  
 \begin{equation}
 \begin{split}
 &\escal{x}^{un} = \frac{\escal{a}_{1}(\evect{X}^{obj}) + 
@@ -1658,9 +1657,10 @@ occurs also in the right side of the equations.
 
 %%% ML: chtelo by zvyraznit "optimal solution"
 
-More complicated method is called the \term{optimal solution}. 
+More rigorous method is called the \term{optimal solution}. 
 It is based on enforcing epipolar constraint.  The cost function 
-minimizes sum of squares of distances between photo points to epipolar lines created 
+minimizes sum of squares of distances between photo points and epipolar lines.
+The lines are created 
 by transformation of corresponding photo points from another photos.
 
 The cost function is not linear, however, it's derivative leads into 6 degree polynomial thus 
@@ -1696,8 +1696,17 @@ singular values decomposition (SVD):
 \end{equation}
 
 where matrices \ematr{U} and \ematr{V} are two rotation matrices  obtained for SVD decomposition.
-The retrieved rotation \ematr{R} matrix and the shift vector \evect{t} are defined up to sign,
+The retrieved rotation \ematr{R} matrix and vector \evect{t} are defined up to sign,
 which causes four case ambiguity. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.25]{figures/eo_ambiguity.png}
+    \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
+    Note that only the upper left configuration satisfies condition that object point 
+    must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
+    \label{fig:rel_or_amb}
+\end{figure}
 
 As a consequence of the  ambiguity it gives four relative orientations: 
 \begin{equation}
@@ -1707,19 +1716,8 @@ As a consequence of the  ambiguity it gives four relative orientations:
 [\ematr{-R}|\evect{-t}],
 \end{equation}
 
-
 The correct solution can be found   by assumption that all object points has to be in the front
 of the both photo planes.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.25]{figures/eo_ambiguity.png}
-    \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
-    Note that only the upper left configuration satisfies condition that object point 
-    must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
-    \label{fig:rel_or_amb}
-\end{figure}
-
 
 \subsubsection{Merging relative orientations}
 \label{sec:ess_chain}
