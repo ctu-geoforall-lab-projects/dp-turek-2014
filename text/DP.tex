@@ -1762,14 +1762,14 @@ System \term{ro2} is transformed into system \term{ro1}.
 
 Usually bundles of photos capturing a scene are processed. Photo pairs comprising relative orientation capture only fragments of a scene, 
 therefore the information of scene is scattered.  
-In order to interpret the scene as whole it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
+In order to interpret the scene as whole, it is needed to merge all relative orientation systems into \term{common relative coordinate system}.
 For sake of simplicity, the common relative system is defined by relative orientation system of arbitrary pair called \term{reference pair}.
 Other relative orientations are subsequently transformed into the common coordinate system. 
 
 %%% ML: transformed into?
 %%% ST: prepsano
 
-All relative orientations which can be transformed into common system are
+All relative orientations which can be transformed into common system comprise
  connected component of undirected graph.  Nodes represents  photos and edges denotes relative orientations. 
 In other words, it is possible to transform relative orientation into the common relative coordinate system only, if there 
 is a continuous chain of the relative orientations from reference pair 
@@ -1779,16 +1779,16 @@ The transformation of relative orientations 1-$n$ into common system defined by 
 \begin{equation}
 \label{eq:comm_rel}
 \begin{split}
-&\ematr{P}_{1\_co} = [\ematr{I}|\evect{O}] \\
-&\ematr{P}_{2\_co} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] = [\ematr{R}^{ro1\_co}|\evect{t}^{ro1\_co}] \\
-&\ematr{P}_{3\_co} = [\ematr{R}^{ro2} \ematr{R}^{ro1\_co}|\ematr{R}^{ro2} \evect{t}^{ro1\_co} + \escal{s}^{ro2-1} \evect{t}^{ro2}] 
+&\ematr{P}^{1\_co} = [\ematr{I}|\evect{O}] \\
+&\ematr{P}^{2\_co} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] = [\ematr{R}^{ro1\_co}|\evect{t}^{ro1\_co}] \\
+&\ematr{P}^{3\_co} = [\ematr{R}^{ro2} \ematr{R}^{ro1\_co}|\ematr{R}^{ro2} \evect{t}^{ro1\_co} + \escal{s}^{ro2-1} \evect{t}^{ro2}] 
 =  [\ematr{R}^{ro3\_co} | \evect{t}^{ro3\_co}] \\
-&\ematr{P}_{n\_co} = [\ematr{R}^{ro(n)} \ematr{R}^{ro(n)(n-1)\_co}|\ematr{R}^{ro(n)} \evect{t}^{ro(n-1)\_co} + \escal{s}^{ro(n)-(n-1)} \evect{t}^{ro(n)}] 
+&\ematr{P}^{n\_co} = [\ematr{R}^{ro(n)} \ematr{R}^{ro(n)(n-1)\_co}|\ematr{R}^{ro(n)} \evect{t}^{ro(n-1)\_co} + \escal{s}^{ro(n)-(n-1)} \evect{t}^{ro(n)}] 
 =  [\ematr{R}^{ro(n)\_co} | \evect{t}^{ro(n)\_co}] 
 \end{split}
 \end{equation}
 
-The equations suppose that projection matrices in \escal{ro(n)} relative orientation system
+The equations suppose that camera matrices in \escal{ro(n)} relative orientation system
 are defined as $\ematr{P}_{n-1} = [\ematr{I}|\evect{O}]$ and $\ematr{P}_{n} = [\ematr{R}^{ro(n)}|\evect{t}^{ro(n)}]$.
 
 \subsubsection{Helmert transformation}
