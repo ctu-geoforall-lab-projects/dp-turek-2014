@@ -1259,7 +1259,7 @@ object point (X, Y, Z) and corresponding photo point (x, y):
 =
 \begin{pmatrix}
    & \escal{f_{x}} & 0     & \escal{c_{x}}\\
-   & 0     & \escal{f_{x}} & \escal{c_{x}}\\
+   & 0     & \escal{f_{y}} & \escal{c_{y}}\\
    & 0     & 0     & 1\\
 \end{pmatrix}
 \begin{pmatrix}
@@ -1296,7 +1296,8 @@ The equation can be abbreviated as:
 \noindent where:
 
 \begin{itemize}
-\item \ematr{K} is calibration matrix which contains interior orientation parameters,
+\item \ematr{K} is calibration matrix which contains interior orientation parameters 
+		focal lengths ($\escal{f}_{x}$, $\escal{f_{y}}$)  and principal point coordinates ($\escal{c}_{x}$, $\escal{c_{y}}$).
 \item \ematr{[\ematr{R}|\evect{t}]} matrix contains rotation matrix \ematr{R} and vector $\evect{t}$.
 	      They transform a point from the object coordinate system 
 	      to the camera coordinate system. 
@@ -1429,7 +1430,7 @@ epipole:
 Epipolar line is given \eqref{eq:def_hline_pts} by:
 
 \begin{equation}
-\ehvect{l'_{e}} =  \ehvect{e'} \times \ehvect{x'} = (\ematr{P'}\ehvect{C}) \times \ematr{P'}\ematr{P}^{+}\ehvect{x}
+\ehvect{l'_{e}} =  \ehvect{e'} \times \ematr{P'}\ematr{P}^{+} \ehvect{x} = (\ematr{P'}\ehvect{C}) \times \ematr{P'}\ematr{P}^{+}\ehvect{x}
 \end{equation}
 
 Cross product of two vectors \evect{a} and \evect{b} can be also written as multiplication of a matrix and a vector:
@@ -3172,9 +3173,9 @@ Unit quaternions seem to be best choice since they do not suffer form gimbal loc
 \newpage
 \section{Conclusion}
 
-The path leading into the final solution presented in the thesis has not been straightforward.
+The path leading to the final solution presented in the thesis has not been straightforward.
 In the name of the thesis, there is stated that BBA would be 
-used only for refining of exterior orientation. In the beginning of this semester, when the name of the thesis had to be chosen, I though that 
+used only for refining of exterior orientation. In the beginning of this semester, when the name of the thesis had to be chosen, I thought that 
 it is not big deal. 
 I supposed enough GCPs will be 
 always available for every photo as well as interior orientation will be 
@@ -3188,9 +3189,9 @@ Thus, new goal was set up to come up with a solution as much general
  as possible allowing to retrieve structure from photos with nearly no other information except interior orientation.
  
 The work gave me a chance to get hands on photogrammetry and computer vision. I have become enchanted
-by elegance of both fields consisting in a way of building up incredibly powerful methods based on simple principles.  
+by elegance of both fields consisting in a way of development of incredibly powerful methods based on simple principles.  
 Another great thing about the topic is that the results can be assessed
-by everybody because it is easy to recognize whether the retrieved structure resembles captured scene or not. 
+by everybody since it is easy to recognize whether a retrieved structure resembles captured scene or not. 
 
  The thesis analyzed the current state of orthorectification in GRASS and roughly outlined the way of its modification,
  in order to meet up current needs. 
