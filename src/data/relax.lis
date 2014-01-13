@@ -1,0 +1,1149 @@
+
+ 
+                             RELAX 5.4  Apr. 20025.1 × 16.7 mm7
+ 
+           ESTIMATION OF INITIAL APROXIMATIONS FOR BINGO ADJUSTMENT
+ 
+ ===============================================================================
+                                             17:07:51  Sunday, 1 September 2013
+ 
+ 
+                         Adjustment EPFL Hydro UAV-Nex5
+ -------------------------------------------------------------------------------
+ 
+ 
+   Names of connected files :
+   --------------------------
+   Project file      :  project.dat
+   Image coordinates :  image.dat
+   Itera file        :  itera.dat
+   Geo input file    :  geoin.dat
+   Relax list file   :  relax.lis
+ 
+ 
+   Selected parameters :
+   ---------------------
+   Smallest valid point number      NPMIN :               1
+   Highest valid point number       NPMAX : zzzzzzzzzzzzzzz
+   Standard aerial triangulation    KSAT  :               0
+   Expected precision for rel.or.   SXB   :          0.0100
+   Min. no. of points for rel.or.   MINCO :               6
+   Max. photo no. diff. for rel.or. CLIP  :               0
+   Key for pre-adjustment of points PAD   :               2
+   Transformation type 2d/3d        TRAF  :               3
+   Key to prefer aerial angle defin.KARI  :               1
+   Key standard aerial data type    KSAT  :               0
+   List key for graph               LCON  :               1
+   List key for relative orient.    LREL  :               1
+   List key for model scaling       LSCAL :               1
+   List key for pre-adjustment      LPAD  :               1
+   List key for transformation      LTRA  :               1
+   Error elim. for block transform. RANS  :Standard L2 Norm
+   Standard dev. of transform. points     :            1.00
+   Weight threshold for error elimination :            0.35
+   Max. expected error percentage         :            0.50
+   Probability for an error free result   :            0.99
+ 
+ 
+   All images will be processed
+ 
+ 
+   List of ignored points   (only in one image) :
+ 
+            2042            2046            2051            2061            2071
+            2076
+ 
+ 
+ 
+
+  RELAX 5.4  Apr. 2007                       17:07:51  Sunday, 1 September 2013
+ ===============================================================================
+ 
+ 
+                         Adjustment EPFL Hydro UAV-Nex5
+ -------------------------------------------------------------------------------
+ 
+ 
+ 
+  Photo      Connected photos and no. of common points  (if 6 or more)
+ -------------------------------------------------------------------------------
+ 
+ 
+  551    576  574  598  597  596  585  553  564  554  561  584  583  556  563  588
+         567  575  590  595  591  562  586  552  600  573  570  569  582  577  599
+ #        13   13   12   12   12   12   12   12   11   11   11   11   10   10   10
+           8    8    8    7    7    7    7    7    6    6    6    6    6    6    6
+ 
+  552    585  598  553  584  583  561  580  563  597  596  562  582  567  590  588
+         573  569  576  554  586  577  570  581  571  568  591  564  574  578  572
+         551  557  599  579  595
+ #        15   14   13   13   13   13   13   13   12   12   12   12   11   11   11
+          11   11   11   10   10   10   10   10    9    9    9    8    8    7    7
+           7    7    6    6    6
+ 
+  553    597  583  585  554  588  584  598  596  563  561  576  567  562  591  573
+         570  574  564  571  556  568  569  586  552  551  590  577  580  572  582
+         575  581  595  600  566  557  579  578  599
+ #        22   22   21   21   20   20   19   19   18   17   17   17   16   16   16
+          15   15   14   14   14   14   13   13   13   12   12   11   11   10   10
+           9    8    7    6    6    6    6    6    6
+ 
+  554    597  553  583  588  585  596  584  598  561  563  567  576  562  570  591
+         556  573  574  564  571  568  569  551  586  590  552  577  572  580  575
+         581  582  600  566  595
+ #        21   21   20   19   18   17   17   16   15   15   15   15   14   14   14
+          14   14   14   13   13   13   12   11   11   10   10    9    9    9    8
+           7    7    6    6    6
+ 
+  556    597  596  553  554  588  585  583  576  564  574  598  591  584  563  561
+         567  551  575  562  566  573  570  586  571  590  568  569  595  560  577
+ #        17   15   14   14   14   14   14   14   14   14   13   12   12   12   11
+          11   10   10   10    8    8    8    8    7    7    6    6    6    6    6
+ 
+  557    598  582  595  576  580  599  561  597  592  564  589  575  581  563  585
+         583  558  562  560  559  574  552  596  584  553
+ #        18   17   16   16   14   13   13   13   13   13   13   13   12   11   11
+          10    9    8    8    8    8    7    7    7    6
+ 
+  558    597  557  595  564  599  598  575  592  576  559  585  589  582  560  574
+         583
+ #         9    9    9    9    8    8    8    8    7    7    7    7    7    7    6
+           6
+ 
+  559    595  598  597  560  564  557  575  589  599  558  582  576  566  592
+ #         9    8    8    8    8    8    8    8    7    7    6    6    6    6
+ 
+  560    575  595  564  597  566  598  585  576  559  557  589  583  574  599  558
+         592  596  556  582
+ #        14   13   13   12   12   11    9    9    8    8    8    8    8    7    7
+           6    6    6    6
+ 
+  561    598  576  563  597  583  562  596  585  553  564  582  580  574  554  584
+         581  588  573  577  557  552  591  590  567  575  595  586  551  556  569
+         571  592  570  599  568  579  578  589  572
+ #        24   23   23   20   19   19   18   18   17   17   17   17   16   15   15
+          15   14   14   14   13   13   13   13   13   13   12   12   11   11   11
+          10   10   10    9    8    7    7    7    6
+ 
+  562    563  573  561  598  596  585  583  577  571  584  553  580  576  597  590
+         588  567  582  570  581  554  591  569  572  552  568  586  579  564  574
+         556  578  557  551  595
+ #        23   20   19   18   18   17   17   17   17   16   16   16   16   15   15
+          15   15   15   15   15   14   14   12   12   12   12   12   10   10   10
+          10   10    8    7    6
+ 
+  563    598  562  561  576  596  583  597  553  585  584  580  582  573  588  581
+         577  591  590  564  554  567  571  552  574  570  556  586  569  568  557
+         551  575  595  572  578  579  592  599
+ #        23   23   23   21   19   19   18   18   18   18   18   17   17   16   16
+          16   15   15   15   15   15   14   13   13   13   12   12   12   11   11
+          10   10   10    9    9    9    8    7
+ 
+  564    597  576  598  585  575  583  574  595  561  596  563  553  556  599  560
+         554  584  557  582  566  551  588  592  562  589  580  567  581  591  558
+         552  590  559  573  586  570  577  569
+ #        24   23   22   20   20   19   19   18   17   15   15   14   14   13   13
+          13   13   13   13   13   12   12   11   10   10   10    9    9    9    9
+           8    8    8    7    7    6    6    6
+ 
+  566    575  597  564  560  595  598  585  576  556  574  596  583  553  559  554
+ #        14   13   13   12   11   10   10    9    8    8    7    7    6    6    6
+ 
+  567    597  583  553  584  588  585  554  562  563  596  591  573  598  561  570
+         571  568  576  569  590  556  586  552  574  577  580  564  572  582  551
+         581
+ #        17   17   17   16   15   15   15   15   15   14   14   14   13   13   13
+          12   12   12   11   11   11   11   11   10   10   10    9    8    8    8
+           7
+ 
+  568    588  583  584  553  573  571  570  554  597  569  596  562  585  567  563
+         572  591  580  598  577  590  552  586  581  561  576  582  579  578  556
+ #        15   15   14   14   14   14   14   13   12   12   12   12   12   12   11
+          11   11   10    9    9    9    9    9    8    8    7    7    7    7    6
+ 
+  569    588  570  585  583  573  596  553  584  571  597  562  568  563  554  580
+         577  598  567  561  591  590  586  552  581  572  576  582  578  579  564
+         556  551  574
+ #        15   15   14   14   14   13   13   13   13   12   12   12   12   12   12
+          12   11   11   11   11   11   11   11   10   10    9    9    8    8    6
+           6    6    6
+ 
+  570    571  573  588  583  596  553  585  562  584  572  569  597  568  554  591
+         590  563  567  580  577  598  586  581  552  561  582  578  576  579  556
+         574  564  551
+ #        19   18   17   16   15   15   15   15   15   15   15   14   14   14   13
+          13   13   13   13   12   11   11   11   10   10   10    9    9    9    8
+           7    6    6
+ 
+  571    573  572  570  596  562  588  583  581  590  568  584  563  553  580  577
+         597  569  585  554  582  567  591  598  576  579  578  561  586  552  556
+         574
+ #        19   19   19   18   17   16   15   15   14   14   14   14   14   14   14
+          13   13   13   13   13   12   11   10   10   10   10   10    9    9    7
+           6
+ 
+  572    571  570  596  573  588  562  581  580  583  568  579  578  590  584  569
+         582  553  597  554  577  563  585  598  567  552  591  586  561
+ #        19   15   14   14   12   12   12   12   11   11   11   11   10   10   10
+          10   10    9    9    9    9    9    8    8    7    7    6    6
+ 
+  573    562  571  570  563  588  585  584  583  553  596  577  597  569  567  561
+         572  554  568  598  591  580  590  552  582  576  581  586  578  579  556
+         574  564  551
+ #        20   19   18   17   16   16   16   16   16   15   15   14   14   14   14
+          14   14   14   13   13   13   12   11   11   11   11   11    9    9    8
+           7    7    6
+ 
+  574    576  597  564  598  585  583  561  596  553  554  556  575  588  563  584
+         551  595  562  591  567  599  590  582  552  560  557  580  566  586  573
+         570  581  592  600  569  571  558  577
+ #        20   19   19   17   17   17   16   15   15   14   14   14   13   13   13
+          13   11   10   10   10    9    9    9    8    8    8    8    8    8    7
+           7    7    7    6    6    6    6    6
+ 
+  575    598  595  576  564  597  589  583  574  560  566  599  557  585  561  592
+         582  596  556  563  580  553  559  558  554  551  581  584  588
+ #        22   22   20   20   19   14   14   14   14   14   13   13   13   13   12
+          12   11   10   10   10    9    8    8    8    8    8    8    7
+ 
+  576    598  564  561  597  585  563  596  583  582  575  574  595  580  553  557
+         584  581  562  554  588  599  556  551  577  567  592  591  590  589  552
+         573  571  586  570  566  560  569  568  558  600  579  559
+ #        27   23   23   22   21   21   20   20   20   20   20   18   18   17   16
+          16   16   16   15   15   14   14   13   12   12   12   12   12   12   11
+          11   10   10    9    9    9    9    7    7    6    6    6
+ 
+  577    562  596  563  573  580  571  561  598  590  585  582  581  569  570  576
+         553  591  588  586  584  583  552  578  567  579  554  597  568  572  556
+         574  551  564
+ #        17   16   16   15   14   14   14   13   13   13   13   13   12   12   12
+          11   11   11   11   11   11   10   10   10   10    9    9    9    9    6
+           6    6    6
+ 
+  578    580  581  596  582  579  572  590  562  577  571  570  573  563  598  569
+         585  552  583  561  568  588  584  553  591  586
+ #        13   12   11   11   11   11   10   10   10   10    9    9    9    8    8
+           8    7    7    7    7    7    6    6    6    6
+ 
+  579    596  580  581  578  572  582  562  577  571  590  563  573  570  598  569
+         585  588  568  583  561  553  584  576  552
+ #        12   12   11   11   11   10   10   10   10    9    9    9    9    8    8
+           8    7    7    7    7    6    6    6    6
+ 
+  580    582  581  598  576  563  596  561  562  583  590  585  577  557  571  597
+         573  595  584  552  570  578  569  572  579  599  588  553  567  564  589
+         568  575  586  554  591  592  574
+ #        26   26   22   18   18   17   17   16   16   15   14   14   14   14   13
+          13   13   13   13   13   13   12   12   12   11   11   11   10   10   10
+          10   10    9    9    9    8    8
+ 
+  581    582  580  598  596  576  563  561  562  571  590  583  577  557  578  572
+         595  585  579  573  570  597  584  569  552  599  564  589  588  553  586
+         568  591  575  592  567  574  554
+ #        26   26   20   16   16   16   15   15   15   14   13   13   12   12   12
+          11   11   11   11   11   10   10   10   10    9    9    9    9    8    8
+           8    8    8    7    7    7    7
+ 
+  582    581  580  598  576  563  557  561  596  595  585  562  599  597  590  564
+         589  583  571  577  552  575  584  578  573  553  579  592  570  572  569
+         574  586  588  567  591  558  554  568  551  560  559
+ #        26   26   24   20   17   17   17   16   16   15   15   14   14   14   13
+          13   13   13   13   12   12   11   11   11   10   10   10   10   10    9
+           9    8    8    8    8    7    7    7    6    6    6
+ 
+  583    597  598  585  584  553  596  588  554  576  561  564  563  562  574  567
+         580  573  570  591  568  571  590  575  556  569  552  586  582  581  595
+         551  577  572  557  599  560  592  566  579  578  600  589  558
+ #        26   24   23   23   22   21   21   20   20   19   19   19   17   17   17
+          16   16   16   15   15   15   14   14   14   14   13   13   13   13   12
+          11   11   11   10    9    8    8    7    7    7    6    6    6
+ 
+  584    583  597  585  553  596  588  598  563  554  562  576  567  573  561  570
+         571  568  552  574  591  569  590  564  580  556  586  577  551  582  572
+         581  575  595  599  557  600  579  578
+ #        23   20   20   20   19   19   18   18   17   16   16   16   16   15   15
+          14   14   13   13   13   13   13   13   13   12   12   11   11   11   10
+          10    8    8    7    7    6    6    6
+ 
+  585    597  583  598  553  596  576  584  564  588  554  561  563  562  574  573
+         552  582  570  567  556  591  590  569  580  575  586  571  577  551  568
+         595  581  557  566  599  572  560  578  579  592  558  600
+ #        24   23   22   21   21   21   20   20   19   18   18   18   17   17   16
+          15   15   15   15   14   14   14   14   14   13   13   13   13   12   12
+          12   11   11   10    9    9    9    8    8    7    7    6
+ 
+  586    596  588  585  553  583  598  561  562  563  591  584  597  569  570  567
+         590  573  554  577  552  576  571  580  568  581  556  582  574  564  551
+         572  578
+ #        13   13   13   13   13   12   12   12   12   12   12   11   11   11   11
+          11   11   11   11   10   10    9    9    9    8    8    8    8    7    7
+           6    6
+ 
+  588    583  597  596  553  554  585  584  570  598  573  571  563  591  569  568
+         562  567  576  556  561  586  574  564  572  590  580  552  577  551  581
+         582  578  575  579
+ #        21   20   20   20   19   19   19   17   16   16   16   16   15   15   15
+          15   15   15   14   14   13   13   12   12   12   11   11   11   10    9
+           8    7    7    7
+ 
+  589    595  598  575  557  582  576  599  592  564  580  597  581  559  560  558
+         561  583
+ #        16   15   14   13   13   12   11   10   10   10    9    9    8    8    7
+           7    6
+ 
+  590    596  580  563  562  585  583  582  581  571  598  584  561  577  570  588
+         553  573  576  567  597  586  569  552  578  554  591  572  574  579  568
+         564  551  556
+ #        18   15   15   15   14   14   14   14   14   13   13   13   13   13   12
+          12   12   12   11   11   11   11   11   10   10   10   10    9    9    9
+           8    8    7
+ 
+  591    553  597  588  583  563  598  596  562  585  554  567  561  584  570  573
+         556  586  576  569  577  571  568  590  574  552  580  564  581  582  551
+         572  578
+ #        16   15   15   15   15   14   14   14   14   14   14   13   13   13   13
+          12   12   12   11   11   11   11   10   10    9    9    9    8    8    7
+           7    6
+ 
+  592    595  557  598  576  575  564  599  597  589  561  582  563  558  580  583
+         581  574  585  560  559
+ #        13   13   12   12   12   11   10   10   10   10   10    8    8    8    8
+           7    7    7    6    6
+ 
+  595    575  598  597  576  564  599  557  589  582  592  560  580  561  585  583
+         566  574  581  596  563  558  559  584  553  551  554  562  556  552
+ #        22   21   18   18   18   16   16   16   16   13   13   13   12   12   12
+          11   11   11   10   10    9    9    8    7    7    6    6    6    6
+ 
+  596    597  585  583  598  588  576  584  553  563  590  562  561  571  554  580
+         582  581  577  564  573  574  556  570  591  572  567  586  569  568  551
+         579  552  578  575  595  566  557  600  560  599
+ #        21   21   21   20   20   20   19   19   19   18   18   18   18   17   17
+          16   16   16   15   15   15   15   15   14   14   14   13   13   12   12
+          12   12   11   11   10    7    7    6    6    6
+ 
+  597    583  598  585  564  553  576  596  554  588  584  561  575  574  595  563
+         556  567  591  562  570  582  573  566  571  557  580  599  552  569  551
+         560  568  590  586  581  592  589  572  577  558  559  600
+ #        26   24   24   24   22   22   21   21   20   20   20   19   19   18   18
+          17   17   15   15   14   14   14   13   13   13   13   12   12   12   12
+          12   12   11   11   10   10    9    9    9    9    8    6
+ 
+  598    576  597  583  582  561  563  585  580  575  564  595  596  581  553  557
+         562  584  574  588  554  599  589  552  591  573  577  567  590  556  592
+         551  586  560  570  569  566  571  568  578  572  559  579  558  600
+ #        27   24   24   24   24   23   22   22   22   22   21   20   20   19   18
+          18   18   17   16   16   15   15   14   14   13   13   13   13   13   12
+          12   12   11   11   11   10   10    9    8    8    8    8    8    6
+ 
+  599    595  598  582  576  557  575  564  597  589  580  592  561  574  585  583
+         581  558  559  584  560  563  552  551  596  553
+ #        16   15   14   14   13   13   13   12   11   11   10    9    9    9    9
+           9    8    7    7    7    7    6    6    6    6
+ 
+  600    598  551  553  554  574  576  583  584  585  596  597
+ #         6    6    6    6    6    6    6    6    6    6    6
+ 
+ 
+   Statistic of photo connections: (G=Group / F=Class Frequency)
+ 
+ G      5    6    7    8    9   10   11   12   13   14   15   16   17   18   19
+ F     46   57   49   54   50   57   62   60   72   58   45   30   23   19   17
+ 
+ G   20   22   24   26   28   30   35   40   45   50   60   70   80   90  100
+ F     28   15    6    5    0    0    0    0    0    0    0    0    0    0    0
+ 
+          Median= 12    Mean= 12
+ 
+ 
+
+  RELAX 5.4  Apr. 2007                       17:07:51  Sunday, 1 September 2013
+ ===============================================================================
+ 
+ 
+                         Adjustment EPFL Hydro UAV-Nex5
+ -------------------------------------------------------------------------------
+ 
+ 
+ 
+           DATA FROM PROJECT FILE AND GEO INPUT FILE
+ ===============================================================================
+ 
+>TEXT                  Adjustment EPFL Hydro UAV-Nex5
+>IMPA               2                    1
+>RXPA                         3    1    0
+>PARA .0015     .001
+>LIST               1    3    1
+ 
+  --- End Project File ---
+ 
+>CAPA 3        N5         15.7506   -0.2319    0.1175    0.003    0.001    0.002
+>COES                      0.01         0.01    0.01
+>CONT  2069             313407.505    5154832.333    446.553     0.015    0.015    0.02
+>CONT  2002             313415.477    5154838.618    445.596     0.015    0.015    0.02
+>CONT  2021             313415.178    5154831.707    445.588     0.015    0.015    0.02
+ 
+ 
+
+  RELAX 5.4  Apr. 2007                       17:07:51  Sunday, 1 September 2013
+ ===============================================================================
+ 
+ 
+                         Adjustment EPFL Hydro UAV-Nex5
+ -------------------------------------------------------------------------------
+ 
+ 
+     No. of unoriented photos= 45
+ 
+ 
+ 
+           MODEL BLOCK ORIENTATION
+ ===============================================================================
+ 
+ 
+           Orientation block   1
+ -------------------------------------------------------------------------------
+ 
+     Contains 3 given point-coordinates
+ 
+ 
+           Orientation block   2
+ -------------------------------------------------------------------------------
+ 
+ 
+ Block 2   Model 576 / 598   No. of points: 27
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         5.3
+ 
+ 
+ No. of new points: 27
+ 
+ 
+ Block 2   Model 598 / 597   No. of points: 24
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         7.4
+ 
+ 
+ Scale-factor      1.1856 from 18 points
+ 
+ New points    :            2008            2010            2024            2100
+                            2108            2123
+ 
+ 
+ Block 2   Model 597 / 583   No. of points: 26
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         7.0
+ 
+ 
+ Scale-factor      1.1116 from 21 points
+ 
+ New points    :            2064            2079            2087            2103
+                            2110
+ 
+ 
+ Block 2   Model 597 / 585   No. of points: 24
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        13.6
+ 
+ 
+ Scale-factor      1.1470 from 22 points
+ 
+ New points    :            2027            2089
+ 
+ 
+ Block 2   Model 597 / 564   No. of points: 24
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        10.3
+ 
+ 
+ Scale-factor      1.1567 from 23 points
+ 
+ Transf. points:            2002
+ 
+ 
+ Block 2   Model 597 / 553   No. of points: 22
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        14.2
+ 
+ 
+ Scale-factor      1.1280 from 22 points
+ 
+ 
+ Block 2   Model 553 / 554   No. of points: 21
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         5.1
+ 
+ 
+ Scale-factor      0.8281 from 21 points
+ 
+ 
+ Block 2   Model 553 / 588   No. of points: 20
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         4.1
+ 
+ 
+ Scale-factor      0.8326 from 19 points
+ 
+ New points    :            2001
+ 
+ 
+ Block 2   Model 588 / 596   No. of points: 20
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        11.1
+ 
+ 
+ Scale-factor      0.9004 from 19 points
+ 
+ New points    :            2077
+ 
+ 
+ Block 2   Model 596 / 584   No. of points: 19
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         7.5
+ 
+ 
+ Scale-factor      1.1573 from 19 points
+ 
+ 
+ Block 2   Model 596 / 563   No. of points: 19
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         9.1
+ 
+ 
+ Scale-factor      1.1647 from 18 points
+ 
+ New points    :            2093
+ 
+ 
+ Block 2   Model 563 / 562   No. of points: 23
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        12.3
+ 
+ 
+ Scale-factor      0.9273 from 21 points
+ 
+ New points    :            2050            2066
+ 
+ 
+ Block 2   Model 563 / 561   No. of points: 23
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         7.3
+ 
+ 
+ Scale-factor      0.9143 from 23 points
+ 
+ 
+ Block 2   Model 563 / 580   No. of points: 18
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        15.4
+ 
+ 
+ Scale-factor      0.9238 from 18 points
+ 
+ 
+ Block 2   Model 580 / 582   No. of points: 26
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         6.5
+ 
+ 
+ Scale-factor      1.0530 from 21 points
+ 
+ New points    :            2060            2067            2099            2125
+ 
+ Transf. points:            2069
+ 
+ 
+ Block 2   Model 582 / 581   No. of points: 26
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        10.7
+ 
+ 
+ Scale-factor      1.0339 from 24 points
+ 
+ New points    :            2036            2114
+ 
+ 
+ Block 2   Model 582 / 557   No. of points: 17
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        12.6
+ 
+ 
+ Scale-factor      1.0627 from 17 points
+ 
+ 
+ Block 2   Model 557 / 595   No. of points: 16
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        23.5
+ 
+ 
+ Scale-factor      0.8405 from 16 points
+ 
+ 
+ Block 2   Model 595 / 575   No. of points: 22
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         4.2
+ 
+ 
+ Scale-factor      1.0601 from 19 points
+ 
+ New points    :            2014            2015            2107
+ 
+ 
+ Block 2   Model 595 / 599   No. of points: 16
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         9.4
+ 
+ 
+ Scale-factor      1.0777 from 16 points
+ 
+ 
+ Block 2   Model 595 / 589   No. of points: 16
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        10.4
+ 
+ 
+ Scale-factor      1.0668 from 16 points
+ 
+ 
+ Block 2   Model 595 / 592   No. of points: 13
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        13.5
+ 
+ 
+ Scale-factor      1.0700 from 13 points
+ 
+ 
+ Block 2   Model 595 / 560   No. of points: 13
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         9.9
+ 
+ 
+ Scale-factor      1.1123 from 13 points
+ 
+ 
+ Block 2   Model 560 / 566   No. of points: 12
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        12.8
+ 
+ 
+ Scale-factor      0.7591 from 12 points
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      106.2   Mean Ph.Scale     1.017
+ Point            2008  mean discrep. (1/1000)=      105.5   Mean Ph.Scale     1.037
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2100  mean discrep. (1/1000)=      103.5   Mean Ph.Scale     0.967
+ 
+ New points    :            2038            2041            2062            2074
+ 
+ Transf. points:            2021
+ 
+ 
+ Block 2   Model 575 / 574   No. of points: 14
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        10.8
+ 
+ 
+ Scale-factor      1.0915 from 14 points
+ 
+ 
+ Block 2   Model 574 / 556   No. of points: 14
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        10.1
+ 
+ 
+ Scale-factor      0.8346 from 14 points
+ 
+ 
+ Block 2   Model 574 / 551   No. of points: 13
+ ----------------------------------------------
+ 
+ Restart orientation with balanced adjustment; first trial
+ 
+ 
+ Second trial
+ 
+ Inhomogenious exposure directions. Counters left :    1   12
+ Inhomogenious exposure directions. Counters right:    1   12
+ Scale negative. Base inverted.
+ Inhomogenious exposure directions. Counters left :   12    1
+ Inhomogenious exposure directions. Counters right:   12    1
+ 
+ First result restored
+ 
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         7.7
+ 
+ 
+ Scale-factor      0.8092 from 13 points
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      106.2   Mean Ph.Scale     1.017
+ Point            2008  mean discrep. (1/1000)=      105.5   Mean Ph.Scale     1.037
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2021  mean discrep. (1/1000)=      131.2   Mean Ph.Scale     1.102
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2100  mean discrep. (1/1000)=      103.5   Mean Ph.Scale     0.967
+ 
+ No new points
+ 
+ 
+ Block 2   Model 553 / 567   No. of points: 17
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        11.5
+ 
+ 
+ Scale-factor      0.8358 from 17 points
+ 
+ 
+ Block 2   Model 553 / 591   No. of points: 16
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         3.3
+ 
+ 
+ Scale-factor      0.8510 from 16 points
+ 
+ 
+ Block 2   Model 553 / 573   No. of points: 16
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         8.2
+ 
+ 
+ Scale-factor      0.8477 from 16 points
+ 
+ 
+ Block 2   Model 573 / 571   No. of points: 19
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        11.6
+ 
+ 
+ Scale-factor      0.7909 from 17 points
+ 
+ New points    :            2054            2057
+ 
+ 
+ Block 2   Model 571 / 572   No. of points: 19
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         8.6
+ 
+ 
+ Scale-factor      0.7985 from 18 points
+ 
+ New points    :            2086
+ 
+ 
+ Block 2   Model 571 / 570   No. of points: 19
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         5.6
+ 
+ 
+ Scale-factor      0.9313 from 19 points
+ 
+ 
+ Block 2   Model 570 / 569   No. of points: 15
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        19.0
+ 
+ 
+ Scale-factor      0.8604 from 15 points
+ 
+ 
+ Block 2   Model 570 / 568   No. of points: 14
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        13.7
+ 
+ 
+ Scale-factor      0.8565 from 14 points
+ 
+ 
+ Block 2   Model 570 / 590   No. of points: 13
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         7.0
+ 
+ 
+ Scale-factor      0.8715 from 13 points
+ 
+ 
+ Block 2   Model 590 / 577   No. of points: 13
+ ----------------------------------------------
+ Point opposite from exposure direction:            2069
+ 
+ Restart orientation with balanced adjustment; first trial
+ 
+ Inhomogenious exposure directions. Counters left :   12    1
+ Inhomogenious exposure directions. Counters right:   12    1
+ 
+ Second trial
+ 
+ Inhomogenious exposure directions. Counters left :    2   11
+ Inhomogenious exposure directions. Counters right:    2   11
+ Scale negative. Base inverted.
+ Inhomogenious exposure directions. Counters left :   11    2
+ Inhomogenious exposure directions. Counters right:   11    2
+ 
+ First result restored
+ 
+ Inhomogenious exposure directions. Counters left :   12    1
+ Inhomogenious exposure directions. Counters right:   12    1
+ 
+ Sigma Naught (3D) (1/1000)  =        63.7
+ 
+           Point     X_M      Y_M     Z_M   3D-Parall.  Lambda   Weight  Redund.
+                                               1/1000
+            2001     4.49     1.02   -15.58      29.9    0.990    0.785    0.589
+            2005   -11.66     5.28   -20.80     -30.1    1.321    0.810    0.638
+            2029    -5.79    -1.66   -21.33      95.0    1.354    1.137    0.644
+            2059     1.79    -2.56    -7.63     -24.2    0.484    0.390    0.577
+            2069    -0.69     0.22     1.66      73.2   -0.104    0.270    0.582
+            2082    -2.00     2.39   -17.40     -14.4    1.105    5.427    0.630
+            2088     2.27    -1.76   -14.44     -18.7    0.916    2.840    0.628
+            2093     1.82    -1.46    -4.35     103.2    0.275    0.259    0.600
+            2102    -8.64     1.53   -22.09      16.7    1.403    1.342    0.607
+            2108    -1.90     6.58   -14.24      59.7    0.904    1.084    0.610
+            2110    -5.60     6.81   -15.75      -4.8    1.000    0.713    0.586
+            2116    -5.13     4.16   -18.29     -23.7    1.161    4.811    0.674
+            2120     0.21     0.04   -16.59      -0.2    1.053    4.380    0.636
+ 
+ Skipping point no.            2093
+ 
+ 
+ First result restored
+ 
+ Inhomogenious exposure directions. Counters left :   11    1
+ Inhomogenious exposure directions. Counters right:   11    1
+ 
+ Sigma Naught (3D) (1/1000)  =        54.3
+ 
+           Point     X_M      Y_M     Z_M   3D-Parall.  Lambda   Weight  Redund.
+                                               1/1000
+            2001     4.37     0.99   -15.18     -29.1    0.964    0.785    0.589
+            2005   -11.35     5.14   -20.26      29.3    1.286    0.810    0.638
+            2029    -5.64    -1.61   -20.78     -92.6    1.319    1.137    0.644
+            2059     1.74    -2.50    -7.43     -23.6    0.471    0.390    0.577
+            2069    -0.67     0.21     1.61     -71.3   -0.102    0.270    0.582
+            2082    -1.95     2.33   -16.95      14.1    1.076    5.427    0.630
+            2088     2.21    -1.71   -14.06     -18.2    0.893    2.840    0.628
+            2093     1.77    -1.43    -4.24     100.5    0.268    0.259    0.600 SK
+            2102    -8.42     1.49   -21.52     -16.3    1.366    1.342    0.607
+            2108    -1.85     6.41   -13.86     -58.2    0.881    1.084    0.610
+            2110    -5.45     6.63   -15.34      -4.7    0.974    0.713    0.586
+            2116    -5.00     4.05   -17.81      23.1    1.131    4.811    0.674
+            2120     0.20     0.04   -16.16      -0.2    1.026    4.380    0.636
+ 
+ Skipping point no.            2029
+ 
+ Inhomogenious exposure directions. Counters left :   10    1
+ Inhomogenious exposure directions. Counters right:   10    1
+ 
+ First result restored
+ 
+ Inhomogenious exposure directions. Counters left :   10    1
+ Inhomogenious exposure directions. Counters right:   10    1
+ 
+ Sigma Naught (3D) (1/1000)  =        46.1
+ 
+           Point     X_M      Y_M     Z_M   3D-Parall.  Lambda   Weight  Redund.
+                                               1/1000
+            2001     4.49     1.02   -15.58     -29.9    0.990    0.785    0.589
+            2005   -11.66     5.28   -20.80      30.1    1.321    0.810    0.638
+            2029    -5.79    -1.66   -21.33     -95.0    1.354    1.137    0.644 SK
+            2059     1.79    -2.56    -7.63     -24.2    0.484    0.390    0.577
+            2069    -0.69     0.22     1.66     -73.2   -0.104    0.270    0.582
+            2082    -2.00     2.39   -17.40      14.4    1.105    5.427    0.630
+            2088     2.27    -1.76   -14.44     -18.7    0.916    2.840    0.628
+            2093     1.82    -1.46    -4.35     103.2    0.275    0.259    0.600 SK
+            2102    -8.64     1.53   -22.09     -16.7    1.403    1.342    0.607
+            2108    -1.90     6.58   -14.24     -59.7    0.904    1.084    0.610
+            2110    -5.60     6.81   -15.75       4.8    1.000    0.713    0.586
+            2116    -5.13     4.16   -18.29      23.7    1.161    4.811    0.674
+            2120     0.21     0.04   -16.59      -0.2    1.053    4.380    0.636
+ 
+ Skipping point no.            2069
+ 
+ 
+ First result restored
+ 
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        37.4
+ 
+ 
+ From  10 points adjusted median model scale =    0.8749
+ Precision of single scale                +-      0.2460
+ 
+ Skipping point no.            2059        Scale =    1.5145
+ 
+ From   9 points adjusted median model scale =    0.8453
+ Precision of single scale                +-      0.1282
+ 
+ Skipping point no.            2108        Scale =    1.0515
+ 
+ From   8 points adjusted median model scale =    0.8350
+ Precision of single scale                +-      0.1114
+ 
+ Skipping point no.            2102        Scale =    0.6458
+ 
+ From   7 points adjusted median model scale =    0.8453
+ Precision of single scale                +-      0.0906
+ 
+ 
+ Scale-factor      0.8453 from 7 points (3 points were skipped)
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      106.2   Mean Ph.Scale     1.017
+ Point            2008  mean discrep. (1/1000)=      105.5   Mean Ph.Scale     1.037
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2038  mean discrep. (1/1000)=      223.9   Mean Ph.Scale     0.802
+ Point            2050  mean discrep. (1/1000)=      100.0   Mean Ph.Scale     0.775
+ Point            2100  mean discrep. (1/1000)=      103.5   Mean Ph.Scale     0.967
+ 
+ No new points
+ 
+ 
+ Block 2   Model 580 / 552   No. of points: 13
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        17.1
+ 
+ 
+ Scale-factor      1.0523 from 13 points
+ 
+ 
+ Block 2   Model 580 / 578   No. of points: 13
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        14.9
+ 
+ 
+ Scale-factor      1.0225 from 13 points
+ 
+ 
+ Block 2   Model 580 / 579   No. of points: 12
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         6.0
+ 
+ 
+ Scale-factor      0.9708 from 12 points
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      106.2   Mean Ph.Scale     1.017
+ Point            2008  mean discrep. (1/1000)=      105.5   Mean Ph.Scale     1.037
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2038  mean discrep. (1/1000)=      223.9   Mean Ph.Scale     0.802
+ Point            2050  mean discrep. (1/1000)=      100.0   Mean Ph.Scale     0.775
+ Point            2100  mean discrep. (1/1000)=      103.5   Mean Ph.Scale     0.967
+ 
+ No new points
+ 
+ 
+ Block 2   Model 553 / 586   No. of points: 13
+ ----------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =        13.0
+ 
+ 
+ Scale-factor      0.8568 from 13 points
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      106.2   Mean Ph.Scale     1.017
+ Point            2008  mean discrep. (1/1000)=      105.5   Mean Ph.Scale     1.037
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2038  mean discrep. (1/1000)=      223.9   Mean Ph.Scale     0.802
+ Point            2050  mean discrep. (1/1000)=      100.0   Mean Ph.Scale     0.775
+ Point            2100  mean discrep. (1/1000)=      103.5   Mean Ph.Scale     0.967
+ 
+ No new points
+ 
+ 
+ Block 2   Model 557 / 558   No. of points: 9
+ ---------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         7.8
+ 
+ 
+ Scale-factor      0.8379 from 9 points
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      106.2   Mean Ph.Scale     1.017
+ Point            2008  mean discrep. (1/1000)=      105.5   Mean Ph.Scale     1.037
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2038  mean discrep. (1/1000)=      223.9   Mean Ph.Scale     0.802
+ Point            2050  mean discrep. (1/1000)=      100.0   Mean Ph.Scale     0.775
+ Point            2100  mean discrep. (1/1000)=      100.2   Mean Ph.Scale     0.947
+ 
+ No new points
+ 
+ 
+ Block 2   Model 595 / 559   No. of points: 9
+ ---------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         3.1
+ 
+ 
+ Scale-factor      1.1161 from 9 points
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      102.1   Mean Ph.Scale     1.000
+ Point            2008  mean discrep. (1/1000)=      103.2   Mean Ph.Scale     1.014
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2038  mean discrep. (1/1000)=      223.9   Mean Ph.Scale     0.802
+ Point            2050  mean discrep. (1/1000)=      100.0   Mean Ph.Scale     0.775
+ Point            2100  mean discrep. (1/1000)=       96.7   Mean Ph.Scale     0.937
+ 
+ No new points
+ 
+ 
+ Block 2   Model 551 / 600   No. of points: 6
+ ---------------------------------------------
+ 
+ Relative orientation ok.      Sigma Naught (1/1000) =         6.2
+ 
+ 
+ Scale-factor      0.6478 from 6 points
+ 
+ 
+ Pre-adjustment of object points
+ -------------------------------
+ Point            2007  mean discrep. (1/1000)=      102.1   Mean Ph.Scale     1.000
+ Point            2008  mean discrep. (1/1000)=      103.2   Mean Ph.Scale     1.014
+ Point            2015  mean discrep. (1/1000)=       98.2   Mean Ph.Scale     0.862
+ Point            2036  mean discrep. (1/1000)=      115.5   Mean Ph.Scale     0.918
+ Point            2038  mean discrep. (1/1000)=      223.9   Mean Ph.Scale     0.802
+ Point            2050  mean discrep. (1/1000)=      100.0   Mean Ph.Scale     0.775
+ Point            2100  mean discrep. (1/1000)=       96.7   Mean Ph.Scale     0.937
+ 
+ No new points
+ 
+ Mean Sigma Naught from all relative orientations (1/1000):        10.6
+ 
+ 
+ 
+ LIST OF SKIPPED PHOTO MEASUREMENTS
+ -------------------------------------
+ 
+           Point           Photo    Block  Counter
+ 
+            2029             577        2        1
+            2029             590        2        1
+ 
+            2059             577        2        1
+            2059             590        2        1
+ 
+            2069             590        2        1
+            2069             577        2        1
+ 
+            2093             590        2        1
+            2093             577        2        1
+ 
+            2102             577        2        1
+            2102             590        2        1
+ 
+            2108             577        2        1
+            2108             590        2        1
+ 
+ 
+ 
+ 
+ LIST OF SKIPPED PHOTO MEASUREMENTS
+ -------------------------------------
+ 
+           Point           Photo    Block  Counter
+ 
+            2029             577        2        1
+            2069             577        2        1
+            2059             577        2        1
+            2093             577        2        1
+            2102             577        2        1
+            2108             577        2        1
+ 
+            2029             590        2        1
+            2059             590        2        1
+            2069             590        2        1
+            2102             590        2        1
+            2093             590        2        1
+            2108             590        2        1
+ 
+ Total number of skipped photo measurements:    12
+ 
+ 
+ 
+ 
+
+           3D BLOCK TRANSFORMATION - USING STANDARD L2 ERROR ELIMIN.
+ ===============================================================================
+ 
+ 
+ Transformation of block 2 into block 1 using 3 points
+ ------------------------------------------------------
+ 
+ Standard deviation       0.011
+ 
+ Scale-factor            0.4524
+ 
+ Rotation + shift
+       0.996690    0.079252   -0.018095        313410.00
+      -0.080488    0.993294   -0.082993       5154835.09
+       0.011396    0.084174    0.996386           452.80
+ 
+ 
+ Data for 45 photos and 64 points written on ITERA FILE.
+ 
+ END RELAX elapsed time: 0 sec
+ 
+ 
+ 

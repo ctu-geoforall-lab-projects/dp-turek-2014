@@ -1,54 +1,25 @@
 import numpy as np
 from math import pi
 
+# File contains helper functions for priniting various protocols
+
+# helper functions for creation of latex tables for the thesis
+
 def GenerateLatexPointsIterationTable(diff, out_file):
-    print "GenerateLatexPhotosIterationTable"
     _genDiff(diff, out_file, "Pt. no.")
 
 def GenerateLatexPhotosIterationTable(diff, out_file):
-    print "GenerateLatexPhotosIterationTable"
     _genDiff(diff, out_file, "Ph. no.")
 
 
 def reprojection_errors(e_repro, prot_fd):
-    """
-    fd_bingo = open("/home/ostepok/Dev/GRASS/diplomka/data/Bingo_project/withEO_3GCP", "w")
 
-    bingo_e = []
-    while 1:
-            line = f.readline()
-            if not line:
-                break
-            if line[0] == "*" or not line.strip():
-                continue
-
-            lin=line.rstrip("")
-            l = lin.split()
-            if not l:
-                continue
-            
-            try:
-                int(l[0])
-            except:
-                continue
-
-            
-            bingo_e.append(l[4]/100)
-            bingo_e.append(l[5]/100)
-    """
 
     fd = open(prot_fd, "w")
 
 
     e_repro = np.absolute(e_repro)
-
-    print "e_repro"
-    s = np.sort(e_repro)
-
-    for e in s[:10]:
-        print e
-
-    e_repro = e_repro * (4592 / 25.1)   
+    e_repro = e_repro * (4592 / 25.1) # transformation to pixels  
     amax = np.amax(e_repro)
     amin = np.amin(e_repro)
     avg = np.average(e_repro)
@@ -304,6 +275,7 @@ def CreatePhootoParametersLatex(i_num, cov, Xa, dx, bi, apo, prot_fd, unk, gcps,
     fd.close()
 
 
+# functions for creation of adjustment protocols
 
 def CreateIterationProtocolMeasurements(i_num, cov_l, e_repro, bi, prot_fd):
     

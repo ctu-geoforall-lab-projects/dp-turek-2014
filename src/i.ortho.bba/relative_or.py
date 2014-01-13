@@ -16,8 +16,53 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
 
+# this file comprise functions  performing relative orientation by five point algorithm 
+# and than merges individual relative coordinates systems into the common one (for in depth description  (1.6.5, 1.6.6, 3.2.3, 4))
 
+def solvePnP(in_dt):
+    # computes exterior orientation from photo points and corresponding object points (not used)
+    phs = in_dt.GetPhotos()
+    pts = in_dt.GetPoints()
+    cam_m, distor = in_dt.GetCameras().values()[0].GetParams()
+    import cv2
+
+
+    for ph in phs.itervalues():
+        img_pts = []
+        obj_pts = []
+        pts = ph.GetPoints()
+        i = 0
+        for pt in pts.itervalues():
+            gcp = pt.GetGcp()[0]
+            phpts = pt.GetPhotoPoints()
+            phpt = phpts[ph]
+            img_pts.append([phpt[0], phpt[1]])
+            obj_pts.append([gcp[0], gcp[1], gcp[2]])
+            i += 1
+            #if i == 4:
+            #    break
+        img_pts = np.array([img_pts])
+        obj_pts = np.array([obj_pts])
+    
+        ret, r, t = cv2.solvePnP(obj_pts, img_pts, cam_m, distor, flags=cv2.EPNP)
+        ret, r, t = cv2.solvePnP(obj_pts, img_pts, cam_m, distor, rvec=r, tvec=t, useExtrinsicGuess=True)
+
+        r = cv2.Rodrigues(r)[0]
+        t = t[:,0]
+        c = - r.T.dot(t)
+        eo = ph.GetEO()
+        c_eo = eo[:,3]
+
+        p = np.zeros((3, 4))
+        p[:, :3] = r
+        p[:, 3] = t
+
+        ph.SetP(p)
+    return
+
+    #cv2.solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs[, rvec[, tvec[, useExtrinsicGuess[, flags]]]])  retval, rvec, tvec
 class RelOr:
+    # stores needed information about relative orientation 
     def __init__(self, id, ph1_id, ph2_id, pm, pt_ids, sps_pts, tie_pts):
         self.id = id
         self.ph1_id = ph1_id
@@ -29,6 +74,15 @@ class RelOr:
         self.scale = None
 
 def AddRelOrToIndex(ph1_id, ph2_id, ro_id, ph_ids_to_ro_id):
+    #  the index are dictionaries in dictionary, it is 
+    # used for search of all corresponding relative 
+    # orientation where the photo belongs  
+    # e. g.  ph_ids_to_ro_id[551] returns 
+    #  {552 : RelOr class object, 560 : RelOr class object}
+    # it means that  the photo 551 is included in two computed relative orientations 
+
+    # the function adds new relative orientation into the index
+
     if ph1_id not in ph_ids_to_ro_id:
         ph_ids_to_ro_id[ph1_id] = {ph2_id : ro_id}
     else:
@@ -40,39 +94,46 @@ def AddRelOrToIndex(ph1_id, ph2_id, ro_id, ph_ids_to_ro_id):
         ph_ids_to_ro_id[ph1_id][ph2_id] = ro_id
 
 
-def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
+def RelativeOrientation(in_dt):
     ph_ids_to_ro_id = {}
     ros = []
 
+    print "computing relative orientations"
+
     cam_m, distor = in_dt.GetCameras().values()[0].GetParams()
-
-    #rel_or_phs = [(598, 576), (597, 598)]  
-    #rel_or_phs = [(576, 598), (597, 598)]  
-
-    #rel_or_phs = [(598, 576), (598, 597)]
-    #rel_or_phs = [(576, 598), (598, 597), (597, 583)]  
-
 
     phs = in_dt.GetPhotos()
     pts = in_dt.GetPoints()
 
+    # first pair with the highest number of tie points is returned 
     ro_phs, phs_outer_envelope, phs_oriented =  GetFirstPair(in_dt)
     
     i_ro_id = 0
+    # it goes through the graph of relative orientations until all 
+    # available photos are  relatively oriented and transformed in
+    # the common system  
     while True:
-    #for i_ro_id, ro_phs in enumerate(rel_or_phs):
+        # newly oriented photos
         ph1, ph2 = ro_phs
 
+
+        # their common tie points
         tie_point_ids, tie_pts = in_dt.GetTiePoints(ro_phs)
+
+        # relative orientation is computed and object 
+        # point coordinates are determined by triangulation  
         sps_pts, P, p1, p2 = computeRelativeOrientation(tie_pts, 
                                                         cam_m, 
                                                         distor)
 
         tie_pts = np.hstack((p1[0, ...] , p2[0, ...]))
 
+        #  RelOr  structure is created
         ro = RelOr(i_ro_id, ro_phs[0], ro_phs[1], P, tie_point_ids, sps_pts, tie_pts)
         ros.append(ro)
 
+
+        # first relative orientation determines common relative orientation system 
         if i_ro_id == 0:
             pm1 = np.eye(3, 4)
             phs[ro_phs[0]].SetP(pm1)
@@ -83,6 +144,8 @@ def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
 
             for i_pt, pt_id in enumerate(ro.pt_ids):
                 pts[pt_id].AddRelOrCoords(i_ro_id, sps_pts[i_pt][:3])
+       
+        # another orientations are transformed into the common system
         else:
             if ph_ids_to_ro_id.has_key(ro_phs[0]):
                 conn_ph = phs[ro_phs[0]]
@@ -100,25 +163,16 @@ def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
             for i_pt, pt_add_id in enumerate(ro.pt_ids):
                 pts[pt_add_id].AddRelOrCoords(i_ro_id, out_pts[i_pt])
         
+        # new relative orientation is added into the index
         AddRelOrToIndex(ro_phs[0], ro_phs[1], i_ro_id, ph_ids_to_ro_id)
 
-        apts =  {}
-        for pid in ro.pt_ids:
-            apts[pts[pid]] = pts[pid]
 
-        aphs =  {}
-        for phid in ro_phs:
-            aphs[phs[phid]] = phs[phid]
-
-
-        #if ro_phs == [553, 591]:
-        #print ph1.GetId()
-        #print ph2.GetId()
-        #print len(tie_point_ids)
-        #PlotRelOrs(apts, aphs, i_ro_id)
-        
-
+        # next pair to be oriented is returned from all available pairs 
+        # where one photo is already transformed into common system 
+        # and another is not. It is chosen the  pair with highest number of shared tie points. 
         ret = NextPair(ros, ph_ids_to_ro_id, phs_outer_envelope, phs_oriented)
+
+        # all pairs are already merged, terminate the loop
         if not ret:
             break
         ro_phs = ret
@@ -128,6 +182,9 @@ def RelativeOrientation(in_dt, rel_or_phs, protocol_path):
     #PlotAllRelOrs(pts, phs)
     #createRelOrProtocol(protocol_path, ros, cam_m, distor, in_dt)
         
+
+    # computes points, whose object coordinates have not been determined 
+    # by relative orientation process 
     computeMissingPoints(in_dt)
     return ros, ph_ids_to_ro_id
 
@@ -160,7 +217,6 @@ def computeMissingPoints(in_dt):
                             tp2_u = undistortPoints(tie_pts2, cam_m1, distor1)
 
                             out_pts = compute3Dpoints(p1, p2, tp1_u, tp2_u)
-                            print out_pts
                             pt.AddRelOrCoords(-1, out_pts[0])
                         found = True
                         break
@@ -168,6 +224,7 @@ def computeMissingPoints(in_dt):
                     break
 
 def GetFirstPair(in_dt):
+    # returns pair with highest number of tie points in the set
 
     sorted_pairs = in_dt.GetPhotosConnectivity()
     phs_pair = sorted_pairs[0][0]
@@ -176,10 +233,13 @@ def GetFirstPair(in_dt):
     phs_outer_envelope = [ph1, ph2]
     phs_oriented  = [ph1, ph2]
     
+    # envelope holds information about 
+    # candidate photos for next orientation 
+    # phs_oriented is list of already  oriented  photos
     return phs_pair, phs_outer_envelope, phs_oriented
 
 def NextPair(ros, ph_ids_to_ro_id, phs_outer_envelope, phs_oriented):
-
+    # returns pairs, for next relative orientation 
     conn_ph_tie_pts_n = 0
     conn_ph = None
 
@@ -204,11 +264,6 @@ def NextPair(ros, ph_ids_to_ro_id, phs_outer_envelope, phs_oriented):
 
     if not conn_ph:
         return None
-    """
-    print "seznam"
-    print conn_ph.GetId()
-    print env_ph.GetId()
-    """
 
     phs_outer_envelope.append(conn_ph)
     phs_oriented.append(conn_ph)
@@ -217,7 +272,11 @@ def NextPair(ros, ph_ids_to_ro_id, phs_outer_envelope, phs_oriented):
 
 
 def ConnectRelOr(phs, add_rel_or, conn_rel_or):
+    # transforms relative orientation add_rel_or into common system
+
     def GetPivotPhoto(rel_or1, rel_or2):
+        # returns photo which is present in both relative orientations 
+
         if rel_or1.ph1_id == rel_or2.ph1_id:
             pivot_ph_id = rel_or1.ph1_id
         elif rel_or1.ph1_id == rel_or2.ph2_id:
@@ -228,7 +287,8 @@ def ConnectRelOr(phs, add_rel_or, conn_rel_or):
         return pivot_ph_id
 
     def computeScale(add_rel_or, conn_rel_or, phs):
-
+        #  computes scale for transformation of add_rel_or relative orientation 
+        #  into conn_rel_or
         pivot_ph_id = GetPivotPhoto(add_rel_or, conn_rel_or)
 
         if add_rel_or.ph1_id == pivot_ph_id:
@@ -260,14 +320,7 @@ def ConnectRelOr(phs, add_rel_or, conn_rel_or):
                 scales.append(np.linalg.norm(pt_conn) / np.linalg.norm(pt_add))
 
         scales = np.array(scales)
-        #if inv:
-        #    print "invers"
-        #    scales = 1/scales
-
         med = np.median(scales)
-        print "scale"
-        print med
-        print np.std(scales)
 
         return med
 
@@ -303,44 +356,13 @@ def ConnectRelOr(phs, add_rel_or, conn_rel_or):
     return eo_ph, eo_trans 
 
 def undistortPoints(pts, cam_m, distor):
+    # returns normalized coordinates of photo points    
     tp = np.expand_dims(pts, axis=0)
     tp_u = cv2.undistortPoints(tp, cam_m, distor)
     return tp_u
 
-def createRelOrProtocol(protocol_path, ros, cam_m, distor, in_dt):
-    prot_fd = open(protocol_path, 'w')
-
-
-    total_err = 0
-    for ro in ros:
-        tie_point_ids, tie_pts = in_dt.GetTiePoints([ro.ph1_id, ro.ph2_id])
-        err = RelOrProtocol(tie_pts, ro.sps_pts, ro.pm, cam_m, distor)
-
-        err_avrg =  sum(err) / len(err)
-        prot_fd.write("%5d, %5d, %15.8f\n" % (ro.ph1_id, ro.ph2_id, err_avrg))
-
-        total_err +=  err_avrg
-
-    prot_fd.write("Total error: %15.8f\n" % (total_err/len(ros)))
-    prot_fd.close()
-
-
-def RelOrProtocol(tie_pts, pts_sps, P, cam_m, distor):
-    
-    tp1, tp2, tp1_u, tp2_u = UndistorTiePoints(tie_pts, cam_m, distor)
-
-    err1 = computeError(tp2, pts_sps, P[:,:3], P[:,3], cam_m, distor)
-
-    pm1 = np.eye(3, 4)
-    err2 = computeError(tp1, pts_sps, pm1[:,0:3], pm1[:,3], cam_m, distor)
-    err = err1 + err2
-
-
-    return err
-
-
 def UndistorTiePoints(tie_pts, cam_m, distor):
-
+    # returns coordinates in photo system without effect of distortion 
     tp1_u = undistortPoints(tie_pts[:, :2], cam_m, distor)
     tp2_u = undistortPoints(tie_pts[:, 2:4], cam_m, distor)
 
@@ -356,32 +378,25 @@ def UndistorTiePoints(tie_pts, cam_m, distor):
     return tp1, tp2, tp1_u, tp2_u
 
 def computeRelativeOrientation(tie_pts, cam_m, distor):
+    #  computes relative orientation  using OpenCV 5 point algorithms
 
     tp1, tp2, tp1_u, tp2_u  = UndistorTiePoints(tie_pts, cam_m, distor)
 
-
-    #idxs = np.nonzero(tie_pts[:,4])
-
+    # eight point algorithm 
     #F, mask = cv2.findFundamentalMat(tp1[0, :], tp2[0, :], param1=0.1, param2=0.95, method = cv2.FM_RANSAC)
     #em = cam_m.T.dot(F).dot(cam_m)
     
-
     em, mask = cv2.findEssentialMat(tp1[0, :], tp2[0, :], 
                                     threshold=0.001, 
                                     prob=0.95, 
                                     focal=cam_m[0, 0], 
                                     pp=(cam_m[0, 2], cam_m[1, 2]))
 
+
     F = np.linalg.inv(cam_m.T).dot(em).dot(np.linalg.inv(cam_m))
 
+    # optimal solution for triangulation of  object points
     p1, p2 = cv2.correctMatches(em, tp1_u, tp2_u)
-    #p1 = tp1_u
-    #p2 = tp2_u
-    """
-    print "chyby"
-    GetPtsErrors(p1, tp1_u)
-    GetPtsErrors(p2, tp2_u)
-    """
 
     pts, R, t, mask = cv2.recoverPose(em, p1, p2)
     P = np.hstack((R, t))
@@ -389,54 +404,7 @@ def computeRelativeOrientation(tie_pts, cam_m, distor):
 
     pts_sps = compute3Dpoints(pm1, P, p1, p2)
 
-
     return pts_sps, P, p1, p2
-
-    """
-    #coords_f = '/home/ostepok/Desktop/coords.txt'
-    #pts_fd = open(coords_f, mode='w')
-
-        #pts_fd.write("%f|%f|%f\n" % tuple(pt))
-    #pts_fd.close()
-
-    p = grass.pipe_command("v.in.ascii", cat="0",
-                                        input=coords_f,
-                                        quiet=True,
-                                        overwrite=True,
-                                        output="rel_or_%i" % i_em,
-                                        columns='x double precision, y double precision, z double precision',
-                                        flags="z",
-                                        z="3")
-    p.wait()
-    print p.stdout
-    """
-    #OutputArray _t, double focal, Point2d pp, InputOutputArray _mask)
-    #for pt in tie_pts:
-        #print "points"
-        #pt_h = TriangulatePoint(pt[:2], pt[2:4], pm1, pms2[1])
-        #print pt_h
-        #pt_h = cv2.triangulatePoints(pm1, pms2[1], pt[:2], pt[2:4])
-        #print pt_h
-    #print PointDepth(pms2[1], pt_h)
-
-def xp(f, X0, Y0, Z0 ,X,Y,Z,a):
-    return f * (a[0,0]*(X-X0) + a[0,1]*(Y-Y0) + a[0,2]*(Z-Z0) ) / (a[2,0]*(X-X0) + a[2,1]*(Y-Y0) + a[2,2]*(Z-Z0) ) 
-
-def yp(f, X0, Y0, Z0, X,Y,Z ,a):
-    return f * (a[1,0]*(X-X0) + a[1,1]*(Y-Y0) + a[1,2]*(Z-Z0) ) / (a[2,0]*(X-X0) + a[2,1]*(Y-Y0) + a[2,2]*(Z-Z0) )
-
-def _create5ptInFile(tie_pts, pts5_fd):
-
-    i = 0
-    for i_pt in tie_pts:
-        print "%f %f %f %f\n" % tuple(i_pt)        
-        i += 1
-        if i == 5:
-            break
-
-        pts5_fd.write("%f %f %f %f\n" % tuple(i_pt))
-
-    pts5_fd.flush()
 
 def computeError(phs_pts, sps_pts, R, t, cam_m, distor):
 
@@ -454,41 +422,8 @@ def computeError(phs_pts, sps_pts, R, t, cam_m, distor):
 
     return np.array(errs)
 
-def _create5ptOutFile(em_fd):
-
-    ems = []
-    i_line = 0;
-    em_row = 0;
-
-    em = np.zeros((3, 3))
-    while 1:
-        line = em_fd.readline()
-        if not line:
-            break
-
-        l = line.split()
-        if not l:
-            em_row = 0;
-            ems.append(em)
-            em = np.zeros((3, 3))
-            continue
-
-        em[em_row, :3] = map(float, l)
-        em_row += 1
-    return ems
-
-def GetPtsErrors(corr_pts, pts):
-    errs = 1.0 - abs(corr_pts / pts)
-    errs *= 100
-    print "average"
-    print np.average(errs, axis=1)
-    print "max"
-    print np.amax(errs, axis=1)
-    print np.argmax(errs, axis=1)
-
-
 def compute3Dpoints(P1, P2, npts1, npts2):
-
+    # computes object point coordinates from photo points correspondence using DLT method 
     ptsh3d = cv2.triangulatePoints(P1, P2, npts1.T, npts2.T).T
 
     pts_sps = deepcopy(ptsh3d[:,:3])
@@ -497,79 +432,4 @@ def compute3Dpoints(P1, P2, npts1, npts2):
         pts_sps[i, :] = pt[:3]
 
     return pts_sps
-
-def CameraMotionFromEssentialMatrix(em):
-    U, W, V = np.linalg.svd(em, full_matrices=True)
-    W = np.zeros((3, 3))
-    W[0,1] = -1.0
-    W[1,0] = 1.0
-    W[2,2] = 1.0
-
-    R1 = U.dot(W).dot(V.T)
-    R2 =  U.dot(W.T).dot(V.T)
-
-    t1 = np.expand_dims(U[2, :], axis=0)
-    t2 = -t1
-
-    pms = []
-    for r in [R1, R2]:
-        for t in [t1, t1]:
-            pms.append(np.concatenate((r, t.T), axis=1))
-
-    return pms
-
-def TriangulatePoint(pt1, pt2, P1, P2):
-
-    A = np.zeros((4, 4))
-
-    A[0,:] = pt1[0] * P1[2,:] - P1[0,:]
-    A[1,:] = pt1[1] * P1[2,:] - P1[1,:]
-    
-    A[2, :] = pt2[0] * P2[2,:] - P2[0,:]
-    A[3, :] = pt2[1] * P2[2,:] - P2[1,:]
-
-    pt_3d = np.zeros(4);
-    U, W, V = np.linalg.svd(A, full_matrices=True)
-    VT = V.T
-
-    pt_3d[0] = VT[3,0];
-    pt_3d[1] = VT[3,1];
-    pt_3d[2] = VT[3,2];
-    pt_3d[3] = VT[3,3];
-
-    return pt_3d;
-
-def PointDepth(P, pth):
-
-    pth_phs = P.dot(pth)
-    
-    det = np.linalg.det(P[:,:3])
-    if det > 0:
-        sign = 1.0
-    else:
-        sign = -1.0
-
-    w = pth_phs[2]
-    W = P[0, 2];
-
-    a = P[2, 0]
-    b = P[2, 1]
-    c = P[2, 2]
-
-    m3_l = sqrt(a*a + b*b + c*c)
-
-    return (w/W)*(sign/m3_l);
-
-#sdef ExportCameras()
-    """
-    cmd = ["./5pt/5point_upravy/bin/Release/5point", pts5_fd.name,  em_fd.name]
-    p = Popen(cmd, stdout=PIPE)
-    p.wait()
-    out, err = p.communicate()
-    print out
-    print err
-
-    print "ok"
-    ems = _create5ptOutFile(em_fd);
-    """
 

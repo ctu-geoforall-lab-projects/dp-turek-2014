@@ -11,14 +11,21 @@ except ImportError, e:
     sys.stderr.write(_("Loading ctypes libs failed"))
 from ctypes import *
 
-def HelmertTransform(pts, phs):
 
+# this file gathers functions dealing with transformation of common relative coordinate system 
+# into world coordinate system (for in depth description see chapters 1.6.7, 3.2.3, 4))
+
+def HelmertTransform(pts, phs):
+    # computes 
     ComputeCoords(pts)
 
     gcp_pts = []
     ro_pts = []
 
+    # get GCPS for computation of Helemert transformation coefficients 
     for pt in pts.itervalues():
+
+        # only non control GCPS are used (control GCPS are treated as tie points)
         gcp_c, control = pt.GetGcp()
         if gcp_c is not None and not control and pt.GetCoords() is not None:
             gcp_pts.append(gcp_c)
@@ -27,12 +34,16 @@ def HelmertTransform(pts, phs):
     ro_pts = np.array(ro_pts)
     gcp_pts = np.array(gcp_pts)
     
+    # computes helmert transformation coefficients 
     hm_p, hm_s, r = ComputeHelmertTransf(ro_pts, gcp_pts)
+
+    # transforms all object points by Helmert transformation coefficients
     for pt in pts.itervalues():
         if pt.GetCoords() is not None:
             p = GeoRefOr(pt.GetCoords(), r)
             pt.SetCoords(p)
 
+    # transforms all exterior orientations of photos
     for ph in phs.itervalues():
         if ph.GetEO() is not None:
             eo = ph.GetEO()
@@ -41,6 +52,9 @@ def HelmertTransform(pts, phs):
             ph.HelmertTransformEO(hm_p, hm_s)
 
 def ComputeCoords(pts):
+    # median is used for merging corresponding object points coordinates  
+    # determined by different relative orientation 
+    # 
     for pt in pts.itervalues():
         ro_pts = pt.GetRelOrsCoords()
 
@@ -58,12 +72,6 @@ def ComputeCoords(pts):
 
 def Test(ros, in_dt, cam_m, distor, rel_or_phs):
     ph_ids_to_ro_id = {}
-
-    #rel_or_phs = [(598, 576), (597, 598)]  
-    #rel_or_phs = [(576, 598), (597, 598)]  
-
-    #rel_or_phs = [(598, 576), (598, 597)]
-    #rel_or_phs = [(576, 598), (598, 597), (597, 583)]  
 
 
     phs = in_dt.GetPhotos()
@@ -86,7 +94,8 @@ def Test(ros, in_dt, cam_m, distor, rel_or_phs):
     ComputeCoords(pts)
 
 def ComputeHelmertTransf(pts1, pts2):
-
+    # calls GRASS imagery library function I_compute_georef_equations_or 
+    # through ctypes interface to calculate transf. coefficients   
     def RotMatCToRotMat(rm_c):
         
         rm = np.zeros((3, 4))
@@ -166,7 +175,7 @@ def ComputeHelmertTransf(pts1, pts2):
 
 
 def GeoRefOr(ph_ob, rm_c):
-
+    # transforms point by Helmert transformation coefficients
     e = c_double(0) 
     n = c_double(0)
     z = c_double(0) 

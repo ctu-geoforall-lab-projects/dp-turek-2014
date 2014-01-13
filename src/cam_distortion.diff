@@ -1,0 +1,274 @@
+Index: imagery/i.ortho.photo/lib/orthophoto.h
+===================================================================
+--- imagery/i.ortho.photo/lib/orthophoto.h	(revision 58674)
++++ imagery/i.ortho.photo/lib/orthophoto.h	(working copy)
+@@ -37,6 +37,7 @@
+     double Xp;
+     double Yp;
+     double CFL;
++    double CFLY;
+     int num_fid;
+     struct Fiducial
+     {
+@@ -44,6 +45,15 @@
+ 	double Xf;
+ 	double Yf;
+     } fiducials[20];
++
++    int num_rad_distor;
++    double rad_distor[6];// radial distortion coefs
++
++    int num_tang_distor;
++    double tang_distor[2]; // tangential distor coefs always are two
++
++    int num_tprism_distor;
++    double tprism_distor[4]; // thin prism distortion coefs
+ };
+ 
+ struct Ortho_Photo_Points
+Index: imagery/i.ortho.photo/lib/cam_info.c
+===================================================================
+--- imagery/i.ortho.photo/lib/cam_info.c	(revision 58674)
++++ imagery/i.ortho.photo/lib/cam_info.c	(working copy)
+@@ -13,8 +13,8 @@
+     char buf[IN_BUF];
+     char cam_name[30];
+     char cam_id[30];
+-    double Xp, Yp, CFL;
+-    int num_fid;
++    double Xp, Yp, CFL, CFLY, DISTOR;
++    int num_fid, num_distor;
+     char fid_id[30];
+     double Xf, Yf;
+ 
+@@ -33,6 +33,7 @@
+     if (sscanf(buf, "CAMERA XP     %lf \n", &Xp) == 1)
+ 	cam_info->Xp = Xp;
+ 
++    //TODO
+     G_getl2(buf, IN_BUF, fd);
+     G_strip(buf);
+     if (sscanf(buf, "CAMERA YP     %lf \n", &Yp) == 1)
+@@ -42,9 +43,14 @@
+     G_strip(buf);
+     if (sscanf(buf, "CAMERA CFL    %lf \n", &CFL) == 1)
+ 	cam_info->CFL = CFL;
+-
++    
+     G_getl2(buf, IN_BUF, fd);
+     G_strip(buf);
++    if (sscanf(buf, "CAMERA CFLY    %lf \n", &CFLY) == 1)
++    cam_info->CFLY = CFLY;
++    
++    G_getl2(buf, IN_BUF, fd);
++    G_strip(buf);
+     if (sscanf(buf, "NUM FID       %d \n", &num_fid) == 1)
+ 	cam_info->num_fid = num_fid;
+ 
+@@ -58,6 +64,46 @@
+ 	}
+     }
+ 
++    G_getl2(buf, IN_BUF, fd);
++    G_strip(buf);
++    cam_info->num_rad_distor = 0;
++    if (sscanf(buf, "NUM RAD DISTOR COEFS %d \n", &num_distor) == 1)
++    cam_info->num_rad_distor = num_distor;
++
++    for (n = 0; n < cam_info->num_rad_distor; n++) {
++    G_getl2(buf, IN_BUF, fd);
++    G_strip(buf);
++    if (sscanf(buf, "%lf", &DISTOR) == 1) {
++        cam_info->rad_distor[n] = DISTOR;
++    }
++    }
++    
++    G_getl2(buf, IN_BUF, fd);
++    G_strip(buf);
++    if (sscanf(buf, "NUM TANG DISTOR COEFS     %d \n", &num_distor) == 1)
++    cam_info->num_tang_distor = num_distor;
++
++    for (n = 0; n < cam_info->num_tang_distor; n++) {
++    G_getl2(buf, IN_BUF, fd);
++    G_strip(buf);
++    if (sscanf(buf, "%lf", &DISTOR) == 1) {
++        cam_info->tang_distor[n] = DISTOR;
++    }
++    }
++
++    G_getl2(buf, IN_BUF, fd);
++    G_strip(buf);
++    if (sscanf(buf, "NUM TPRISM DISTOR COEFS     %d \n", &num_distor) == 1)
++    cam_info->num_tprism_distor = num_distor;
++
++    for (n = 0; n < cam_info->num_tprism_distor; n++) {
++    G_getl2(buf, IN_BUF, fd);
++    G_strip(buf);
++    if (sscanf(buf, "%lf", &DISTOR) == 1) {
++        cam_info->tprism_distor[n] = DISTOR;
++    }
++    }
++    
+     return 1;
+ }
+ 
+@@ -85,6 +131,22 @@
+ 		cam_info->fiducials[i].fid_id,
+ 		cam_info->fiducials[i].Xf, cam_info->fiducials[i].Yf);
+ 
++    fprintf(fd, "NUM RAD DISTOR COEFS %d \n", cam_info->num_rad_distor);
++    for (i = 0; i < cam_info->num_rad_distor; i++)
++    fprintf(fd, "%.17g \n",
++        cam_info->rad_distor[i]);
++
++    fprintf(fd, "NUM TANG DISTOR COEFS %d \n", cam_info->num_tang_distor);
++    for (i = 0; i < cam_info->num_tang_distor; i++)
++    fprintf(fd, "%.17g \n",
++        cam_info->tang_distor[i]);
++
++    
++    fprintf(fd, "NUM TPRISM DISTOR COEFS %d \n", cam_info->num_tprism_distor);
++    for (i = 0; i < cam_info->num_tprism_distor; i++)
++    fprintf(fd, "%.17g \n",
++        cam_info->tprism_distor[i]);
++
+     return 0;
+ }
+ 
+Index: imagery/i.ortho.photo/i.ortho.camera/main.c
+===================================================================
+--- imagery/i.ortho.photo/i.ortho.camera/main.c	(revision 58674)
++++ imagery/i.ortho.photo/i.ortho.camera/main.c	(working copy)
+@@ -37,7 +37,10 @@
+ 		  *cid_opt,       /* camera id */
+ 		  *cfl_opt,       /* calibrated focal length */
+ 		  *pp_opt,        /* principal point of symmetry x,y */
+-		  *fid_opt;	  /* coordinates of fiducials */
++		  *fid_opt,	  /* coordinates of fiducials */
++    	  *rad_distor_opt, /* radial distortion coefs */
++    	  *tang_distor_opt, /* tangential distortion coefs */
++    	  *tprism_distor_opt; /* thin prism distortion coefs */
+ 
+     /* flag to print camera info */
+     /* flag to print camera info in shell script style */
+@@ -49,6 +52,7 @@
+     double ppx, ppy, cfl;
+     struct Ortho_Camera_File_Ref cam_info;
+     int put_cam_info = 0;
++    int i;
+ 
+     G_gisinit(argv[0]);
+ 
+@@ -85,8 +89,9 @@
+     cfl_opt = G_define_option();
+     cfl_opt->type = TYPE_DOUBLE; 
+     cfl_opt->key = "clf";
++    cfl_opt->multiple = YES;
+     cfl_opt->label =
+-	_("Calibrated focal length");
++	_("Calibrated focal length (can be fx and fy)");
+ 
+     pp_opt = G_define_standard_option(G_OPT_M_COORDS);
+     pp_opt->key = "pp";
+@@ -99,6 +104,27 @@
+     fid_opt->label =
+ 	_("Fiducial coordinates");
+ 
++    rad_distor_opt = G_define_option();
++    rad_distor_opt->type = TYPE_DOUBLE; 
++    rad_distor_opt->key = "rad_distor";
++    rad_distor_opt->multiple = YES;
++    rad_distor_opt->label =
++	_("Radial distortion coefficients");
++
++    tang_distor_opt = G_define_option();
++    tang_distor_opt->type = TYPE_DOUBLE; 
++    tang_distor_opt->key = "tang_distor";
++    tang_distor_opt->multiple = YES;
++    tang_distor_opt->label =
++	_("Tangential distortion coefficients");
++
++    tprism_distor_opt = G_define_option();
++    tprism_distor_opt->type = TYPE_DOUBLE; 
++    tprism_distor_opt->key = "thin_prism_distor";
++    tprism_distor_opt->multiple = YES;
++    tprism_distor_opt->label =
++	_("Thin prism distortion coefficients");
++
+     if (G_parser(argc, argv))
+ 	exit(EXIT_FAILURE);
+ 
+@@ -139,15 +165,6 @@
+ 	              cam_info.cam_id, cam_id);
+ 	    strcpy(cam_info.cam_id, cam_id);
+ 	}
+-	
+-	if (cfl_opt->answer) {
+-	    cfl = atof(cfl_opt->answer);
+-	    if (cfl != cam_info.CFL) {
+-		G_message(_("Replacing calibrated focal length '%g' with '%g'"),
+-			  cam_info.CFL, cfl);
+-		cam_info.CFL = cfl;
+-	    }
+-	}
+ 
+ 	if (pp_opt->answers) {
+ 	    G_message(_("Replacing coordinates of principal point '%.17g, %.17g' with '%.17g, %.17g'"),
+@@ -181,7 +198,7 @@
+     /* fiducials */
+     cam_info.num_fid = 0;
+     if (fid_opt->answers) {
+-	int i, fid_no;
++	int fid_no;
+ 	double Xf, Yf;
+ 	
+ 	for (i = 0, fid_no = 0; fid_opt->answers[i] != NULL; i += 2, fid_no++) {
+@@ -200,6 +217,48 @@
+ 	cam_info.num_fid = fid_no;
+     }
+ 
++    /* distortions */
++
++	/* TODO add warnings */
++	i = 0; 
++    while (rad_distor_opt->answers && rad_distor_opt->answers[i]) {
++		/*TODO magic number */
++	    if (i > 5) {
++		G_warning(_("Too many radial coeffitients!"));
++		break;
++		}
++
++		cam_info.rad_distor[i] = atof(rad_distor_opt->answers[i]);
++		i++;
++	}
++	cam_info.num_rad_distor = i;
++
++	i = 0; 
++    while (tang_distor_opt->answers && tang_distor_opt->answers[i]) {
++		/*TODO magic number, better check */
++	    if (i > 1) {
++		G_warning(_("Too many tangential coeffitients!"));
++		break;
++		}
++
++		cam_info.tang_distor[i] = atof(tang_distor_opt->answers[i]);
++		i++;
++	}
++	cam_info.num_tang_distor = i;
++
++	i = 0; 
++    while (tprism_distor_opt->answers && tprism_distor_opt->answers[i]) {
++		/*TODO magic number*/
++	    if (i > 3) {
++		G_warning(_("Too many tight prism coeffitients!"));
++		break;
++		}
++		cam_info.tprism_distor[i] = atof(tprism_distor_opt->answers[i]);
++		i++;
++	}
++	//TODO test
++	cam_info.num_tprism_distor = i;
++
+     if (put_cam_info) {
+ 	/* create/modify camera file */
+ 	I_put_cam_info(camera, &cam_info);

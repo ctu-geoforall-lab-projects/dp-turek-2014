@@ -1,0 +1,27 @@
+C --5.1--*---------*----  BINGO Project File  ---*---------*---------*---------*--
+C
+C   Text for a header line in BINGO list file (up to 3 lines)
+C   <___________________________TEXT___________________________________>
+TEXT                  Adjustment EPFL Hydro UAV-Nex5
+C
+C   Image parameters
+C     RAYS MEAN LIMA MKEY        PMIN           PMAX
+C    <___><___><___><___><______________><______________>
+IMPA               2                    1
+C
+C   Parameters for RELAX
+C     sxb MINCO CLIP prad TRAF KARI SAT RANS STDV thrs perc prob ConRelSclPadTra
+C    <___><___><___><___><___><___><___><___><___><___><___><___><_><_><_><_><_>
+RXPA                         3    1    0
+C
+C   Parameters for BINGO processing
+C      SXB syf  ABIT MXIT KSNP ksim ITIO ITPT FTYP FPTS recc PNER ROBI cout site
+C    <___><___><___><___><___><___><___><___><___><___><___><___><___><___><___>
+PARA .0015     .001
+C
+C   Parameters for BINGO listings
+C     FLOT LGEO CITE LORI LCOR LIMR DATR SKIM FIMA FGEO RIMA RGEO SHOW
+C    <___><___><___><___><___><___><___><___><___><___><___><___><___>
+LIST               1    3    1
+C
+C -------*---------*-----  End Project File  ----*---------*---------*---------*--

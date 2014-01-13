@@ -1,0 +1,60 @@
+*--------*---------*---------*---------*---------*---------*---------*---------*
+
+*   Camera parameters:
+*   ------------------
+C
+C   Camera constant and principal point
+C   <K><____Camera____><___C'___><___XH'__><___YH'__><__S_C'_><_S_XH'_><_S_YH'_>  
+CAPA 3        N5         15.7506   -0.2319    0.1175    0.003    0.001    0.002
+C
+C   Additional parameters
+C    (_Camera_) (_P_) (_P_) (_P_) (_P_) (_P_) (_P_) .....
+ADPA     N5   	 25		26	
+*
+RADI N5 1.0    3.3   17.8   26.2   28.6   25.6   17.9    7.0   -5.7  -17.5  -25.5  -2.9   26.7   76.8
+*--------*---------*---------*---------*---------*---------*---------*---------*
+C
+*   Point coordinates:
+*   ------------------
+C
+C   Emp. standard deviations for control points  (default values)
+C                   <_____S_X____><_____S_Y____><____S_Z__>
+COES                      0.01         0.01    0.01
+C                                                                                         
+C   Control points [with standard deviations]
+C COMMENT this configuration was used by developed processing chain (CONT points  were taken into Helmert transformation 
+C and as known into the BBA, CHCK points are treated as tie points):
+C    <___Point_No__><___Easting__><__Northing__><__Height_><_S_X_><_S_Y_><_S_Z_>
+CONT  2069             313407.505    5154832.333    446.553     0.015    0.015    0.02
+CONT  2080             313409.282    5154835.971    446.556     0.015    0.015    0.02
+CHCK  2016             313413.525    5154835.559    446.566     0.015    0.015    0.02
+CONT  2002             313415.477    5154838.618    445.596     0.015    0.015    0.02
+CHCK  2023             313408.984    5154838.492    445.643     0.015    0.015    0.02
+CONT  2001             313408.745    5154831.759    445.640     0.015    0.015    0.02
+CONT  2021             313415.178    5154831.707    445.588     0.015    0.015    0.02
+
+C COMMENT this configuration was used by Bingo-F (CONT pts are used for helmert transformation, BBA is adjusted as free network):
+C CONT  
+C CHCK  
+C CHCK  
+C CONT  
+C CHCK  
+C CHCK  
+C CONT  
+*--------*---------*---------*---------*---------*---------*---------*---------*
+C                                                                               
+C   GPS/IMU data:                                                               
+C   -------------                                                               
+C                                                                               
+*--------*---------*---------*---------*---------*---------*---------*---------*
+C                                                                               
+C   GPS/IMU data:                                                               
+C   -------------                                                               
+C                                                                               
+C   GPS projection center coordinates and IMU observations                      
+C     (____) (_FILE_NAME_) (_+e_) (_F_GPS_) (_F_phi/omega_) (_F_kappa_)         
+FILE   GPS    gps.dat  +e                                              
+C    <__Camera_No__><___ex___><___ey___><___ez___>
+ECCA         N5       0.055        0.01      0.195    
+C                   <__s_ex__><__s_ey__><__s_ez__>
+ECES                     0.015      0.01      0.01      

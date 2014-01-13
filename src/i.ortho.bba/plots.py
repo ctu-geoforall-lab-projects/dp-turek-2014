@@ -6,6 +6,9 @@ from copy import deepcopy
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
+
+# helper functions for plotting graphs for the thesis
+
 def plotPts(pts_list, lines_list):
     fig = plt.figure()
 
@@ -165,15 +168,10 @@ def PlotScene(pts, phs):
 
     res_pts = []
     for pt in pts.itervalues():
-        #if pt.GetId() in [2051, 2051, 2061, 2062, 2071, 2076, 2021, 2038, 2041, 2042,2046]:
-        #    continue
          #pt.GetResultCoords() is not None and 
         if pt.GetCoords() is not None:
             #res_pts.append(pt.GetResultCoords())
             plot_pts.append(pt.GetCoords())
-        else:
-            print "neni %d" % pt.GetId()
-
 
     lines = []
     for ph in phs.itervalues():
@@ -211,15 +209,10 @@ def PlotANgles(pts, phs):
 
     res_pts = []
     for pt in pts.itervalues():
-        #if pt.GetId() in [2051, 2051, 2061, 2062, 2071, 2076, 2021, 2038, 2041, 2042,2046]:
-        #    continue
          #pt.GetResultCoords() is not None and 
         if pt.GetCoords() is not None:
             #res_pts.append(pt.GetResultCoords())
             plot_pts.append(pt.GetCoords())
-        else:
-            print "neni %d" % pt.GetId()
-
 
     lines = []
     for ph in phs.itervalues():
@@ -278,8 +271,6 @@ def GetPhotoPyramids(ph, scale, eo=None, inv=False):
     cam = ph.GetCamera()
     if eo is None:
         eo = ph.GetEO()
-    else:
-        print "neni none"
 
     chs_x, chs_y = cam.GetChipSize() 
 

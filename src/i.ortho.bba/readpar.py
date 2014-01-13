@@ -4,19 +4,45 @@ from collections import Counter
 import numpy as np
 
 from bba import RotMatBLUH
-#AtSettings = namedtuple('AtSettings', 'scale, focusl, iter, atiter, lm')
+
+# In the file, there are data structures, which are representing all needed 
+# elements for relative orientation and bba. For description see chapter (3.2.2)
 
 #TODO include standard deviations
+
+# class point represents  all corresponding points in system including photo points, object coordinates, temporary 
+# coordinates  etc.
 class Point:
     def __init__(self, pt_id):
+        
+        # contains photo id as key  and  photo coordinates as value
         self.ph_pts = {}
+        
+        # if it is None, it is not GCP
+        # otherwise it contains known object coordinates of GCP
         self.gcp = None
-        self.pt_id = pt_id
-        self.ro_c = {}
+
+        # if it is true,  gcp is treated as normal tie point when 
+        # computed values are compared with the known values   
+        # otherwise it is used as known in BBA and for computation of Helmert 
+        # transformation coefficients 
+        self.control_gcp = False
+
+        # stores computed coordinates (after every iteration of BBA is this value updated)
         self.coords = None
 
+        # Bingo-F result coordinates used for comparison
         self.res_c = None
-        self.control_gcp = False
+
+        # id of a point, which represents object of this class
+        self.pt_id = pt_id
+
+
+        # corresponding object coordinates determined by different relative orientation pairs
+        # dict. keys are relative orientation ids and values are the coordinates
+        self.ro_c = {}
+        
+    # getters/setters 
     def GetPhotoPoints(self):
         return self.ph_pts
 
@@ -55,6 +81,9 @@ class Point:
     def GetResultCoords(self):
         return self.res_c
 
+
+    # these methods allow to use object of this class 
+    # as key in dictionary
     def __hash__(self):
         return hash(self.GetId())
 
@@ -65,24 +94,45 @@ class Point:
 
 class Photo:
     def __init__(self, ph_id, cam):
+
+        # id of photo
         self.ph_id = ph_id 
+        
+        # it is dictionary with ids of points as keys 
+        # and point class objects as values
+        # if the point is in this dict, 
+        # it means that it is identified on this photo 
         self.ph_pts = {}
+        
+        # reference to camera class object 
         self.cam = cam
+
+        # let know also camera about this photo
         cam.AddPhoto(self)
 
+        # exterior orientation form bingo result s
         self.res_eo = None
 
+        # computed exterior orientation 
         self.eo = None
-        self.c = None
-
+        
+        # there are stored neighborhood photos 
+        # sharing some tie points with the photo  
         self.neigh_phs = None
+
+
+
     def HelmertTransformEO(self, ht_mat, ht_scale):
+        # transforms exterior orientation of the photo
+        # be Helmert transformation coefficients  (should not be there) 
         self.eo[:,:3] = self.eo[:,:3].dot(ht_mat[:,:3].T)
         self.eo[:,3] = ht_mat[:,3] + ht_scale * ht_mat[:,:3].dot(self.eo[:,3])
 
+    #  getters/setters 
     def SetEO(self, eo):
         self.eo = eo
 
+    # P is computer vision camera matrix
     def SetP(self, P):
         if self.eo is None:
             self.eo = np.empty((3,4))
@@ -108,12 +158,6 @@ class Photo:
 
     def GetEO(self):
         return self.eo
-
-    def SetCoords(self, c):
-        self.c = c
-
-    def GetCoords(self):
-        return self.c
 
     def AddPoint(self, pt):
         self.ph_pts[pt] = pt
@@ -143,6 +187,8 @@ class Photo:
     
         return self.neigh_phs
 
+    # these methods allow to use object of this class 
+    # as key in dictionary
     def __hash__(self):
         return hash(self.GetId())
 
@@ -152,14 +198,24 @@ class Photo:
 
         return self.GetId() == other
 
+
+# the class stores information about Camera interior orientation parameters
 class Camera:
     def __init__(self, cam_id, cam_m, distor):
+
+        # photos taken by the camera
         self.phs = {}
+
+        # camera id 
         self.cam_id = cam_id
 
+        # calibration matrix 
         self.cam_m = cam_m
+
+        # distortion coefficients 
         self.distor = distor
 
+    # getters/setters 
     def GetChipSize(self):
         return self.chip_size
 
@@ -193,6 +249,8 @@ class Camera:
     def GetId(self):
         return self.cam_id
 
+    # these allow possible to use object of this class 
+    # as key in dictionary
     def __hash__(self):
         return hash(self.GetId())
 
@@ -215,6 +273,8 @@ def _PhGId(gph_id):
     return gph_id[1]
 """
 
+
+# class, which works with Point. Photo and Camera classes together to retrieve some information
 class InputData:
     def __init__(self, parser):
         self.parser = parser
@@ -222,6 +282,7 @@ class InputData:
         self.parser.Parse()
         self.cams, self.phs, self.pts, self.gcps = self.parser.GetData()
 
+    # returns sorted photo pairs according to number of shared tie points 
     def GetPhotosConnectivity(self):
 
         neigh_phs = dict( ((ph, ph2), num) 
@@ -232,9 +293,11 @@ class InputData:
 
         return sorted(neigh_phs, key=neigh_phs.get, reverse=True), neigh_phs
 
+    # returns all cameras available in data 
     def GetCameras(self):
         return self.cams
 
+    # returns shared tie points for list of photos 
     def GetTiePoints(self, ph_ids):
 
         tie_pts_phs = map(lambda ph_id : self.phs[ph_id], ph_ids)
@@ -257,16 +320,14 @@ class InputData:
 
         return tie_pt_ids, tie_pts_arr
 
-    def GetResults(self, pt_ids):
-        pts = [self.pts[pt_id] for pt_id in pt_ids]
-
-        return np.array([pt.GetResultCoords() for pt in pts])
-
+    # get all photos in data (instances of Photo class)
     def GetPhotos(self):
         return self.phs
 
-    def GetPoints(self):
+    # get all point in data (instances of Point class)
+    def GetPoints(self): 
         return self.pts
 
+    # get all ground control points available in data (instances of Point class) 
     def GetGcps(self):
         return self.gcps
