@@ -680,13 +680,13 @@ exactly the global minimum which the least squares method searches for!
 The partial derivative of the minimized square differences equation can be written as \cite{mathematicalfrederico}:
  
 \begin{equation}
-\frac{\partial \efunc{f} (\evect{v}^{T} \evect{v}) }{\partial \evect{X}} = -2\ematr{A}^{T} \evect{L} + -2\ematr{A}^{T}\ematr{A} \evect{X} 
+\frac{\partial \efunc{f} (\evect{v}^{T} \evect{v}) }{\partial \evect{X}} = -2\ematr{A}^{T} \evect{L} + 2\ematr{A}^{T}\ematr{A} \evect{X} 
 \label{eq:least_part}
 \end{equation} 
 
 The global minimum can be find by giving this equation equal to zero:
 \begin{equation}
--2\ematr{A}^{T} \evect{L} + -2\ematr{A}^{T}\ematr{A} \evect{X} = 0 
+-2\ematr{A}^{T} \evect{L} + 2\ematr{A}^{T}\ematr{A} \evect{X} = 0 
 \end{equation} 
 
 The least square determines values of parameters vector \evect{X} which can be expressed from the previous equation:
@@ -780,7 +780,7 @@ Analogous equation to \eqref{eq:least_v} can be derived:
 Taylor polynomial member can be expanded by \eqref{eq:expanded_taylor}:
 \begin{equation}
 \begin{split}
-\evect{v} &=  \evect{L_{X_{0}}} - \evect{L} - \ematr{A}\evect{dx} \\
+\evect{v} &=  \evect{L} - \evect{L_{X_{0}}} - \ematr{A}\evect{dx} \\
           &= \evect{l} - \ematr{A}\evect{dx}
 \end{split}
 \end{equation}
@@ -798,7 +798,7 @@ similarly to linear least squares:
 \begin{split}
 \label{eq:non_least_sq}
 \evect{dx} &= (\ematr{A}^{T} \ematr{P} \ematr{A})^{-1} \ematr{A}^{T} \ematr{P} \ematr{l} \\
-\evect{X} &=  {\evect{dx} -  \evect{X_{0}}} \\
+\evect{X} &=  {\evect{dx} +  \evect{X_{0}}} \\
 \end{split}
 \end{equation}
 
