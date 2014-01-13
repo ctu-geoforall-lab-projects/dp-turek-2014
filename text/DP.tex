@@ -146,16 +146,16 @@ After analysis of the results, it is concluded that accuracy of  the processing 
 \selectlanguage{czech}
 
 Cílem této diplomové práce je implementace metody svazkového vyrovnání bloku (BBA) do programu GRASS GIS se zaměřením
-na zpracování dat pořízených z bezpilotních prostředků. 
-Práce vysvětluje nezbytné základy pro pochopení aspektů BBA.   
+na zpracování dat pořízených z látajicích bezpilotních prostředků. 
+Nejprve jsou vysvětleny nezbytné základy pro pochopení aspektů BBA.   
 
-V další části práce je analyzován systém ortorektifikace v systému GRASS společně s existujícími metodami počítačového vidění a fotogrammetrie 
+V další části práce je analyzován systém ortorektifikace v GRASS GIS společně s existujícími metodami počítačového vidění a fotogrammetrie 
  týkajících se BBA.  Na základě těchto analýz je navržena modifikace systému ortorektifikace a následně je implementován prototyp
 dle tohoto návrhu.
 
 Prototyp je otestován na datech složených z několika desítek fotografií zachycujících scénu.
 Tato data jsou rovněž zpracována v programu Bingo-F a~výsledky jsou následně porovnány. 
-Po analýze výsledků lze tvrdit, že prototyp dosáhl srovnatelné přesnosti výsledků s programem Bingo-F. 
+Po analýze výsledků lze tvrdit, že prototyp dosáhl na testovacích datech srovnatelné přesnosti s programem Bingo-F. 
 
 \bigskip
 
@@ -524,6 +524,7 @@ of corresponding photo points whose 3D object coordinates are obtained by inters
 %%% mezery (\vskip) anebo vynucenim konce stranky (\newline)
 %%% -> ML: OK
 
+\newpage
 \subsection{Least squares}
 \label{sec:least}
 
@@ -1347,7 +1348,7 @@ epipolar plane $\pi$ goes through the photo points and the object point.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.3]{figures/epipolar.png}
+    \includegraphics[scale=0.22]{figures/epipolar.png}
     \caption{Epipolar geometry.}
     \label{fig:epipolae}
 \end{figure}
@@ -1375,7 +1376,7 @@ An epipolar plane contains following elements:
 
 \noindent Following relations arise from epipolar geometry:
 \begin{itemize}
-\item All epipolar lines of  photo intersect in a epipole. Epipoles lie in infinity
+\item All epipolar lines of  photo intersect in a epipole. Epipoles lie at infinity
 if the photos are merely translated with no difference in orientation.
 \item A photo point forms epipolar line in the other photo. It allows to reduce space of possible occurrence of the point 
       from \eucl{2} to \eucl{1} of epipolar line without some other information about the point e.g. object space coordinates. 
@@ -1680,6 +1681,15 @@ This method is considered by computer vision community as the most accurate \cit
 %%% ML: Singular Values Decom. (velkymi pismeny?)
 %%% ST: malymi viz. http://en.wikipedia.org/wiki/Singular_value_decomposition
 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.13]{figures/eo_ambiguity.png}
+    \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
+    Note that only the upper left configuration satisfies condition that object point 
+    must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
+    \label{fig:eo_amv}
+\end{figure}
+
 Rotation matrix \ematr{R} and vector \evect{t} can be retrieved from the essential matrix using 
 singular values decomposition (SVD):
 
@@ -1703,14 +1713,6 @@ where matrices \ematr{U} and \ematr{V} are two rotation matrices  obtained for S
 The retrieved rotation \ematr{R} matrix and vector \evect{t} are defined up to sign,
 which causes four case ambiguity. 
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=0.13]{figures/eo_ambiguity.png}
-    \caption{Four possible relative orientations of photos (1, 2) retrieved from an essential matrix.
-    Note that only the upper left configuration satisfies condition that object point 
-    must be in front of both photo planes. (Based on \cite[p. 19]{pietzsch2001robot})}
-    \label{fig:eo_amv}
-\end{figure}
 
 As a consequence of the  ambiguity it gives four relative orientations: 
 \begin{equation}
@@ -1723,7 +1725,7 @@ As a consequence of the  ambiguity it gives four relative orientations:
 The correct solution can be found   by assumption that all object points has to be in the front
 of the both photo planes.
 
-\subsubsection{Merging relative orientations}
+\subsubsection{Merging of relative orientations}
 \label{sec:ess_chain}
 
 %%% ML: posledni veta odstavce potrebuje korekce
@@ -1787,13 +1789,13 @@ The transformation of relative orientations 1-$n$ into common system defined by 
 &\ematr{P}^{2\_co} = [\ematr{R}^{ro1}|\evect{t}^{ro1}] = [\ematr{R}^{ro1\_co}|\evect{t}^{ro1\_co}] \\
 &\ematr{P}^{3\_co} = [\ematr{R}^{ro2} \ematr{R}^{ro1\_co}|\ematr{R}^{ro2} \evect{t}^{ro1\_co} + \escal{s}^{ro2-1} \evect{t}^{ro2}] 
 =  [\ematr{R}^{ro3\_co} | \evect{t}^{ro3\_co}] \\
-&\ematr{P}^{n\_co} = [\ematr{R}^{ro(n)} \ematr{R}^{ro(n)(n-1)\_co}|\ematr{R}^{ro(n)} \evect{t}^{ro(n-1)\_co} + \escal{s}^{ro(n)-(n-1)} \evect{t}^{ro(n)}] 
+&\ematr{P}^{n\_co} = [\ematr{R}^{ro(n)} \ematr{R}^{ro(n-1)\_co}|\ematr{R}^{ro(n)} \evect{t}^{ro(n-1)\_co} + \escal{s}^{ro(n)-(n-1)} \evect{t}^{ro(n)}] 
 =  [\ematr{R}^{ro(n)\_co} | \evect{t}^{ro(n)\_co}] 
 \end{split}
 \end{equation}
 
 The equations suppose that camera matrices in \escal{ro(n)} relative orientation system
-are defined as $\ematr{P}_{n-1} = [\ematr{I}|\evect{O}]$ and $\ematr{P}_{n} = [\ematr{R}^{ro(n)}|\evect{t}^{ro(n)}]$.
+are defined as $\ematr{P}^{n} = [\ematr{I}|\evect{O}]$ and $\ematr{P}^{n+1} = [\ematr{R}^{ro(n)}|\evect{t}^{ro(n)}]$.
 
 \subsubsection{Helmert transformation}
 \label{sec:helmert}
@@ -3198,7 +3200,7 @@ by everybody since it is easy to recognize whether a retrieved structure resembl
   The developed solution was tested on data containing small set of photos.
   The data was also processed in state of the art Bingo-F software whose results were considered as reference.
   After comparison of both results, it can be concluded that the developed processing 
-  chain achieved similar accuracy as Bingo-F. However, the solution can be considered just as prove of concept. 
+  chain achieved similar accuracy as Bingo-F. However, it should be considered only as prove of concept. 
   It is far away from being employed in practice. 
 
 %%% ML: dvakrat se opakuje kapitola "References"
