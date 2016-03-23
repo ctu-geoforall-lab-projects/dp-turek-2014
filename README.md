@@ -2,7 +2,7 @@
 
 ## Název
 
-**Implementation of bundle blockadjustment method for determination of exterior orientation into GRASS GIS**
+**Implementation of bundle block adjustment method for determination of exterior orientation into GRASS GIS**
 
 **Implementace metody svazkového vyrovnání bloku pro určení prvků vnější orientace do programu GRASS GIS**
 
